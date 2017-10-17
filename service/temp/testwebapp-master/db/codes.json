@@ -1,0 +1,3 @@
+{"_id":{"$oid":"59d301760696a13334f04e24"},"value":"K7fv9fW6nJ9FjqFp","clientId":"59d2faa5f242261310a06bb9","redirectUri":"http://localhost:3000","userId":"59d2125ac9230a5870566bb6","__v":0}
+{"_id":{"$oid":"59d301a30696a13334f04e25"},"value":"AZDmX3fOfQ3URJoO","clientId":"59d2faa5f242261310a06bb9","redirectUri":"http://localhost:3000","userId":"59d21277c9230a5870566bb7","__v":0}
+{"_id":{"$oid":"59d301be0696a13334f04e26"},"value":"IndHHOSU9o5KQjiq","clientId":"59d2faa5f242261310a06bb9","redirectUri":"http://localhost:3000/api/clients","userId":"59d2125ac9230a5870566bb6","__v":0}

@@ -1,0 +1,3 @@
+{"_id":{"$oid":"59d2125ac9230a5870566bb6"},"username":"user1","password":"$2a$05$9F64BEb7iMcodDEr9xKROuDewS.1DpBFE.DzjmLQ9PREemXYT.g7G","__v":0}
+{"_id":{"$oid":"59d21277c9230a5870566bb7"},"username":"user2","password":"$2a$05$0FPeUFlri.pPpZfhR5v9wOytP7jj2eQAWx.7hmgcnveiyvBLdQlSm","__v":0}
+{"_id":{"$oid":"59d2127bc9230a5870566bb8"},"username":"user3","password":"$2a$05$A3gQK4ygMaT.aGrBwMc1Eeb6uvmNP1jslBfkmIpTZr2KtDzlHjGQ.","__v":0}
