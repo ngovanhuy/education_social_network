@@ -8,36 +8,37 @@ var passport = require('passport');
 var authController = require('./controllers/auth');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var beerController = require('./controllers/beer');
 var userController = require('./controllers/user');
 var clientController = require('./controllers/client');
+var fileItemController = require('./controllers/fileitem');
 var port = process.env.PORT || 3000;
-var mongoConnectString = process.env.MONGODB_CONNECT_STRING || 'mongodb://localhost:27017/education_social_network' ;
+var mongoConnectString = process.env.MONGODB_CONNECT_STRING || 'mongodb://localhost:27017/education_social_network';
 mongoose.connect(mongoConnectString, {
-    useMongoClient: true
+        useMongoClient: true
 });
 var app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
-    extended: true
+        extended: true
 }));
 
 // Use express session support since OAuth2orize requires it
 app.use(session({
-    secret: 'Super Secret Session Key',
-    saveUninitialized: true,
-    resave: true
+        secret: 'Super Secret Session Key',
+        saveUninitialized: true,
+        resave: true
 }));
 
 app.use(passport.initialize());
 
 var router = express.Router();
+var fileRouter = express.Router();
 var port = process.env.PORT || 3000;
 /*---------------------------------------------*/
 router.route('/')
-    .get(function (req, res) {
-        res.json({ message: 'You are running dangerously low on beer!' });
-    });
+        .get(function (req, res) {
+                res.json({ message: 'API Service Running!' });
+        });
 /*---------------------------------------------*/
 router.route('/users')
         .post(userController.postUsers)
@@ -55,6 +56,18 @@ router.route('/oauth2/authorize')
 router.route('/oauth2/token')
         .post(authController.isClientAuthenticated, oauth2Controller.token);
 /*--------------------------------------------*/
+fileRouter.route('/upload')
+        .post(fileItemController.fileUpload, fileItemController.postFile);
+fileRouter.route('/:file_id')
+        .get(fileItemController.getFile)
+        .delete(fileItemController.deleteFile);
+fileRouter.route('/image')
+        .post(fileItemController.imageUpload, fileItemController.postImage);
+fileRouter.route('/info/:file_id')
+        .get(fileItemController.getInfoFile);
+
+/*--------------------------------------------*/
 app.use('/api', router);
+app.use('/files', fileRouter);
 app.listen(port);
 console.log('Running at ' + port);

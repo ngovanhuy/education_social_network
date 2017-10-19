@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var FileSchema = new mongoose.Schema({
+var FileItemSchema = new mongoose.Schema({
     id: {
         type: String,
         required: true,
@@ -21,11 +21,16 @@ var FileSchema = new mongoose.Schema({
         required: true,
         default: 0,
     },
-    createdate: {
+    createDate: {
         type: Date,
-        required: true,
+        required: false,
         default: Date.now(),
+    },
+    isDeleted: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
 });
 
-module.exports = mongoose.model('File', FileSchema);
+module.exports = mongoose.model('FileItem', FileItemSchema);
