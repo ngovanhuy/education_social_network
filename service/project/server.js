@@ -11,7 +11,9 @@ var bodyParser = require('body-parser');
 var beerController = require('./controllers/beer');
 var userController = require('./controllers/user');
 var clientController = require('./controllers/client');
-mongoose.connect('mongodb://localhost:27017/test', {
+var port = process.env.PORT || 3000;
+var mongoConnectString = process.env.MONGODB_CONNECT_STRING || 'mongodb://localhost:27017/education_social_network' ;
+mongoose.connect(mongoConnectString, {
     useMongoClient: true
 });
 var app = express();
@@ -36,15 +38,6 @@ router.route('/')
     .get(function (req, res) {
         res.json({ message: 'You are running dangerously low on beer!' });
     });
-/*---------------------------------------------*/
-router.route('/beers')
-        .post(authController.isAuthenticated, beerController.postBeers)
-        .get(authController.isAuthenticated, beerController.getBeers);
-
-router.route('/beers/:beer_id')
-        .get(authController.isAuthenticated, beerController.getBeer)
-        .put(authController.isAuthenticated, beerController.putBeer)
-        .delete(authController.isAuthenticated, beerController.deleteBeer);
 /*---------------------------------------------*/
 router.route('/users')
         .post(userController.postUsers)
