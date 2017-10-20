@@ -13,8 +13,13 @@ var clientController = require('./controllers/client');
 var fileItemController = require('./controllers/fileitem');
 var port = process.env.PORT || 3000;
 var mongoConnectString = process.env.MONGODB_CONNECT_STRING || 'mongodb://localhost:27017/education_social_network';
+mongoose.Promise = global.Promise;
 mongoose.connect(mongoConnectString, {
         useMongoClient: true
+}).then(()=> {
+        console.log("Connection success db");
+}).catch(reason => {
+        console.log("Connection failed db:" + reason);
 });
 var app = express();
 app.set('view engine', 'ejs');
@@ -34,6 +39,12 @@ app.use(passport.initialize());
 var router = express.Router();
 var fileRouter = express.Router();
 var port = process.env.PORT || 3000;
+var errorHanding = function (err, req, res, next) {
+        if (err) {
+                return res.status(500).send({ code: 500, message: 'Server Error', data: null, error: err.message });
+        }
+        return res.status(400).send({ code: 400, message: 'Client Error', data: null, error: err.message });
+    }                                           
 /*---------------------------------------------*/
 router.route('/')
         .get(function (req, res) {
@@ -57,16 +68,22 @@ router.route('/oauth2/token')
         .post(authController.isClientAuthenticated, oauth2Controller.token);
 /*--------------------------------------------*/
 fileRouter.route('/upload')
-        .post(fileItemController.fileUpload, fileItemController.postFile);
-fileRouter.route('/:file_id')
-        .get(fileItemController.getFile)
-        .delete(fileItemController.deleteFile);
+        .post(fileItemController.fileUpload, fileItemController.postFile, errorHanding);
+fileRouter.route('/get/:file_id')
+        .get(fileItemController.getFile, errorHanding);
+fileRouter.route('/delete/:file_id')
+        .delete(fileItemController.deleteFile, errorHanding);
 fileRouter.route('/image')
-        .post(fileItemController.imageUpload, fileItemController.postImage);
+        .post(fileItemController.imageUpload, fileItemController.postFile, errorHanding);
 fileRouter.route('/info/:file_id')
-        .get(fileItemController.getInfoFile);
-
+        .get(fileItemController.getInfoFile, errorHanding);
+fileRouter.route('/test/list')
+        .get(fileItemController.getFiles, errorHanding);
 /*--------------------------------------------*/
+app.use((req, res, next) => {
+        console.log("Request:" + req.path);
+        next();
+});
 app.use('/api', router);
 app.use('/files', fileRouter);
 app.listen(port);
