@@ -1,0 +1,29 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>Test Service</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</head>
+
+<body>
+    <h1>File API</h1>
+    <h2>Upload test</h2>
+    <form action="http://localhost:3000/files/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file_upload" size="50" /><br />
+        <input type="submit" value="Upload File" />
+    </form>
+    <h2>Upload image test</h2>
+    <form action="http://localhost:3000/files/image" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image_upload" size="50" /><br />
+        <input type="submit" value="Upload File" />
+    </form>
+    <h2>Các API còn lại: <i>Chi tiết sẽ mô tả trong file mô tả</i></h2>
+    <ul>
+        <li>Download file: [GET] <a href="#">http://domain.com/files/get/{:file_id}</a></li>
+        <li>Get information: [GET] <a href="#">http://domain.com/files/info/{:file_id}</a></li>
+        <li>Delete file: [DELETE] <a href="#">http://domain.com/files/delete/{:file_id}</a></li>
+        <li>Get info all file:[GET]<a href="#">http://domain.com/files/test/list</a><i> For test, will remove</i></li>
+    </ul>
+</body>
+</html>

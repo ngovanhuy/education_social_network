@@ -119,10 +119,3 @@ exports.getFiles = function (req, res) {
         return res.send({ code: 500, message: 'Server Error', data: null, error: err.message });
     });
 }
-
-exports.errorHanding = function (err, req, res, next) {
-    if (err) {
-        return res.status(500).send({ code: 500, message: 'Server Error', data: null, error: err.message });
-    }
-    return res.status(400).send({ code: 400, message: 'Client Error', data: null, error: err.message });
-}
