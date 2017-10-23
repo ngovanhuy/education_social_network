@@ -114,21 +114,21 @@ exports.getFile = async (req, res) => {
     try {
         var file = await FileItem.findById(req.params.file_id);
         if (!file) {
-            return res.send({ code: 400, message: 'Not exit file.', data: null });
+            return res.status(400).send({ code: 400, message: 'Not exit file.', data: null });
         }
         if (file.isDeleted) {
-            return res.send({ code: 400, message: 'File was deleted.', data: null });
+            return res.status(400).send({ code: 400, message: 'File was deleted.', data: null });
         }
         var readStream = fs.createReadStream(getLocalFilePath(file));
         return readStream.on("error", err => {
-            return res.send({ code: 500, message: 'Not exit file.', data: null });
+            return res.status(500).send({ code: 500, message: 'Not exit file.', data: null });
         }).on("open", () => {
             res.setHeader('Content-Type', file.type);
             res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
             return readStream.pipe(res);
         });
     } catch (error) {
-        return res.send({ code: 400, message: 'Not exit file.', data: null });
+        return res.status(400).send({ code: 400, message: 'Not exit file.', data: null });
     }
 };
 exports.attachFile = async (req, res) => {
