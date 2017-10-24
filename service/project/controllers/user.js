@@ -1,24 +1,31 @@
 var User = require('../models/user');
 
-exports.postUsers = function (req, res) {
+exports.postUsers = async (req, res) => {
     var user = new User({
+        id: req.body.username,
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        firstname:req.body.firstname,
+        lastname: req.body.lastname,
+        phone: req.body.phone,
+        email: req.body.email,
+        gender: req.body.gender,
+        typeuser: req.body.typeuser,
     });
-
-    user.save(function (err) {
-        if (err) {
-            res.send(err);
-        }
-        res.json({ message: 'New beer drinker added to the locker room!' });
-    });
+    try {
+        await user.save();
+        res.send({code: 200, message: 'Success', data: user.getBasicInfo()});
+    } catch(error) {
+        res.send(error);
+    }
 };
 
-exports.getUsers = function (req, res) {
-    User.find(function (err, users) {
-        if (err) {
-            res.send(err);
-        }
+exports.getUsers = async (req, res) => {
+    try {
+        var users = await User.find();
         res.json(users);
-    });
+    } catch(error) 
+    {
+        res.send(error);
+    }
 };

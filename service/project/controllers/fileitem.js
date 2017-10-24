@@ -44,13 +44,14 @@ exports.imageUpload = image_upload.single('image_upload');
 //Upload File/Image
 exports.postFile = async (req, res) => {
     var fileUpload = req.file;
-    var file = new FileItem();
-    file.id = fileUpload.filename;
-    file.name = fileUpload.originalname;
-    file.type = fileUpload.mimetype;
-    file.size = fileUpload.size;
-    file.createDate = Date.now();
-    file.isDeleted = false;
+    var file = new FileItem({
+        id = fileUpload.filename,
+        name = fileUpload.originalname,
+        type = fileUpload.mimetype,
+        size = fileUpload.size,
+        createDate = Date.now(),
+        isDeleted = false,
+    });
     try {
         var fileSaved = await file.save();
         return res.json({

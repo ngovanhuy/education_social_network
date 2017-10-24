@@ -25,7 +25,7 @@
     }
 ##### Upload 1 file (chi tiết ví dụ trong /temp/test.html)
 + Chỉ 1 file.
-+ \<form method="POST" action="<a>http://domain:port/files/upload</a>"\>|
++ \<form method="POST" action="<a>http://domain:port/files/upload</a>"\>
 + Thẻ \<input type="file" name="file_upload"\>
 + Các thẻ input khác hiện thời bỏ qua, sẽ tích hợp nhận thông tin vào sau (VD khi đăng kí).
 + Chưa có các chức năng lọc: size, type.
@@ -35,7 +35,7 @@
 + Thất bại: 
     - <i>{code: 500, message:..., data: null, error:error_message}</i>
 ##### Upload 1 ảnh: Tương tự như upload file ((chi tiết ví dụ trong /temp/test.html), bổ sung:
-+ \<form method="POST" action="<a>http://domain:port/files/image</a>"\>|
++ \<form method="POST" action="<a>http://domain:port/files/image</a>"\>
 + Thẻ \<input type="file" name="image_upload"\>
 + Lọc chỉ file có đuôi "<u>jpg/jpeg/png/gif</u>", chưa lọc size.
 + Thất bại: 
