@@ -68,7 +68,7 @@
 
 ##### Lấy về tất cả file tải lên: (sau sẽ thay bằng người dùng)
 + Method: GET
-+ URL: <a>http://domain:port/files/test/list</a>
++ URL: <a>http://domain:port/test/files</a>
 + Thành công: data là mảng thông tin file.
     - <i>{code: 200, message: "...", data: [{file1...}, {file2...}, ...]...}</i>
 + Thất bại: 

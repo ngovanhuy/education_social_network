@@ -45,26 +45,18 @@ exports.imageUpload = image_upload.single('image_upload');
 exports.postFile = async (req, res) => {
     var fileUpload = req.file;
     var file = new FileItem({
-        id = fileUpload.filename,
-        name = fileUpload.originalname,
-        type = fileUpload.mimetype,
-        size = fileUpload.size,
-        createDate = Date.now(),
-        isDeleted = false,
+        id : req.file.filename,
+        name : req.file.originalname,
+        type : req.file.mimetype,
+        size : req.file.size,
+        createDate : Date.now(),
+        isDeleted: false,
     });
     try {
         var fileSaved = await file.save();
-        return res.json({
-            code: 200, message: 'Success', data: {
-                id: String(fileSaved._id),
-                name: fileSaved.name,
-                type: fileSaved.type,
-                size: fileSaved.size,
-                createDate: fileSaved.createDate.toLocaleString(),
-            }
-        });
+        return res.json({ code: 200, message: 'Success', data: fileSaved.getBasicInfo(fileSaved)});
     } catch (error) {
-        return res.send({ code: 500, message: 'Upload Failed', data: null, error: err.message });
+        return res.send({ code: 500, message: 'Upload Failed', data: null, error: error.message });
     }
 };
 //Delete File
@@ -74,15 +66,7 @@ exports.deleteFile = async (req, res) => {
         try {
             file.isDeleted = true;
             var fileSaved = await file.save();
-            return res.json({
-                code: 200, message: 'Success', error: null, data: {
-                    id: fileSaved._id,
-                    name: fileSaved.name,
-                    type: fileSaved.type,
-                    size: fileSaved.size,
-                    createDate: fileSaved.createDate.toLocaleString(),
-                }
-            });
+            return res.json({ code: 200, message: 'Success', error: null, data: fileSaved.getBasicInfo(fileSaved)});
         } catch (error) {
             return res.send({ code: 500, message: 'Not delete file', data: null, error: error.message });
         }
@@ -95,19 +79,11 @@ exports.getInfoFile = async (req, res) => {
     try {
         var file = await FileItem.findById(req.params.file_id);
         if (file.isDeleted) {
-            return res.send({ code: 400, message: 'File was deleted.', data: null });
+            return res.json({ code: 400, message: 'File was deleted.', data: null });
         }
-        return res.json({
-            code: 200, message: 'Success', data: {
-                id: file._id,
-                name: file.name,
-                type: file.type,
-                size: file.size,
-                createDate: file.createDate.toLocaleString(),
-            }
-        });
+        return res.json({code: 200, message: 'Success', data: file.getBasicInfo(file)});
     } catch (error) {
-        return res.send({ code: 400, message: 'Not exit file.', data: null, error: error.message });
+        return res.json({ code: 400, message: 'Not exit file.', data: null, error: error.message });
     }
 };
 //Download File.
