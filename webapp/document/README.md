@@ -1,2 +1,1 @@
-# education_social_network
-Document for Education Social Network
+# Document for Education Social Network

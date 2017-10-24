@@ -20,10 +20,33 @@
     </form>
     <h2>Các API còn lại: <i>Chi tiết sẽ mô tả trong file mô tả</i></h2>
     <ul>
-        <li>Download file: [GET] <a href="#">http://domain.com/files/get/{:file_id}</a></li>
-        <li>Get information: [GET] <a href="#">http://domain.com/files/info/{:file_id}</a></li>
-        <li>Delete file: [DELETE] <a href="#">http://domain.com/files/delete/{:file_id}</a></li>
-        <li>Get info all file:[GET]<a href="#">http://domain.com/files/test/list</a><i> For test, will remove</i></li>
+        <li>Download file: [GET] <a href="#">http://localhost:3000/files/get/{:file_id}</a></li>
+        <li>Get information: [GET] <a href="#">http://localhost:3000/files/info/{:file_id}</a></li>
+        <li>Delete file: [DELETE] <a href="#">http://localhost:3000/files/delete/{:file_id}</a></li>
+        <li>Get info all file:[GET]<a href="#">http://localhost:3000/test/files</a><i> For test, will remove</i></li>
+    </ul>
+
+    <h1>User API</h1>
+    <h2>Creat user</h2>
+    <form action="http://localhost:3000/users" method="POST">
+        UserName:   <input type="text" name="username" id="username"/>
+        Password:   <input type="password" name="password" id="password"/></br>
+        FirstName:  <input type="text" name="firstname" id="firstname"/>
+        LastName:   <input type="text" name="lastname" id="lastname"/></br>
+        Gender :    <select name="gender" id="gender">
+                        <option value="0">none</option>
+                        <option value="1">male</option>
+                        <option value="2">female</option>
+                    </select>
+        <input type="submit" value="Submit"/>
+    </form>
+
+    <h2>Các API còn lại: <i>Chi tiết sẽ mô tả trong file mô tả</i></h2>
+    <ul>
+        <li>Download file: [GET] <a href="#">http://localhost:3000/files/get/{:file_id}</a></li>
+        <li>Get information: [GET] <a href="#">http://localhost:3000/files/info/{:file_id}</a></li>
+        <li>Delete file: [DELETE] <a href="#">http://localhost:3000/files/delete/{:file_id}</a></li>
+        <li>Get info all file:[GET]<a href="#">http://localhost:3000/test/files</a><i> For test, will remove</i></li>
     </ul>
 </body>
 </html>

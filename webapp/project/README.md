@@ -1,2 +1,1 @@
-# education_social_network
-Project for Education Social Network
+# Project for Education Social Network
