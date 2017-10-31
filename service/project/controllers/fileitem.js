@@ -2,7 +2,7 @@ var FileItem = require('../models/fileitem');
 var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
-const UPLOAD_PATH = 'uploads/';
+var UPLOAD_PATH = 'uploads/';
 
 // var storage = multer.memoryStorage();
 var file_upload = multer({
@@ -40,7 +40,7 @@ async function checkFilesExisted(files) {
                     datas.push(file);
                 }
             })
-            resolve(datas);
+            resolve(datas);   
         });
     })
 }
@@ -79,7 +79,6 @@ async function deleteFile(req, res) {
             return res.json({
                 code: 200,
                 message: 'Success',
-                error: null,
                 data: fileSaved.getBasicInfo(fileSaved)
             });
         } catch (error) {
@@ -149,6 +148,7 @@ async function getFile(req, res) {
             });
         }).on("open", () => {
             res.setHeader('Content-Type', file.type);
+            res.setHeader('Content-Length', file.size);
             res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
             return readStream.pipe(res);
         });
@@ -186,6 +186,7 @@ async function attachFile(req, res) {
             });
         }).on("open", () => {
             res.setHeader('Content-Type', file.type);
+            res.setHeader('Content-Length', file.size);
             res.setHeader("Content-Disposition", "attachment; filename=\"" + file.name + "\"");
             return readStream.pipe(res);
         });

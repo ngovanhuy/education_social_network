@@ -99,5 +99,7 @@ app.use('/api', apiRouter);
 app.use('/files', fileRouter);
 app.use('/users', userRouter);
 app.use('/test', testRouter);
+
+app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));
 app.listen(Application.manager.portRunning);
 console.log('Running at ' + Application.manager.portRunning);
