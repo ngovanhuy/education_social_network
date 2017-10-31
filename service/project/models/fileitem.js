@@ -9,7 +9,7 @@ var FileItemSchema = new mongoose.Schema({
     isDeleted: { type: Boolean, required: true, default: false, },
 });
 
-FileItemSchema.methods.getBasicInfo = file => {
+FileItemSchema.methods.getBasicInfo = function(file) {
     return {
         id: file._id,
         name: file.name,
