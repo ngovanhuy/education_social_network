@@ -55,7 +55,7 @@ apiRouter.route('/').get(function (req, res) {
         });
 });
 apiRouter.route('/users')
-        .post(userController.postUsers)
+        .post(userController.postUser)
         .get(authController.isAuthenticated, userController.getUsers);
 apiRouter.route('/clients')
         .post(authController.isAuthenticated, clientController.postClients)
@@ -68,13 +68,29 @@ apiRouter.route('/oauth2/authorize')
 
 // Create endpoint handlers for oauth2 token
 apiRouter.route('/oauth2/token').post(authController.isClientAuthenticated, oauth2Controller.token);
-/*--------------------------------------------*/
+/*-------------------USER_API-------------------------*/
 userRouter.route('/')
-        .post(userController.postUsers, errorHanding);
-
+        .post(userController.postUser, errorHanding)
+        .put(userController.updateUser, errorHanding);
+userRouter.route('/add')
+        .post(userController.postUser, errorHanding);
 userRouter.route('/:user_id')
-        .get(userController.getUser, errorHanding);
-/*-------------------------------------------*/
+        .get(userController.getUser, errorHanding)
+        .put(userController.updateUserByID, errorHanding)
+        .delete(userController.deleteUserByID, errorHanding);
+userRouter.route('/profileImage/:user_id')
+        .get(fileItemController.profileUpload, fileItemController.postFile, errorHanding)
+        .put(fileItemController.profileUpload, fileItemController.postFile, errorHanding)
+        .post(fileItemController.profileUpload, fileItemController.postFile, errorHanding);
+userRouter.route('/avatarImage/:user_id')
+        .get(errorHanding)
+        .put(fileItemController.avatarUpload, fileItemController.postFile, errorHanding)
+        .post(fileItemController.avatarUpload, fileItemController.postFile, errorHanding);
+userRouter.route('/friends/:user_id')
+        .get(userController.getFriends, errorHanding);
+userRouter.route('/classs/:user_id')
+        .get(userController.getClasss, errorHanding)
+/*-------------------FILE_API------------------------*/
 fileRouter.route('/upload')
         .post(fileItemController.fileUpload, fileItemController.postFile, errorHanding);
 fileRouter.route('/get/:file_id')
@@ -87,7 +103,7 @@ fileRouter.route('/image')
         .post(fileItemController.imageUpload, fileItemController.postFile, errorHanding);
 fileRouter.route('/info/:file_id')
         .get(fileItemController.getInfoFile, errorHanding);
-        
+
 /*--------------------------------------------*/
 testRouter.route('/files')
         .get(fileItemController.getFiles, errorHanding);

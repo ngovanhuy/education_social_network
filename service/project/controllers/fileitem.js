@@ -62,7 +62,7 @@ async function postFile(req, res) {
             data: fileSaved.getBasicInfo(fileSaved)
         });
     } catch (error) {
-        return res.send({
+        return res.status(500).send({
             code: 500,
             message: 'Upload Failed',
             data: null,
@@ -82,7 +82,7 @@ async function deleteFile(req, res) {
                 data: fileSaved.getBasicInfo(fileSaved)
             });
         } catch (error) {
-            return res.send({
+            return res.status(500).send({
                 code: 500,
                 message: 'Not delete file',
                 data: null,
@@ -90,7 +90,7 @@ async function deleteFile(req, res) {
             });
         }
     } catch (error) {
-        return res.send({
+        return res.status(400).send({
             code: 400,
             message: 'Not exit file.',
             data: null,
@@ -102,7 +102,7 @@ async function getInfoFile(req, res) {
     try {
         var file = await FileItem.findById(req.params.file_id);
         if (file.isDeleted) {
-            return res.json({
+            return res.status(400).json({
                 code: 400,
                 message: 'File was deleted.',
                 data: null
@@ -114,7 +114,7 @@ async function getInfoFile(req, res) {
             data: file.getBasicInfo(file)
         });
     } catch (error) {
-        return res.json({
+        return res.status(400).json({
             code: 400,
             message: 'Not exit file.',
             data: null,
@@ -151,6 +151,8 @@ async function getFile(req, res) {
             res.setHeader('Content-Length', file.size);
             res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
             return readStream.pipe(res);
+        }).on("close", () => {
+            res.end();
         });
     } catch (error) {
         return res.status(400).send({
@@ -164,14 +166,14 @@ async function attachFile(req, res) {
     try {
         var file = await FileItem.findById(req.params.file_id);
         if (!file) {
-            return res.send({
+            return res.status(400).send({
                 code: 400,
                 message: 'Not exit file.',
                 data: null
             });
         }
         if (file.isDeleted) {
-            return res.send({
+            return res.status(400).send({
                 code: 400,
                 message: 'Not exit file.',
                 data: null
@@ -179,7 +181,7 @@ async function attachFile(req, res) {
         }
         var readStream = fs.createReadStream(getLocalFilePath(file));
         return readStream.on("error", err => {
-            return res.send({
+            return res.status(500).send({
                 code: 500,
                 message: 'Not exit file.',
                 data: null
@@ -191,7 +193,7 @@ async function attachFile(req, res) {
             return readStream.pipe(res);
         });
     } catch (error) {
-        return res.send({
+        return res.status(400).send({
             code: 400,
             message: 'Not exit file.',
             data: null
@@ -221,7 +223,7 @@ async function getFiles(req, res) {
             data: datas
         });
     } catch (error) {
-        return res.send({
+        return res.status(500).send({
             code: 500,
             message: 'Server Error',
             data: null,
@@ -233,6 +235,8 @@ async function getFiles(req, res) {
 /*----------------------------------------------- */
 exports.fileUpload = file_upload.single('file_upload');
 exports.imageUpload = image_upload.single('image_upload');
+exports.avatarUpload = image_upload.single('avatar_upload');
+exports.profileUpload = image_upload.single('profile_upload');
 exports.getFiles = getFiles;
 exports.attachFile = attachFile;
 exports.getFile = getFile;
