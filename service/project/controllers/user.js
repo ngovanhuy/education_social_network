@@ -65,14 +65,14 @@ async function postUser(req, res) {
                 data: null
             });
         }
-        if (!isStringEmpty(req.body.firstname, 1, 20)) {
+        if (!isStringEmpty(req.body.firstName, 1, 20)) {
             return res.status(400).send({
                 code: 400,
                 message: 'FirstName invalid',
                 data: null
             });
         }
-        if (!isStringEmpty(req.body.lastname, 1, 20)) {
+        if (!isStringEmpty(req.body.lastName, 1, 20)) {
             return res.status(400).send({
                 code: 400,
                 message: 'LastName invalid',
@@ -102,8 +102,8 @@ async function postUser(req, res) {
             id: new Date().getTime(),
             username: req.body.username,
             password: req.body.password,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             isDeleted: false,
         });
         if (req.body.birthday) {
@@ -147,7 +147,10 @@ async function postUser(req, res) {
             user.language =  getLanguage(req.body.language);
         }
         if (req.body.location) {
-            user.location = req.location;
+            user.location = req.body.location;
+        }
+        if (req.body.typeuser) {
+            user.typeuser = req.body.typeuser;
         }
         let userSave = await user.save();
         return res.send({
@@ -178,17 +181,27 @@ async function updateUser(req, res) {
                 data: null
             });
         }
-        if (req.body.password) {
-            userFind.password = req.body.password;
+        if (req.body.firstName) {
+            if (isStringEmpty(req.body.firstName, 1, 20)) {
+                userFind.firstName = req.body.firstName;
+            } else {
+                return res.status(400).send({
+                    code: 400,
+                    message: 'FirstName invalid',
+                    data: null
+                });
+            }
         }
-        if (req.body.firstname) {
-            userFind.firstname =  req.body.firstname;
-        }
-        if (req.body.lastname) {
-            userFind.lastname = req.body.lastname;
-        }
-        if (req.body.birthday) {
-            userFind.birthday =  getDate(req.body.birthday);
+        if (req.body.lastName) {
+            if (isStringEmpty(req.body.lastName, 1, 20)) {
+                userFind.lastName = req.body.lastName;
+            } else {
+                return res.status(400).send({
+                    code: 400,
+                    message: 'LastName invalid',
+                    data: null
+                });
+            }
         }
         if (req.body.email) {
             if (validateEmail(req.body.email)) {
@@ -212,6 +225,18 @@ async function updateUser(req, res) {
                 });
             }
         }
+        if (req.body.password) {
+            userFind.password = req.body.password;
+        }
+        if (req.body.firstName) {
+            userFind.firstName =  req.body.firstName;
+        }
+        if (req.body.lastName) {
+            userFind.lastName = req.body.lastName;
+        }
+        if (req.body.birthday) {
+            userFind.birthday =  getDate(req.body.birthday);
+        }
         if (req.body.gender) {
             userFind.gender = req.body.gender;
         }
@@ -228,7 +253,10 @@ async function updateUser(req, res) {
             userFind.language =  getLanguage(req.body.language);
         }
         if (req.body.location) {
-            userFind.location = req.location;
+            userFind.location = req.body.location;
+        }
+        if (req.body.typeuser) {
+            userFind.typeuser = req.body.typeuser;
         }
         userFind.isDeleted =  false;
         let userSave = await userFind.save();

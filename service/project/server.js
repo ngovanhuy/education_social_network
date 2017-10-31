@@ -42,6 +42,7 @@ app.use(function (req, res, next) {
 app.use(bodyParser.urlencoded({
         extended: true
 }));
+app.use(bodyParser.json());
 app.use(session({
         secret: 'Super Secret Session Key',
         saveUninitialized: true,
@@ -90,6 +91,8 @@ userRouter.route('/friends/:user_id')
         .get(userController.getFriends, errorHanding);
 userRouter.route('/classs/:user_id')
         .get(userController.getClasss, errorHanding)
+userRouter.route('/files/:user_id')
+        .get(fileItemController.getFiles, errorHanding);//TEST
 /*-------------------FILE_API------------------------*/
 fileRouter.route('/upload')
         .post(fileItemController.fileUpload, fileItemController.postFile, errorHanding);

@@ -28,8 +28,8 @@ var UserSchema = new mongoose.Schema(
         username: { type: String, unique: true, required: true, },
         typeuser: { type: Number, require: true, default: 0, }, //type: 0, 10, 100
         password: { type: String, required: true },//check privacy
-        firstName: { type: String,  required: false, },//maxLength
-        lastName: { type: String,  required: false, }, //maxLength
+        firstName: { type: String,  required: true, },//maxLength
+        lastName: { type: String,  required: true, }, //maxLength
         email: { type: String, required: false,  default: null, },//Array ???->unique.
         phone: { type: String,  required: false, default: null, },//Array ????->unique
         profileImageID: { type: String, required: false, default: null, }, // ID avatarImage file || null
