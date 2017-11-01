@@ -70,13 +70,14 @@ apiRouter.route('/oauth2/authorize')
 // Create endpoint handlers for oauth2 token
 apiRouter.route('/oauth2/token').post(authController.isClientAuthenticated, oauth2Controller.token);
 /*-------------------USER_API-------------------------*/
-userRouter.route('/')
-        .post(userController.postUser, errorHanding)
-        .put(userController.updateUser, errorHanding);
+userRouter.route('/') 
+        .get(userController.getUser, errorHanding)
+        .put(userController.updateUser, errorHanding)
+        .delete(userController.deleteUser, errorHanding);
 userRouter.route('/:user_id')
         .get(userController.getUser, errorHanding)
-        .put(userController.updateUserByID, errorHanding)
-        .delete(userController.deleteUserByID, errorHanding);
+        .put(userController.updateUser, errorHanding)
+        .delete(userController.deleteUser, errorHanding);
 userRouter.route('/profileImage/:user_id')
         .get(fileItemController.profileUpload, fileItemController.postFile, errorHanding)
         .put(fileItemController.profileUpload, fileItemController.postFile, errorHanding)
@@ -85,10 +86,19 @@ userRouter.route('/avatarImage/:user_id')
         .get(errorHanding)
         .put(fileItemController.avatarUpload, fileItemController.postFile, errorHanding)
         .post(fileItemController.avatarUpload, fileItemController.postFile, errorHanding);
+        
 userRouter.route('/friends/:user_id')
         .get(userController.getFriends, errorHanding);
 userRouter.route('/classs/:user_id')
-        .get(userController.getClasss, errorHanding)
+
+        .get(userController.getClasss, errorHanding);
+userRouter.route('/check/:user_name')
+        .get(userController.checkUserName, errorHanding);
+userRouter.route('/check/email')
+        .get(userController.checkEmail, errorHanding);
+userRouter.route('/check/phone')
+        .get(userController.checkPhoneNumber, errorHanding);
+
 userRouter.route('/files/:user_id')
         .get(fileItemController.getFiles, errorHanding);//TEST
 /*-------------------FILE_API------------------------*/

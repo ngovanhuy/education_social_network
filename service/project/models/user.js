@@ -20,10 +20,10 @@ var UserSchema = new mongoose.Schema(
     {
         id: { type: String, unique: true, require: true },
         username: { type: String, unique: true, required: true, },
-        typeuser: { type: Number, require: true, default: 0, }, //type: 0, 10, 100
         password: { type: String, required: true },//check privacy
         firstName: { type: String,  required: true, },//maxLength
         lastName: { type: String,  required: true, }, //maxLength
+        typeuser: { type: Number, require: false, default: 0, }, //type: 0, 10, 100
         email: { type: String, required: false,  default: null, },//Array ???->unique.
         phone: { type: String,  required: false, default: null, },//Array ????->unique
         profileImageID: { type: String, required: false, default: null, }, // ID avatarImage file || null
@@ -58,17 +58,23 @@ UserSchema.pre('save', function(callback)  {
     });
 });
 
-function validateEmail(email) {
+function validateEmail(email, isRequired = false) {
+    if (!email) {
+        return !isRequired;
+    }
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
-function validatePhoneNumber(phone) {
+function validatePhoneNumber(phone, isRequired = false) {
+    if (!phone) {
+        return !isRequired;
+    }
     var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    return re.test(Number(phone));
+    return re.test(phone) || re.test(Number(phone));
 }
-function validateUserName(username) {
+function validateUserName(username, isRequired = true) {
     if (!username) {
-        return false;
+        return !isRequired;
     }
     var re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
     if (re.test(username)) {
@@ -82,58 +88,86 @@ function validateUserName(username) {
     }
     return false;
 }
-function validateGender(gender) {
+function validateGender(gender, isRequired = false) {
+    if (!gender) {
+        return !isRequired;
+    }
     return GenderEnum[gender];
 }
-function validateTypeUser(typeUser) {
+function validateTypeUser(typeUser, isRequired = false) {
+    if (!typeUser) {
+        return !isRequired;
+    }
     return TypeUserEnum[typeUser];
 }
-function validateStatus(status) {
+function validateStatus(status, isRequired = false) {
+    if (!status) {
+        return !isRequired;
+    }
     return StatusEnum[status];
 }
 
-function isString(obj) {
-    return typeof (obj) === "string";
+function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = true) {
+    if (typeof (obj) !== "string") {
+        return !isRequired;
+    }
+    return obj.length >= minLength && obj.length <= maxLength;
 }
 
-function isStringEmpty(obj, minLength = 1, maxLength = 100) {
-    return isString(obj) && obj.length >= minLength && obj.length <= maxLength;
-}
-
-function validateInputInfo(inputInfo, required = false) {
+function validateInputInfo(inputInfo, checkRequired = false) {
     if (!inputInfo) {
         return [];
     }
     let message = [];
-    if (!(validateUserName(inputInfo.username))) {
-        message.push("UserName Invalid");
+    //---------- REQUIRED --------------
+    if (!(validateUserName(inputInfo.username, checkRequired))) {
+        message.push("UserName Invalid Format");
     }
-    if (!isStringEmpty(inputInfo.firstName, 1, 20)) {
-        message.push("FirstName Invalid");
+    if (!validateStringLength(inputInfo.firstName, 2, 20, checkRequired)) {
+        message.push("FirstName Invalid Format");
     }
-    if (!isStringEmpty(inputInfo.lastName, 1, 20)) {
-        message.push("LastName Invalid");
+    if (!validateStringLength(inputInfo.lastName, 2, 20, checkRequired)) {
+        message.push("LastName Invalid Format");
     }
-    if (!isStringEmpty(inputInfo.password, 1, 20)) {
-        message.push("Password Invalid");
+    if (!validateStringLength(inputInfo.password, 5, 20, checkRequired)) {
+        message.push("Password Invalid Format");
     }
-    if (!(inputInfo.email && validateEmail(inputInfo.email))) {
-        message.push("Email Invalid");
+    //------------ NOT REQUIRED ----------------
+    if (!validateStringLength(inputInfo.about, 0, 200, false)) {
+        message.push("About Invalid Format");
     }
-    if (!(inputInfo.phone && validatePhoneNumber(inputInfo.phone))) {
-        message.push("Phone Invalid");
+    if (!validateStringLength(inputInfo.quote, 0, 100, false)) {
+        message.push("Quote Invalid Format");
     }
-    if (!(inputInfo.birthday) && getDate(inputInfo.birthday)) {
-        message.push("Birthday Invalid");
+    if (inputInfo.nickname) {
+        if (!getStringArray(inputInfo.nickname)) {
+            message.push("NickName Invalid Format");
+        }
     }
-    if (!(inputInfo.gender && validateGender(inputInfo.gender))) {
-        message.push("Gender Invalid");
+    if (inputInfo.language) {
+        if (!getArrayLanguage(inputInfo.language)) {
+            message.push("Language Invalid Format");
+        }
     }
-    if (!(inputInfo.typeuser && validateTypeUser(inputInfo.typeuser))) {
-        message.push("TypeUser Invalid");
+    if (!validateEmail(inputInfo.email, false)) {
+        message.push("Email Invalid Format");
     }
-    if (!(inputInfo.status && validateStatus(inputInfo.status))) {
-        message.push("Status Invalid");
+    if (!validatePhoneNumber(inputInfo.phone, false)) {
+        message.push("Phone Invalid Format");
+    }
+    if (!validateGender(inputInfo.gender, false)) {
+        message.push("Gender Invalid Format");
+    }
+    if (!validateTypeUser(inputInfo.typeuser, false)) {
+        message.push("TypeUser Invalid Format");
+    }
+    if (!validateStatus(inputInfo.status, false)) {
+        message.push("Status Invalid Format");
+    }
+    if (inputInfo.birthday) {
+        if(!getDate(inputInfo.birthday)) {
+            message.push("Birthday Invalid Format");
+        }
     }
     return message;
 }
@@ -144,6 +178,43 @@ function getGenderInfo(enum_id) {
 function getTypeUserInfo(enum_id) {
     return {enum_id: enum_id, text: TypeUserEnum[enum_id]};
 }
+
+function getStringArray(jsonContent) {
+    try {
+        return [...items] = JSON.parse(jsonContent);
+    } catch (error) {
+        return null;
+    }
+}
+
+function getArrayLanguage(languageString) {
+    try {
+        let [...languages] = JSON.parse(languageString);
+        let data = [];
+        for (let index = 0; index < languages.length; index++) {
+            var { code = 'en-US', text = 'English(US)'} = languages[index];
+            data.push({
+                code: code,
+                text: text,
+            });
+        }
+        return data;
+    } catch(error) {
+        return null;
+    }
+}
+
+function getBirthDate(dateString) {
+    if (!dateString) {
+        return null;
+    }
+    var date = new Date(dateString+ "Z");
+    return isNaN(date.getDate()) ? null : date;
+}
+
+function getNewID() {
+    return new Date().getTime();
+}
 function verifyPassword(password, cb) {
     bcrypt.compare(password, this.password, (err, isMatch) => err ?  cb(err) : cb(null, isMatch));
 };
@@ -152,9 +223,9 @@ function getBasicInfo() {
     return {
         id:             this.id,
         username:       this.username,
-        typeuser:       {enum_id: this.typeuser, text: TypeUserEnum[this.typeuser]}, 
         firstName:      this.firstName,
         lastName:       this.lastName,
+        typeuser:       {enum_id: this.typeuser, text: TypeUserEnum[this.typeuser]}, 
         email:          this.email,
         birthday:       this.birthday.toLocaleString(),
         phone:          this.phone,
@@ -182,6 +253,10 @@ UserSchema.statics.validateGender = validateGender;
 UserSchema.statics.validateTypeUser = validateTypeUser;
 UserSchema.statics.validateStatus = validateStatus;
 UserSchema.statics.validateInputInfo = validateInputInfo;
+UserSchema.statics.getStringArray = getStringArray;
+UserSchema.statics.getArrayLanguage = getArrayLanguage;
+UserSchema.statics.getBirthDate = getBirthDate;
+UserSchema.statics.getNewID = getNewID;
 
 UserSchema.methods.verifyPassword = verifyPassword;
 UserSchema.methods.getBasicInfo = getBasicInfo;

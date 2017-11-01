@@ -1,58 +1,99 @@
 var User = require('../models/user');
 
-function getArray(jsonContent) {
-    try {
-        return [...items] = JSON.parse(jsonContent);
-    } catch (error) {
-        return [];
-    }
-}
-
-function getLanguage(languageString) {
-    try {
-        let [...languages] = JSON.parse(languageString);
-        let data = [];
-        for (let index = 0; index < languages.length; index++) {
-            var { code = 'en-US', text = 'English(US)'} = languages[index];
-            data.push({
-                code: code,
-                text: text,
-            });
+async function findUser(req) { //id, username, email, phone
+    let userFind = null;
+    if (req.params.user_id) {
+        userFind = await User.findOne({
+            $or: [{
+                    id: req.params.user_id
+                },
+                {
+                    username: req.params.user_id
+                },
+            ],
+        });
+        if (userFind) {
+            return userFind;
         }
-        return data;
-    } catch(error) {
-        return [];
     }
-}
-
-function getDate(dateString) {
-    if (!dateString) {
-        return null;
+    if (req.body.id) {
+        userFind = await User.findOne({
+            id: req.body.id,
+        });
+        if (userFind) {
+            return userFind;
+        }
     }
-    var date = new Date(dateString+ "Z");
-    return isNaN(date.getDate()) ? null : date;
-}
-
-async function getUserByUniqueInfo(signIn) {//id, username, email, phone
-    if (!signIn) {
-        return null;
+    if (req.body.username) {
+        userFind = await User.findOne({
+            username: req.body.username,
+        });
+        if (userFind) {
+            return userFind;
+        }
     }
-    let user = await User.findOne({
-        id : signIn
-    });
-    if (user) {return user;};
-    user = await User.findOne({
-        username : signIn
-    });
-    if (user) {return user;};
-    user = await User.findOne({
-        email : signIn
-    });
-    if (user) {return user;};
-    user = await User.findOne({
-        phone : signIn
+    if (req.body.phone) {
+        userFind = await User.findOne({
+            phone: req.body.phone,
+        });
+        if (userFind) {
+            return userFind;
+        }
+    }
+    if (req.body.email) {
+        userFind = await User.findOne({
+            email: req.body.email,
+        });
+        if (userFind) {
+            return userFind;
+        }
+    }
+    return res.status(400).send({
+        code: 400,
+        message: "Not exit user",
+        data: null
     });
     return user;
+}
+
+function updateUserInfo(req, user, isCheckValidInput = true) {
+    if (isCheckValidInput) {
+        let message = User.validateInputInfo(req.body, true);
+        if (!message || message.length > 0) {
+            return message;
+        }
+    }
+    if (req.body.birthday) {
+        user.birthday = User.getBirthDate(req.body.birthday);
+    }
+    if (req.body.email) {
+        user.email = req.body.email;
+    }
+    if (req.body.phone) {
+        user.phone = req.body.phone;
+    }
+    if (req.body.gender) {
+        user.gender = req.body.gender;
+    }
+    if (req.body.about) {
+        user.about = req.body.about;
+    }
+    if (req.body.quote) {
+        user.quote = req.body.quote;
+    }
+    if (req.body.nickname) {
+        user.nickname = User.getStringArray(req.body.nickname);
+    }
+    if (req.body.language) {
+        user.language = User.getArrayLanguage(req.body.language);
+    }
+    if (req.body.location) {
+        user.location = req.body.location;
+    }
+    if (req.body.typeuser) {
+        user.typeuser = req.body.typeuser;
+    }
+    return [];
 }
 async function postUser(req, res) {
     try {
@@ -61,62 +102,43 @@ async function postUser(req, res) {
             return res.status(400).send({
                 code: 400,
                 message: message,
-                data: null
+                data: null,
+                error: 'Request Invalid'
             });
         }
         let userFind = await User.findOne({
             username: req.body.username,
+            // isDeleted: false,
         });
         if (userFind) {
             return res.status(400).send({
                 code: 400,
-                message: 'User Existed',
+                message: 'username is used.',
                 data: null
             });
         }
         let user = new User({
-            id: new Date().getTime(),
+            id: User.getNewID,
             username: req.body.username,
             password: req.body.password,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             isDeleted: false,
         });
-        if (req.body.birthday) {
-            user.birthday =  getDate(req.body.birthday);
+        message = updateUserInfo(req, user, false);
+        if (!message || message.length > 0) {
+            return res.status(400).send({
+                code: 400,
+                message: message,
+                data: null,
+                error: 'Request Invalid',
+            });
         }
-        if (req.body.email) {
-            user.email = req.body.email;
-        }
-        if (req.body.phone) {
-            user.phone = req.body.phone;
-        }
-        if (req.body.gender) {
-            user.gender = req.body.gender;
-        }
-        if (req.body.about) {
-            user.about = req.body.about;
-        }
-        if(req.body.quote) {
-            user.quote = req.body.quote;
-        }
-        if (req.body.nickname) {
-            user.nickname = getArray(req.body.nickname);
-        }
-        if (req.body.language) {
-            user.language =  getLanguage(req.body.language);
-        }
-        if (req.body.location) {
-            user.location = req.body.location;
-        }
-        if (req.body.typeuser) {
-            user.typeuser = req.body.typeuser;
-        }
-        let userSave = await user.save();
+        user = await user.save();
         return res.send({
             code: 200,
             message: 'Success',
-            data: userSave.getBasicInfo()
+            data: user.getBasicInfo()
         });
     } catch (error) {
         return res.status(500).send({
@@ -134,150 +156,31 @@ async function updateUser(req, res) {
             return res.status(400).send({
                 code: 400,
                 message: message,
-                data: null
+                data: null,
+                error: "Request Invalid",
             });
         }
-        let userFind = await User.findOne({
-            username: req.body.username
-        });
-        if (!userFind) {
+        let user = await findUser(req);
+        if (!user || user.isDeleted)
             return res.status(400).send({
                 code: 400,
                 message: 'User Not Existed',
                 data: null
             });
-        }
-        if (req.body.firstName) {
-            userFind.firstName = req.body.firstName;
-        }
-        if (req.body.lastName) {
-            userFind.lastName = req.body.lastName;
-        }
-        if (req.body.email) {
-            userFind.email = req.body.email;
-        }
-        if (req.body.phone) {
-            userFind.phone = req.body.phone;
-        }
-        if (req.body.password) {
-            userFind.password = req.body.password;
-        }
-        if (req.body.firstName) {
-            userFind.firstName =  req.body.firstName;
-        }
-        if (req.body.lastName) {
-            userFind.lastName = req.body.lastName;
-        }
-        if (req.body.birthday) {
-            userFind.birthday =  getDate(req.body.birthday);
-        }
-        if (req.body.gender) {
-            userFind.gender = req.body.gender;
-        }
-        if (req.body.about) {
-            userFind.about = req.body.about;
-        }
-        if(req.body.quote) {
-            userFind.quote = req.body.quote;
-        }
-        if (req.body.nickname) {
-            userFind.nickname = getArray(req.body.nickname);
-        }
-        if (req.body.language) {
-            userFind.language =  getLanguage(req.body.language);
-        }
-        if (req.body.location) {
-            userFind.location = req.body.location;
-        }
-        if (req.body.typeuser) {
-            userFind.typeuser = req.body.typeuser;
-        }
-        userFind.isDeleted =  false;
-        let userSave = await userFind.save();
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: userSave.getBasicInfo()
-        });
-    } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
-    }
-};
-async function updateUserByID(req, res) {
-    try {
-        let userFind = await User.findOne({
-            id: req.params.user_id
-        });
-        if (!userFind) {
+        message = updateUserInfo(req, userFind, false);
+        if (!message || message.length > 0) {
             return res.status(400).send({
                 code: 400,
-                message: 'User Not Existed',
-                data: null
+                message: message,
+                data: null,
+                error: 'Request Invalid',
             });
         }
-        if (req.body.password) {
-            userFind.password = req.body.password;
-        }
-        if (req.body.firstname) {
-            userFind.firstname =  req.body.firstname;
-        }
-        if (req.body.lastname) {
-            userFind.lastname = req.body.lastname;
-        }
-        if (req.body.birthday) {
-            userFind.birthday =  getDate(req.body.birthday);
-        }
-        if (req.body.email) {
-            if (validateEmail(req.body.email)) {
-                userFind.email = req.body.email;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Email invalid',
-                    data: null
-                });
-            }
-        }
-        if (req.body.phone) {
-            if (validatePhoneNumber) {
-                userFind.phone = req.body.phone;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Phone invalid',
-                    data: null
-                });
-            }
-        }
-        if (req.body.gender) {
-            userFind.gender = req.body.gender;
-        }
-        if (req.body.about) {
-            userFind.about = req.body.about;
-        }
-        if(req.body.quote) {
-            userFind.quote = req.body.quote;
-        }
-        if (req.body.nickname) {
-            userFind.nickname = getArray(req.body.nickname);
-        }
-        if (req.body.language) {
-            userFind.language =  getLanguage(req.body.language);
-        }
-        if (req.body.location) {
-            userFind.location = req.location;
-        }
-        userFind.isDeleted =  false;
-        let userSave = await userFind.save();
+        user = await user.save();
         return res.send({
             code: 200,
             message: 'Success',
-            data: userSave.getBasicInfo()
+            data: user.getBasicInfo()
         });
     } catch (error) {
         return res.status(500).send({
@@ -288,24 +191,22 @@ async function updateUserByID(req, res) {
         });
     }
 }
-async function deleteUserByID(req, res) {
+async function deleteUser(req, res) {
     try {
-        let userFind = await User.findOne({
-            id: req.params.user_id
-        });
-        if (!userFind) {
+        let user = await findUser(req);
+        if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
                 message: 'User Not Existed',
                 data: null
             });
         }
-        userFind.isDeleted =  true;
-        let userSave = await userFind.save();
+        user.isDeleted = true;
+        user = await user.save();
         return res.send({
             code: 200,
             message: 'Success',
-            data: userSave.getBasicInfo()
+            data: user.getBasicInfo()
         });
     } catch (error) {
         return res.status(500).send({
@@ -318,10 +219,8 @@ async function deleteUserByID(req, res) {
 }
 async function getUser(req, res) {
     try {
-        let user = await User.findOne({
-            id: req.params.user_id
-        });
-        if (!user) {
+        let user = await findUser(req);
+        if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
                 message: 'Not exit user',
@@ -330,7 +229,7 @@ async function getUser(req, res) {
         }
         return res.send({
             code: 200,
-            message: '',
+            message: 'Success',
             data: user.getBasicInfo()
         })
     } catch (error) {
@@ -342,20 +241,10 @@ async function getUser(req, res) {
         });
     }
 }
-async function getUsers (req, res) {
-    try {
-        let users = await User.find();
-        return res.json({code: 200, message:"", data: users.map(user => user.getBasicInfo(user))});
-    } catch (error) {
-        res.status(500).send(error);
-    }
-};
 async function getFriends(req, res) {
     try {
-        let user = await User.findOne({
-            id: req.params.user_id
-        });
-        if (!user) {
+        let user = await findUser(req);
+        if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
                 message: 'Not exit user',
@@ -364,7 +253,7 @@ async function getFriends(req, res) {
         }
         return res.send({
             code: 200,
-            message: '',
+            message: 'Success',
             data: user.friends,
         })
     } catch (error) {
@@ -379,10 +268,8 @@ async function getFriends(req, res) {
 
 async function getClasss(req, res) {
     try {
-        let user = await User.findOne({
-            id: req.params.user_id
-        });
-        if (!user) {
+        let user = await findUser(req);
+        if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
                 message: 'Not exit user',
@@ -404,12 +291,83 @@ async function getClasss(req, res) {
     }
 }
 
+async function checkUserName(req, res) {
+    try {
+        let user = null;
+        if (req.params.user_name) {
+            user = await User.findOne({
+                username: req.params.user_name,
+            });
+            if (user) {
+                return res.status(user.isDeleted ? 400 : 200).end();
+            }
+        }
+        if (req.body.username) {
+            user = await User.findOne({
+                username: req.body.username,
+            });
+            if (user) {
+                return res.status(user.isDeleted ? 400 : 200).end();
+            }
+        }
+        return res.status(400).end();
+    } catch (error) {
+        return res.status(500).end();
+    }
+}
+async function checkEmail(req, res) {
+    try {
+        let user = null;
+        if (req.body.email) {
+            user = await User.findOne({
+                email: req.body.email,
+            });
+            if (user) {
+                return res.status(user.isDeleted ? 400 : 200).end();
+            }
+        }
+        return res.status(400).end();
+    } catch (error) {
+        return res.status(500).end();
+    }
+}
+async function checkPhoneNumber(req, res) {
+    try {
+        let user = null;
+        if (req.body.phone) {
+            user = await User.findOne({
+                phone: req.body.phone,
+            });
+            if (user) {
+                return res.status(user.isDeleted ? 400 : 200).end();
+            }
+        }
+        return res.status(400).end();
+    } catch (error) {
+        return res.status(500).end();
+    }
+}
+async function getUsers(req, res) {
+    try {
+        let users = await User.find();
+        return res.json({
+            code: 200,
+            message: "",
+            data: users.map(user => user.getBasicInfo(user))
+        });
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+};
 /*----------------EXPORT------------------ */
 exports.postUser = postUser;
 exports.updateUser = updateUser;
-exports.updateUserByID = updateUserByID;
 exports.getUser = getUser;
-exports.deleteUserByID = deleteUserByID;
-exports.getUsers = getUsers;
+exports.deleteUser = deleteUser;
 exports.getFriends = getFriends;
 exports.getClasss = getClasss;
+exports.checkUserName = checkUserName;
+exports.checkEmail = checkEmail;
+exports.checkPhoneNumber = checkPhoneNumber;
+
+exports.getUsers = getUsers;
