@@ -54,42 +54,71 @@ function validateUserName(username) {
         return false;
     }
     var re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
-    return re.test(username);
+    if (re.test(username)) {
+        return true;
+    }
+    if (validateEmail(username)) {
+        return true;
+    }
+    if (validatePhoneNumber(username)) {
+        return true;
+    }
+    return false;
+}
+async function getUserByUniqueInfo(signIn) {//id, username, email, phone
+    if (!signIn) {
+        return null;
+    }
+    let user = await User.findOne({
+        id = signIn
+    });
+    if (user) {return user;};
+    user = await User.findOne({
+        username = signIn
+    });
+    if (user) {return user;};
+    user = await User.findOne({
+        email = signIn
+    });
+    if (user) {return user;};
+    user = await User.findOne({
+        phone = signIn
+    });
+    return user;
 }
 async function postUser(req, res) {
     try {
+        let message = [];
         if (!validateUserName(req.body.username)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserName invalid',
-                data: null
-            });
+            message.push("UserName Invalid");
         }
         if (!isStringEmpty(req.body.firstName, 1, 20)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'FirstName invalid',
-                data: null
-            });
+            message.push("FirstName Invalid");
         }
         if (!isStringEmpty(req.body.lastName, 1, 20)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'LastName invalid',
-                data: null
-            });
+            message.push("LastName Invalid");
         }
         if (!isStringEmpty(req.body.password, 1, 20)) {
+            message.push("Password Invalid");
+        }
+        if (!(req.body.email && validateEmail(req.body.email))) {
+            message.push("Email Invalid");
+        }
+        if (!(req.body.phone && validatePhoneNumber(req.body.phone))) {
+            message.push("Phone Invalid");
+        }
+        if (!(req.body.birthday) && getDate(req.body.birthday)) {
+            message.push("Birthday Invalid");
+        }
+        if (push.length > 0) {
             return res.status(400).send({
                 code: 400,
-                message: 'Password invalid',
+                message: message,
                 data: null
             });
         }
         let userFind = await User.findOne({
             username: req.body.username,
-            // email: req.body.email,
-            // phone: req.body.phone,
         });
         if (userFind) {
             return res.status(400).send({
@@ -110,26 +139,10 @@ async function postUser(req, res) {
             user.birthday =  getDate(req.body.birthday);
         }
         if (req.body.email) {
-            if (validateEmail(req.body.email)) {
-                user.email = req.body.email;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Email invalid',
-                    data: null
-                });
-            }
+            user.email = req.body.email;
         }
         if (req.body.phone) {
-            if (validatePhoneNumber) {
-                user.phone = req.body.phone;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Phone invalid',
-                    data: null
-                });
-            }
+            user.phone = req.body.phone;
         }
         if (req.body.gender) {
             user.gender = req.body.gender;
@@ -170,9 +183,7 @@ async function postUser(req, res) {
 async function updateUser(req, res) {
     try {
         let userFind = await User.findOne({
-            username: req.body.username,
-            // email: req.body.email,
-            // phone: req.body.phone,
+            username: req.body.username
         });
         if (!userFind) {
             return res.status(400).send({
