@@ -73,8 +73,6 @@ apiRouter.route('/oauth2/token').post(authController.isClientAuthenticated, oaut
 userRouter.route('/')
         .post(userController.postUser, errorHanding)
         .put(userController.updateUser, errorHanding);
-userRouter.route('/add')
-        .post(userController.postUser, errorHanding);
 userRouter.route('/:user_id')
         .get(userController.getUser, errorHanding)
         .put(userController.updateUserByID, errorHanding)
@@ -114,7 +112,7 @@ testRouter.route('/users')
         .get(userController.getUsers);
 
 /*--------------------------------------------*/
-app.use('/api', apiRouter);
+app.use('/apis', apiRouter);
 app.use('/files', fileRouter);
 app.use('/users', userRouter);
 app.use('/test', testRouter);

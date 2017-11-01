@@ -1,13 +1,5 @@
 var User = require('../models/user');
 
-function isString(obj) {
-    return typeof (obj) === "string";
-}
-
-function isStringEmpty(obj, minLength = 1, maxLength = 100) {
-    return isString(obj) && obj.length >= minLength && obj.length <= maxLength;
-}
-
 function getArray(jsonContent) {
     try {
         return [...items] = JSON.parse(jsonContent);
@@ -41,76 +33,31 @@ function getDate(dateString) {
     return isNaN(date.getDate()) ? null : date;
 }
 
-function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-function validatePhoneNumber(phone) {
-    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    return re.test(phone);
-}
-function validateUserName(username) {
-    if (!username) {
-        return false;
-    }
-    var re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
-    if (re.test(username)) {
-        return true;
-    }
-    if (validateEmail(username)) {
-        return true;
-    }
-    if (validatePhoneNumber(username)) {
-        return true;
-    }
-    return false;
-}
 async function getUserByUniqueInfo(signIn) {//id, username, email, phone
     if (!signIn) {
         return null;
     }
     let user = await User.findOne({
-        id = signIn
+        id : signIn
     });
     if (user) {return user;};
     user = await User.findOne({
-        username = signIn
+        username : signIn
     });
     if (user) {return user;};
     user = await User.findOne({
-        email = signIn
+        email : signIn
     });
     if (user) {return user;};
     user = await User.findOne({
-        phone = signIn
+        phone : signIn
     });
     return user;
 }
 async function postUser(req, res) {
     try {
-        let message = [];
-        if (!validateUserName(req.body.username)) {
-            message.push("UserName Invalid");
-        }
-        if (!isStringEmpty(req.body.firstName, 1, 20)) {
-            message.push("FirstName Invalid");
-        }
-        if (!isStringEmpty(req.body.lastName, 1, 20)) {
-            message.push("LastName Invalid");
-        }
-        if (!isStringEmpty(req.body.password, 1, 20)) {
-            message.push("Password Invalid");
-        }
-        if (!(req.body.email && validateEmail(req.body.email))) {
-            message.push("Email Invalid");
-        }
-        if (!(req.body.phone && validatePhoneNumber(req.body.phone))) {
-            message.push("Phone Invalid");
-        }
-        if (!(req.body.birthday) && getDate(req.body.birthday)) {
-            message.push("Birthday Invalid");
-        }
-        if (push.length > 0) {
+        let message = User.validateInputInfo(req.body, true);
+        if (!message || message.length > 0) {
             return res.status(400).send({
                 code: 400,
                 message: message,
@@ -182,6 +129,14 @@ async function postUser(req, res) {
 };
 async function updateUser(req, res) {
     try {
+        let message = User.validateInputInfo(req.body, false);
+        if (!message || message.length > 0) {
+            return res.status(400).send({
+                code: 400,
+                message: message,
+                data: null
+            });
+        }
         let userFind = await User.findOne({
             username: req.body.username
         });
@@ -193,48 +148,16 @@ async function updateUser(req, res) {
             });
         }
         if (req.body.firstName) {
-            if (isStringEmpty(req.body.firstName, 1, 20)) {
-                userFind.firstName = req.body.firstName;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'FirstName invalid',
-                    data: null
-                });
-            }
+            userFind.firstName = req.body.firstName;
         }
         if (req.body.lastName) {
-            if (isStringEmpty(req.body.lastName, 1, 20)) {
-                userFind.lastName = req.body.lastName;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'LastName invalid',
-                    data: null
-                });
-            }
+            userFind.lastName = req.body.lastName;
         }
         if (req.body.email) {
-            if (validateEmail(req.body.email)) {
-                userFind.email = req.body.email;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Email invalid',
-                    data: null
-                });
-            }
+            userFind.email = req.body.email;
         }
         if (req.body.phone) {
-            if (validatePhoneNumber) {
-                userFind.phone = req.body.phone;
-            } else {
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Phone invalid',
-                    data: null
-                });
-            }
+            userFind.phone = req.body.phone;
         }
         if (req.body.password) {
             userFind.password = req.body.password;
@@ -422,8 +345,7 @@ async function getUser(req, res) {
 async function getUsers (req, res) {
     try {
         let users = await User.find();
-        return res.json(users.map(user => user.getBasicInfo(user)));
-        // res.json(users);
+        return res.json({code: 200, message:"", data: users.map(user => user.getBasicInfo(user))});
     } catch (error) {
         res.status(500).send(error);
     }

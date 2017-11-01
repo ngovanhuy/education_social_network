@@ -233,10 +233,10 @@ async function getFiles(req, res) {
 }
 
 /*----------------------------------------------- */
-exports.fileUpload = file_upload.single('file_upload');
-exports.imageUpload = image_upload.single('image_upload');
-exports.avatarUpload = image_upload.single('avatar_upload');
-exports.profileUpload = image_upload.single('profile_upload');
+exports.fileUpload = file_upload.single('fileUpload');
+exports.imageUpload = image_upload.single('imageUpload');
+exports.avatarUpload = image_upload.single('avatarImage');
+exports.profileUpload = image_upload.single('profileImage');
 exports.getFiles = getFiles;
 exports.attachFile = attachFile;
 exports.getFile = getFile;

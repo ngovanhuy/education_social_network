@@ -16,12 +16,6 @@ var StatusEnum = {
     10: "Normal"
 }
 
-function getGenderInfo(enum_id) {
-    return {enum_id: enum_id, text: GenderInfo[enum_id]};
-}
-function getTypeUserInfo(enum_id) {
-    return {enum_id: enum_id, text: TypeUserEnum[enum_id]};
-}
 var UserSchema = new mongoose.Schema(
     {
         id: { type: String, unique: true, require: true },
@@ -64,11 +58,97 @@ UserSchema.pre('save', function(callback)  {
     });
 });
 
-UserSchema.methods.verifyPassword = function (password, cb) {
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+function validatePhoneNumber(phone) {
+    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    return re.test(Number(phone));
+}
+function validateUserName(username) {
+    if (!username) {
+        return false;
+    }
+    var re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
+    if (re.test(username)) {
+        return true;
+    }
+    if (validateEmail(username)) {
+        return true;
+    }
+    if (validatePhoneNumber(username)) {
+        return true;
+    }
+    return false;
+}
+function validateGender(gender) {
+    return GenderEnum[gender];
+}
+function validateTypeUser(typeUser) {
+    return TypeUserEnum[typeUser];
+}
+function validateStatus(status) {
+    return StatusEnum[status];
+}
+
+function isString(obj) {
+    return typeof (obj) === "string";
+}
+
+function isStringEmpty(obj, minLength = 1, maxLength = 100) {
+    return isString(obj) && obj.length >= minLength && obj.length <= maxLength;
+}
+
+function validateInputInfo(inputInfo, required = false) {
+    if (!inputInfo) {
+        return [];
+    }
+    let message = [];
+    if (!(validateUserName(inputInfo.username))) {
+        message.push("UserName Invalid");
+    }
+    if (!isStringEmpty(inputInfo.firstName, 1, 20)) {
+        message.push("FirstName Invalid");
+    }
+    if (!isStringEmpty(inputInfo.lastName, 1, 20)) {
+        message.push("LastName Invalid");
+    }
+    if (!isStringEmpty(inputInfo.password, 1, 20)) {
+        message.push("Password Invalid");
+    }
+    if (!(inputInfo.email && validateEmail(inputInfo.email))) {
+        message.push("Email Invalid");
+    }
+    if (!(inputInfo.phone && validatePhoneNumber(inputInfo.phone))) {
+        message.push("Phone Invalid");
+    }
+    if (!(inputInfo.birthday) && getDate(inputInfo.birthday)) {
+        message.push("Birthday Invalid");
+    }
+    if (!(inputInfo.gender && validateGender(inputInfo.gender))) {
+        message.push("Gender Invalid");
+    }
+    if (!(inputInfo.typeuser && validateTypeUser(inputInfo.typeuser))) {
+        message.push("TypeUser Invalid");
+    }
+    if (!(inputInfo.status && validateStatus(inputInfo.status))) {
+        message.push("Status Invalid");
+    }
+    return message;
+}
+
+function getGenderInfo(enum_id) {
+    return {enum_id: enum_id, text: GenderInfo[enum_id]};
+}
+function getTypeUserInfo(enum_id) {
+    return {enum_id: enum_id, text: TypeUserEnum[enum_id]};
+}
+function verifyPassword(password, cb) {
     bcrypt.compare(password, this.password, (err, isMatch) => err ?  cb(err) : cb(null, isMatch));
 };
 
-UserSchema.methods.getBasicInfo = function() {
+function getBasicInfo() {
     return {
         id:             this.id,
         username:       this.username,
@@ -94,5 +174,16 @@ UserSchema.methods.getBasicInfo = function() {
 
 /*-------------------------------------- */
 UserSchema.statics.GenderInfo = getGenderInfo;
-UserSchema.static.TypeUserInfo = getTypeUserInfo;
+UserSchema.statics.TypeUserInfo = getTypeUserInfo;
+UserSchema.statics.validateEmail = validateEmail;
+UserSchema.statics.validatePhoneNumber = validatePhoneNumber;
+UserSchema.statics.validateUserName = validateUserName;
+UserSchema.statics.validateGender = validateGender;
+UserSchema.statics.validateTypeUser = validateTypeUser;
+UserSchema.statics.validateStatus = validateStatus;
+UserSchema.statics.validateInputInfo = validateInputInfo;
+
+UserSchema.methods.verifyPassword = verifyPassword;
+UserSchema.methods.getBasicInfo = getBasicInfo;
+
 module.exports = mongoose.model('User', UserSchema); 
