@@ -17,13 +17,14 @@ var userRouter = express.Router();
 var testRouter = express.Router();
 
 var errorHanding = function (err, req, res, next) {
-
         if (err) {
-                return res.status(500).send({
-                        code: 500,
-                        message: 'Server Error',
+                let status = err.status ? err.status : 500;
+                let logicCode = err.logicCode ? err.logicCode : status;
+                return res.status(status).send({
+                        code: logicCode,
+                        message: err.detail ? err.detail : err.message ? err.message : 'Server Error',
                         data: null,
-                        error: err.message
+                        error: err.message ? err.message : 'Server Error',
                 })
         }
         return res.status(400).send({
@@ -34,8 +35,11 @@ var errorHanding = function (err, req, res, next) {
         });
 }
 Application.manager.connectToDB();
+Application.manager.start();
 app.set('view engine', 'ejs');
 app.use(function (req, res, next) {
+        req.files = req.files ? req.files : {};
+        req.users = req.users ? req.users : {};
         console.log("Request:" + req.path);
         next();
 });
@@ -71,56 +75,75 @@ apiRouter.route('/oauth2/authorize')
 apiRouter.route('/oauth2/token').post(authController.isClientAuthenticated, oauth2Controller.token);
 /*-------------------USER_API-------------------------*/
 userRouter.route('/') 
-        .get(userController.getUser, errorHanding)
-        .put(userController.updateUser, errorHanding)
-        .delete(userController.deleteUser, errorHanding);
+        .get(userController.getUser)
+        .post(userController.postUser)
+        .put(userController.updateUser)
+        .delete(userController.deleteUser);
 userRouter.route('/:user_id')
-        .get(userController.getUser, errorHanding)
-        .put(userController.updateUser, errorHanding)
-        .delete(userController.deleteUser, errorHanding);
+        .get(userController.getUser)
+        .put(userController.updateUser)
+        .delete(userController.deleteUser);
 userRouter.route('/profileImage/:user_id')
-        .get(fileItemController.profileUpload, fileItemController.postFile, errorHanding)
-        .put(fileItemController.profileUpload, fileItemController.postFile, errorHanding)
-        .post(fileItemController.profileUpload, fileItemController.postFile, errorHanding);
-userRouter.route('/avatarImage/:user_id')
-        .get(errorHanding)
-        .put(fileItemController.avatarUpload, fileItemController.postFile, errorHanding)
-        .post(fileItemController.avatarUpload, fileItemController.postFile, errorHanding);
+        .get(fileItemController.getFile)
+        .put(userController.checkUserNameOrId, 
+                fileItemController.profileUpload, 
+                fileItemController.postFile, 
+                userController.putProfileImage)
+        .post(userController.checkUserNameOrId, 
+                fileItemController.profileUpload, 
+                fileItemController.postFile, 
+                userController.putProfileImage,);
+userRouter.route('/coverImage/:user_id')
+        // .get(errorHanding)
+        .put(userController.checkUserNameOrId, 
+                fileItemController.coverUpload, 
+                fileItemController.postFile, 
+                userController.putProfileImage)
+        .post(userController.checkUserNameOrId, 
+                fileItemController.coverUpload, 
+                fileItemController.postFile, 
+                userController.putCoverImage,);
         
 userRouter.route('/friends/:user_id')
-        .get(userController.getFriends, errorHanding);
+        .get(userController.getFriends);
 userRouter.route('/classs/:user_id')
 
-        .get(userController.getClasss, errorHanding);
+        .get(userController.getClasss);
 userRouter.route('/check/:user_name')
-        .get(userController.checkUserName, errorHanding);
+        .get(userController.checkUserName);
 userRouter.route('/check/email')
-        .get(userController.checkEmail, errorHanding);
+        .get(userController.checkEmail);
 userRouter.route('/check/phone')
-        .get(userController.checkPhoneNumber, errorHanding);
+        .get(userController.checkPhoneNumber);
 
 userRouter.route('/files/:user_id')
-        .get(fileItemController.getFiles, errorHanding);//TEST
+        .get(fileItemController.getFiles);//TEST
 /*-------------------FILE_API------------------------*/
 fileRouter.route('/upload')
-        .post(fileItemController.fileUpload, fileItemController.postFile, errorHanding);
-fileRouter.route('/get/:file_id')
-        .get(fileItemController.getFile, errorHanding);
-fileRouter.route('/attach/:file_id')
-        .get(fileItemController.attachFile, errorHanding);
-fileRouter.route('/delete/:file_id')
-        .delete(fileItemController.deleteFile, errorHanding);
+        .post(fileItemController.fileUpload, 
+                fileItemController.postFile,
+                fileItemController.getInfoFile);
 fileRouter.route('/image')
-        .post(fileItemController.imageUpload, fileItemController.postFile, errorHanding);
+        .post(fileItemController.imageUpload, 
+                fileItemController.postFile,
+                fileItemController.getInfoFile);
+        // fileItemController.postFile);
+fileRouter.route('/get/:file_id')
+        .get(fileItemController.getFile);
+fileRouter.route('/attach/:file_id')
+        .get(fileItemController.attachFile);
+fileRouter.route('/delete/:file_id')
+        .delete(fileItemController.deleteFile, fileItemController.getInfoFile);
 fileRouter.route('/info/:file_id')
-        .get(fileItemController.getInfoFile, errorHanding);
+        .get(fileItemController.getInfoFile);
 
 /*--------------------------------------------*/
 testRouter.route('/files')
         .get(fileItemController.getFiles, errorHanding);
 testRouter.route('/users')
         .get(userController.getUsers);
-
+// fileRouter.route('/upload2')
+//         .post(fileItemController.postFile2, errorHanding);
 /*--------------------------------------------*/
 app.use('/apis', apiRouter);
 app.use('/files', fileRouter);
@@ -128,5 +151,6 @@ app.use('/users', userRouter);
 app.use('/test', testRouter);
 
 app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));
+app.use(errorHanding);
 app.listen(Application.manager.portRunning);
 console.log('Running at ' + Application.manager.portRunning);

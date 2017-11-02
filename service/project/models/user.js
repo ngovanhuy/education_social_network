@@ -18,7 +18,7 @@ var StatusEnum = {
 
 var UserSchema = new mongoose.Schema(
     {
-        id: { type: String, unique: true, require: true },
+        id: { type: Number, unique: true, require: true },
         username: { type: String, unique: true, required: true, },
         password: { type: String, required: true },//check privacy
         firstName: { type: String,  required: true, },//maxLength
@@ -165,7 +165,7 @@ function validateInputInfo(inputInfo, checkRequired = false) {
         message.push("Status Invalid Format");
     }
     if (inputInfo.birthday) {
-        if(!getDate(inputInfo.birthday)) {
+        if(!getBirthDate(inputInfo.birthday)) {
             message.push("Birthday Invalid Format");
         }
     }

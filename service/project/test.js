@@ -1,6 +1,11 @@
-function validatePhoneNumber(phone) {
-    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    return re.test(phone);
-}
+var express = require('express');
+var app = express();
 
-console.log(validatePhoneNumber('01234567890'));
+app.use(function(req, res) {
+    if (Number(req.headers['content-length']) > (1 << 28)) {
+        console.log("TRUE");
+    }
+    res.end();
+});
+
+app.listen(9998);

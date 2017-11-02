@@ -4,7 +4,7 @@
 
     Các gói tin trả về có dạng: {code:<logic_code>, message: <detail_infomation>, data: <object_data>, [error: <error_object>]}.
 
-    Logic code ở trên độc lập với HTTP_RESPONSE_CODE mặc định của giao thức HTTP, do vậy các lỗi liên quan đến kết nối (VD: timeout...) sẽ không được mô tả. Thông thường <logic_code> sẽ trùng với HTTP_RESPONSE_CODE.
+    Logic code ở trên độc lập với HTTP_RESPONSE_CODE mặc định của giao thức HTTP, do vậy các lỗi liên quan đến kết nối (VD: timeout...) sẽ không được mô tả. Thông thường <logic_code> sẽ trùng với HTTP_RESPONSE_CODE. App sử dụng service nên tự động bắt các lỗi này, đặc biệt là timeout.
 
     Một số <logic_code> mặc định (dựa trên chuẩn HTTP) :
         + 1xx: Information.
@@ -219,39 +219,39 @@ Thông tin **User** bao gồm:
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Lấy ảnh Profile|Cover qua `id_user`
+##### Lấy ảnh Profile qua `id_user`
 
     + Method: GET
     + URL: http://domain:port/users/profileImage/:id_user
-    + Success:
-    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
-        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
-        - {code: 500, ...} : Server Error: Không thể thực hiện.
-
-##### Thay đổi ảnh Profile|Cover qua `id_user`
-
-    + Method: PUT, POST
-    + URL: http://domain:port/users/profileImage
-    + InputName: profileImage.
-    + Success: Thông tin tin file profile đã upload.
-    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
-        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
-        - {code: 500, ...} : Server Error: Không thể thực hiện.
-
-##### Lấy ảnh avatar qua `id_user`
-
-    + Method: GET
-    + URL: http://domain:port/users/avatarImage/:id_user
     + Success: Trả về file download (ghi trực tiếp xuống http_body, thông tin file trong http_header).
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Thay đổi ảnh avatar qua `id_user`
+##### Thay đổi ảnh Profile qua `id_user`
 
     + Method: PUT, POST
-    + URL: http://domain:port/users/avatarImage/:id_user
-    + InputName: avatarImage.
+    + URL: http://domain:port/users/profileImage
+    + InputName: `profileImage`.
+    + Success: Thông tin tin file profile đã upload.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy ảnh Cover qua `id_user`
+
+    + Method: GET
+    + URL: http://domain:port/users/coverImage/:id_user
+    + Success: Trả về file download (ghi trực tiếp xuống http_body, thông tin file trong http_header).
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Thay đổi ảnh cover qua `id_user`
+
+    + Method: PUT, POST
+    + URL: http://domain:port/users/coverImage/:id_user
+    + InputName: `coverImage`.
     + Success: Thông tin file avatar đã upload.
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).

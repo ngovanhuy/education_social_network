@@ -48,12 +48,7 @@ async function findUser(req) { //id, username, email, phone
             return userFind;
         }
     }
-    return res.status(400).send({
-        code: 400,
-        message: "Not exit user",
-        data: null
-    });
-    return user;
+    return null;
 }
 
 function updateUserInfo(req, user, isCheckValidInput = true) {
@@ -95,8 +90,9 @@ function updateUserInfo(req, user, isCheckValidInput = true) {
     }
     return [];
 }
-async function postUser(req, res) {
+async function postUser(req, res, next) {
     try {
+        req.users.user_request = null;
         let message = User.validateInputInfo(req.body, true);
         if (!message || message.length > 0) {
             return res.status(400).send({
@@ -118,7 +114,7 @@ async function postUser(req, res) {
             });
         }
         let user = new User({
-            id: User.getNewID,
+            id: User.getNewID(),
             username: req.body.username,
             password: req.body.password,
             firstName: req.body.firstName,
@@ -135,11 +131,8 @@ async function postUser(req, res) {
             });
         }
         user = await user.save();
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: user.getBasicInfo()
-        });
+        req.users.user_request = user;
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -149,7 +142,7 @@ async function postUser(req, res) {
         });
     }
 };
-async function updateUser(req, res) {
+async function updateUser(req, res, next) {
     try {
         let message = User.validateInputInfo(req.body, false);
         if (!message || message.length > 0) {
@@ -160,7 +153,11 @@ async function updateUser(req, res) {
                 error: "Request Invalid",
             });
         }
-        let user = await findUser(req);
+        let user = req.users.user_request;
+        if (!user) {
+            user = await findUser(req);
+            req.users.user_request = user;
+        }
         if (!user || user.isDeleted)
             return res.status(400).send({
                 code: 400,
@@ -177,11 +174,8 @@ async function updateUser(req, res) {
             });
         }
         user = await user.save();
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: user.getBasicInfo()
-        });
+        req.users.user_request = user;
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -193,7 +187,11 @@ async function updateUser(req, res) {
 }
 async function deleteUser(req, res) {
     try {
-        let user = await findUser(req);
+        let user = req.users.user_request;
+        if (!user) {
+            user = await findUser(req);
+            req.users.user_request = user;
+        }
         if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -217,9 +215,15 @@ async function deleteUser(req, res) {
         });
     };
 }
-async function getUser(req, res) {
+async function getUser(req, res, next) {
     try {
-        let user = await findUser(req);
+        let user = null;
+        if (req.users.user_request) {
+            user = req.users.user_request;
+        } else {
+            user = await findUser(req);
+            req.users.user_request = user;
+        }
         if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -231,8 +235,69 @@ async function getUser(req, res) {
             code: 200,
             message: 'Success',
             data: user.getBasicInfo()
-        })
+        });
     } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function getProfileImageID(req, res) {
+
+}
+async function putProfileImage(req, res) {
+    try {
+        if (!req.files.file_saved) {
+            throw new Error("Upload file Error");
+        }
+        let user = req.user_request;
+        if (!user || user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit user',
+                data: null
+            });
+        }
+        user.profileImageID = String(req.files.file_saved._id);
+        user = await user.save();
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: req.files.file_saved.getBasicInfo(),
+        });
+    } catch(error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function putCoverImage(req, res) {
+    try {
+        if (!req.files.file_saved) {
+            throw new Error("Upload file Error");
+        }
+        let user = req.user_request;
+        if (!user || user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit user',
+                data: null
+            });
+        }
+        user.coverImageID = String(req.files.file_saved._id);
+        user = await user.save();
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: req.files.file_saved.getBasicInfo(),
+        });
+    } catch(error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -290,7 +355,19 @@ async function getClasss(req, res) {
         });
     }
 }
-
+async function checkUserNameOrId(req, res, next) {
+    let user = null;
+    if (req.params.user_id) {
+        user = await User.findOne({
+            user_id: req.params.user_name,
+        });
+        if (user && !user.isDeleted) {
+            req.user_request = user;
+            return next();
+        }
+    }
+    throw new Error('Not exited has username or id.');
+}
 async function checkUserName(req, res) {
     try {
         let user = null;
@@ -367,7 +444,9 @@ exports.deleteUser = deleteUser;
 exports.getFriends = getFriends;
 exports.getClasss = getClasss;
 exports.checkUserName = checkUserName;
+exports.checkUserNameOrId = checkUserNameOrId;
 exports.checkEmail = checkEmail;
 exports.checkPhoneNumber = checkPhoneNumber;
-
+exports.putProfileImage = putProfileImage;
+exports.putCoverImage = putCoverImage;
 exports.getUsers = getUsers;
