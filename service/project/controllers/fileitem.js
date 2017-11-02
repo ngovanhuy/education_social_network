@@ -188,7 +188,7 @@ async function getFile(req, res, next) {
                 data: null
             });
         }
-        var readStream = fs.createReadStream(getLocalFilePath(file));
+        let readStream = fs.createReadStream(getLocalFilePath(file));
         readStream.on("error", err => {
             return res.status(500).send({
                 code: 500,
