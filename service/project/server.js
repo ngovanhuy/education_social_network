@@ -24,14 +24,14 @@ var errorHanding = function (err, req, res, next) {
                         code: logicCode,
                         message: err.detail ? err.detail : err.message ? err.message : 'Server Error',
                         data: null,
-                        error: err.message ? err.message : 'Server Error',
+                        error: err,
                 })
         }
         return res.status(400).send({
                 code: 400,
                 message: 'Client Error',
                 data: null,
-                error: err.message
+                error: 'Client Error'
         });
 }
 Application.manager.connectToDB();
@@ -84,7 +84,9 @@ userRouter.route('/:user_id')
         .put(userController.updateUser)
         .delete(userController.deleteUser);
 userRouter.route('/profileImage/:user_id')
-        .get(fileItemController.getFile)
+        .get(userController.checkUserNameOrId,
+                userController.getProfileImageID,
+                fileItemController.getFile)
         .put(userController.checkUserNameOrId, 
                 fileItemController.profileUpload, 
                 fileItemController.postFile, 
@@ -94,7 +96,7 @@ userRouter.route('/profileImage/:user_id')
                 fileItemController.postFile, 
                 userController.putProfileImage,);
 userRouter.route('/coverImage/:user_id')
-        // .get(errorHanding)
+        
         .put(userController.checkUserNameOrId, 
                 fileItemController.coverUpload, 
                 fileItemController.postFile, 
@@ -133,7 +135,7 @@ fileRouter.route('/get/:file_id')
 fileRouter.route('/attach/:file_id')
         .get(fileItemController.attachFile);
 fileRouter.route('/delete/:file_id')
-        .delete(fileItemController.deleteFile, fileItemController.getInfoFile);
+        .delete(fileItemController.deleteFile);
 fileRouter.route('/info/:file_id')
         .get(fileItemController.getInfoFile);
 
@@ -142,8 +144,6 @@ testRouter.route('/files')
         .get(fileItemController.getFiles, errorHanding);
 testRouter.route('/users')
         .get(userController.getUsers);
-// fileRouter.route('/upload2')
-//         .post(fileItemController.postFile2, errorHanding);
 /*--------------------------------------------*/
 app.use('/apis', apiRouter);
 app.use('/files', fileRouter);

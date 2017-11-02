@@ -26,16 +26,10 @@ var image_upload = multer({
     },
 });
 
-function startTimeOut(res, flag = undefined, timeMiliseconds = 5000) {
-    return setTimeout(() => {
-        if (!flag) {
-            res.status(500).send({ code: 500, message: 'Time out', data: 500, error: 'Server action timeout' });
-            flag = true;
-        }
-    }, timeMiliseconds);
-}
-
 function getLocalFilePath(file) {
+    if (!file) {
+        return null;
+    }
     return path.join(UPLOAD_PATH, file.id)
 };
 async function checkFileExited(file) {
@@ -62,7 +56,7 @@ async function findFile(req) {
     if (!req) {
         return null;
     }
-    let file = req.file_selected;
+    let file = req.files.file_selected;
     if (file) {
         return file;
     }
@@ -115,11 +109,11 @@ async function postFile(req, res, next) {
         });
     }
 };
-async function deleteFile(req, res, next) {
-    let file = await findFile(req);
-    req.files.file_selected = null;
-    req.files.file_selected_id = null;
+async function deleteFile(req, res) {
     try {
+        let file = await findFile(req);
+        req.files.file_selected = file;
+        req.files.file_selected_id = file ? file._id : null;
         if (!file || file.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -132,7 +126,11 @@ async function deleteFile(req, res, next) {
         file = await file.save();
         req.files.file_selected = file;
         req.files.file_selected_id = file ? file._id : null;
-        return next();
+        return res.send({
+            code: 200,
+            message: 'Success',
+            data: file.getBasicInfo(),
+        });
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -142,31 +140,31 @@ async function deleteFile(req, res, next) {
         });
     }
 };
-async function getInfoFile(req, res, next) {
+async function getInfoFile(req, res) {
     try {
         let  file = await findFile(req);
         req.files.file_selected = file;
         req.files.file_selected_id = file ? file._id : null;
         if (!file) {
-            res.status(400).json({
+            return res.status(400).json({
                 code: 400,
                 message: 'File not exited or deleted.',
                 data: null
             });
-        } else if (file.isDeleted) {
-            res.status(400).json({
+        } 
+        if (file.isDeleted) {
+            return res.status(400).json({
                 code: 400,
                 message: 'File deleted.',
                 data: null
             });
         } else {
-            res.json({
+            return res.json({
                 code: 200,
                 message: 'Success',
                 data: file.getBasicInfo(file)
             });
         }
-        return next();
     } catch (error) {
         return res.status(400).json({
             code: 400,
@@ -176,7 +174,7 @@ async function getInfoFile(req, res, next) {
         });
     }
 };
-async function getFile(req, res, next) {
+async function getFile(req, res) {
     try {
         let file = await findFile(req);
         req.files.file_selected = file;
@@ -199,11 +197,11 @@ async function getFile(req, res, next) {
             res.setHeader('Content-Type', file.type);
             res.setHeader('Content-Length', file.size);
             res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
+            // res.setHeader("Content-Disposition", "attachment; filename=\"" + file.name + "\"");
             readStream.pipe(res);
         }).on("close", () => {
             res.end();
         });
-        return next();
     } catch (error) {
         return res.status(400).send({
             code: 400,
@@ -212,11 +210,18 @@ async function getFile(req, res, next) {
         });
     }
 };
-async function attachFile(req, res, next) {
+async function attachFile(req, res) {
     try {
         let file = await findFile(req);
         req.files.file_selected = file;
         req.files.file_selected_id = file ? file._id : null;
+        if (!file || file.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit file.',
+                data: null
+            });
+        }
         let readStream = fs.createReadStream(getLocalFilePath(file));
         readStream.on("error", err => {
             return res.status(500).send({
@@ -227,12 +232,12 @@ async function attachFile(req, res, next) {
         }).on("open", () => {
             res.setHeader('Content-Type', file.type);
             res.setHeader('Content-Length', file.size);
+            // res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
             res.setHeader("Content-Disposition", "attachment; filename=\"" + file.name + "\"");
             readStream.pipe(res);
         }).on("close", () => {
             res.end();
         });
-        return next();
     } catch (error) {
         return res.status(400).send({
             code: 400,
@@ -241,10 +246,8 @@ async function attachFile(req, res, next) {
         });
     }
 };
-
-async function getFiles(req, res) {
+async function getFiles(req, res, next) {
     try {
-        // startTimeOut(res, timeOut);
         let files = await FileItem.find({
             isDeleted: false
         });
@@ -258,36 +261,19 @@ async function getFiles(req, res) {
                 size: file.size,
                 createDate: file.createDate.toLocaleString()
             }));
-        return res.send({
+        res.send({
             code: 200,
             message: 'Success',
             length: datas.length,
             data: datas
         });
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(error);
     }
 }
 
-// async function postFile2(req, res, next) {
-//     var handler = multer({
-//         dest: UPLOAD_PATH,
-//         onFileSizeLimit : function(file) {
-//             if (Number(req.headers['content-length'] > MAX_FILE_SIZE)) { //64M
-//                 throw new Error('File Large. Only support < 64M');
-//             }
-//         },
-//     });
-//     hander(req, res, next);
-// }
-
 /*----------------------------------------------- */
-// exports.postFile2 = postFile2;
 exports.fileUpload = file_upload.single('fileUpload');
 exports.imageUpload = image_upload.single('imageUpload');
 exports.coverUpload = image_upload.single('coverImage');

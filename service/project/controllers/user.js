@@ -2,6 +2,9 @@ var User = require('../models/user');
 
 async function findUser(req) { //id, username, email, phone
     let userFind = null;
+    if (req.users.user_request) {
+        return req.users.user_request;
+    }
     if (req.params.user_id) {
         userFind = await User.findOne({
             $or: [{
@@ -153,11 +156,8 @@ async function updateUser(req, res, next) {
                 error: "Request Invalid",
             });
         }
-        let user = req.users.user_request;
-        if (!user) {
-            user = await findUser(req);
-            req.users.user_request = user;
-        }
+        let user = await findUser(req);
+        req.users.user_request = user;
         if (!user || user.isDeleted)
             return res.status(400).send({
                 code: 400,
@@ -187,11 +187,8 @@ async function updateUser(req, res, next) {
 }
 async function deleteUser(req, res) {
     try {
-        let user = req.users.user_request;
-        if (!user) {
-            user = await findUser(req);
-            req.users.user_request = user;
-        }
+        let user = await findUser(req);
+        req.users.user_request = user;
         if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -217,13 +214,8 @@ async function deleteUser(req, res) {
 }
 async function getUser(req, res, next) {
     try {
-        let user = null;
-        if (req.users.user_request) {
-            user = req.users.user_request;
-        } else {
-            user = await findUser(req);
-            req.users.user_request = user;
-        }
+        let user = await findUser(req);
+        req.users.user_request = user;
         if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -245,15 +237,16 @@ async function getUser(req, res, next) {
         });
     }
 }
-async function getProfileImageID(req, res) {
-
+async function getProfileImageID(req, res, next) {
+    req.files.file_selected_id = req.users.user_request ? req.users.user_request.profileImageID : null;
+    next();
 }
 async function putProfileImage(req, res) {
     try {
         if (!req.files.file_saved) {
             throw new Error("Upload file Error");
         }
-        let user = req.user_request;
+        let user = await findUser(req);
         if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -282,7 +275,7 @@ async function putCoverImage(req, res) {
         if (!req.files.file_saved) {
             throw new Error("Upload file Error");
         }
-        let user = req.user_request;
+        let user = await findUser(req);
         if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -449,4 +442,6 @@ exports.checkEmail = checkEmail;
 exports.checkPhoneNumber = checkPhoneNumber;
 exports.putProfileImage = putProfileImage;
 exports.putCoverImage = putCoverImage;
+exports.getProfileImageID = getProfileImageID;
+exports.getCoverImageID = getCoverImageID;
 exports.getUsers = getUsers;
