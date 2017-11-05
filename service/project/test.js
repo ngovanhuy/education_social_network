@@ -1,11 +1,12 @@
-var express = require('express');
-var app = express();
-
-app.use(function(req, res) {
-    if (Number(req.headers['content-length']) > (1 << 28)) {
-        console.log("TRUE");
+function test(info, arrays){
+    for (var index = 0; index < arrays.length; index++) {
+        console.log(info + "[" + arrays[index] + "]");
     }
-    res.end();
-});
+}
+function tests(arrays, ...infos) {
+    for(var index = 0; index < arrays.length; index++) {
+        test(infos[index], arrays);
+    }
+}
 
-app.listen(9998);
+tests(["one", "two", "three"], ["1", "2", "3"]);

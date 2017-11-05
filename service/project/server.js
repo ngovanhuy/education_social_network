@@ -76,13 +76,13 @@ apiRouter.route('/oauth2/token').post(authController.isClientAuthenticated, oaut
 /*-------------------USER_API-------------------------*/
 userRouter.route('/') 
         .get(userController.getUser)
-        .post(userController.postUser)
-        .put(userController.updateUser)
-        .delete(userController.deleteUser);
+        .post(userController.postUser, userController.getUser)
+        .put(userController.putUser, userController.getUser)
+        .delete(userController.deleteUser, userController.getUser);
 userRouter.route('/:user_id')
         .get(userController.getUser)
-        .put(userController.updateUser)
-        .delete(userController.deleteUser);
+        .put(userController.putUser, userController.getUser)
+        .delete(userController.deleteUser, userController.getUser);
 userRouter.route('/profileImage/:user_id')
         .get(userController.checkUserNameOrId,
                 userController.getProfileImageID,
@@ -96,7 +96,9 @@ userRouter.route('/profileImage/:user_id')
                 fileItemController.postFile, 
                 userController.putProfileImage,);
 userRouter.route('/coverImage/:user_id')
-        
+        .get(userController.checkUserNameOrId,
+                userController.getCoverImageID,
+                fileItemController.getFile)
         .put(userController.checkUserNameOrId, 
                 fileItemController.coverUpload, 
                 fileItemController.postFile, 

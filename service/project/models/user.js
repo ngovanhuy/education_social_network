@@ -24,7 +24,7 @@ var UserSchema = new mongoose.Schema(
         firstName: { type: String,  required: true, },//maxLength
         lastName: { type: String,  required: true, }, //maxLength
         typeuser: { type: Number, require: false, default: 0, }, //type: 0, 10, 100
-        email: { type: String, required: false,  default: null, },//Array ???->unique.
+        email: { type: String, required: false,  default: null, unique: true},//Array ???->unique.
         phone: { type: String,  required: false, default: null, },//Array ????->unique
         profileImageID: { type: String, required: false, default: null, }, // ID avatarImage file || null
         coverImageID: {type: String, require: false, default: null,},//ID profileImage file || null
@@ -234,9 +234,9 @@ function getBasicInfo() {
         quote:          this.quote,
         location:       this.location,
         nickname:       this.nickname,
-        friends:        this.friends,
-        classs:         this.classs,
-        status:         {enum_id: this.status, text: StatusEnum[this.status]},
+        // friends:        this.friends,
+        // classs:         this.classs,
+        // status:         {enum_id: this.status, text: StatusEnum[this.status]},
         profileImageID: this.profileImageID,
         coverImageID:   this.coverImageID,
 

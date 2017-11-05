@@ -40,7 +40,9 @@ function start() {
 }
 async function connectToDB() {
     try {
-        await mongoose.connect(exports.connectString, {
+        let c = "mongodb://192.168.1.17:27017/education_social_network";
+        await mongoose.connect(c, {
+        // await mongoose.connect(exports.connectString, {
             useMongoClient: true,
             // server: {auto_reconnect: true}//Default reconnect in 30s.
             reconnectTries: Number.MAX_VALUE,

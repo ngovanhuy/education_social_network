@@ -7,6 +7,7 @@ var FileItemSchema = new mongoose.Schema({
     size: { type: Number, required: true, default: 0, },
     createDate: { type: Date, required: false, default: Date.now(), },//YYYY-MM-DD HH:mm:ss
     isDeleted: { type: Boolean, required: true, default: false, },
+    userID: {type: String, required: false, default: null}
 });
 
 FileItemSchema.methods.getBasicInfo = function() {

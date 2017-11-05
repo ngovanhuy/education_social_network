@@ -96,6 +96,9 @@ async function postFile(req, res, next) {
             createDate: Date.now(),
             isDeleted: false,
         });
+        if (req.users.user_request) {
+            file.userID = req.users.user_request.id;
+        }
         file = await file.save();
         req.files.file_saved = file;
         req.files.file_selected_id = file ? file._id : null;

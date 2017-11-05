@@ -1,52 +1,143 @@
 var User = require('../models/user');
-
-async function findUser(req) { //id, username, email, phone
+async function getUserByID(id) {
+    if (!id) {
+        return null;
+    }
+    return await User.findOne({
+        id: id,
+    });
+}
+async function getUserByUserName(username) {
+    if (!(User.validateUserName(username, true))) {
+        return null;
+    }
+    return await User.findOne({
+        username: username,
+    });
+}
+async function getUserByPhone(phone) {
+    if (!(User.validatePhoneNumber(phone, true))) {
+        return null;
+    }
+    return await User.findOne({
+        phone: phone,
+    });
+}
+async function getUserbyEmail(email) {
+    if (!(User.validateEmail(email, true))) {
+        return null;
+    }
+    let user = await User.findOne({
+        email: email,
+    });
+    return user;
+}
+async function getUserByIDOrUserName(info) {
+    if (!info) {
+        return null;
+    }
+    return await User.findOne({
+        $or: [{
+                id: info
+            },
+            {
+                username: info
+            },
+        ],
+    });
+}
+async function getUserByUniqueInfo(info, arrays = null) {
+    if (!info) {
+        return null;
+    }
+    let user = null;
+    if (!arrays) {
+        user = await getUserByPhone(info);
+        if (!user) {
+            user = await getUserbyEmail(info);
+        }
+        return user;
+    }
+    for (let index = 0; index < arrays.length; index) {
+        switch (arrays[index]) {
+            case 'id|username':
+                user = await getUserByIDOrUserName(info);
+                break;
+            case 'id':
+                user = await getUserByID(info);
+                break;
+            case 'username':
+                user = await getUserByUserName(info);
+                break;
+            case 'phone':
+                user = await getUserByPhone(info);
+                break;
+            case 'email':
+                user = await getUserbyEmail(info);
+                break;
+        }
+        if (user) {
+            return user;
+        }
+    }
+    return user;
+}
+async function getUserByInfo(arrays, ...infos) {
+    if (!infos || infos.length <= 0) {
+        return null;
+    }
+    let user = null;
+    for (let index = 0; index < infos.length; index++) {
+        if (!infos[index]) {
+            continue;
+        }
+        user = await getUserByUniqueInfo(infos[index]);
+        if (user) {
+            return user;
+        }
+    }
+    return user;
+}
+async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->request_user_id->request_user_name->body_param[id>username>phone>email]
     let userFind = null;
     if (req.users.user_request) {
         return req.users.user_request;
     }
     if (req.params.user_id) {
-        userFind = await User.findOne({
-            $or: [{
-                    id: req.params.user_id
-                },
-                {
-                    username: req.params.user_id
-                },
-            ],
-        });
+        userFind = await getUserByIDOrUserName(req.params.user_id);
+        if (userFind) {
+            return userFind;
+        }
+    }
+    if (req.params.user_name) {
+        userFind = await getUserByUserName(req.params.user_name);
         if (userFind) {
             return userFind;
         }
     }
     if (req.body.id) {
-        userFind = await User.findOne({
-            id: req.body.id,
-        });
+        userFind = await getUserByID(req.body.id);
         if (userFind) {
             return userFind;
         }
     }
     if (req.body.username) {
-        userFind = await User.findOne({
-            username: req.body.username,
-        });
+        userFind = await getUserByUserName(req.body.username);
         if (userFind) {
             return userFind;
         }
     }
+    if (!isFindWithPhoneAndEmail) {
+        return null;
+    }
     if (req.body.phone) {
-        userFind = await User.findOne({
-            phone: req.body.phone,
-        });
+        userFind = await getUserByPhone(req.body.phone)
         if (userFind) {
             return userFind;
         }
     }
     if (req.body.email) {
-        userFind = await User.findOne({
-            email: req.body.email,
-        });
+        userFind = await getUserbyEmail(req.body.email);
         if (userFind) {
             return userFind;
         }
@@ -54,21 +145,41 @@ async function findUser(req) { //id, username, email, phone
     return null;
 }
 
-function updateUserInfo(req, user, isCheckValidInput = true) {
+async function updateUserInfo(req, user, isCheckValidInput = true) {
+    let message = [];
     if (isCheckValidInput) {
-        let message = User.validateInputInfo(req.body, true);
+        message = User.validateInputInfo(req.body, true);
         if (!message || message.length > 0) {
             return message;
         }
     }
-    if (req.body.birthday) {
-        user.birthday = User.getBirthDate(req.body.birthday);
-    }
     if (req.body.email) {
-        user.email = req.body.email;
+        if (req.body.email != user.email) {
+            let checkUser = await getUserbyEmail(req.body.email);
+            if (checkUser) {
+                message.push('Email used.');
+                return message;
+            }
+            user.email = req.body.email;
+        }
     }
     if (req.body.phone) {
-        user.phone = req.body.phone;
+        if (req.body.phone != user.phone) {
+            if (await getUserByPhone(req.body.phone)) {
+                message.push('Phone used.');
+                return message;
+            }
+            user.phone = req.body.phone;
+        }
+    }
+    if (req.body.lastName) {
+        user.lastName = req.body.lastName;
+    }
+    if (req.body.firstName) {
+        user.firstName = req.body.firstName;
+    }
+    if (req.body.birthday) {
+        user.birthday = User.getBirthDate(req.body.birthday);
     }
     if (req.body.gender) {
         user.gender = req.body.gender;
@@ -91,7 +202,7 @@ function updateUserInfo(req, user, isCheckValidInput = true) {
     if (req.body.typeuser) {
         user.typeuser = req.body.typeuser;
     }
-    return [];
+    return message;
 }
 async function postUser(req, res, next) {
     try {
@@ -105,14 +216,11 @@ async function postUser(req, res, next) {
                 error: 'Request Invalid'
             });
         }
-        let userFind = await User.findOne({
-            username: req.body.username,
-            // isDeleted: false,
-        });
+        let userFind = await findUser(req);
         if (userFind) {
             return res.status(400).send({
                 code: 400,
-                message: 'username is used.',
+                message: 'Username/Email/Phone exited',
                 data: null
             });
         }
@@ -124,7 +232,7 @@ async function postUser(req, res, next) {
             lastName: req.body.lastName,
             isDeleted: false,
         });
-        message = updateUserInfo(req, user, false);
+        message = await updateUserInfo(req, user, false);
         if (!message || message.length > 0) {
             return res.status(400).send({
                 code: 400,
@@ -135,7 +243,7 @@ async function postUser(req, res, next) {
         }
         user = await user.save();
         req.users.user_request = user;
-        return next();
+        next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -145,7 +253,7 @@ async function postUser(req, res, next) {
         });
     }
 };
-async function updateUser(req, res, next) {
+async function putUser(req, res, next) {
     try {
         let message = User.validateInputInfo(req.body, false);
         if (!message || message.length > 0) {
@@ -156,15 +264,16 @@ async function updateUser(req, res, next) {
                 error: "Request Invalid",
             });
         }
-        let user = await findUser(req);
+        let user = await findUser(req, false);
         req.users.user_request = user;
-        if (!user || user.isDeleted)
+        if (!user || user.isDeleted) {
             return res.status(400).send({
                 code: 400,
                 message: 'User Not Existed',
-                data: null
+                data: null,
             });
-        message = updateUserInfo(req, userFind, false);
+        }
+        message = await updateUserInfo(req, user, false);
         if (!message || message.length > 0) {
             return res.status(400).send({
                 code: 400,
@@ -175,7 +284,7 @@ async function updateUser(req, res, next) {
         }
         user = await user.save();
         req.users.user_request = user;
-        return next();
+        next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -185,28 +294,33 @@ async function updateUser(req, res, next) {
         });
     }
 }
-async function deleteUser(req, res) {
+async function deleteUser(req, res, next) {
     try {
         let user = await findUser(req);
         req.users.user_request = user;
-        if (!user || user.isDeleted) {
+        if (!user) {
             return res.status(400).send({
                 code: 400,
                 message: 'User Not Existed',
                 data: null
             });
         }
-        user.isDeleted = true;
-        user = await user.save();
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: user.getBasicInfo()
-        });
+        if (user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'User deleted.',
+                data: null
+            });
+        } else {
+            user.isDeleted = true;
+            user = await user.save();
+            req.users.user_request = user;
+        }
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
-            message: 'Server Error',
+            message: 'Server Error[DeleteUser]',
             data: null,
             error: error.message
         });
@@ -216,11 +330,21 @@ async function getUser(req, res, next) {
     try {
         let user = await findUser(req);
         req.users.user_request = user;
-        if (!user || user.isDeleted) {
+        if (!user) {
             return res.status(400).send({
                 code: 400,
                 message: 'Not exit user',
                 data: null
+            });
+        }
+        if (user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'User Deleted',
+                data: {
+                    id: user.id,
+                    username: user.username
+                }
             });
         }
         return res.send({
@@ -239,7 +363,7 @@ async function getUser(req, res, next) {
 }
 async function getProfileImageID(req, res, next) {
     req.files.file_selected_id = req.users.user_request ? req.users.user_request.profileImageID : null;
-    next();
+    return next();
 }
 async function putProfileImage(req, res) {
     try {
@@ -261,7 +385,7 @@ async function putProfileImage(req, res) {
             message: 'Success',
             data: req.files.file_saved.getBasicInfo(),
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -269,6 +393,10 @@ async function putProfileImage(req, res) {
             error: error.message
         });
     }
+}
+async function getCoverImageID(req, res, next) {
+    req.files.file_selected_id = req.users.user_request ? req.users.user_request.coverImageID : null;
+    next();
 }
 async function putCoverImage(req, res) {
     try {
@@ -290,7 +418,7 @@ async function putCoverImage(req, res) {
             message: 'Success',
             data: req.files.file_saved.getBasicInfo(),
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -349,81 +477,60 @@ async function getClasss(req, res) {
     }
 }
 async function checkUserNameOrId(req, res, next) {
-    let user = null;
-    if (req.params.user_id) {
-        user = await User.findOne({
-            user_id: req.params.user_name,
-        });
-        if (user && !user.isDeleted) {
-            req.user_request = user;
-            return next();
-        }
+    let user = await findUser(req);
+    if (user && !user.isDeleted) {
+        req.users.user_request = user;
+    } else {
+        req.users.user_request = null;
     }
-    throw new Error('Not exited has username or id.');
+    return next();
+    // throw new Error('Not exited has username or id.');
 }
 async function checkUserName(req, res) {
     try {
-        let user = null;
-        if (req.params.user_name) {
-            user = await User.findOne({
-                username: req.params.user_name,
-            });
-            if (user) {
-                return res.status(user.isDeleted ? 400 : 200).end();
-            }
-        }
-        if (req.body.username) {
-            user = await User.findOne({
-                username: req.body.username,
-            });
-            if (user) {
-                return res.status(user.isDeleted ? 400 : 200).end();
-            }
-        }
-        return res.status(400).end();
+        let username = req.params.user_name ? req.params.user_name : (req.body.username ? req.body.username : null);
+        let user = await getUserByUserName(username);
+        return res.status(user ? 200 : 400).end();
     } catch (error) {
         return res.status(500).end();
     }
 }
 async function checkEmail(req, res) {
     try {
-        let user = null;
-        if (req.body.email) {
-            user = await User.findOne({
-                email: req.body.email,
-            });
-            if (user) {
-                return res.status(user.isDeleted ? 400 : 200).end();
-            }
-        }
-        return res.status(400).end();
+        let email = req.params.email;
+        let user = await getUserbyEmail(email);
+        return res.status(user ? 200 : 400).end();
     } catch (error) {
         return res.status(500).end();
     }
 }
 async function checkPhoneNumber(req, res) {
     try {
-        let user = null;
-        if (req.body.phone) {
-            user = await User.findOne({
-                phone: req.body.phone,
-            });
-            if (user) {
-                return res.status(user.isDeleted ? 400 : 200).end();
-            }
-        }
-        return res.status(400).end();
+        let phone = req.params.phone_number;
+        let user = await getUserByPhone(phone);
+        return res.status(user ? 200 : 400).end();
     } catch (error) {
         return res.status(500).end();
     }
 }
 async function getUsers(req, res) {
     try {
-        let users = await User.find();
+        let users = await User.find({
+            isDeleted: false,
+        });
         return res.json({
             code: 200,
-            message: "",
-            data: users.map(user => user.getBasicInfo(user))
+            message: 'Success',
+            count: users.length,
+            // data: users.map(user => user.getBasicInfo(user))
+            data: users.map(user => ({
+                id: user.id,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                coverImageID: user.coverImageID,
+                profileImageID: user.profileImageID,
+            }))
         });
     } catch (error) {
         return res.status(500).send(error);
@@ -431,7 +538,7 @@ async function getUsers(req, res) {
 };
 /*----------------EXPORT------------------ */
 exports.postUser = postUser;
-exports.updateUser = updateUser;
+exports.putUser = putUser;
 exports.getUser = getUser;
 exports.deleteUser = deleteUser;
 exports.getFriends = getFriends;
