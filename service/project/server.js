@@ -14,6 +14,7 @@ var app = express();
 var apiRouter = express.Router();
 var fileRouter = express.Router();
 var userRouter = express.Router();
+var checkRouter = express.Router();
 var testRouter = express.Router();
 
 var errorHanding = function (err, req, res, next) {
@@ -74,11 +75,12 @@ apiRouter.route('/oauth2/authorize')
 // Create endpoint handlers for oauth2 token
 apiRouter.route('/oauth2/token').post(authController.isClientAuthenticated, oauth2Controller.token);
 /*-------------------USER_API-------------------------*/
-userRouter.route('/') 
+userRouter.route('/')
         .get(userController.getUser)
         .post(userController.postUser, userController.getUser)
         .put(userController.putUser, userController.getUser)
         .delete(userController.deleteUser, userController.getUser);
+
 userRouter.route('/:user_id')
         .get(userController.getUser)
         .put(userController.putUser, userController.getUser)
@@ -87,51 +89,44 @@ userRouter.route('/profileImage/:user_id')
         .get(userController.checkUserNameOrId,
                 userController.getProfileImageID,
                 fileItemController.getFile)
-        .put(userController.checkUserNameOrId, 
-                fileItemController.profileUpload, 
-                fileItemController.postFile, 
+        .put(userController.checkUserNameOrId,
+                fileItemController.profileUpload,
+                fileItemController.postFile,
                 userController.putProfileImage)
-        .post(userController.checkUserNameOrId, 
-                fileItemController.profileUpload, 
-                fileItemController.postFile, 
-                userController.putProfileImage,);
+        .post(userController.checkUserNameOrId,
+                fileItemController.profileUpload,
+                fileItemController.postFile,
+                userController.putProfileImage, );
 userRouter.route('/coverImage/:user_id')
         .get(userController.checkUserNameOrId,
                 userController.getCoverImageID,
                 fileItemController.getFile)
-        .put(userController.checkUserNameOrId, 
-                fileItemController.coverUpload, 
-                fileItemController.postFile, 
+        .put(userController.checkUserNameOrId,
+                fileItemController.coverUpload,
+                fileItemController.postFile,
                 userController.putProfileImage)
-        .post(userController.checkUserNameOrId, 
-                fileItemController.coverUpload, 
-                fileItemController.postFile, 
-                userController.putCoverImage,);
-        
+        .post(userController.checkUserNameOrId,
+                fileItemController.coverUpload,
+                fileItemController.postFile,
+                userController.putCoverImage, );
+
 userRouter.route('/friends/:user_id')
         .get(userController.getFriends);
 userRouter.route('/classs/:user_id')
-
         .get(userController.getClasss);
-userRouter.route('/check/:user_name')
-        .get(userController.checkUserName);
-userRouter.route('/check/email')
-        .get(userController.checkEmail);
-userRouter.route('/check/phone')
-        .get(userController.checkPhoneNumber);
 
 userRouter.route('/files/:user_id')
-        .get(fileItemController.getFiles);//TEST
+        .get(fileItemController.getFiles); //TEST
 /*-------------------FILE_API------------------------*/
 fileRouter.route('/upload')
-        .post(fileItemController.fileUpload, 
+        .post(fileItemController.fileUpload,
                 fileItemController.postFile,
                 fileItemController.getInfoFile);
 fileRouter.route('/image')
-        .post(fileItemController.imageUpload, 
+        .post(fileItemController.imageUpload,
                 fileItemController.postFile,
                 fileItemController.getInfoFile);
-        // fileItemController.postFile);
+// fileItemController.postFile);
 fileRouter.route('/get/:file_id')
         .get(fileItemController.getFile);
 fileRouter.route('/attach/:file_id')
@@ -140,6 +135,16 @@ fileRouter.route('/delete/:file_id')
         .delete(fileItemController.deleteFile);
 fileRouter.route('/info/:file_id')
         .get(fileItemController.getInfoFile);
+
+/*------------------------------------- */
+checkRouter.route('/username')
+        .get(userController.checkUserName);
+checkRouter.route('/username/:username')
+        .get(userController.checkUserName);
+checkRouter.route('/email')
+        .get(userController.checkEmail);
+checkRouter.route('/phone')
+        .get(userController.checkPhoneNumber);
 
 /*--------------------------------------------*/
 testRouter.route('/files')
@@ -150,6 +155,7 @@ testRouter.route('/users')
 app.use('/apis', apiRouter);
 app.use('/files', fileRouter);
 app.use('/users', userRouter);
+app.use('/checks/', checkRouter);
 app.use('/test', testRouter);
 
 app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));

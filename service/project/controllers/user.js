@@ -3,9 +3,14 @@ async function getUserByID(id) {
     if (!id) {
         return null;
     }
-    return await User.findOne({
-        id: id,
-    });
+    let _id = Number(id);
+    if (_id) {
+        return await User.findOne({
+            id: id,
+        });
+    } else {
+        return null;
+    }
 }
 async function getUserByUserName(username) {
     if (!(User.validateUserName(username, true))) {
@@ -27,24 +32,28 @@ async function getUserbyEmail(email) {
     if (!(User.validateEmail(email, true))) {
         return null;
     }
-    let user = await User.findOne({
+    return await User.findOne({
         email: email,
     });
-    return user;
 }
 async function getUserByIDOrUserName(info) {
     if (!info) {
         return null;
+    }  
+    let _id = Number(info);
+    if (_id) {
+        return await User.findOne({
+            $or: [{
+                    id: _id
+                },
+                {
+                    username: info
+                },
+            ],
+        });
+    } else {
+        return getUserByUserName(info);
     }
-    return await User.findOne({
-        $or: [{
-                id: info
-            },
-            {
-                username: info
-            },
-        ],
-    });
 }
 async function getUserByUniqueInfo(info, arrays = null) {
     if (!info) {
@@ -98,7 +107,7 @@ async function getUserByInfo(arrays, ...infos) {
     }
     return user;
 }
-async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->request_user_id->request_user_name->body_param[id>username>phone>email]
+async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->request_user_id->request_username->body_param[id>username>phone>email]
     let userFind = null;
     if (req.users.user_request) {
         return req.users.user_request;
@@ -109,8 +118,8 @@ async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->requ
             return userFind;
         }
     }
-    if (req.params.user_name) {
-        userFind = await getUserByUserName(req.params.user_name);
+    if (req.params.username) {
+        userFind = await getUserByUserName(req.params.username);
         if (userFind) {
             return userFind;
         }
@@ -480,15 +489,21 @@ async function checkUserNameOrId(req, res, next) {
     let user = await findUser(req);
     if (user && !user.isDeleted) {
         req.users.user_request = user;
+        return next();
     } else {
         req.users.user_request = null;
+        return res.status(400).send({
+            status: 400,
+            message: 'User not exited or deleted',
+            data: null
+        });
     }
-    return next();
     // throw new Error('Not exited has username or id.');
 }
 async function checkUserName(req, res) {
     try {
-        let username = req.params.user_name ? req.params.user_name : (req.body.username ? req.body.username : null);
+        let username = req.query.username ? req.query.username : 
+                            req.params.username ? req.params.username : (req.body.username ? req.body.username : null);
         let user = await getUserByUserName(username);
         return res.status(user ? 200 : 400).end();
     } catch (error) {
@@ -497,7 +512,7 @@ async function checkUserName(req, res) {
 }
 async function checkEmail(req, res) {
     try {
-        let email = req.params.email;
+        let email = req.query.email ? req.query.email : req.params.email;
         let user = await getUserbyEmail(email);
         return res.status(user ? 200 : 400).end();
     } catch (error) {
@@ -506,7 +521,7 @@ async function checkEmail(req, res) {
 }
 async function checkPhoneNumber(req, res) {
     try {
-        let phone = req.params.phone_number;
+        let phone = req.query.phone ? req.query.phone : req.params.phone;
         let user = await getUserByPhone(phone);
         return res.status(user ? 200 : 400).end();
     } catch (error) {

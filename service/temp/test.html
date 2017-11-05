@@ -67,5 +67,19 @@
         <input type="file" name="coverImage" size="50" /><br />
         <input type="submit" value="Upload File" />
     </form>
+
+    <h2>Check </h2>
+    <form action="http://localhost:3000/checks/username" method="GET">
+        <input type="text" name="username" size="50" placeholder="input username to check"/>
+        <input type="submit" value="Check" />
+    </form>
+    <form action="http://localhost:3000/checks/email" method="GET">
+        <input type="text" name="email" size="50" placeholder="input email to check"/>
+        <input type="submit" value="Check" />
+    </form>
+    <form action="http://localhost:3000/checks/phone" method="GET">
+        <input type="text" name="phone" size="50" placeholder="input phone to check"/>
+        <input type="submit" value="Check" />
+    </form>
 </body>
 </html>
