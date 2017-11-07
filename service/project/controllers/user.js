@@ -107,19 +107,25 @@ async function getUserByInfo(arrays, ...infos) {
     }
     return user;
 }
-async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->request_user_id->request_username->body_param[id>username>phone>email]
+async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->request_userID->request_username->body_param[id>username>phone>email]
     let userFind = null;
     if (req.users.user_request) {
         return req.users.user_request;
     }
-    if (req.params.user_id) {
-        userFind = await getUserByIDOrUserName(req.params.user_id);
+    if (req.params.userID) {
+        userFind = await getUserByIDOrUserName(req.params.userID);
         if (userFind) {
             return userFind;
         }
     }
     if (req.params.username) {
         userFind = await getUserByUserName(req.params.username);
+        if (userFind) {
+            return userFind;
+        }
+    }
+    if (req.body.userID) {
+        userFind = await getUserByID(req.body.userID);
         if (userFind) {
             return userFind;
         }
@@ -234,7 +240,7 @@ async function postUser(req, res, next) {
             });
         }
         let user = new User({
-            id: User.getNewID(),
+            // id: User.getNewID(),
             username: req.body.username,
             password: req.body.password,
             firstName: req.body.firstName,
@@ -485,7 +491,7 @@ async function getClasss(req, res) {
         });
     }
 }
-async function checkUserNameOrId(req, res, next) {
+async function checkUserNameRequest(req, res, next) {
     let user = await findUser(req);
     if (user && !user.isDeleted) {
         req.users.user_request = user;
@@ -559,7 +565,7 @@ exports.deleteUser = deleteUser;
 exports.getFriends = getFriends;
 exports.getClasss = getClasss;
 exports.checkUserName = checkUserName;
-exports.checkUserNameOrId = checkUserNameOrId;
+exports.checkUserNameRequest = checkUserNameRequest;
 exports.checkEmail = checkEmail;
 exports.checkPhoneNumber = checkPhoneNumber;
 exports.putProfileImage = putProfileImage;

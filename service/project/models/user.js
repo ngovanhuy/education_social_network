@@ -18,28 +18,28 @@ var StatusEnum = {
 
 var UserSchema = new mongoose.Schema(
     {
-        id: { type: Number, unique: true, require: true },
+        id: { type: Number, unique: true, require: true, index: true, default: Date.now },
         username: { type: String, unique: true, required: true, },
-        password: { type: String, required: true },//check privacy
-        firstName: { type: String,  required: true, },//maxLength
-        lastName: { type: String,  required: true, }, //maxLength
-        typeuser: { type: Number, require: false, default: 0, }, //type: 0, 10, 100
-        email: { type: String, required: false,  default: null, unique: true},//Array ???->unique.
-        phone: { type: String,  required: false, default: null, },//Array ????->unique
-        profileImageID: { type: String, required: false, default: null, }, // ID avatarImage file || null
-        coverImageID: {type: String, require: false, default: null,},//ID profileImage file || null
-        birthday: { type: Date, required: false, default: null, }, //Only Day//YYYY-MM-DD
-        gender: { type: Number,  required: false, default: 0,},// Enum = (0, 10, 20) ::: (NONE, MALE, FEMALE)
-        about: { type: String, required: false, default: "", },//maxLength
-        quote : { type: String,required: false, default: "", }, //maxLength
-        nickname: { type: Array, required: false, },//[nickname1, nickname2,...]
-        skills: { type: Array, required: false, default: [], },//[skill{[id], level[beginner|master|...-> [0, 1, ...]], description},]
-        worked: { type: Array, required: false, default: [], },//[work{startTime, [endTime], where, description}]
-        language: { type: Array, required: false, default: [{code:'en-US', text:'English(US)', isDefault: true}], },//[language: {code:'vi-vn', text='VietNam'}, ....]
-        lifeEvent: { type: Array, required: false, default: [], },//[event {startTime, [endTime], description},...]
-        classs: { type: Array, required: false, default:[], }, //[classID,...]
-        friends: { type: Array, required: false, default: [],},//[friendID,...] 
-        status: { type: Number, required: false, default: 0, }, //[NEW, BLOCKED, NORMAL] = [0, 10, 100]
+        password: { type: String, required: true },
+        firstName: { type: String,  required: true, },
+        lastName: { type: String,  required: true, },
+        typeuser: { type: Number, require: false, default: 0, min: 0, max: 1000},
+        email: { type: String, required: false,  default: null, unique: true},
+        phone: { type: String,  required: false, default: null, unique: true},
+        profileImageID: { type: String, required: false, default: null, }, 
+        coverImageID: {type: String, require: false, default: null,},
+        birthday: { type: Date, required: false, default: null, }, 
+        gender: { type: Number,  required: false, default: 0, min: 0, max: 2},
+        about: { type: String, required: false, default: "", },
+        quote : { type: String, required: false, default: "", },
+        nickname: { type: [String], required: false, },
+        skills: { type: [{name: String, description: String}], required: false, default: [], },
+        worked: { type: [{startTime:Date, endTime: Date, where: String, description: String}], required: false, default: [], },
+        language: { type: [{code:String, text:String, isDefault:Boolean}], required: false, default: [{code:'en-US', text:'English(US)', isDefault: true}], },
+        lifeEvent: { type: [{startTime:Date, endTime:Date, description: String}], required: false, default: [], },
+        classs: { type: [{id: String, typemember: Number}], required: false, default:[], }, 
+        friends: { type: [Number], required: false, default: [],},
+        status: { type: Number, required: false, default: 0, min: 0, max: 1000 }, 
         location: {type: String, required: false, default:""},
         isDeleted: { type: Boolean, require: false, default: false, }
     }

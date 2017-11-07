@@ -8,12 +8,14 @@ var authController = require('./controllers/auth');
 var bodyParser = require('body-parser');
 var userController = require('./controllers/user');
 var clientController = require('./controllers/client');
+var groupController = require('./controllers/group');
 var fileItemController = require('./controllers/fileitem');
 
 var app = express();
 var apiRouter = express.Router();
 var fileRouter = express.Router();
 var userRouter = express.Router();
+var groupRouter = express.Router();
 var checkRouter = express.Router();
 var testRouter = express.Router();
 
@@ -38,10 +40,12 @@ var errorHanding = function (err, req, res, next) {
 Application.manager.connectToDB();
 Application.manager.start();
 app.set('view engine', 'ejs');
+//Log request.
 app.use(function (req, res, next) {
         req.files = req.files ? req.files : {};
         req.users = req.users ? req.users : {};
-        console.log("Request:" + req.path);
+        req.groups = req.groups ? req.groups : {};
+        console.log("Request:" + req.path + "[" + req.method + "]");
         next();
 });
 app.use(bodyParser.urlencoded({
@@ -81,42 +85,75 @@ userRouter.route('/')
         .put(userController.putUser, userController.getUser)
         .delete(userController.deleteUser, userController.getUser);
 
-userRouter.route('/:user_id')
+userRouter.route('/:userID')
         .get(userController.getUser)
         .put(userController.putUser, userController.getUser)
         .delete(userController.deleteUser, userController.getUser);
-userRouter.route('/profileImage/:user_id')
-        .get(userController.checkUserNameOrId,
+userRouter.route('/profileImage/:userID')
+        .get(userController.checkUserNameRequest,
                 userController.getProfileImageID,
                 fileItemController.getFile)
-        .put(userController.checkUserNameOrId,
+        .put(userController.checkUserNameRequest,
                 fileItemController.profileUpload,
                 fileItemController.postFile,
                 userController.putProfileImage)
-        .post(userController.checkUserNameOrId,
+        .post(userController.checkUserNameRequest,
                 fileItemController.profileUpload,
                 fileItemController.postFile,
                 userController.putProfileImage, );
-userRouter.route('/coverImage/:user_id')
-        .get(userController.checkUserNameOrId,
+userRouter.route('/coverImage/:userID')
+        .get(userController.checkUserNameRequest,
                 userController.getCoverImageID,
                 fileItemController.getFile)
-        .put(userController.checkUserNameOrId,
+        .put(userController.checkUserNameRequest,
                 fileItemController.coverUpload,
                 fileItemController.postFile,
                 userController.putProfileImage)
-        .post(userController.checkUserNameOrId,
+        .post(userController.checkUserNameRequest,
                 fileItemController.coverUpload,
                 fileItemController.postFile,
                 userController.putCoverImage, );
 
-userRouter.route('/friends/:user_id')
+userRouter.route('/friends/:userID')
         .get(userController.getFriends);
-userRouter.route('/classs/:user_id')
+userRouter.route('/classs/:userID')
         .get(userController.getClasss);
 
-userRouter.route('/files/:user_id')
-        .get(fileItemController.getFiles); //TEST
+userRouter.route('/files/:userID').get(fileItemController.getFiles); //TEST
+/*-------------------GROUP_API-----------------------*/
+groupRouter.route('/')
+        .get(groupController.getGroup)
+        .post(groupController.postGroup, groupController.getGroup)
+        .put(groupController.putGroup, groupController.getGroup)
+        .delete(groupController.deleteGroup, groupController.getGroup);
+groupRouter.route('/:groupID')
+        .get(groupController.getGroup)
+        .put(groupController.putGroup, groupController.getGroup)
+        .delete(groupController.deleteGroup, groupController.getGroup);
+groupRouter.route('/profileImage/:groupID')
+        .get(groupController.checkGroupRequest,
+                groupController.getProfileImageID,
+                fileItemController.getFile)
+        .put(groupController.checkGroupRequest,
+                fileItemController.profileUpload,
+                fileItemController.postFile,
+                groupController.putProfileImage)
+        .post(groupController.checkGroupRequest,
+                fileItemController.profileUpload,
+                fileItemController.postFile,
+                groupController.putProfileImage, );
+groupRouter.route('/members/:groupID')
+        .get(groupController.getMembers)
+        .post(groupController.addMember, userController.getUser)
+        .put(groupController.updateMember, userController.getUser)
+        .delete(groupController.removeMember, userController.getUser)
+groupRouter.route('/members/:groupID/:userID')
+        .get(userController.getUser)
+        .post(groupController.addMember, userController.getUser)
+        .put(groupController.updateMember, userController.getUser)
+        .delete(groupController.removeMember, userController.getUser)
+
+groupRouter.route('/files/:groupID').get(fileItemController.getFiles); //TEST
 /*-------------------FILE_API------------------------*/
 fileRouter.route('/upload')
         .post(fileItemController.fileUpload,
@@ -126,39 +163,34 @@ fileRouter.route('/image')
         .post(fileItemController.imageUpload,
                 fileItemController.postFile,
                 fileItemController.getInfoFile);
-// fileItemController.postFile);
-fileRouter.route('/get/:file_id')
+fileRouter.route('/get/:fileID')
         .get(fileItemController.getFile);
-fileRouter.route('/attach/:file_id')
+fileRouter.route('/attach/:fileID')
         .get(fileItemController.attachFile);
-fileRouter.route('/delete/:file_id')
+fileRouter.route('/delete/:fileID')
         .delete(fileItemController.deleteFile);
-fileRouter.route('/info/:file_id')
+fileRouter.route('/info/:fileID')
         .get(fileItemController.getInfoFile);
 
-/*------------------------------------- */
-checkRouter.route('/username')
-        .get(userController.checkUserName);
-checkRouter.route('/username/:username')
-        .get(userController.checkUserName);
-checkRouter.route('/email')
-        .get(userController.checkEmail);
-checkRouter.route('/phone')
-        .get(userController.checkPhoneNumber);
+/*----------------CHECK_API--------------------- */
+checkRouter.route('/username').get(userController.checkUserName);
+checkRouter.route('/username/:username').get(userController.checkUserName);
+checkRouter.route('/email').get(userController.checkEmail);
+checkRouter.route('/phone').get(userController.checkPhoneNumber);
 
-/*--------------------------------------------*/
-testRouter.route('/files')
-        .get(fileItemController.getFiles, errorHanding);
-testRouter.route('/users')
-        .get(userController.getUsers);
-/*--------------------------------------------*/
+/*----------------TEST_API----------------------------*/
+testRouter.route('/files').get(fileItemController.getFiles);
+testRouter.route('/users').get(userController.getUsers);
+testRouter.route('/groups').get(groupController.getGroups);
+/*------------------GROUP_ROUTER--------------------------*/
 app.use('/apis', apiRouter);
 app.use('/files', fileRouter);
 app.use('/users', userRouter);
+app.use('/groups/', groupRouter);
 app.use('/checks/', checkRouter);
 app.use('/test', testRouter);
 
-app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));
-app.use(errorHanding);
+app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));//handing error request path
+app.use(errorHanding);//main error handding
 app.listen(Application.manager.portRunning);
 console.log('Running at ' + Application.manager.portRunning);

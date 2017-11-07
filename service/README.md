@@ -13,9 +13,9 @@
         + 4xx: Client Error.
         + 5xx: Server Error.
 
-    Các API sử dụng `id_user`, sau sẽ được hỗ trợ thêm thông qua lưu trữ session phía service.
+    Các API sử dụng `userID`, sau sẽ được hỗ trợ thêm thông qua lưu trữ session phía service.
 
-    Việc phân quyền về sau cũng sẽ sử dụng `id_user` đã đăng nhập để kiểm tra (VD: Thao tác đối với người file, user, class, post...). Các API không đủ quyền xem xét service sẽ tự chuyển hướng đến giao diện tương ứng (đăng nhập/chấp nhận quyền);
+    Việc phân quyền về sau cũng sẽ sử dụng `userID` đã đăng nhập để kiểm tra (VD: Thao tác đối với người file, user, class, post...). Các API không đủ quyền xem xét service sẽ tự chuyển hướng đến giao diện tương ứng (đăng nhập/chấp nhận quyền);
 
     Các trường thông tin theo key:value đều hỗ trợ 2 định dạng _FORM_ & _JSON_ ngoại trừ các trường thông tin đặc biệt như file(dùng form-multilpart, có thể xem xét truyền dữ liệu dưới định dạng BinaryToText như `Base64` cho các file nhỏ trực tiếp trên định dạng JSON).
 
@@ -37,7 +37,7 @@
 
 Thông tin **FileItem** bao gồm:
 
-        id: :file_id
+        id: :fileID
         name: ten_file_gui_len
         type: mime_type
         size: kich_thuoc_file_tinh_theo_byte
@@ -67,30 +67,30 @@ Thông tin **FileItem** bao gồm:
         - {code: 500, ...} : Client Error: Không upload được.
         - {code: 400, ...} : Server Error: File upload không thỏa mãn.
 
-##### Xóa 1 file bằng `file_id` `(/temp/test.html)`
+##### Xóa 1 file bằng `fileID` `(/temp/test.html)`
 
     + Method: DELETE
-    + URL: http://domain:port/files/delete/:file_id : file_id cần xóa.
+    + URL: http://domain:port/files/delete/:fileID : fileID cần xóa.
     + Success: `data` là thông tin file đã xóa.
         - {code: 200, message: "...", data: <file_info>}
     + Failed:
         - {code: 400, ...} : Client Error: Không tồn tại file.
         - {code: 500, ...} : Server Error: Không thể xóa.
 
-##### Lấy thông tin file bằng `file_id`
+##### Lấy thông tin file bằng `fileID`
 
     + Method: GET
-    + URL: http://domain:port/files/info/:file_id : file_id cần lấy thông tin.
+    + URL: http://domain:port/files/info/:fileID : fileID cần lấy thông tin.
     + Success: `data` là thông tin file cần lấy.
-        - {code: 200, message: "...", data: <file_id>}
+        - {code: 200, message: "...", data: <fileID>}
     + Failed:
         - {code: 400, ...} : Client Error: Không tồn tại file.
         - {code: 500, ...} : Server Error: Không thể lấy thông tin.
 
-##### Tải file, ảnh bằng `file_id`
+##### Tải file, ảnh bằng `fileID`
 
     + Method: GET
-    + URL: http://domain:port/files/get/:file_id (nên dùng khi load ảnh trên trình duyệt) hoặc http://domain:port/files/attach/:file_id (nên dùng khi tải file/ảnh): file_id cần tải.
+    + URL: http://domain:port/files/get/:fileID (nên dùng khi load ảnh trên trình duyệt) hoặc http://domain:port/files/attach/:fileID (nên dùng khi tải file/ảnh): fileID cần tải.
     + Success: trả về file download (ghi trực tiếp xuống http_body, thông tin file trong http_header).
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Không tồn tại file.
@@ -113,7 +113,7 @@ Thông tin **FileItem** bao gồm:
 
 Thông tin **User** bao gồm:
 
-        id: id_user unique
+        id: userID unique
         username: user_name
         typeuser: type_user
         password: pass_word
@@ -121,8 +121,8 @@ Thông tin **User** bao gồm:
         lastName: lastname
         email: email|null:unique
         phone: phone|null:unique
-        profileImageID: profile_image_file_id
-        coverImageID: cover_image_file_ID
+        profileImageID: profile_image_fileID
+        coverImageID: cover_image_fileID
         birthday: birthday
         gender: [NONE, FEMALE, MALE]
         about: about
@@ -143,13 +143,13 @@ Thông tin **User** bao gồm:
 
     + Method: POST
     + URL: http://domain:port/users/
-    + Success: `data` là thông tin User được update.
+    + Success: `data` là thông tin User được tạo.
         - {code: 200, message: "...", data: <user_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Update thông tin người dùng qua `username`, không thể thay đổi `id_user`, `username`
+##### Update thông tin người dùng qua `username`, không thể thay đổi `userID`, `username`
 
     + Method: PUT
     + URL: http://domain:port/users/
@@ -159,98 +159,98 @@ Thông tin **User** bao gồm:
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Thay đổi thông tin người dùng qua `id_user`
+##### Thay đổi thông tin người dùng qua `userID`
 
     + Method: PUT
-    + URL: http://domain:port/users/:id_user
+    + URL: http://domain:port/users/:userID
     + Success: `data` là thông tin User được update.
         - {code: 200, message: "...", data: <user_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Lấy thông tin cơ bản người dùng qua `id_user`
+##### Lấy thông tin cơ bản người dùng qua `userID`
 
     + Method: GET
-    + URL: http://domain:port/users/:id_user
+    + URL: http://domain:port/users/:userID
     + Success: `data` là thông tin User cần lấy.
         - {code: 200, message: "...", data: <user_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Xóa người dùng qua `id_user`
+##### Xóa người dùng qua `userID`
 
     + Method: DELETE
-    + URL: http://domain:port/users/:id_user
+    + URL: http://domain:port/users/:userID
     + Success: `data` là thông tin User xóa.
         - {code: 200, message: "...", data: <user_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Danh sách bạn qua `id_user`
+##### Danh sách bạn qua `userID`
 
     + Method: GET
-    + URL: http://domain:port/users/friends/:id_user
+    + URL: http://domain:port/users/friends/:userID
     + Success: `data` mảng id người dùng là bạn.
         - {code: 200, message: "...", data: [...friendIDs]}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Danh sách nhóm qua `id_user`
+##### Danh sách nhóm qua `userID`
 
     + Method: GET
-    + URL: http://domain:port/users/classs/:id_user
+    + URL: http://domain:port/users/classs/:userID
     + Success: `data` mảng id nhóm.
         - {code: 200, message: "...", data: [...classs]}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Danh sách file người dùng qua `id_user`
+##### Danh sách file người dùng qua `userID`
 
     + Method: GET
-    + URL: http://domain:port/users/files/:id_user
+    + URL: http://domain:port/users/files/:userID
     + Success: `data` mảng id file.
         - {code: 200, message: "...", data: [...files]}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Lấy ảnh Profile qua `id_user`
+##### Lấy ảnh Profile qua `userID`
 
     + Method: GET
-    + URL: http://domain:port/users/profileImage/:id_user
+    + URL: http://domain:port/users/profileImage/:userID
     + Success: Trả về file download (ghi trực tiếp xuống http_body, thông tin file trong http_header).
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Thay đổi ảnh Profile qua `id_user`
+##### Thay đổi ảnh Profile qua `userID`
 
     + Method: PUT, POST
-    + URL: http://domain:port/users/profileImage
+    + URL: http://domain:port/users/profileImage/userID
     + InputName: `profileImage`.
     + Success: Thông tin tin file profile đã upload.
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Lấy ảnh Cover qua `id_user`
+##### Lấy ảnh Cover qua `userID`
 
     + Method: GET
-    + URL: http://domain:port/users/coverImage/:id_user
+    + URL: http://domain:port/users/coverImage/:userID
     + Success: Trả về file download (ghi trực tiếp xuống http_body, thông tin file trong http_header).
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Thay đổi ảnh cover qua `id_user`
+##### Thay đổi ảnh cover qua `userID`
 
     + Method: PUT, POST
-    + URL: http://domain:port/users/coverImage/:id_user
+    + URL: http://domain:port/users/coverImage/:userID
     + InputName: `coverImage`.
     + Success: Thông tin file avatar đã upload.
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
@@ -267,3 +267,157 @@ Thông tin **User** bao gồm:
         - {code: 500, ...} : Server Error: Không thể lấy thông tin.
 
 ---
+
+### `03/11/2017`
+
+#### Xong các API Check cơ bản của kiểm tra tồn tại username/email/phone: `/checks/*`
+
+##### Kiểm tra `username` đã sử dụng qua `:username`
+
+    + Method: GET
+    + URL: http://domain:port/checks/username/:username
+    + Success: HTTP_RESPONSE_CODE = 200
+    + Failed: HTTP_RESPONSE_CODE != 200
+
+##### Kiểm tra `email` đã sử dụng qua '`?email=...`'
+
+    + Method: GET
+    + URL: http://domain:port/checks/email?email=abc@gmail.com
+    + Success: HTTP_RESPONSE_CODE = 200
+    + Failed: HTTP_RESPONSE_CODE != 200
+
+##### Kiểm tra `phone` đã sử dụng qua `?phone=...`
+
+    + Method: GET
+    + URL: http://domain:port/checks/phone/:phone=0123456xxx
+    + Success: HTTP_RESPONSE_CODE = 200
+    + Failed: HTTP_RESPONSE_CODE != 200
+
+### `07/11/2017`
+
+#### Xong các API cơ bản của Group: `/groups/*`
+
+Thông tin **User** bao gồm:
+
+        id: id_group unique
+        name: group_name
+        typegroup: type_group
+        profileImageID: profile_image_fileID
+        coverImageID: cover_image_fileID
+        dateCreated: dateCreate
+        typeGroup: [PRIMARY, SECONDARY, UNIVERSITY]
+        about: about
+        tags: tags
+        language: array_language
+        members: [{id:user, typemember:type_member}]
+        status: [NEW, BLOCKED, NORMAL]
+        location: location
+
+**NOTE** :
+
+##### Tạo nhóm
+
+    + Method: POST
+    + URL: http://domain:port/groups/
+    + Success: `data` là thông tin Group User được tạo.
+        - {code: 200, message: "...", data: <group_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Update thông tin nhóm qua `groupID`
+
+    + Method: PUT
+    + URL: http://domain:port/groups/:groupID
+    + Success: `data` là thông tin Group được update.
+        - {code: 200, message: "...", data: <group_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy thông tin cơ bản nhóm qua `groupID`
+
+    + Method: GET
+    + URL: http://domain:port/groups/:groupID
+    + Success: `data` là thông tin nhóm cần lấy.
+        - {code: 200, message: "...", data: <group_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xóa nhóm qua `groupID`
+
+    + Method: DELETE
+    + URL: http://domain:port/groups/:groupID
+    + Success: `data` là thông tin nhóm xóa.
+        - {code: 200, message: "...", data: <nhóm_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Danh sách thành viên qua `groupID`
+
+    + Method: GET
+    + URL: http://domain:port/groups/members/:groupID
+    + Success: `data` mảng id người dùng là thành viên.
+        - {code: 200, message: "...", data: [{id:id_member, typemember:type_member},...]}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Danh sách file nhóm qua `groupID`
+
+    + Method: GET
+    + URL: http://domain:port/groups/files/:grouprID
+    + Success: `data` mảng id file.
+        - {code: 200, message: "...", data: [...files]}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy ảnh Profile nhóm qua `groupID`
+
+    + Method: GET
+    + URL: http://domain:port/groups/profileImage/:groupID
+    + Success: Trả về file download (ghi trực tiếp xuống http_body, thông tin file trong http_header).
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Thay đổi ảnh Profile nhóm qua `groupID`
+
+    + Method: PUT, POST
+    + URL: http://domain:port/groups/profileImage/:groupID
+    + InputName: `profileImage`.
+    + Success: Thông tin tin file profile đã upload.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy ảnh Cover nhóm qua `groupID`
+
+    + Method: GET
+    + URL: http://domain:port/groups/coverImage/:groupID
+    + Success: Trả về file download (ghi trực tiếp xuống http_body, thông tin file trong http_header).
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Thay đổi ảnh Cover nhóm qua `groupID`
+
+    + Method: PUT, POST
+    + URL: http://domain:port/groups/coverImage/:groupID
+    + InputName: `coverImage`.
+    + Success: Thông tin file cover đã upload.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### `[TEST_API]` Lấy về tất cả nhóm
+
+    + Method: GET
+    + URL: http://domain:port/test/groupss
+    + Success: `data` là mảng thông tin nhóm.
+        - {code: 200, message: "...", data: [...users]}
+    + Failed:
+        - {code: 500, ...} : Server Error: Không thể lấy thông tin.

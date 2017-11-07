@@ -66,14 +66,14 @@ async function findFile(req) {
             return file;
         }
     }
-    if (req.params.file_id) {
-        file = await FileItem.findById(req.params.file_id);
+    if (req.params.fileID) {
+        file = await FileItem.findById(req.params.fileID);
         if (file) {
             return file;
         }
     }
-    if (req.body.file_id) {
-        file = await FileItem.findById(req.body.file_id);
+    if (req.body.fileID) {
+        file = await FileItem.findById(req.body.fileID);
         if (file) {
             return file;
         }
