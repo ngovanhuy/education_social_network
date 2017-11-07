@@ -1,1 +1,0 @@
-# Project for Education Social Network
