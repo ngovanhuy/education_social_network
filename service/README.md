@@ -289,7 +289,7 @@ Thông tin **User** bao gồm:
 ##### Kiểm tra `phone` đã sử dụng qua `?phone=...`
 
     + Method: GET
-    + URL: http://domain:port/checks/phone/:phone=0123456xxx
+    + URL: http://domain:port/checks/phone?phone=0123456xxx
     + Success: HTTP_RESPONSE_CODE = 200
     + Failed: HTTP_RESPONSE_CODE != 200
 
