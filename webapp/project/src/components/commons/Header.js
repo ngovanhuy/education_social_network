@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
-import './common.scss'
+import './common.css';
 
-const Header = ({ user }) => {
-    const { fullName, profilePictureUrl } = user
+const Header = ({user}) => {
+    const {fullName, profilePictureUrl} = user
 
     return (
         <header>
-            <div className="container">
-                <nav className="navbar navbar-default navbar-static-top no-margin" role="navigation">
+            <nav className="navbar navbar-default navbar-static-top no-margin" role="navigation">
+                <div className="container">
                     <ul className="nav navbar-nav navbar-nav-expanded">
                         <li>
                             <a href="javascript:;">
@@ -22,6 +22,7 @@ const Header = ({ user }) => {
                             <a data-toggle="dropdown" className="dropdown-toggle" href="javascript:;">
                                 <i className="glyphicon glyphicon-globe"></i>
                                 <span className="badge badge-up badge-danger badge-small">3</span>
+                                <span>Notifications</span>
                             </a>
                             <ul className="dropdown-menu dropdown-notifications">
                                 <li className="dropdown-title bg-inverse">Notifications (3)</li>
@@ -75,7 +76,7 @@ const Header = ({ user }) => {
                             </ul>
                         </li>
                     </ul>
-                    <ul className="nav navbar-nav navbar-nav-expanded pull-right margin-md-right">
+                    <ul className="nav navbar-nav text-center">
                         <li className="hidden-xs">
                             <form className="navbar-form">
                                 <div className="navbar-search">
@@ -84,15 +85,19 @@ const Header = ({ user }) => {
                                 </div>
                             </form>
                         </li>
+                    </ul>
+                    <ul className="nav navbar-nav navbar-nav-expanded pull-right margin-md-right">
                         <li className="dropdown">
                             <a data-toggle="dropdown" className="dropdown-toggle navbar-user" href="javascript:;">
                                 <img className="img-circle" src={user.profilePictureUrl}/>
-                                <span className="hidden-xs">{user.fullName}</span>
+                                <span className="hidden-xs user_full_name">{user.fullName}</span>
                                 <b className="caret"></b>
                             </a>
                             <ul className="dropdown-menu pull-right-xs">
                                 <li className="arrow"></li>
-                                <li><a href="pages-profile.html">Profile</a></li>
+                                <li>
+                                    <Link to={`/users/${user.userName}`}>Profile</Link>
+                                </li>
                                 {/*<li><a href="javascript:;"><span className="badge badge-danger pull-right">2</span> Inbox</a></li>*/}
                                 <li className="divider"></li>
                                 <li><a href="javascript:;">Create class</a></li>
@@ -104,17 +109,16 @@ const Header = ({ user }) => {
                             </ul>
                         </li>
                     </ul>
-                </nav>
-            </div>
+                </div>
+            </nav>
         </header>
     )
 }
 
 Header.propTypes = {
     user: PropTypes.shape({
-        login: PropTypes.string.isRequired,
-        avatarUrl: PropTypes.string.isRequired,
-        name: PropTypes.string
+        fullName: PropTypes.string.isRequired,
+        profilePictureUrl: PropTypes.string.isRequired,
     }).isRequired
 }
 

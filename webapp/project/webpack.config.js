@@ -1,16 +1,27 @@
 let webpack = require('webpack');
 
 module.exports = {
+    entry: "./app/entry", // string | object | array
+    // Here the application starts executing
+    // and webpack starts bundling
+    output: {
+        // options related to how webpack emits results
+        path: path.resolve(__dirname, "dist"), // string
+        // the target directory for all output files
+        // must be an absolute path (use the Node.js path module)
+        filename: "bundle.js", // string
+        // the filename template for entry chunks
+    },
     module: {
         rules: [{
             test: /\.scss$/,
             use: [{
-                loader: "style-loader" // creates style nodes from JS strings
+                loader: "style-loader"
             }, {
-                loader: "css-loader" // translates CSS into CommonJS
+                loader: "css-loader"
             }, {
-                loader: "sass-loader" // compiles Sass to CSS
+                loader: "sass-loader"
             }]
         }]
     }
-};
+}

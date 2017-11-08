@@ -16,6 +16,7 @@
     "webpack": "^3.8.1"
   },
   "dependencies": {
+    "@ranyefet/react-file-input": "^1.0.1",
     "humps": "^2.0.0",
     "jest-cli": "^20.0.4",
     "lodash": "^4.16.1",
