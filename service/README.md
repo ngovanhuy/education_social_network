@@ -137,7 +137,7 @@ Thông tin **User** bao gồm:
         status: [NEW, BLOCKED, NORMAL]
         location: location
 
-**NOTE** : Thông tin cơ bản trả cho thông tin người dùng mặcđịnh không bao gồm: `password`, `skills`, `friends`, `classs`, `status`, `lifeEvent` (_Sẽ có API riêng_).
+**NOTE** : Thông tin cơ bản trả cho thông tin người dùng mặc định không bao gồm: `password`, `skills`, `friends`, `classs`, `status`, `lifeEvent` (_Sẽ có API riêng_).
 
 ##### Tạo người dùng với `username`
 
