@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-class About extends Component{
+class AboutPage extends Component{
     static propTypes = {
         user: PropTypes.object,
         userName: PropTypes.string,
@@ -54,4 +54,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps, null)(About));
+export default withRouter(connect(mapStateToProps, null)(AboutPage));

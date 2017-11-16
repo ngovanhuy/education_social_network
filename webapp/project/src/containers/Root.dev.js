@@ -1,25 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import DevTools from './DevTools'
-import { Route } from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import App from './App'
-import UserProfile from "./userProfile/UserProfile";
-import About from "./userProfile/About";
+import HomePage from "./HomePage";
+import UserProfilePage from "./userProfile/UserProfilePage";
+import AboutPage from "./userProfile/AboutPage";
+import ClassTimelinePage from "./class/ClassTimelinePage";
+import ClassFilePage from "./class/ClassFilePage";
+import ClassCalendarPage from "./class/ClassCalendarPage";
+import ClassEventPage from "./class/ClassEventPage";
 
-const Root = ({ store }) => (
-  <Provider store={store}>
-    <div>
-      <Route path="/" component={App} />
-      <Route path="/users/:userName" component={UserProfile} />
-        <Route path="/users/:userName/about" component={About} />
-      {/*<DevTools />*/}
-    </div>
-  </Provider>
+const Root = ({store}) => (
+    <Provider store={store}>
+        <div>
+            <Route component={App}/>
+            <Switch>
+                <Route exact path="/" component={HomePage}> </Route>
+                <Route exact path="/users/:userName/about" component={AboutPage}/>
+                <Route exact path="/users/:userName" component={UserProfilePage}/>
+                <Route exact path="/classes/:className" component={ClassTimelinePage}/>
+                <Route exact path="/classes/:className/files" component={ClassFilePage}/>
+                <Route exact path="/classes/:className/calendar" component={ClassCalendarPage}/>
+                <Route exact path="/classes/:className/events" component={ClassEventPage}/>
+            </Switch>
+            {/*<DevTools />*/}
+        </div>
+    </Provider>
 )
 
 Root.propTypes = {
-  store: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
 }
 
 export default Root

@@ -6,10 +6,9 @@ const Attachment = ({attachment}) => {
     const {type, typeFile, fileName, fileSize, source} = attachment
     const defaultImageDocument = "/images/basic-document.png"
 
-    return(
-        <div className="attachment clearfix">
-            <Link to="#" target="_blank">
-                <div className="preview-attachment">
+    return (
+        <div className="file clearfix">
+            <div className="preview-file">
                 {
                     type == "image" ?
                         <div className="preview-image">
@@ -19,12 +18,11 @@ const Attachment = ({attachment}) => {
                             <img src={defaultImageDocument}/>
                         </div>
                 }
-                </div>
-                <div className="attachment-content">
-                    <div className="attachment-file-name">{fileName}</div>
-                    <div className="attachment-type">{type}</div>
-                </div>
-            </Link>
+            </div>
+            <div className="file-content">
+                <div className="file-file-name">{fileName}</div>
+                <div className="file-type">{type}</div>
+            </div>
         </div>
     )
 }

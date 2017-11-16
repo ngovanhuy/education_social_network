@@ -59,12 +59,14 @@ class Post extends Component {
                     {/*<div className="post-picture">*/}
                         {/*<img src={post.pictureLink}/>*/}
                     {/*</div>*/}
-                    {
-                        post.attachments && post.attachments.length > 0 &&
+                    <div className="files">
+                        {
+                            post.attachments && post.attachments.length > 0 &&
                             post.attachments.map(function (attachment, index) {
                                 return <Attachment key={index} attachment={attachment}/>
                             })
-                    }
+                        }
+                    </div>
                 </div>
                 <ReactPost post={post} favouritedPost={favouritedPost}/>
             </div>

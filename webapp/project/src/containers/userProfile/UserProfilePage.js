@@ -6,7 +6,7 @@ import TopContent from "../../components/userProfile/TopContent";
 import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/userProfile/Feed";
 
-class UserProfile extends Component{
+class UserProfilePage extends Component{
     static propTypes = {
         user: PropTypes.object,
         userName: PropTypes.string,
@@ -51,6 +51,16 @@ class UserProfile extends Component{
                     typeFile: "jpg",
                     fileName: "cover_photo.jpg",
                     source: "/images/cover_photo.jpg",
+                },{
+                    type: "text",
+                    typeFile: "txt",
+                    fileName: "kinhnghiem.txt",
+                    source: "/uploads/kinhnghiem.txt",
+                },{
+                    type: "pdf",
+                    typeFile: "pdf",
+                    fileName: "ZenHabitsbook.pdf",
+                    source: "/uploads/ZenHabitsbook.pdf",
                 }],
                 favourites: {
                     favouriteCount: 1,
@@ -136,4 +146,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps, null)(UserProfile));
+export default withRouter(connect(mapStateToProps, null)(UserProfilePage));

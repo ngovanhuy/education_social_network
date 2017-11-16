@@ -13,10 +13,10 @@ const Header = ({user}) => {
                 <div className="container">
                     <ul className="nav navbar-nav navbar-nav-expanded">
                         <li>
-                            <a href="javascript:;">
+                            <Link to={`/`}>
                                 <i className="fa fa-home"></i>
                                 <span>Home</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="dropdown">
                             <a data-toggle="dropdown" className="dropdown-toggle" href="javascript:;">
@@ -101,6 +101,9 @@ const Header = ({user}) => {
                                 {/*<li><a href="javascript:;"><span className="badge badge-danger pull-right">2</span> Inbox</a></li>*/}
                                 <li className="divider"></li>
                                 <li><a href="javascript:;">Create class</a></li>
+                                <li>
+                                    <Link to={`/classes/huynv`}>Class huynv</Link>
+                                </li>
                                 <li className="divider"></li>
                                 <li><a href="javascript:;">Create event</a></li>
                                 <li className="divider"></li>

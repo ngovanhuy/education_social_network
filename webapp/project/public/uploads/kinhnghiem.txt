@@ -1,0 +1,9 @@
+= đi từ sự cần thiết của người dùng hiện tại rồi mới đưa ra sản phẩm của mình
+tên đề tài
+nhiệm vụ
+tính cấp thiết của vấn đề này phải tạo module
+=> phải chuẩn bị đề cương từ sớm: gồm
+	+ tên đề tài: rõ ràng
+	+ giới thiệu:
+	+ công nghệ: tại sao lại dùng nó? triển khai ntn? ưu điểm, nhược điểm ntn?
+	+ kết quả: sau khi sử dụng mình đạt được ưu, nhược điểm, test hệ thống.
