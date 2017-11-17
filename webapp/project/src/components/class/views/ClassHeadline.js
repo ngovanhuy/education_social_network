@@ -18,11 +18,11 @@ class ClassHeadline extends Component {
                         <span>Discussion</span>
                     </div>
                 </Link>
-                <a href="javascript:;">
+                <Link to={`/classes/${className}/members`}>
                     <div className="class-headline-content">
                         <span>Members</span>
                     </div>
-                </a>
+                </Link>
                 <Link to={`/classes/${className}/events`}>
                     <div className="class-headline-content">
                         <span>Events</span>

@@ -82,16 +82,19 @@
     margin-top: 10px; }
 
 .add-member-and-description {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   background-color: #fff; }
-  .add-member-and-description .add-member {
-    padding-bottom: 15px;
-    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12); }
-  .add-member-and-description h3 {
-    font-size: 16px; }
-    .add-member-and-description h3 a {
-      font-size: 14px; }
+  .add-member-and-description .description {
+    margin-top: 15px;
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.12); }
+
+.add-member h3 {
+  font-size: 16px; }
+  .add-member h3 a {
+    font-size: 14px; }
+.add-member .form-control {
+  font-size: 12px; }
 
 .class-recent-files {
   margin-top: 20px;
@@ -128,31 +131,31 @@
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px; }
-  .class-calendar .class-calendar-headline {
+  .class-calendar .class-events-calendar-headline {
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     margin-bottom: 10px;
     margin-top: 10px;
     padding: 5px 0; }
-    .class-calendar .class-calendar-headline li span {
+    .class-calendar .class-events-calendar-headline li span {
       font-size: 16px;
       margin-right: 10px; }
-    .class-calendar .class-calendar-headline li .btn:first-of-type {
+    .class-calendar .class-events-calendar-headline li .btn:first-of-type {
       margin-right: 10px; }
-    .class-calendar .class-calendar-headline li .btn .fa {
+    .class-calendar .class-events-calendar-headline li .btn .fa {
       margin-right: 5px; }
-    .class-calendar .class-calendar-headline a {
+    .class-calendar .class-events-calendar-headline a {
       color: #000; }
-      .class-calendar .class-calendar-headline a:hover {
+      .class-calendar .class-events-calendar-headline a:hover {
         text-decoration: none; }
-    .class-calendar .class-calendar-headline .current {
+    .class-calendar .class-events-calendar-headline .current {
       padding-bottom: 12px;
       border-bottom: 4px solid blue; }
-    .class-calendar .class-calendar-headline ul {
+    .class-calendar .class-events-calendar-headline ul {
       margin: 0;
       padding: 0;
       white-space: nowrap;
       list-style: none; }
-      .class-calendar .class-calendar-headline ul li {
+      .class-calendar .class-events-calendar-headline ul li {
         display: inline-block;
         list-style-type: none;
         max-width: 100%;
@@ -166,31 +169,31 @@
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px; }
-  .class-events .class-calendar-headline {
+  .class-events .class-events-calendar-headline {
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     margin-bottom: 10px;
     margin-top: 10px;
     padding: 5px 0; }
-    .class-events .class-calendar-headline li span {
+    .class-events .class-events-calendar-headline li span {
       font-size: 16px;
       margin-right: 10px; }
-    .class-events .class-calendar-headline li .btn:first-of-type {
+    .class-events .class-events-calendar-headline li .btn:first-of-type {
       margin-right: 10px; }
-    .class-events .class-calendar-headline li .btn .fa {
+    .class-events .class-events-calendar-headline li .btn .fa {
       margin-right: 5px; }
-    .class-events .class-calendar-headline a {
+    .class-events .class-events-calendar-headline a {
       color: #000; }
-      .class-events .class-calendar-headline a:hover {
+      .class-events .class-events-calendar-headline a:hover {
         text-decoration: none; }
-    .class-events .class-calendar-headline .current {
+    .class-events .class-events-calendar-headline .current {
       padding-bottom: 12px;
       border-bottom: 4px solid blue; }
-    .class-events .class-calendar-headline ul {
+    .class-events .class-events-calendar-headline ul {
       margin: 0;
       padding: 0;
       white-space: nowrap;
       list-style: none; }
-      .class-events .class-calendar-headline ul li {
+      .class-events .class-events-calendar-headline ul li {
         display: inline-block;
         list-style-type: none;
         max-width: 100%;
@@ -235,5 +238,45 @@
 .create-event-popup textarea {
   max-width: 454px;
   max-height: 100px; }
+
+.class-members .class-members-headline {
+  margin: 10px 38px;
+  background-color: #fff;
+  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  border-radius: 5px; }
+  .class-members .class-members-headline div {
+    margin-top: 10px;
+    padding: 5px 0; }
+    .class-members .class-members-headline div li span {
+      font-size: 16px;
+      margin-right: 10px; }
+    .class-members .class-members-headline div li .btn:first-of-type {
+      margin-right: 10px; }
+    .class-members .class-members-headline div li .btn .fa {
+      margin-right: 5px; }
+    .class-members .class-members-headline div a {
+      color: #000; }
+      .class-members .class-members-headline div a:hover {
+        text-decoration: none; }
+    .class-members .class-members-headline div .current {
+      padding-bottom: 3px;
+      border-bottom: 4px solid blue; }
+    .class-members .class-members-headline div ul {
+      margin: 0;
+      padding: 0;
+      white-space: nowrap;
+      list-style: none; }
+      .class-members .class-members-headline div ul li {
+        display: inline-block;
+        list-style-type: none;
+        max-width: 100%;
+        position: relative;
+        vertical-align: middle; }
+.class-members .class-members-content .panel-member .panel-body {
+  display: flex; }
+  .class-members .class-members-content .panel-member .panel-body .dropdown {
+    margin: auto; }
+.class-members .class-members-content .panel-member .panel-member-col {
+  float: left; }
 
 /*# sourceMappingURL=class.css.map */

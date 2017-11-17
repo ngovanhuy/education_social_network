@@ -17,8 +17,10 @@ class ClassRightMenu extends Component{
                     <div className="col-sm-12">
                         <div className="add-member-and-description">
                             <AddMember memberCount={classDetail.memberCount}/>
-                            <h3>Description</h3>
-                            <span>{classDetail.description}</span>
+                            <div className="description">
+                                <h3>Description</h3>
+                                <span>{classDetail.description}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ class AddMember extends Component{
                             <span className="input-group-addon">
                                 <i className="fa fa-plus"></i>
                             </span>
-                            <input type="text" className="form-control" placeholder="Enter name or email address"/>
+                            <input type="text" className="form-control" placeholder="Enter name or email"/>
                         </div>
                     </div>
                 </div>

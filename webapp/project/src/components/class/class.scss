@@ -126,18 +126,24 @@ $main-color: rgba(146, 181, 88, 1);
 }
 
 .add-member-and-description {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   background-color: #fff;
-  .add-member {
-    padding-bottom: 15px;
-    border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
+  .description{
+    margin-top: 15px;
+    border-top: .1rem solid rgba(0, 0, 0, 0.12);
   }
+}
+
+.add-member {
   h3 {
     font-size: 16px;
     a {
       font-size: 14px;
     }
+  }
+  .form-control{
+    font-size: 12px;
   }
 }
 
@@ -185,7 +191,7 @@ $main-color: rgba(146, 181, 88, 1);
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px;
-  .class-calendar-headline {
+  .class-events-calendar-headline {
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     margin-bottom: 10px;
     margin-top: 10px;
@@ -237,7 +243,7 @@ $main-color: rgba(146, 181, 88, 1);
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px;
-  .class-calendar-headline {
+  .class-events-calendar-headline {
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     margin-bottom: 10px;
     margin-top: 10px;
@@ -334,5 +340,69 @@ $main-color: rgba(146, 181, 88, 1);
   textarea {
     max-width: 454px;
     max-height: 100px;
+  }
+}
+
+.class-members{
+  .class-members-headline{
+    margin: 10px 38px;
+    background-color: #fff;
+    border: 0.1rem solid rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    div {
+      margin-top: 10px;
+      padding: 5px 0;
+      li {
+        span {
+          font-size: 16px;
+          margin-right: 10px;
+        }
+        .btn {
+          &:first-of-type {
+            margin-right: 10px;
+          }
+          .fa {
+            margin-right: 5px;
+          }
+        }
+      }
+      a {
+        color: #000;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      .current {
+        padding-bottom: 3px;
+        border-bottom: 4px solid blue;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+        list-style: none;
+        li {
+          display: inline-block;
+          list-style-type: none;
+          max-width: 100%;
+          position: relative;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  .class-members-content{
+    .panel-member{
+      .panel-body{
+        display: flex;
+        .dropdown{
+          margin: auto;
+        }
+      }
+      .panel-member-col{
+        float: left;
+      }
+    }
   }
 }

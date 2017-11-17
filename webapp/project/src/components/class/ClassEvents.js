@@ -56,7 +56,7 @@ class ClassEvents extends Component {
         return (
             <div className="class-events">
                 <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
-                <div className="class-calendar-headline clearfix">
+                <div className="class-events-calendar-headline clearfix">
                     <ul className="clearfix">
                         <li>
                             <span className="current">Events</span>

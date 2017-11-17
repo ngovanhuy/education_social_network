@@ -22,6 +22,9 @@ const Attachment = ({attachment}) => {
             <div className="file-content">
                 <div className="file-file-name">{fileName}</div>
                 <div className="file-type">{type}</div>
+                <div className="button-actions">
+                    <a href={source} download className="btn btn-default">Download</a>
+                </div>
             </div>
         </div>
     )

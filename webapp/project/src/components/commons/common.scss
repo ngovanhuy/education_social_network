@@ -170,7 +170,7 @@ ul.nav {
       width: 50%;
       height: 50%;
       margin: auto;
-      margin-left: 10px;
+      margin-left: 15px;
       .file-file-name {
         color: rgba(0, 0, 0, 0.87);
         text-overflow: ellipsis;
@@ -185,6 +185,11 @@ ul.nav {
       }
       .file-type {
         color: rgba(0, 0, 0, 0.55);
+      }
+      .button-actions{
+        a.btn{
+          line-height: 10px;
+        }
       }
     }
 

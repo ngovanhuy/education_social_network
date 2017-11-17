@@ -114,7 +114,7 @@ ul.nav li .user_full_name {
       width: 50%;
       height: 50%;
       margin: auto;
-      margin-left: 10px; }
+      margin-left: 15px; }
       .files .file .file-content .file-file-name {
         color: rgba(0, 0, 0, 0.87);
         text-overflow: ellipsis;
@@ -126,6 +126,8 @@ ul.nav li .user_full_name {
           cursor: pointer; }
       .files .file .file-content .file-type {
         color: rgba(0, 0, 0, 0.55); }
+      .files .file .file-content .button-actions a.btn {
+        line-height: 10px; }
     .files .file .action-with-file {
       width: 50%;
       height: 50%;

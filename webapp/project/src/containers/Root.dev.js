@@ -11,6 +11,7 @@ import ClassTimelinePage from "./class/ClassTimelinePage";
 import ClassFilePage from "./class/ClassFilePage";
 import ClassCalendarPage from "./class/ClassCalendarPage";
 import ClassEventPage from "./class/ClassEventPage";
+import ClassMembersPage from "./class/ClassMembersPage";
 
 const Root = ({store}) => (
     <Provider store={store}>
@@ -24,6 +25,9 @@ const Root = ({store}) => (
                 <Route exact path="/classes/:className/files" component={ClassFilePage}/>
                 <Route exact path="/classes/:className/calendar" component={ClassCalendarPage}/>
                 <Route exact path="/classes/:className/events" component={ClassEventPage}/>
+                <Route exact path="/classes/:className/members" component={ClassMembersPage}/>
+                <Route exact path="/classes/:className/admins" component={ClassMembersPage}/>
+                <Route exact path="/classes/:className/teachers" component={ClassMembersPage}/>
             </Switch>
             {/*<DevTools />*/}
         </div>
