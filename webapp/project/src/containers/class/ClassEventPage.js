@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import ClassLeftmenu from "../../components/class/ClassLeftmenu";
-import '../../components/class/class.css'
+import '../../components/event/event.css'
 import ClassEvents from "../../components/class/ClassEvents";
 
 class ClassFilePage extends Component {
@@ -146,7 +146,7 @@ class ClassFilePage extends Component {
                     <div className="col-sm-2">
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           className={className}/>
+                                           className={className} currentPage="events"/>
                         </div>
                     </div>
                     <div className="col-sm-10">

@@ -84,7 +84,7 @@ class ClassMembersPage extends Component{
                     <div className="col-sm-2">
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           className={className}/>
+                                           className={className} currentPage="members"/>
                         </div>
                     </div>
                     <div className="col-sm-10">

@@ -105,6 +105,9 @@ const Header = ({user}) => {
                                     <Link to={`/classes/huynv`}>Class huynv</Link>
                                 </li>
                                 <li className="divider"></li>
+                                <li>
+                                    <Link to={`/events`}>Events</Link>
+                                </li>
                                 <li><a href="javascript:;">Create event</a></li>
                                 <li className="divider"></li>
                                 <li><a href="javascript:;">Settings</a></li>

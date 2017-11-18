@@ -12,6 +12,9 @@ import ClassFilePage from "./class/ClassFilePage";
 import ClassCalendarPage from "./class/ClassCalendarPage";
 import ClassEventPage from "./class/ClassEventPage";
 import ClassMembersPage from "./class/ClassMembersPage";
+import EventsPage from "./event/EventsPage";
+import CalendarPage from "./event/CalendarPage";
+import DiscoveryPage from "./event/DiscoveryPage";
 
 const Root = ({store}) => (
     <Provider store={store}>
@@ -28,6 +31,9 @@ const Root = ({store}) => (
                 <Route exact path="/classes/:className/members" component={ClassMembersPage}/>
                 <Route exact path="/classes/:className/admins" component={ClassMembersPage}/>
                 <Route exact path="/classes/:className/teachers" component={ClassMembersPage}/>
+                <Route exact path="/events" component={EventsPage}/>
+                <Route exact path="/events/discovery" component={DiscoveryPage}/>
+                <Route exact path="/events/calendar" component={CalendarPage}/>
             </Switch>
             {/*<DevTools />*/}
         </div>

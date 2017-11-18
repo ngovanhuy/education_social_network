@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal';
 import FileInput from '@ranyefet/react-file-input'
-import DateTimeField from 'react-bootstrap-datetimepicker'
-import 'react-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'
+import Datetime from 'react-datetime'
+import 'react-datetime/css/react-datetime.css'
 
 const customStyles = {
     overlay: {
@@ -37,6 +37,10 @@ class CreateEventModal extends Component{
 
     render(){
         const {classDetail, modalIsOpen} = this.props
+        var modalTitle = 'Create event';
+        if(classDetail && classDetail.fullName){
+            modalTitle += "for" + classDetail.fullName;
+        }
         return(
             <Modal
                 isOpen={modalIsOpen}
@@ -45,7 +49,7 @@ class CreateEventModal extends Component{
                 contentLabel="Create Event Modal"
 
             >
-                <h2>Create event for {classDetail.fullName}</h2>
+                <h2>{modalTitle}</h2>
                 <button className="mm-popup__close" onClick={this.props.closeModal}>×</button>
                 <form className="create-event-popup form-horizontal" role="form">
                     <div className="form-group">
@@ -77,19 +81,19 @@ class CreateEventModal extends Component{
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Start</label>
                         <div className='event-end-date col-sm-4'>
-                            <DateTimeField mode="date" inputFormat="DD/MM/YYYY"/>
+                            <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" defaultValue={new Date()}/>
                         </div>
                         <div className='event-end-time col-sm-3'>
-                            <DateTimeField mode="time"/>
+                            <Datetime dateFormat={false} defaultValue={new Date()}/>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="col-sm-3 control-label">End</label>
                         <div className='event-end-date col-sm-4'>
-                            <DateTimeField mode="date" inputFormat="DD/MM/YYYY"/>
+                            <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" defaultValue={new Date()}/>
                         </div>
                         <div className='event-end-time col-sm-3'>
-                            <DateTimeField mode="time"/>
+                            <Datetime dateFormat={false} defaultValue={new Date()}/>
                         </div>
                     </div>
                     <div className="form-group">

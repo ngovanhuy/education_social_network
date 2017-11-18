@@ -36,14 +36,14 @@ class ClassTimelinePage extends Component {
             topicName: 'task_3',
         }],
         events: [{
-            startTime: new Date(),
-            eventName: 'Event name 1'
+            start: new Date(),
+            title: 'Event name 1'
         }, {
-            startTime: new Date(),
-            eventName: 'Event name 2'
+            start: new Date(),
+            title: 'Event name 2'
         }, {
-            startTime: new Date(),
-            eventName: 'Event name 3'
+            start: new Date(),
+            title: 'Event name 3'
         }],
         recentFiles: [{
             type: "image",
@@ -220,7 +220,7 @@ class ClassTimelinePage extends Component {
                     <div className="col-sm-2">
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           className={className}/>
+                                           className={className} currentPage="discussion"/>
                         </div>
                     </div>
                     <div className="col-sm-7 class-main-content">

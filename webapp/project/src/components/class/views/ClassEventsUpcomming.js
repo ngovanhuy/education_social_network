@@ -4,8 +4,8 @@ class ClassEventsUpcomming extends Component{
     renderEventDetail = (event, index) => {
         return(
             <div key={index} className="event-detail">
-                <div className="event-start-time">{event.startTime.toLocaleString()}</div>
-                <div className="event-name">{event.eventName}</div>
+                <div className="event-start-time">{event.start.toLocaleString()}</div>
+                <div className="event-name">{event.title}</div>
             </div>
         )
     }

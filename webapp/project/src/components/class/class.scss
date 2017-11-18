@@ -64,6 +64,9 @@ $main-color: rgba(146, 181, 88, 1);
       background-color: #e6ecf0;
     }
   }
+  .class-headline-content.current{
+    background-color: #e6ecf0;
+  }
 }
 
 .class-topics {
@@ -239,7 +242,7 @@ $main-color: rgba(146, 181, 88, 1);
 .class-events {
   margin-left: 20px;
   margin-top: 10px;
-  padding: 0px 10px 30px 10px;
+  padding: 0px 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px;
@@ -283,30 +286,6 @@ $main-color: rgba(146, 181, 88, 1);
         max-width: 100%;
         position: relative;
         vertical-align: middle;
-      }
-    }
-  }
-
-  .event {
-    margin: 10px 0;
-    padding-bottom: 10px;
-    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
-    &:last-of-type {
-      border-bottom: none;
-    }
-    .event-create-time {
-      float: left;
-    }
-    .event-detail {
-      float: left;
-      margin-left: 10px;
-      .event-location {
-        margin: 5px 0;
-      }
-      .action-with-event {
-        .share-text {
-          margin: 0 10px;
-        }
       }
     }
   }

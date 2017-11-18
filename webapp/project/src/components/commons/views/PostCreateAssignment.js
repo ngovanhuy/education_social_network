@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
-import DateTimeField from 'react-bootstrap-datetimepicker'
-import 'react-select/dist/react-select.css';
-import 'react-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css'
+import 'react-select/dist/react-select.css'
+import Datetime from 'react-datetime'
+import 'react-datetime/css/react-datetime.css'
 
 class PostCreateAssignment extends Component {
     logChange = (val) => {
@@ -51,10 +51,10 @@ class PostCreateAssignment extends Component {
                         <div className="form-group">
                             <label className="control-label col-sm-1">Due</label>
                             <div className='post-end-date col-sm-4'>
-                                <DateTimeField mode="date" inputFormat="DD/MM/YYYY"/>
+                                <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" defaultValue={new Date()}/>
                             </div>
                             <div className='post-end-time col-sm-3'>
-                                <DateTimeField mode="time"/>
+                                <Datetime dateFormat={false} defaultValue={new Date()}/>
                             </div>
                         </div>
                         <div className="form-group">

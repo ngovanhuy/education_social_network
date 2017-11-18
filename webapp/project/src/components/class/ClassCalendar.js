@@ -4,6 +4,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment';
 import CreateEventModal from "../event/views/CreateEventModal";
+import ClassEventsCalendarHeadline from "./views/ClassEventsCalendarHeadline";
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
@@ -30,29 +31,7 @@ class ClassCalendar extends Component {
         return (
             <div className="class-calendar">
                 <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
-                <div className="class-events-calendar-headline clearfix">
-                    <ul className="clearfix">
-                        <li>
-                            <Link to={`/classes/${className}/events`}>
-                                <span>Events</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <span className="current">Calendar</span>
-                        </li>
-
-                        <li className="pull-right">
-                            <button className="btn btn-default">
-                                <i className="fa fa-plus"></i>
-                                Import Calendar
-                            </button>
-                            <button className="btn btn-default" onClick={this.openModal}>
-                                <i className="fa fa-plus"></i>
-                                Create event
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+                <ClassEventsCalendarHeadline className={className} currentPage="calendar" openModal={this.openModal}/>
                 <BigCalendar
                     selectable
                     {...this.props}

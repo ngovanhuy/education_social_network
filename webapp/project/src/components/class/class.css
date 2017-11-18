@@ -40,6 +40,8 @@
     z-index: 0; }
     .class-headline .class-headline-content:hover {
       background-color: #e6ecf0; }
+  .class-headline .class-headline-content.current {
+    background-color: #e6ecf0; }
 
 .class-topics {
   padding: 10px;
@@ -165,7 +167,7 @@
 .class-events {
   margin-left: 20px;
   margin-top: 10px;
-  padding: 0px 10px 30px 10px;
+  padding: 0px 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px; }
@@ -199,21 +201,6 @@
         max-width: 100%;
         position: relative;
         vertical-align: middle; }
-  .class-events .event {
-    margin: 10px 0;
-    padding-bottom: 10px;
-    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12); }
-    .class-events .event:last-of-type {
-      border-bottom: none; }
-    .class-events .event .event-create-time {
-      float: left; }
-    .class-events .event .event-detail {
-      float: left;
-      margin-left: 10px; }
-      .class-events .event .event-detail .event-location {
-        margin: 5px 0; }
-      .class-events .event .event-detail .action-with-event .share-text {
-        margin: 0 10px; }
 
 .create-event-popup .event-photo-upload {
   background-color: #4b4f56;

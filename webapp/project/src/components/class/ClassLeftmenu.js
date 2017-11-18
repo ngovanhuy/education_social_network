@@ -5,7 +5,7 @@ import ClassTopics from "./views/ClassTopics";
 
 class ClassLeftmenu extends Component{
     render(){
-        const {classDetail, topics, className} = this.props
+        const {classDetail, topics, className, currentPage} = this.props
         return(
             <div>
                 <div className="col-sm-12">
@@ -15,7 +15,8 @@ class ClassLeftmenu extends Component{
                 </div>
                 <div className="col-sm-12">
                     <div className="row">
-                        <ClassHeadline classDetail={classDetail} className={className}/>
+                        <ClassHeadline classDetail={classDetail} className={className}
+                            currentPage={currentPage}/>
                     </div>
                 </div>
                 <div className="col-sm-12">
