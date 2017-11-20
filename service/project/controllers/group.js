@@ -8,6 +8,7 @@ async function getGroupByID(id) {
     if (_id) {
         return await Group.findOne({
             _id: id,
+            //isDeleted: false,
         });
     } else {
         return null;
@@ -34,7 +35,7 @@ async function findGroup(req) {
 }
 async function addMember(req, res){//, next) {
     try {
-        let group = await findGroup(req, false);
+        let group = await findGroup(req);//, false);
         req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -53,15 +54,18 @@ async function addMember(req, res){//, next) {
             });
         }
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
-        group = group.addMember(user, typeMember);
-        if (!group) {
+        if (!group.addMember(user, typeMember)) {
             return res.status(400).send({
                 code: 400,
                 message: 'UserID Invalid',
                 data: null,
             });
         }
+        if (!user.addToClass(group)) {
+            throw new Error();
+        }
         group = await group.save();
+        user = await user.save();
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -77,10 +81,9 @@ async function addMember(req, res){//, next) {
         });
     }
 }
-
 async function removeMember(req, res){//, next) {
     try {
-        let group = await findGroup(req, false);
+        let group = await findGroup(req);//, false);
         req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -90,15 +93,26 @@ async function removeMember(req, res){//, next) {
             });
         }
         let userID = req.params.userID ? req.params.userID : req.body.userID;
-        group = group.removeMember(userID)
-        if (!group) {
+        let user = await Users.getUserByID(userID);
+        if (!user) {
             return res.status(400).send({
                 code: 400,
                 message: 'UserID Invalid',
                 data: null,
             });
         }
+        if (!group.removeMember(user)) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
+        if (!user.removeFromClass(group._id)) {
+            throw new Error();
+        }
         group = await group.save();
+        user = await user.save();
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -114,10 +128,9 @@ async function removeMember(req, res){//, next) {
         });
     }
 }
-
 async function updateMember(req, res) {
     try {
-        let group = await findGroup(req, false);
+        let group = await findGroup(req);//, false);
         req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -136,21 +149,106 @@ async function updateMember(req, res) {
             });
         }
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
-        group = group.updateMember(user, typeMember);
-        if (!group) {
+        if (!group.updateMember(user, typeMember)) {
             return res.status(400).send({
                 code: 400,
                 message: 'UserID Invalid',
                 data: null,
             });
         }
-        group = await group.save();
+        group = await group.save();//save user....
         return res.status(200).send({
             code: 200,
             message: 'Success',
             data: user.getBasicInfo(),
         });
         // return group;
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+
+async function getRequesteds(req, res) {
+    try {
+        //TODO: Check current user.
+        //...
+        let group = await findGroup(req);
+        if (!group || group.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit user',
+                data: null
+            });
+        }
+        let requesteds = [];
+        group.requesteds.forEach(requested => {
+            if (!requested.isRemoved) {
+                requesteds.push({
+                    _id: requested._id,
+                    firstName: requested.firstName,
+                    lastName: requested.lastName,
+                    profileImageID: requested.profileImageID,
+                    coverImageID: requested.coverImageID,
+                    timeCreate: requested.timeCreate.toLocaleString(),
+                    timeUpdate: requested.timeUpdate.toLocaleString(),
+                });
+            }
+        });
+        return res.send({
+            code: 200,
+            message: 'Success',
+            data: requesteds
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function removeRequested(req, res) {
+    try {
+        let user = await Users.findUser(req, false);
+        //req.users.user_request = user;
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
+        let group = await findGroup(req);//, false);
+        req.groups.group_request = group;
+        if (!group || group.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Group Not Existed',
+                data: null,
+            });
+        }
+        if (!user.removeClassRequest(group)) {
+            throw new Error();
+        }
+        if (!group.removeRequested(user)) {
+            throw new Error();
+        }
+        group = await group.save();
+        user = await user.save();
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: {
+                user_id: user._id,
+                group_id: group._id,
+            },
+        });
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -243,7 +341,7 @@ async function putGroup(req, res, next) {
                 error: "Request Invalid",
             });
         }
-        let group = await findGroup(req, false);
+        let group = await findGroup(req);//, false);
         req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -452,6 +550,7 @@ async function getMembers(req, res) {
         });
     }
 }
+
 async function checkGroupRequest(req, res, next) {
     let group = await findGroup(req);
     if (group && !group.isDeleted) {
@@ -501,4 +600,8 @@ exports.getCoverImageID = getCoverImageID;
 exports.addMember = addMember;
 exports.removeMember = removeMember;
 exports.updateMember = updateMember;
+exports.getRequesteds = getRequesteds;
+exports.removeRequested = removeRequested;
 exports.getGroups = getGroups;
+exports.findGroup = findGroup;
+exports.getGroupByID = getGroupByID;

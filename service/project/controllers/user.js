@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var Groups = require('../controllers/group');
 async function getUserByID(id) {
     if (!id) {
         return null;
@@ -467,6 +468,42 @@ async function getFriends(req, res) {
     }
 }
 
+async function getUserInfo(req, res, next) {
+    try {
+        let user = await findUser(req);
+        req.users.user_request = user;
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit user',
+                data: null
+            });
+        }
+        if (user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'User Deleted',
+                data: {
+                    id: user.id,
+                    username: user.username
+                }
+            });
+        }
+        return res.send({
+            code: 200,
+            message: 'Success',
+            data: user.getInfo(req.query),
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+
 async function getClasss(req, res) {
     try {
         let user = await findUser(req);
@@ -481,6 +518,173 @@ async function getClasss(req, res) {
             code: 200,
             message: '',
             data: user.classs,
+        })
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function getRequests(req, res) {
+    try {
+        let user = await findUser(req);
+        if (!user || user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit user',
+                data: null
+            });
+        }
+        return res.send({
+            code: 200,
+            message: '',
+            data: user.requests,
+        })
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function getClassRequests(req, res) {
+    try {
+        let user = await findUser(req);
+        if (!user || user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit user',
+                data: null
+            });
+        }
+        let requests = [];
+        user.classrequests.forEach(request => {
+            if (!request.isRemoved) {
+                requests.push(request);
+            }
+        });
+        return res.send({
+            code: 200,
+            message: '',
+            data: requests,
+        })
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function addClassRequests(req, res) {
+    try {
+        let user = await findUser(req, false);
+        req.users.user_request = user;
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
+        let group = await Groups.findGroup(req);//, false);
+        req.groups.group_request = group;
+        if (!group || group.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Group Not Existed',
+                data: null,
+            });
+        }
+        if (!user.addClassRequest(group)) {
+            throw new Error();
+        }
+        if (!group.addRequested(user)) {
+            throw new Error();
+        }
+        //Promise.all
+        group = await group.save();
+        user = await user.save();
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: user.getBasicInfo(),
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function removeClassRequest(req, res) {
+    try {
+        let user = await findUser(req, false);
+        req.users.user_request = user;
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
+        let group = await Groups.findGroup(req);//, false);
+        //req.groups.group_request = group;
+        if (!group || group.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Group Not Existed',
+                data: null,
+            });
+        }
+        if (!user.removeClassRequest(group)) {
+            throw new Error();
+        }
+        if (!group.removeRequested(user)) {
+            throw new Error();
+        }
+        group = await group.save();
+        user = await user.save();
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: {
+                user_id: user._id,
+                group_id: group._id,
+            },
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+
+async function getRequesteds(req, res) {
+    try {
+        let user = await findUser(req);
+        if (!user || user.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Not exit user',
+                data: null
+            });
+        }
+        return res.send({
+            code: 200,
+            message: '',
+            data: user.requesteds,
         })
     } catch (error) {
         return res.status(500).send({
@@ -573,5 +777,13 @@ exports.putCoverImage = putCoverImage;
 exports.getProfileImageID = getProfileImageID;
 exports.getCoverImageID = getCoverImageID;
 exports.getUsers = getUsers;
-exports.getUserByID = getUserByID;
+exports.getRequesteds = getRequesteds;
+exports.getRequests = getRequests;
+exports.getClassRequests = getClassRequests;
+exports.addClassRequests = addClassRequests;
+exports.removeClassRequest = removeClassRequest;
+
 exports.getUserByUserName = getUserByUserName;
+exports.getUserByID = getUserByID;
+exports.findUser = findUser;
+exports.getUserInfo = getUserInfo;

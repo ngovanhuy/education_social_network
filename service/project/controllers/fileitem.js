@@ -97,7 +97,10 @@ async function postFile(req, res, next) {
             isDeleted: false,
         });
         if (req.users.user_request) {
-            file.userID = req.users.user_request.id;
+            file.userID = req.users.user_request._id;
+        }
+        if (req.groups.group_request) {
+            file.groupID = req.groups.group_request._id;
         }
         file = await file.save();
         req.files.file_saved = file;

@@ -31,29 +31,9 @@ function randomString(maxLength) {
     }
     return strs.join("");
 }
-
-async function getUserByIDOrUserName(info) {
-    if (!info) {
-        return null;
-    }  
-    let _id = Number(info);
-    if (_id) {
-        return await User.findOne({
-            $or: [{
-                    _id: _id
-                },
-                {
-                    username: info
-                },
-            ],
-        });
-    } else {
-        return null;
-    }
-}
 async function t() {
-    let str = "1511163068894";
-    let user = await getUserByIDOrUserName(str);
-    console.log(user);
+    let id = 1511193107482;
+    let user = await User.findById(id);
+    console.log(user['aod']);
 }
 t();

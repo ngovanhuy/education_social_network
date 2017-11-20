@@ -115,9 +115,19 @@ userRouter.route('/coverImage/:userID')
 
 userRouter.route('/friends/:userID')
         .get(userController.getFriends);
-userRouter.route('/classs/:userID')
-        .get(userController.getClasss);
+userRouter.route('/classs/:userID').get(userController.getClasss);
+userRouter.route('/request').get(userController.getRequests);
+userRouter.route('/classrequest').get(userController.getClassRequests);
+userRouter.route('/requested').get(userController.getRequesteds);
 
+userRouter.route('/request/:userID').get(userController.getRequests);
+userRouter.route('/classrequest/:userID').get(userController.getClassRequests);
+userRouter.route('/classrequest/:userID/:groupID')
+    .post(userController.addClassRequests)
+    .delete(userController.removeClassRequest);
+userRouter.route('/requested/:userID').get(userController.getRequesteds);
+
+userRouter.route('/info/:userID').get(userController.getUserInfo);
 userRouter.route('/files/:userID').get(fileItemController.getFiles); //TEST
 /*-------------------GROUP_API-----------------------*/
 groupRouter.route('/')
@@ -140,9 +150,12 @@ groupRouter.route('/members/:groupID')
         .delete(groupController.removeMember)//, userController.getUser)
 groupRouter.route('/members/:groupID/:userID')
         .get(userController.getUser)
-        .post(groupController.addMember, userController.getUser)
-        .put(groupController.updateMember, userController.getUser)
-        .delete(groupController.removeMember, userController.getUser)
+        .post(groupController.addMember)//, userController.getUser)
+        .put(groupController.updateMember)//, userController.getUser)
+        .delete(groupController.removeMember)//, userController.getUser)
+
+groupRouter.route('/requested/:groupID').get(groupController.getRequesteds);
+groupRouter.route('/requested/:groupID/:userID').delete(groupController.removeRequested);
 
 groupRouter.route('/files/:groupID').get(fileItemController.getFiles); //TEST
 /*-------------------FILE_API------------------------*/
