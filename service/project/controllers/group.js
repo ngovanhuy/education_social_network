@@ -1,4 +1,5 @@
 var Group = require('../models/group');
+var Users = require('../controllers/user');
 async function getGroupByID(id) {
     if (!id) {
         return null;
@@ -6,7 +7,7 @@ async function getGroupByID(id) {
     let _id = Number(id);
     if (_id) {
         return await Group.findOne({
-            id: id,
+            _id: id,
         });
     } else {
         return null;
@@ -31,7 +32,7 @@ async function findGroup(req) {
     }
     return null;
 }
-async function addMember(req, res, next) {
+async function addMember(req, res){//, next) {
     try {
         let group = await findGroup(req, false);
         req.groups.group_request = group;
@@ -43,9 +44,16 @@ async function addMember(req, res, next) {
             });
         }
         let userID = req.params.userID ? req.params.userID : req.body.userID;
+        let user = await Users.getUserByID(userID);
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
-        group = group.addMember(userID, typeMember);
-        // group = group.addNormalUser(userID)
+        group = group.addMember(user, typeMember);
         if (!group) {
             return res.status(400).send({
                 code: 400,
@@ -54,7 +62,12 @@ async function addMember(req, res, next) {
             });
         }
         group = await group.save();
-        return next();
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: user.getBasicInfo(),
+        });
+        // return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -65,7 +78,7 @@ async function addMember(req, res, next) {
     }
 }
 
-async function removeMember(req, res, next) {
+async function removeMember(req, res){//, next) {
     try {
         let group = await findGroup(req, false);
         req.groups.group_request = group;
@@ -77,7 +90,6 @@ async function removeMember(req, res, next) {
             });
         }
         let userID = req.params.userID ? req.params.userID : req.body.userID;
-        //let typeMember;
         group = group.removeMember(userID)
         if (!group) {
             return res.status(400).send({
@@ -87,7 +99,12 @@ async function removeMember(req, res, next) {
             });
         }
         group = await group.save();
-        return next();
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: {user_id: userID},
+        });
+        // return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -98,7 +115,7 @@ async function removeMember(req, res, next) {
     }
 }
 
-async function updateMember(req, res, next) {
+async function updateMember(req, res) {
     try {
         let group = await findGroup(req, false);
         req.groups.group_request = group;
@@ -110,8 +127,16 @@ async function updateMember(req, res, next) {
             });
         }
         let userID = req.params.userID ? req.params.userID : req.body.userID;
+        let user = await Users.getUserByID(userID);
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
-        group = group.updateMember(userID, typeMember);
+        group = group.updateMember(user, typeMember);
         if (!group) {
             return res.status(400).send({
                 code: 400,
@@ -120,7 +145,12 @@ async function updateMember(req, res, next) {
             });
         }
         group = await group.save();
-        return next();
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: user.getBasicInfo(),
+        });
+        // return group;
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -390,14 +420,29 @@ async function getMembers(req, res) {
                 data: null
             });
         }
+        let members = [];
+        group.members.forEach(member => {
+            if (!member.isRemoved) {
+                members.push({
+                    _id: member._id,
+                    firstName: member.firstName,
+                    lastName: member.lastName,
+                    profileImageID: member.profileImageID,
+                    coverImageID: member.coverImageID,
+                    dateJoin: member.dateJoin.toLocaleString(),
+                    timeUpdate: member.timeUpdate.toLocaleString(),
+                    typemember: Group.getTypeMemberInfo(member.typemember),
+                });
+            }
+        });
         return res.send({
             code: 200,
             message: 'Success',
-            data: {count: group.members.length, members: group.members.map(member => ({
-                id: member.id,
-                typemember : Group.getTypeMemberInfo(member.typemember),
-            })),
-        }})
+            data: {
+                count: members.length,
+                members: members,  
+            }
+        });
     } catch (error) {
         return res.status(500).send({
             code: 500,

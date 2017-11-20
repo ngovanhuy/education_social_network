@@ -6,7 +6,7 @@ async function getUserByID(id) {
     let _id = Number(id);
     if (_id) {
         return await User.findOne({
-            id: id,
+           _id: id,
         });
     } else {
         return null;
@@ -44,7 +44,7 @@ async function getUserByIDOrUserName(info) {
     if (_id) {
         return await User.findOne({
             $or: [{
-                    id: _id
+                    _id: _id
                 },
                 {
                     username: info
@@ -573,3 +573,5 @@ exports.putCoverImage = putCoverImage;
 exports.getProfileImageID = getProfileImageID;
 exports.getCoverImageID = getCoverImageID;
 exports.getUsers = getUsers;
+exports.getUserByID = getUserByID;
+exports.getUserByUserName = getUserByUserName;

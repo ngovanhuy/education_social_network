@@ -5,8 +5,7 @@ var path = require('path');
 var UPLOAD_PATH = 'uploads/';
 var MAX_FILE_SIZE = 1 << 26;// 64M
 var MAX_IMAGE_SIZE = 1 << 23; //8M
-// var storage = multer.memoryStorage();
-var file_upload = multer({
+var file_upload = multer({// var storage = multer.memoryStorage();
     dest: UPLOAD_PATH,
     // storage: storage,
     // limits: {
@@ -27,10 +26,7 @@ var image_upload = multer({
 });
 
 function getLocalFilePath(file) {
-    if (!file) {
-        return null;
-    }
-    return path.join(UPLOAD_PATH, file.id)
+    return file ? path.join(UPLOAD_PATH, file.id) : null;
 };
 async function checkFileExited(file) {
     return new Promise(resolve => fs.exists(getLocalFilePath(file), exists => resolve(exists)));
@@ -51,7 +47,11 @@ async function checkFilesExisted(files) {
         });
     });
 }
-
+async function getAllFiles() {
+    return (await FileItem.find({isDeleted: false }, {_id: 1, name: 1, type: 1, size: 1, createDate: 1})).map(file => {
+        return file.getBasicInfo();
+    });
+}
 async function findFile(req) {
     if (!req) {
         return null;
@@ -161,13 +161,12 @@ async function getInfoFile(req, res) {
                 message: 'File deleted.',
                 data: null
             });
-        } else {
-            return res.json({
-                code: 200,
-                message: 'Success',
-                data: file.getBasicInfo(file)
-            });
-        }
+        } 
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: file.getBasicInfo(file)
+        });
     } catch (error) {
         return res.status(400).json({
             code: 400,
@@ -177,7 +176,7 @@ async function getInfoFile(req, res) {
         });
     }
 };
-async function getFile(req, res) {
+async function getOrAttachFile(req, res, isAttach) {
     try {
         let file = await findFile(req);
         req.files.file_selected = file;
@@ -190,20 +189,23 @@ async function getFile(req, res) {
             });
         }
         let readStream = fs.createReadStream(getLocalFilePath(file));
-        readStream.on("error", err => {
+        readStream.on("open", () => {
+            res.setHeader('Content-Type', file.type);
+            res.setHeader('Content-Length', file.size);
+            if (isAttach) {
+                res.setHeader("Content-Disposition", "attachment; filename=\"" + file.name + "\"");
+            } else {
+                res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
+            }
+            readStream.pipe(res);
+        }).on("close", () => {
+            res.end();
+        }).on("error", err => {
             return res.status(500).send({
                 code: 500,
                 message: 'Not exit file.',
                 data: null
             });
-        }).on("open", () => {
-            res.setHeader('Content-Type', file.type);
-            res.setHeader('Content-Length', file.size);
-            res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
-            // res.setHeader("Content-Disposition", "attachment; filename=\"" + file.name + "\"");
-            readStream.pipe(res);
-        }).on("close", () => {
-            res.end();
         });
     } catch (error) {
         return res.status(400).send({
@@ -213,69 +215,39 @@ async function getFile(req, res) {
         });
     }
 };
+async function getFile(req, res) {
+    return await getOrAttachFile(req, res, false);
+};
 async function attachFile(req, res) {
-    try {
-        let file = await findFile(req);
-        req.files.file_selected = file;
-        req.files.file_selected_id = file ? file._id : null;
-        if (!file || file.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit file.',
-                data: null
-            });
-        }
-        let readStream = fs.createReadStream(getLocalFilePath(file));
-        readStream.on("error", err => {
-            return res.status(500).send({
-                code: 500,
-                message: 'Not exit file.',
-                data: null
-            });
-        }).on("open", () => {
-            res.setHeader('Content-Type', file.type);
-            res.setHeader('Content-Length', file.size);
-            // res.setHeader("Content-Disposition", "filename=\"" + file.name + "\"");
-            res.setHeader("Content-Disposition", "attachment; filename=\"" + file.name + "\"");
-            readStream.pipe(res);
-        }).on("close", () => {
-            res.end();
-        });
-    } catch (error) {
-        return res.status(400).send({
-            code: 400,
-            message: 'Not exit file.',
-            data: null
-        });
-    }
+    return await getOrAttachFile(req, res, true);
 };
 async function getFiles(req, res, next) {
     try {
-        let files = await FileItem.find({
-            isDeleted: false
-        });
-        let datas = [];
-        let filesExisted = await checkFilesExisted(files);
-        filesExisted.forEach(file =>
-            datas.push({
-                id: file._id,
-                name: file.name,
-                type: file.type,
-                size: file.size,
-                createDate: file.createDate.toLocaleString()
-            }));
-        res.send({
-            code: 200,
-            message: 'Success',
-            length: datas.length,
-            data: datas
-        });
+        let datas = await getAllFiles();
+        if (datas) {
+            res.send({
+                code: 200,
+                message: 'Success',
+                length: datas.length,
+                data: datas
+            });
+        }
         return next();
     } catch (error) {
         return next(error);
     }
 }
 
+async function cleanUploadFolder() {
+    let files = await FileItem.find({isDeleted : true});
+    let filesExisted = await checkFilesExisted(files);
+    let errorHandler = err => {};
+    filesExisted.forEach(file => {
+        // console.log("Deleted:" + getLocalFilePath(file));
+        fs.unlink(getLocalFilePath(file), errorHandler);
+    });
+    return filesExisted;
+}
 /*----------------------------------------------- */
 exports.fileUpload = file_upload.single('fileUpload');
 exports.imageUpload = image_upload.single('imageUpload');
@@ -287,3 +259,4 @@ exports.getFile = getFile;
 exports.getInfoFile = getInfoFile;
 exports.deleteFile = deleteFile;
 exports.postFile = postFile;
+exports.cleanUploadFolder = cleanUploadFolder;

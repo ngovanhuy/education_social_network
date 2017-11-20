@@ -18,14 +18,15 @@ var StatusEnum = {
 
 var UserSchema = new mongoose.Schema(
     {
-        id: { type: Number, unique: true, require: true, index: true, default: Date.now },
+        // id: { type: Number, unique: true, require: true, index: true, default: Date.now },
+        _id: { type: Number, default: getNewID},
         username: { type: String, unique: true, required: true, },
         password: { type: String, required: true },
         firstName: { type: String,  required: true, },
         lastName: { type: String,  required: true, },
         typeuser: { type: Number, require: false, default: 0, min: 0, max: 1000},
-        email: { type: String, required: false,  default: null, unique: true},
-        phone: { type: String,  required: false, default: null, unique: true},
+        email: { type: String, required: false,  default: null},//, unique: true},
+        phone: { type: String,  required: false, default: null},// unique: true},
         profileImageID: { type: String, required: false, default: null, }, 
         coverImageID: {type: String, require: false, default: null,},
         birthday: { type: Date, required: false, default: null, }, 
@@ -35,18 +36,69 @@ var UserSchema = new mongoose.Schema(
         nickname: { type: [String], required: false, },
         skills: { type: [{name: String, description: String}], required: false, default: [], },
         worked: { type: [{startTime:Date, endTime: Date, where: String, description: String}], required: false, default: [], },
-        language: { type: [{code:String, text:String, isDefault:Boolean}], required: false, default: [{code:'en-US', text:'English(US)', isDefault: true}], },
+        language: { type: [{
+                code:String, 
+                text:String, 
+                isDefault:Boolean,
+                _id: {type: Number, default: getNewID}
+            }], 
+            required: false, 
+            default: [{code:'en-US', text:'English(US)', isDefault: true}]},
         lifeEvent: { type: [{startTime:Date, endTime:Date, description: String}], required: false, default: [], },
         classs: { type: [{id: String, typemember: Number}], required: false, default:[], }, 
-        friends: { type: [Number], required: false, default: [],},
+        friends: { 
+            type: [{
+                user_id: Number, 
+                profileImageID: String, 
+                firstName: String, 
+                lastName: String, 
+                timeUpdate: Date, 
+                timeCreate: Date
+            }], 
+            required: false, 
+            default: [],
+        },
         status: { type: Number, required: false, default: 0, min: 0, max: 1000 }, 
         location: {type: String, required: false, default:""},
-        isDeleted: { type: Boolean, require: false, default: false, }
+        isDeleted: { type: Boolean, require: false, default: false, },
+        requests: {
+            type: [{
+                user_id: Number, 
+                profileImageID: String, 
+                firstName: String, 
+                lastName: String, 
+                timeUpdate: Date, 
+                isDone: Boolean
+            }],
+            require: true, 
+            default: [],
+        }, 
+        requested: {
+            type: [{
+                user_id: Number, 
+                profileImageID: String, 
+                firstName: String, 
+                lastName: String, 
+                timeUpdate: Date, 
+                isDone: Boolean
+            }],
+            require: true, 
+            default: [],
+        },
+        timeCreate: {
+            type: Date,
+            default: Date.now,   
+        },
+        timeUpdate: {
+            type: Date,
+            default: Date.now,   
+        },
     }
 );
 
 UserSchema.pre('save', function(callback)  {
     var user = this;
+    user.timeUpdate = Date.now();
     if (!user.isModified('password')) return callback();
     bcrypt.genSalt(5,  (err, salt) => {
         if (err) return callback(err);
@@ -227,7 +279,7 @@ function getBasicInfo() {
         lastName:       this.lastName,
         typeuser:       {enum_id: this.typeuser, text: TypeUserEnum[this.typeuser]}, 
         email:          this.email,
-        birthday:       this.birthday.toLocaleString(),
+        birthday:       this.birthday ? this.birthday.toLocaleString() : null,
         phone:          this.phone,
         gender:         {enum_id: this.gender, text: GenderEnum[this.typeuser]},
         about:          this.about,
@@ -239,7 +291,6 @@ function getBasicInfo() {
         // status:         {enum_id: this.status, text: StatusEnum[this.status]},
         profileImageID: this.profileImageID,
         coverImageID:   this.coverImageID,
-
     }
 }
 

@@ -18,6 +18,7 @@ var userRouter = express.Router();
 var groupRouter = express.Router();
 var checkRouter = express.Router();
 var testRouter = express.Router();
+var taskRouter = express.Router();
 
 var errorHanding = function (err, req, res, next) {
         if (err) {
@@ -36,6 +37,20 @@ var errorHanding = function (err, req, res, next) {
                 data: null,
                 error: 'Client Error'
         });
+}
+
+var cleanUploadFolderInterval = null;
+function startCleanUploadFolderTask() {
+        if (cleanUploadFolderInterval) return;
+        cleanUploadFolderInterval = setInterval(() => {
+                fileItemController.cleanUploadFolder();
+        }, 5000);
+}
+function stopCleanUploadFolderTask() {
+        if (cleanUploadFolder) {
+                clearInterval(cleanUploadFolderInterval);
+        }
+        cleanUploadFolderInterval = null;
 }
 Application.manager.connectToDB();
 Application.manager.start();
@@ -90,29 +105,13 @@ userRouter.route('/:userID')
         .put(userController.putUser, userController.getUser)
         .delete(userController.deleteUser, userController.getUser);
 userRouter.route('/profileImage/:userID')
-        .get(userController.checkUserNameRequest,
-                userController.getProfileImageID,
-                fileItemController.getFile)
-        .put(userController.checkUserNameRequest,
-                fileItemController.profileUpload,
-                fileItemController.postFile,
-                userController.putProfileImage)
-        .post(userController.checkUserNameRequest,
-                fileItemController.profileUpload,
-                fileItemController.postFile,
-                userController.putProfileImage, );
+        .get(userController.checkUserNameRequest,userController.getProfileImageID, fileItemController.getFile)
+        .put(userController.checkUserNameRequest, fileItemController.profileUpload, fileItemController.postFile, userController.putProfileImage)
+        .post(userController.checkUserNameRequest, fileItemController.profileUpload, fileItemController.postFile, userController.putProfileImage);
 userRouter.route('/coverImage/:userID')
-        .get(userController.checkUserNameRequest,
-                userController.getCoverImageID,
-                fileItemController.getFile)
-        .put(userController.checkUserNameRequest,
-                fileItemController.coverUpload,
-                fileItemController.postFile,
-                userController.putProfileImage)
-        .post(userController.checkUserNameRequest,
-                fileItemController.coverUpload,
-                fileItemController.postFile,
-                userController.putCoverImage, );
+        .get(userController.checkUserNameRequest, userController.getCoverImageID, fileItemController.getFile)
+        .put(userController.checkUserNameRequest, fileItemController.coverUpload, fileItemController.postFile, userController.putProfileImage)
+        .post(userController.checkUserNameRequest, fileItemController.coverUpload, fileItemController.postFile, userController.putCoverImage);
 
 userRouter.route('/friends/:userID')
         .get(userController.getFriends);
@@ -131,22 +130,14 @@ groupRouter.route('/:groupID')
         .put(groupController.putGroup, groupController.getGroup)
         .delete(groupController.deleteGroup, groupController.getGroup);
 groupRouter.route('/profileImage/:groupID')
-        .get(groupController.checkGroupRequest,
-                groupController.getProfileImageID,
-                fileItemController.getFile)
-        .put(groupController.checkGroupRequest,
-                fileItemController.profileUpload,
-                fileItemController.postFile,
-                groupController.putProfileImage)
-        .post(groupController.checkGroupRequest,
-                fileItemController.profileUpload,
-                fileItemController.postFile,
-                groupController.putProfileImage, );
+        .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileItemController.getFile)
+        .put(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage)
+        .post(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage, );
 groupRouter.route('/members/:groupID')
         .get(groupController.getMembers)
-        .post(groupController.addMember, userController.getUser)
-        .put(groupController.updateMember, userController.getUser)
-        .delete(groupController.removeMember, userController.getUser)
+        .post(groupController.addMember)//, userController.getUser)
+        .put(groupController.updateMember)//, userController.getUser)
+        .delete(groupController.removeMember)//, userController.getUser)
 groupRouter.route('/members/:groupID/:userID')
         .get(userController.getUser)
         .post(groupController.addMember, userController.getUser)
@@ -156,13 +147,9 @@ groupRouter.route('/members/:groupID/:userID')
 groupRouter.route('/files/:groupID').get(fileItemController.getFiles); //TEST
 /*-------------------FILE_API------------------------*/
 fileRouter.route('/upload')
-        .post(fileItemController.fileUpload,
-                fileItemController.postFile,
-                fileItemController.getInfoFile);
+        .post(fileItemController.fileUpload, fileItemController.postFile, fileItemController.getInfoFile);
 fileRouter.route('/image')
-        .post(fileItemController.imageUpload,
-                fileItemController.postFile,
-                fileItemController.getInfoFile);
+        .post(fileItemController.imageUpload, fileItemController.postFile, fileItemController.getInfoFile);
 fileRouter.route('/get/:fileID')
         .get(fileItemController.getFile);
 fileRouter.route('/attach/:fileID')
@@ -177,7 +164,15 @@ checkRouter.route('/username').get(userController.checkUserName);
 checkRouter.route('/username/:username').get(userController.checkUserName);
 checkRouter.route('/email').get(userController.checkEmail);
 checkRouter.route('/phone').get(userController.checkPhoneNumber);
-
+/*----------------TASK_API----------------------------*/
+taskRouter.route('/cleanUploadFolder/start').post((req, res) => {
+        startCleanUploadFolderTask();
+        res.status(cleanUploadFolderInterval ? 200 : 500).end();
+});
+taskRouter.route('/cleanUploadFolder/stop').post((req, res) => {
+        stopCleanUploadFolderTask();
+        res.status(cleanUploadFolderInterval ? 500 : 200).end();
+});
 /*----------------TEST_API----------------------------*/
 testRouter.route('/files').get(fileItemController.getFiles);
 testRouter.route('/users').get(userController.getUsers);
@@ -188,9 +183,13 @@ app.use('/files', fileRouter);
 app.use('/users', userRouter);
 app.use('/groups/', groupRouter);
 app.use('/checks/', checkRouter);
+app.use('/tasks', taskRouter);
 app.use('/test', testRouter);
 
 app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));//handing error request path
 app.use(errorHanding);//main error handding
 app.listen(Application.manager.portRunning);
 console.log('Running at ' + Application.manager.portRunning);
+
+//------------START _TASK-----------------------
+// startCleanUploadFolderTask();
