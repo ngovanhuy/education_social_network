@@ -45,7 +45,7 @@ async function addMember(req, res){//, next) {
             });
         }
         let userID = req.params.userID ? req.params.userID : req.body.userID;
-        let user = await Users.getUserByID(userID);
+        let user = await Users.getUserByID(userID); 
         if (!user) {
             return res.status(400).send({
                 code: 400,
@@ -54,24 +54,24 @@ async function addMember(req, res){//, next) {
             });
         }
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
-        if (!group.addMember(user, typeMember)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
-        if (!user.addToClass(group)) {
+        if (group.addMember(user, typeMember)) {
+            if (user.addToClass(group)) {
+                group = await group.save();
+                user = await user.save();
+            } else {
+                throw new Error();
+            }
+        } else {
             throw new Error();
         }
-        group = await group.save();
-        user = await user.save();
         return res.status(200).send({
             code: 200,
             message: 'Success',
-            data: user.getBasicInfo(),
+            data: {
+                user_id: user._id,
+                group_id: group._id,
+            },
         });
-        // return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -101,24 +101,22 @@ async function removeMember(req, res){//, next) {
                 data: null,
             });
         }
-        if (!group.removeMember(user)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
+        if (group.removeMember(user)) {
+            if (user.removeFromClass(group)) {
+                group = await group.save();
+                user = await user.save();
+            } else {
+                throw new Error();
+            }
         }
-        if (!user.removeFromClass(group._id)) {
-            throw new Error();
-        }
-        group = await group.save();
-        user = await user.save();
         return res.status(200).send({
             code: 200,
             message: 'Success',
-            data: {user_id: userID},
+            data: {
+                user_id: user._id,
+                group_id: group._id,
+            },
         });
-        // return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -149,20 +147,22 @@ async function updateMember(req, res) {
             });
         }
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
-        if (!group.updateMember(user, typeMember)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
+        if (group.updateMember(user, typeMember)) {
+            if (user.addToClass(group)) {
+                group = await group.save();
+                user = await user.save();
+            } else {
+                throw new Error();//
+            }
         }
-        group = await group.save();//save user....
         return res.status(200).send({
             code: 200,
             message: 'Success',
-            data: user.getBasicInfo(),
+            data: {
+                user_id: user._id,
+                group_id: group._id
+            },
         });
-        // return group;
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -233,14 +233,12 @@ async function removeRequested(req, res) {
                 data: null,
             });
         }
-        if (!user.removeClassRequest(group)) {
-            throw new Error();
+        if (user.removeClassRequest(group)) {
+            if (group.removeRequested(user)) {
+                group = await group.save();
+                user = await user.save();        
+            }    
         }
-        if (!group.removeRequested(user)) {
-            throw new Error();
-        }
-        group = await group.save();
-        user = await user.save();
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -258,7 +256,6 @@ async function removeRequested(req, res) {
         });
     }
 }
-
 async function updateGroupInfo(req, group, isCheckValidInput = true) {
     let message = [];
     if (isCheckValidInput) {

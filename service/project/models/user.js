@@ -190,10 +190,10 @@ function addUserInArray(new_user, arrays) {
                 user.isRemoved = false;
                 user.timeCreate = timeUpdate;
             }
-            return new_user;
+            return user;
         }
     }
-    arrays.push({
+    user = {
         _id: new_user._id,
         firstName: new_user.firstName,
         lastName: new_user.lastName,
@@ -202,17 +202,18 @@ function addUserInArray(new_user, arrays) {
         isRemoved: false,
         timeCreate: timeUpdate,
         timeUpdate: timeUpdate,
-    });
-    return this;
+    };
+    arrays.push(user);
+    return user;
 }
-function removeUserFromArray(userID, arrays) {
-    if (!userID) {
+function removeUserFromArray(remove_user, arrays) {
+    if (!remove_user) {
         return null;
     }
     let user = null;
     for (let index = 0; index < arrays.length; index++) {
         user = arrays[index];
-        if (user._id == userID) {
+        if (user._id == remove_user._id) {
             user.isRemoved = true;
             return user;
         }
@@ -233,10 +234,10 @@ function addGroupInArray(new_group, arrays) {
                 group.isRemoved = false;
                 group.timeCreate = timeUpdate;
             }
-            return new_group;
+            return group;
         }
     }
-    arrays.push({
+    group = {
         _id: new_group._id,
         name: new_group.name,
         profileImageID: new_group.profileImageID,
@@ -244,8 +245,9 @@ function addGroupInArray(new_group, arrays) {
         isRemoved: false,
         timeCreate: timeUpdate,
         timeUpdate: timeUpdate,
-    });
-    return new_group;
+    };
+    arrays.push(group);
+    return group;
 }
 function removeGroupFromArray(remove_group, arrays) {
     if (!remove_group) {
@@ -256,26 +258,66 @@ function removeGroupFromArray(remove_group, arrays) {
         group = arrays[index];
         if (group._id == remove_group._id) {
             group.isRemoved = true;
-            return remove_group;
+            return group;
         }
     }
-    return remove_group;
+    return null;
 }
 
-function addFriend(user) {
-    return addUserInArray(user, this.friends);
+function addFriend(user, isUpdateReference = true) {
+    if (!user) {
+        return null;
+    }
+    let new_user = addUserInArray(user, this.friends);
+    if (new_user) {
+        if (isUpdateReference) {
+            return user.addFriend(this, false);
+        }
+        return user;
+        //var currentUser = this;
+        //return addUserInArray(currentUser, user.friends) ? user : null;
+    }
+    return null;
 }
-function removeFriend(userID) {
-    return removeUserFromArray(userID, this.friends);
+function removeFriend(user, isUpdateReference = true) {
+    if (!user) {
+        return null;
+    }
+    let remove_user = removeUserFromArray(user, this.friends);
+    if (remove_user) {
+        if (isUpdateReference) {
+            return user.removeFriend(this, false);
+        }
+        return user;
+        //var currentUser = this;
+        //return removeUserFromArray(currentUser, user.friends) ? user : null;
+    }
+    return null;
 }
 function addRequest(user) {
-    return addUserInArray(user, this.requests);
+    let new_user = addUserInArray(user, this.requests);
+    if (new_user) {
+        user.addRequested(this);
+        return user;
+    }
+    return null;
 }
-function removeRequest(userID) {
-    return removeUserFromArray(userID, this.requests);
+function removeRequest(user) {
+    let remove_user = removeUserFromArray(user, this.requests);
+    if (remove_user) {
+        user.removeRequested(this);
+        return user;
+    }
+    return null;
 }
-function removeRequested(userID) {
-    return removeUserFromArray(userID, this.requesteds);
+function addRequested(user) {
+    return addUserInArray(user, this.requesteds) ? user : null;
+}
+function removeRequested(user) {
+    return removeUserFromArray(user, this.requesteds) ? user : null;
+}
+function confirmRequested(user) {
+    //TODO: user confirm requested: addFriend + removeREquested.
 }
 function addClassRequest(new_group) {
     let group = addGroupInArray(new_group, this.classrequests);
@@ -291,11 +333,11 @@ function removeClassRequest(remove_group) {
     }
     return remove_group;
 }
-function addToClass(new_group) {
-    return addGroupInArray(new_group, this.classs);
+function addToClass(group) {
+    return addGroupInArray(group, this.classs) ? group : null;
 }
-function removeFromClass(remove_group) {
-    return removeGroupFromArray(remove_group, this.classs);
+function removeFromClass(group) {
+    return removeGroupFromArray(group, this.classs) ? group : null;
 }
 
 function validateEmail(email, isRequired = false) {
@@ -517,7 +559,9 @@ UserSchema.methods.addFriend = addFriend;
 UserSchema.methods.removeFriend = removeFriend;
 UserSchema.methods.addRequest = addRequest;
 UserSchema.methods.removeRequest = removeRequest;
+UserSchema.methods.addRequested = addRequested;
 UserSchema.methods.removeRequested = removeRequested;
+
 UserSchema.methods.addClassRequest = addClassRequest;
 UserSchema.methods.removeClassRequest = removeClassRequest;
 

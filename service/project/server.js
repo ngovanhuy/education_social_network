@@ -113,19 +113,28 @@ userRouter.route('/coverImage/:userID')
         .put(userController.checkUserNameRequest, fileItemController.coverUpload, fileItemController.postFile, userController.putProfileImage)
         .post(userController.checkUserNameRequest, fileItemController.coverUpload, fileItemController.postFile, userController.putCoverImage);
 
-userRouter.route('/friends/:userID')
-        .get(userController.getFriends);
+userRouter.route('/friends/:userID').get(userController.getFriends);
+userRouter.route('/friends/:userID/:friendUserID')
+    .post(userController.addFriend)
+    .delete(userController.removeFriend);
 userRouter.route('/classs/:userID').get(userController.getClasss);
+userRouter.route('/classs/:userID/:groupID')
+    .post(userController.addToClass)
+    .delete(userController.removeFromClass);
 userRouter.route('/request').get(userController.getRequests);
-userRouter.route('/classrequest').get(userController.getClassRequests);
-userRouter.route('/requested').get(userController.getRequesteds);
-
 userRouter.route('/request/:userID').get(userController.getRequests);
+userRouter.route('/request/:userID/:friendUserID')
+    .post(userController.addRequest)
+    .delete(userController.removeRequest);
+userRouter.route('/requested').get(userController.getRequesteds);
+userRouter.route('/requested/:userID').get(userController.getRequesteds);
+userRouter.route('/requested/:userID/:friendUserID').delete(userController.removeRequested);
+
+userRouter.route('/classrequest').get(userController.getClassRequests);
 userRouter.route('/classrequest/:userID').get(userController.getClassRequests);
 userRouter.route('/classrequest/:userID/:groupID')
     .post(userController.addClassRequests)
     .delete(userController.removeClassRequest);
-userRouter.route('/requested/:userID').get(userController.getRequesteds);
 
 userRouter.route('/info/:userID').get(userController.getUserInfo);
 userRouter.route('/files/:userID').get(fileItemController.getFiles); //TEST

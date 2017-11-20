@@ -108,14 +108,12 @@ function validateStatus(status, isRequired = false) {
     }
     return StatusEnum[status];
 }
-
 function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = true) {
     if (typeof (obj) !== "string") {
         return !isRequired;
     }
     return obj.length >= minLength && obj.length <= maxLength;
 }
-
 function validateInputInfo(inputInfo, checkRequired = false) {
     if (!inputInfo) {
         return [];
@@ -147,14 +145,12 @@ function validateInputInfo(inputInfo, checkRequired = false) {
     }
     return message;
 }
-
 function getTypeGroupInfo(enum_id) {
     return { enum_id: enum_id, text: TypeGroupEnum[enum_id] };
 }
 function getTypeMemberInfo(enum_id) {
     return { enum_id: enum_id, text: TypeMemberEnum[enum_id] };
 }
-
 function getStringArray(jsonContent) {
     try {
         return [...items] = JSON.parse(jsonContent);
@@ -162,7 +158,6 @@ function getStringArray(jsonContent) {
         return null;
     }
 }
-
 function getArrayLanguage(languageString) {
     try {
         let [...languages] = JSON.parse(languageString);
@@ -179,7 +174,6 @@ function getArrayLanguage(languageString) {
         return null;
     }
 }
-
 function getBasicInfo() {
     return {
         id: this.id,
@@ -213,10 +207,10 @@ function addUserInArray(new_user, arrays) {
                 user.isRemoved = false;
                 user.timeCreate = timeUpdate;
             }
-            return new_user;
+            return user;
         }
     }
-    arrays.push({
+    user = {
         _id: new_user._id,
         firstName: new_user.firstName,
         lastName: new_user.lastName,
@@ -225,8 +219,9 @@ function addUserInArray(new_user, arrays) {
         isRemoved: false,
         timeCreate: timeUpdate,
         timeUpdate: timeUpdate,
-    });
-    return new_user;
+    };
+    arrays.push(user);
+    return user;
 }
 function removeUserFromArray(remove_user, arrays) {
     if (!remove_user) {
@@ -237,20 +232,21 @@ function removeUserFromArray(remove_user, arrays) {
         user = arrays[index];
         if (user._id == remove_user._id) {
             user.isRemoved = true;
-            return remove_user;
+            return user;
         }
     }
-    return remove_user;
+    return null;
 }
-function addRequested(user) {
-    //TODO: check member exited.
-    return addUserInArray(user, this.requesteds);
+function addRequested(user) {//TODO: check member exited.
+    return addUserInArray(user, this.requesteds) ? user : null;
 }
 function removeRequested(user) {
-    return removeUserFromArray(user, this.requesteds);
+    return removeUserFromArray(user, this.requesteds) ? user : null;
 }
-function addMember(user, typemember = 1) {
-    //TODO: check owner.
+function confirmRequested(user) {
+    //TODO: add member and remove requested.
+}
+function addMember(user, typemember = 1) {//TODO: check owner.
     if (!user || !typemember) {
         return null;
     }
@@ -271,7 +267,7 @@ function addMember(user, typemember = 1) {
             return user;
         }
     }
-    this.members.push({
+    member = {
         _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -281,12 +277,11 @@ function addMember(user, typemember = 1) {
         isRemoved: false,
         dateJoin: timeUpdate,
         timeUpdate: timeUpdate,
-    });
+    };
+    this.members.push(member);
     return user;
 }
-function updateMember(user, typemember) {
-    //TODO: check 1 owner.
-    //...
+function updateMember(user, typemember) {//TODO: check 1 owner.
     if (!user || !typemember) {
         return null;
     }
@@ -309,9 +304,7 @@ function updateMember(user, typemember) {
     }
     return null;
 }
-
-function removeMember(user) {
-    //TODO: remove owner.
+function removeMember(user) {//TODO: remove owner.
     if (!user) {
         return null;
     }
@@ -323,7 +316,7 @@ function removeMember(user) {
             return user; // this.members.splice(removeindex, 1);
         }
     }
-    return user;
+    return null;
 }
 /*-------------------------------------- */
 GroupSchema.statics.getTypeMemberInfo = getTypeMemberInfo;
