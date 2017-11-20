@@ -1,6 +1,24 @@
-.class-cover-photo {
+.class-left-menu .class-profile-picture img {
   height: 135px;
   width: 100%; }
+.class-left-menu .class-profile-picture .cover-profile-picture {
+  display: none;
+  background-color: #CCCCCC;
+  z-index: 5;
+  position: absolute;
+  top: 25%;
+  left: 15%;
+  height: 50px;
+  width: 135px;
+  padding-left: 35px;
+  padding-top: 4px; }
+  .class-left-menu .class-profile-picture .cover-profile-picture i {
+    display: inline-block;
+    position: absolute;
+    left: -25px;
+    bottom: 15px; }
+.class-left-menu .class-profile-picture:hover .cover-profile-picture {
+  display: block; }
 
 .action-with-class {
   padding: 10px 5px;
@@ -66,6 +84,9 @@
     float: left; }
   .class-topics .class-add-topic {
     margin-top: 10px; }
+
+.class-feed .feed .feed-content {
+  margin: 20px 15px; }
 
 .class-events-upcomming {
   padding: 10px;

@@ -67,9 +67,9 @@
   padding-left: 200px;
   background-color: #fff;
 
-  ul{
-    li{
-      a{
+  ul {
+    li {
+      a {
         border-right: 1px solid #e9eaed;
         float: left;
         font-size: 14px;
@@ -81,7 +81,7 @@
         vertical-align: middle;
         white-space: nowrap;
 
-        &:hover{
+        &:hover {
           background: #f6f7f9;
           text-decoration: none;
         }
@@ -90,35 +90,38 @@
   }
 }
 
-.intros{
+.intros {
   background-color: #fff;
   margin-top: 20px;
   padding: 10px 0;
-  .user-fullname{
+  .user-fullname {
     margin-left: 15px;
   }
 
-  ul.list-intro{
+  ul.list-intro {
     list-style: none;
     margin-left: -25px;
-    li{
+    li {
       margin-top: 5px;
     }
-    i{
+    i {
       font-size: 16px;
     }
 
-    .fa-home{
+    .fa-home {
       font-size: 20px;
     }
 
-    .message{
+    .message {
       margin-left: 5px;
     }
   }
 }
 
-.feed{
-  //background-color: #fff;
-  //margin-top: 20px;
+.user-profile-feed {
+  .feed {
+    .feed-content {
+      margin: 20px 0px;
+    }
+  }
 }

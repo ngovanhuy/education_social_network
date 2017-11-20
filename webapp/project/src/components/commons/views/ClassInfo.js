@@ -7,7 +7,7 @@ const ClassInfo = ({classDetail}) => {
 
     return(
         <div>
-            <Link to={`/classes/${id}`}>
+            <Link to={`/classes/${id}`} className="black-none-under">
                 <span className="class-full-name">{fullName}</span>
             </Link>
         </div>

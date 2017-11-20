@@ -1,7 +1,38 @@
 $main-color: rgba(146, 181, 88, 1);
-.class-cover-photo {
-  height: 135px;
-  width: 100%;
+.class-left-menu {
+  .class-profile-picture {
+    img {
+      height: 135px;
+      width: 100%;
+    }
+
+    .cover-profile-picture {
+      display: none;
+      background-color: #CCCCCC;
+      z-index: 5;
+      position: absolute;
+      top: 25%;
+      left: 15%;
+      height: 50px;
+      width: 135px;
+      padding-left: 35px;
+      padding-top: 4px;
+
+      i {
+        display: inline-block;
+        position: absolute;
+        left: -25px;
+        bottom: 15px;
+      }
+    }
+
+    &:hover {
+      .cover-profile-picture {
+        display: block;
+      }
+
+    }
+  }
 }
 
 .action-with-class {
@@ -102,6 +133,14 @@ $main-color: rgba(146, 181, 88, 1);
 
   .class-add-topic {
     margin-top: 10px;
+  }
+}
+
+.class-feed {
+  .feed {
+    .feed-content {
+      margin: 20px 15px;
+    }
   }
 }
 
@@ -362,7 +401,7 @@ $main-color: rgba(146, 181, 88, 1);
   }
 }
 
-.classes{
+.classes {
   .classes-header {
     background-color: #fff;
     padding: 15px 20px 0;

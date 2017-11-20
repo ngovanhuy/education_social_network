@@ -7,7 +7,7 @@ const EventInfo = ({event}) => {
 
     return(
         <div>
-            <Link to={`/events/${id}`}>
+            <Link to={`/events/${id}`} className="black-none-under">
                 <span className="event-name">{title}</span>
             </Link>
         </div>

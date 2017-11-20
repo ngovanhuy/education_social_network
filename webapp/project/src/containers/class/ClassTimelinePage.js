@@ -6,7 +6,7 @@ import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import ClassRightMenu from "../../components/class/ClassRightMenu";
 import '../../components/class/class.css'
 import NewPost from "../../components/commons/views/NewPost";
-import ClassFeed from "../../components/class/ClassFeed";
+import Feed from "../../components/commons/Feed";
 
 class ClassTimelinePage extends Component {
     static propTypes = {
@@ -127,7 +127,7 @@ class ClassTimelinePage extends Component {
                 from: {
                     user:{
                         id: "1",
-                        profilePictureUrl: "/images/cover_photo.jpg",
+                        coverPhotoUrl: "/images/cover_photo.jpg",
                         profilePictureUrl: "/images/profile_picture.png",
                         fullName: "NgoVan Huy",
                         username: "ngovanhuy0241"
@@ -228,7 +228,9 @@ class ClassTimelinePage extends Component {
                             <NewPost classDetail={classDetail}/>
                         </div>
                         <div className="row">
-                            <ClassFeed feed={feed}/>
+                            <div className="class-feed">
+                                <Feed feed={feed}/>
+                            </div>
                         </div>
                     </div>
                     <div className="col-sm-3">

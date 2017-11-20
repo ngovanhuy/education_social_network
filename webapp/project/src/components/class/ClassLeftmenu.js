@@ -15,7 +15,7 @@ class ClassLeftmenu extends Component{
             };
         }
         return(
-            <div>
+            <div className="class-left-menu">
                 <div className="col-sm-12">
                     <div className="row">
                         <CoverPhotoClass profilePictureUrl={classDetail.profilePictureUrl} classId={classId}/>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import IntroProfiles from "../../components/userProfile/IntroProfiles";
-import Feed from "../../components/userProfile/Feed";
+import Feed from "../../components/commons/Feed";
 
 class UserProfilePage extends Component{
     static propTypes = {
@@ -129,7 +129,9 @@ class UserProfilePage extends Component{
                                 <IntroProfiles user={user}/>
                             </div>
                             <div className="col-sm-8">
-                                <Feed feed={feed}/>
+                                <div className="user-profile-feed">
+                                    <Feed feed={feed}/>
+                                </div>
                             </div>
                         </div>
                     </div>

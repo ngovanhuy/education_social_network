@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import ClassInfo from "../commons/views/ClassInfo";
 
 class Classes extends Component {
@@ -8,7 +9,9 @@ class Classes extends Component {
                 <div className="class-detail clearfix">
                     <div className="class-detail-left">
                         <div className="class-profile-picture">
-                            <img src={classDetail.profilePictureUrl}/>
+                            <Link to={`/classes/${classDetail.id}`}>
+                                <img src={classDetail.profilePictureUrl}/>
+                            </Link>
                         </div>
                         <div className="class-info">
                             <ClassInfo classDetail={classDetail}/>

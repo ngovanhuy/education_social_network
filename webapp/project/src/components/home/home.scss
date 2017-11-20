@@ -1,0 +1,91 @@
+$main-color: rgba(146, 181, 88, 1);
+.home-page {
+  .home-leftmenu {
+    .school-logo {
+      img {
+        height: 160px;
+      }
+    }
+    .user-info {
+      margin: 20px 0;
+      img {
+        height: 30px;
+      }
+      .user-profile-info {
+        display: inline-block;
+        margin-left: 10px;
+      }
+    }
+    .home-leftmenu-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    ul.home-leftmenu-list {
+      list-style: none;
+      padding-left: 10px;
+      li {
+        align-items: center;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 0 5px;
+        line-height: 28px;
+        position: relative;
+        z-index: 0;
+        &:hover{
+          background-color: #F6F7F9;
+        }
+        i.fa {
+          margin-right: 5px;
+        }
+        a {
+          color: #000;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+  .school-profile-picture {
+    img {
+      height: 310px;
+      width: 100%;
+    }
+  }
+  .home-feed {
+    .feed {
+      .feed-content {
+        margin-top: 20px;
+      }
+    }
+  }
+  .home-notifications{
+    .notification-detail{
+      margin-top: 5px;
+      padding-bottom: 5px;
+      border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
+      &:last-of-type{
+        border-bottom: none;
+      }
+      .notification-time-user{
+        .user-profile-info{
+          display: inline-block;
+        }
+      }
+    }
+  }
+  .home-school-about{
+    .school-map{
+      img{
+        height: 100px;
+        width: 100%;
+      }
+    }
+    .school-about-detail{
+      margin: 5px 0;
+      i.fa{
+        margin-right: 10px;
+      }
+    }
+  }
+}

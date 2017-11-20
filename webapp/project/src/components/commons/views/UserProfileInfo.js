@@ -7,7 +7,7 @@ const UserProfileInfo = ({user}) => {
 
     return(
         <div className="user-profile-info">
-            <Link to={`/users/${username}`}>
+            <Link to={`/users/${username}`} className="black-none-under">
                 <span className="user-fullname">{fullName}</span>
             </Link>
         </div>

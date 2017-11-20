@@ -4,7 +4,7 @@ import {Provider} from 'react-redux'
 import DevTools from './DevTools'
 import {Route, Switch} from 'react-router-dom'
 import App from './App'
-import HomePage from "./HomePage";
+import HomePage from "./home/HomePage";
 import UserProfilePage from "./userProfile/UserProfilePage";
 import AboutPage from "./userProfile/AboutPage";
 import ClassTimelinePage from "./class/ClassTimelinePage";
@@ -23,7 +23,7 @@ const Root = ({store}) => (
         <div>
             <Route component={App}/>
             <Switch>
-                <Route exact path="/" component={HomePage}> </Route>
+                <Route exact path="/" component={HomePage}/>
                 <Route exact path="/users/:userName/about" component={AboutPage}/>
                 <Route exact path="/users/:userName" component={UserProfilePage}/>
                 <Route exact path="/classes" component={ClassesPage}/>

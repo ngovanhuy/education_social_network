@@ -22,7 +22,6 @@ ul.nav li .user_full_name {
   margin: 0 5px; }
 
 .feed .feed-content {
-  margin: 20px 15px;
   padding: 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12); }
@@ -281,5 +280,10 @@ ul.nav li .user_full_name {
 
 .btn i.fa {
   margin-right: 5px; }
+
+a.black-none-under {
+  color: #000; }
+  a.black-none-under:hover {
+    text-decoration: none; }
 
 /*# sourceMappingURL=common.css.map */
