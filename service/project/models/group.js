@@ -341,6 +341,6 @@ GroupSchema.methods.updateMember = updateMember;
 
 GroupSchema.methods.addRequested = addRequested;
 GroupSchema.methods.removeRequested = removeRequested;
-UserSchema.methods.confirmRequested = confirmRequested;
+GroupSchema.methods.confirmRequested = confirmRequested;
 
 module.exports = mongoose.model('Group', GroupSchema); 
