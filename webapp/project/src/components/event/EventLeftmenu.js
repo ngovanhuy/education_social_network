@@ -18,8 +18,15 @@ class EventLeftmenu extends Component{
         this.setState({modalIsOpen: false});
     }
 
+    renderClassNameCurrentPage(currentPage, currentLink){
+        if(currentPage == currentLink){
+            return "events-headline-content current";
+        }
+        return "events-headline-content";
+    }
+
     render(){
-        const {currentPage} = this.props
+        const {currentPage, eventDetailTitle} = this.props
 
         return(
             <div className="events-left-menu">
@@ -36,28 +43,40 @@ class EventLeftmenu extends Component{
                     <div className="row">
                         <div className="events-headline">
                             <Link to={`/events`}>
-                                <div className={currentPage == "events" ? "events-headline-content current" : "events-headline-content"}>
+                                <div className={this.renderClassNameCurrentPage(currentPage, "events")}>
                                     <span>Events</span>
                                 </div>
                             </Link>
+                            {
+                                eventDetailTitle ?
+                                    (
+                                        <div className={this.renderClassNameCurrentPage(currentPage, "eventDetail")}>
+                                            <span className="event-detail">{eventDetailTitle}</span>
+                                        </div>
+                                    ) : ''
+                            }
                             <Link to={`/events/calendar`}>
-                                <div className={currentPage == "calendar" ? "events-headline-content current" : "events-headline-content"}>
+                                <div className={this.renderClassNameCurrentPage(currentPage, "calendar")}>
                                     <span>Calendar</span>
                                 </div>
                             </Link>
                             <Link to={`/events/discovery`}>
-                                <div className={currentPage == "discovery" ? "events-headline-content current" : "events-headline-content"}>
+                                <div className={this.renderClassNameCurrentPage(currentPage, "discovery")}>
                                     <span>Discover</span>
                                 </div>
                             </Link>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <button className="btn btn-default" onClick={this.openModal}>
+                <div className="btn-group">
+                    <a href="#" className="btn btn-white" onClick={this.openModal}>
                         <i className="fa fa-plus"></i>
                         Create event
-                    </button>
+                    </a>
+                    <a href="#" className="btn btn-white">
+                        <i className="fa fa-plus"></i>
+                        Import event
+                    </a>
                 </div>
             </div>
         )

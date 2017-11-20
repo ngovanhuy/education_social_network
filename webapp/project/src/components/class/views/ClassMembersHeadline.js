@@ -24,7 +24,7 @@ class ClassMembersHeadline extends Component {
                             </Link>
                         </li>
                         <li className="pull-right">
-                            <button className="btn btn-default">
+                            <button className="btn btn-white">
                                 <i className="fa fa-plus"></i>
                                 Add
                             </button>

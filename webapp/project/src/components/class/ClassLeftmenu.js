@@ -3,19 +3,27 @@ import CoverPhotoClass from "./views/ClassCoverPhoto";
 import ClassHeadline from "./views/ClassHeadline";
 import ClassTopics from "./views/ClassTopics";
 
+const defaultProfilePictureUrl = '/images/cover_photo.jpg'
+
 class ClassLeftmenu extends Component{
     render(){
-        const {classDetail, topics, className, currentPage} = this.props
+        var {classDetail, topics, classId, currentPage} = this.props
+        if (classDetail && classDetail.coverPhotoUrl){
+            classDetail = {
+                ...classDetail,
+                profilePictureUrl: defaultProfilePictureUrl
+            };
+        }
         return(
             <div>
                 <div className="col-sm-12">
                     <div className="row">
-                        <CoverPhotoClass coverPhotoUrl={classDetail.coverPhotoUrl} className={className}/>
+                        <CoverPhotoClass profilePictureUrl={classDetail.profilePictureUrl} classId={classId}/>
                     </div>
                 </div>
                 <div className="col-sm-12">
                     <div className="row">
-                        <ClassHeadline classDetail={classDetail} className={className}
+                        <ClassHeadline classDetail={classDetail} classId={classId}
                             currentPage={currentPage}/>
                     </div>
                 </div>

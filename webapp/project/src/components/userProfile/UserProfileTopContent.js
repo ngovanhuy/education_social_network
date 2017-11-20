@@ -6,7 +6,7 @@ import * as fileUtil from '../../utils/fileUtil'
 
 import './userProfile.css'
 
-class TopContent extends Component {
+class UserProfileTopContent extends Component {
     static propTypes = {
         user: PropTypes.object
     }
@@ -57,4 +57,4 @@ class TopContent extends Component {
     }
 }
 
-export default TopContent
+export default UserProfileTopContent

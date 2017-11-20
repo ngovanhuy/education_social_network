@@ -6,7 +6,7 @@ const UserProfileInfo = ({user}) => {
     const {username, fullName, profilePictureUrl, coverPhotoUrl} = user
 
     return(
-        <div>
+        <div className="user-profile-info">
             <Link to={`/users/${username}`}>
                 <span className="user-fullname">{fullName}</span>
             </Link>

@@ -76,9 +76,9 @@
   .class-events-upcomming .event-detail {
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     padding: 5px 0; }
-    .class-events-upcomming .event-detail .event-start-time {
+    .class-events-upcomming .event-detail .event-start {
       color: rgba(0, 0, 0, 0.55); }
-    .class-events-upcomming .event-detail .event-name {
+    .class-events-upcomming .event-detail .event-title {
       color: #00695c; }
   .class-events-upcomming .btn {
     margin-top: 10px; }
@@ -202,30 +202,6 @@
         position: relative;
         vertical-align: middle; }
 
-.create-event-popup .event-photo-upload {
-  background-color: #4b4f56;
-  width: 386px;
-  height: 202px;
-  display: flex;
-  margin: 0 15px; }
-  .create-event-popup .event-photo-upload div {
-    margin: auto; }
-  .create-event-popup .event-photo-upload .upload-content {
-    background-color: rgba(0, 0, 0, 0.3);
-    border: 1px solid #fff;
-    border-radius: 2px;
-    color: #fff;
-    font-size: 14px;
-    padding: 5px 16px 5px 12px;
-    position: relative; }
-    .create-event-popup .event-photo-upload .upload-content i {
-      margin-right: 6px;
-      padding-bottom: 2px;
-      vertical-align: middle; }
-.create-event-popup textarea {
-  max-width: 454px;
-  max-height: 100px; }
-
 .class-members .class-members-headline {
   margin: 10px 38px;
   background-color: #fff;
@@ -234,36 +210,74 @@
   .class-members .class-members-headline div {
     margin-top: 10px;
     padding: 5px 0; }
-    .class-members .class-members-headline div li span {
-      font-size: 16px;
-      margin-right: 10px; }
-    .class-members .class-members-headline div li .btn:first-of-type {
-      margin-right: 10px; }
-    .class-members .class-members-headline div li .btn .fa {
-      margin-right: 5px; }
-    .class-members .class-members-headline div a {
-      color: #000; }
-      .class-members .class-members-headline div a:hover {
-        text-decoration: none; }
-    .class-members .class-members-headline div .current {
-      padding-bottom: 3px;
-      border-bottom: 4px solid blue; }
-    .class-members .class-members-headline div ul {
-      margin: 0;
-      padding: 0;
-      white-space: nowrap;
-      list-style: none; }
-      .class-members .class-members-headline div ul li {
-        display: inline-block;
-        list-style-type: none;
-        max-width: 100%;
-        position: relative;
-        vertical-align: middle; }
+  .class-members .class-members-headline li span {
+    font-size: 16px;
+    margin-right: 10px; }
+  .class-members .class-members-headline li .btn:first-of-type {
+    margin-right: 10px; }
+  .class-members .class-members-headline li .btn .fa {
+    margin-right: 5px; }
+  .class-members .class-members-headline a {
+    color: #000; }
+    .class-members .class-members-headline a:hover {
+      text-decoration: none; }
+  .class-members .class-members-headline .current {
+    padding-bottom: 3px;
+    border-bottom: 4px solid blue; }
+  .class-members .class-members-headline ul {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    list-style: none; }
+    .class-members .class-members-headline ul li {
+      display: inline-block;
+      list-style-type: none;
+      max-width: 100%;
+      position: relative;
+      vertical-align: middle; }
 .class-members .class-members-content .panel-member .panel-body {
   display: flex; }
   .class-members .class-members-content .panel-member .panel-body .dropdown {
     margin: auto; }
 .class-members .class-members-content .panel-member .panel-member-col {
   float: left; }
+
+.create-class-modal .react-tagsinput .react-tagsinput-input {
+  width: 150px; }
+
+.classes .classes-header {
+  background-color: #fff;
+  padding: 15px 20px 0;
+  margin-top: 10px; }
+  .classes .classes-header .current {
+    border-bottom: 4px solid #4267b2;
+    font-size: 16px;
+    margin: 8px 0;
+    padding: 5px 16px 7px;
+    font-weight: bold; }
+  .classes .classes-header .btn-create-group {
+    margin-bottom: 5px;
+    margin-top: -5px; }
+.classes .classes-content {
+  margin-top: 15px; }
+  .classes .classes-content .class-detail {
+    background-color: #fff;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    margin: 5px 0; }
+    .classes .classes-content .class-detail .class-detail-left {
+      align-items: center;
+      display: flex;
+      justify-content: flex-start;
+      overflow: hidden; }
+      .classes .classes-content .class-detail .class-detail-left .class-profile-picture img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); }
+      .classes .classes-content .class-detail .class-detail-left .class-info {
+        margin: 0 10px; }
 
 /*# sourceMappingURL=class.css.map */

@@ -22,7 +22,7 @@ class ClassMembers extends Component {
                             </div>
                         </a>
                         <div className="dropdown panel-member-col">
-                            <button data-toggle="dropdown" className="btn btn-default dropdown-toggle" type="button">
+                            <button data-toggle="dropdown" className="btn btn-white dropdown-toggle" type="button">
                                 <span className="fa fa-cog"></span>
                                 <span className="sr-only">Toggle Dropdown</span>
                             </button>

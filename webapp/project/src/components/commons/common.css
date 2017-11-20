@@ -163,6 +163,8 @@ ul.nav li .user_full_name {
   padding: 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  .new-post .new-post-headline .new-post-headline-content i.fa {
+    margin-right: 5px; }
   .new-post .new-post-headline .new-post-headline-content:last-of-type {
     top: -5px; }
   .new-post .new-post-content .user-create-post {
@@ -264,5 +266,20 @@ ul.nav li .user_full_name {
     border-top: 0.1rem solid rgba(0, 0, 0, 0.12); }
     .ReactModal__Overlay .modal-bottom button:first-of-type {
       margin-right: 15px; }
+
+.ui-box {
+  margin-top: 20px;
+  background-color: #fff;
+  border: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  .ui-box .ui-box-title {
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
+    padding: 10px; }
+  .ui-box .ui-box-content {
+    padding: 10px; }
+
+.btn i.fa {
+  margin-right: 5px; }
 
 /*# sourceMappingURL=common.css.map */

@@ -4,8 +4,8 @@ class ClassEventsUpcomming extends Component{
     renderEventDetail = (event, index) => {
         return(
             <div key={index} className="event-detail">
-                <div className="event-start-time">{event.start.toLocaleString()}</div>
-                <div className="event-name">{event.title}</div>
+                <div className="event-start">{event.start.toLocaleString()}</div>
+                <div className="event-title">{event.title}</div>
             </div>
         )
     }
@@ -26,7 +26,7 @@ class ClassEventsUpcomming extends Component{
                         )
                 }
                 <div>
-                    <button className="btn btn-default pull-right">View all</button>
+                    <button className="btn btn-white pull-right">View all</button>
                 </div>
             </div>
         )

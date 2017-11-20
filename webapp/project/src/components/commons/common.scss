@@ -242,6 +242,9 @@ ul.nav {
   border: .1rem solid rgba(0, 0, 0, 0.12);
   .new-post-headline {
     .new-post-headline-content {
+      i.fa{
+        margin-right: 5px;
+      }
       &:last-of-type {
         top: -5px;
       }
@@ -378,5 +381,26 @@ ul.nav {
         margin-right: 15px;
       }
     }
+  }
+}
+
+.ui-box{
+  margin-top: 20px;
+  background-color: #fff;
+  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  .ui-box-title{
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
+    padding: 10px;
+  }
+  .ui-box-content{
+    padding: 10px;
+  }
+}
+
+.btn{
+  i.fa{
+    margin-right: 5px;
   }
 }

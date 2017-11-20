@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import TopContent from "../../components/userProfile/TopContent";
+import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/userProfile/Feed";
 
@@ -121,7 +121,7 @@ class UserProfilePage extends Component{
                     <div className="col-sm-10">
                         <div className="row">
                             <div className="col-sm-12">
-                                <TopContent user={user}/>
+                                <UserProfileTopContent user={user}/>
                             </div>
                         </div>
                         <div className="row">

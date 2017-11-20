@@ -20,11 +20,11 @@ class ClassEventsCalendarHeadline extends Component {
                     </li>
 
                     <li className="pull-right">
-                        <button className="btn btn-default">
+                        <button className="btn btn-white">
                             <i className="fa fa-plus"></i>
                             Import Calendar
                         </button>
-                        <button className="btn btn-default" onClick={this.props.openModal}>
+                        <button className="btn btn-white" onClick={this.props.openModal}>
                             <i className="fa fa-plus"></i>
                             Create event
                         </button>

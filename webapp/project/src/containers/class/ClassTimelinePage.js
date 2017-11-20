@@ -11,7 +11,7 @@ import ClassFeed from "../../components/class/ClassFeed";
 class ClassTimelinePage extends Component {
     static propTypes = {
         classDetail: PropTypes.object,
-        className: PropTypes.string,
+        classId: PropTypes.string,
         topics: PropTypes.array,
         events: PropTypes.array,
         recentFiles: PropTypes.array,
@@ -20,7 +20,7 @@ class ClassTimelinePage extends Component {
 
     static defaultProps = {
         classDetail: {
-            coverPhotoUrl: '/images/cover_photo.jpg',
+            profilePictureUrl: '/images/cover_photo.jpg',
             fullName: 'Chung ta la Anh em',
             memberCount: 489,
             description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
@@ -64,7 +64,7 @@ class ClassTimelinePage extends Component {
         feed:[{
             post:{
                 id: "123",
-                className: "huynv",
+                classId: "1",
                 createTime: new Date(),
                 message: "[SINH VIÊN 5 TỐT]\n" +
                 "\"Hành trình tìm kiếm Sinh viên 5 tốt 2016-2017: TÔI TỎA SÁNG\" đã chính thức được khởi động.\n" +
@@ -127,7 +127,7 @@ class ClassTimelinePage extends Component {
                 from: {
                     user:{
                         id: "1",
-                        coverPhotoUrl: "/images/cover_photo.jpg",
+                        profilePictureUrl: "/images/cover_photo.jpg",
                         profilePictureUrl: "/images/profile_picture.png",
                         fullName: "NgoVan Huy",
                         username: "ngovanhuy0241"
@@ -138,7 +138,7 @@ class ClassTimelinePage extends Component {
         },{
             post:{
                 id: "123",
-                className: "huynv",
+                classId: "huynv",
                 createTime: new Date(),
                 message: "[SINH VIÊN 5 TỐT]\n" +
                 "\"Hành trình tìm kiếm Sinh viên 5 tốt 2016-2017: TÔI TỎA SÁNG\" đã chính thức được khởi động.\n" +
@@ -213,19 +213,19 @@ class ClassTimelinePage extends Component {
     }
 
     render() {
-        const {classDetail, topics, events, className, recentFiles, feed} = this.props
+        const {classDetail, classId, topics, events, recentFiles, feed} = this.props
         return (
             <div>
                 <div className="container">
                     <div className="col-sm-2">
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           className={className} currentPage="discussion"/>
+                                           classId={classId} currentPage="discussion"/>
                         </div>
                     </div>
                     <div className="col-sm-7 class-main-content">
                         <div className="row">
-                            <NewPost className={className} classFullName={classDetail.fullName}/>
+                            <NewPost classDetail={classDetail}/>
                         </div>
                         <div className="row">
                             <ClassFeed feed={feed}/>
@@ -244,9 +244,9 @@ class ClassTimelinePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const className = ownProps.match.params.className
+    const classId = ownProps.match.params.classId
     return {
-        className
+        classId: classId
     }
 }
 

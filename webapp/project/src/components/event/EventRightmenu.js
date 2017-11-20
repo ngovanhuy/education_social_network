@@ -11,16 +11,16 @@ class EventRightmenu extends Component {
                 <div className="find-event-filter-group">
                     <ul>
                         <li className="find-event-filter">
-                            <Link to="#"><span>Today</span></Link>
+                            <Link to="/events/discovery"><span>Today</span></Link>
                         </li>
                         <li className="find-event-filter">
-                            <Link to="#"><span>Tomorrow</span></Link>
+                            <Link to="/events/discovery"><span>Tomorrow</span></Link>
                         </li>
                         <li className="find-event-filter">
-                            <Link to="#"><span>This weekend</span></Link>
+                            <Link to="/events/discovery"><span>This weekend</span></Link>
                         </li>
                         <li className="find-event-filter">
-                            <Link to="#"><span>Choose date</span></Link>
+                            <Link to="/events/discovery"><span>Choose date</span></Link>
                         </li>
                     </ul>
                 </div>

@@ -24,7 +24,7 @@ class ClassEvents extends Component {
     render() {
         const {events, className, classDetail} = this.props
         return (
-            <div className="class-events">
+            <div className="class-events clearfix">
                 <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
                 <ClassEventsCalendarHeadline className={className} currentPage="events" openModal={this.openModal}/>
                 <EventsAgenda events={events}/>

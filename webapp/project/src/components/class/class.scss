@@ -64,7 +64,7 @@ $main-color: rgba(146, 181, 88, 1);
       background-color: #e6ecf0;
     }
   }
-  .class-headline-content.current{
+  .class-headline-content.current {
     background-color: #e6ecf0;
   }
 }
@@ -115,10 +115,10 @@ $main-color: rgba(146, 181, 88, 1);
   .event-detail {
     border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
     padding: 5px 0;
-    .event-start-time {
+    .event-start {
       color: rgba(0, 0, 0, 0.55);
     }
-    .event-name {
+    .event-title {
       color: rgb(0, 105, 92);
     }
   }
@@ -132,7 +132,7 @@ $main-color: rgba(146, 181, 88, 1);
   margin-top: 10px;
   padding: 10px;
   background-color: #fff;
-  .description{
+  .description {
     margin-top: 15px;
     border-top: .1rem solid rgba(0, 0, 0, 0.12);
   }
@@ -145,7 +145,7 @@ $main-color: rgba(146, 181, 88, 1);
       font-size: 14px;
     }
   }
-  .form-control{
+  .form-control {
     font-size: 12px;
   }
 }
@@ -291,39 +291,8 @@ $main-color: rgba(146, 181, 88, 1);
   }
 }
 
-.create-event-popup {
-  .event-photo-upload {
-    background-color: #4b4f56;
-    width: 386px;
-    height: 202px;
-    display: flex;
-    margin: 0 15px;
-    div {
-      margin: auto;
-    }
-    .upload-content {
-      background-color: rgba(0, 0, 0, .3);
-      border: 1px solid #fff;
-      border-radius: 2px;
-      color: #fff;
-      font-size: 14px;
-      padding: 5px 16px 5px 12px;
-      position: relative;
-      i {
-        margin-right: 6px;
-        padding-bottom: 2px;
-        vertical-align: middle;
-      }
-    }
-  }
-  textarea {
-    max-width: 454px;
-    max-height: 100px;
-  }
-}
-
-.class-members{
-  .class-members-headline{
+.class-members {
+  .class-members-headline {
     margin: 10px 38px;
     background-color: #fff;
     border: 0.1rem solid rgba(0, 0, 0, 0.12);
@@ -331,57 +300,112 @@ $main-color: rgba(146, 181, 88, 1);
     div {
       margin-top: 10px;
       padding: 5px 0;
-      li {
-        span {
-          font-size: 16px;
+    }
+    li {
+      span {
+        font-size: 16px;
+        margin-right: 10px;
+      }
+      .btn {
+        &:first-of-type {
           margin-right: 10px;
         }
-        .btn {
-          &:first-of-type {
-            margin-right: 10px;
-          }
-          .fa {
-            margin-right: 5px;
-          }
+        .fa {
+          margin-right: 5px;
         }
       }
-      a {
-        color: #000;
-        &:hover {
-          text-decoration: none;
+    }
+    a {
+      color: #000;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    .current {
+      padding-bottom: 3px;
+      border-bottom: 4px solid blue;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      white-space: nowrap;
+      list-style: none;
+      li {
+        display: inline-block;
+        list-style-type: none;
+        max-width: 100%;
+        position: relative;
+        vertical-align: middle;
+      }
+    }
+  }
+  .class-members-content {
+    .panel-member {
+      .panel-body {
+        display: flex;
+        .dropdown {
+          margin: auto;
         }
       }
-      .current {
-        padding-bottom: 3px;
-        border-bottom: 4px solid blue;
+      .panel-member-col {
+        float: left;
       }
-      ul {
-        margin: 0;
-        padding: 0;
-        white-space: nowrap;
-        list-style: none;
-        li {
-          display: inline-block;
-          list-style-type: none;
-          max-width: 100%;
-          position: relative;
-          vertical-align: middle;
+    }
+  }
+}
+
+.create-class-modal {
+  .react-tagsinput {
+    .react-tagsinput-input {
+      width: 150px;
+    }
+  }
+}
+
+.classes{
+  .classes-header {
+    background-color: #fff;
+    padding: 15px 20px 0;
+    margin-top: 10px;
+    .current {
+      border-bottom: 4px solid #4267b2;
+      font-size: 16px;
+      margin: 8px 0;
+      padding: 5px 16px 7px;
+      font-weight: bold;
+    }
+    .btn-create-group {
+      margin-bottom: 5px;
+      margin-top: -5px;
+    }
+  }
+  .classes-content {
+    margin-top: 15px;
+    .class-detail {
+      background-color: #fff;
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      margin: 5px 0;
+      .class-detail-left {
+        align-items: center;
+        display: flex;
+        justify-content: flex-start;
+        overflow: hidden;
+        .class-profile-picture {
+          img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15);
+          }
+        }
+        .class-info {
+          margin: 0 10px;
         }
       }
     }
   }
 
-  .class-members-content{
-    .panel-member{
-      .panel-body{
-        display: flex;
-        .dropdown{
-          margin: auto;
-        }
-      }
-      .panel-member-col{
-        float: left;
-      }
-    }
-  }
 }

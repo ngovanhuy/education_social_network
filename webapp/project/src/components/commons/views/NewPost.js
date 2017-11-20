@@ -4,10 +4,27 @@ import PostCreateAnnouncement from "./PostCreateAnnouncement";
 import PostCreateAssignment from "./PostCreateAssignment";
 import PostAddAttachment from "./PostAddAttachment";
 import NewPostFooter from "./NewPostFooter";
+import CreateEventModal from "../../event/views/CreateEventModal";
 
 class NewPost extends Component {
+    constructor() {
+        super()
+        this.state = {
+            modalIsOpen: false
+        }
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
+
     render() {
-        const {className, classFullName} = this.props
+        const {classDetail} = this.props
         return (
             <div className="new-post">
                 <div className="new-post-headline">
@@ -33,17 +50,18 @@ class NewPost extends Component {
                             </Tab>
                             <Tab disabled={true}>
                                 <div className="new-post-headline-content dropdown">
-                                    <button data-toggle="dropdown" className="btn btn-default dropdown-toggle"
+                                    <button data-toggle="dropdown" className="btn btn-white dropdown-toggle"
                                             type="button">
                                         <span className="fa fa-ellipsis-h"></span>
                                         <span className="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul role="menu" className="dropdown-menu pull-right-xs">
                                         <li>
-                                            <a href="javascript:;">
+                                            <a href="javascript:;" onClick={this.openModal}>
                                                 <i className="fa fa-calendar"></i>
                                                 Create event
                                             </a>
+                                            <CreateEventModal classDetail={classDetail} modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}/>
                                         </li>
                                     </ul>
                                 </div>
@@ -63,7 +81,7 @@ class NewPost extends Component {
                     </Tabs>
                 </div>
                 <PostAddAttachment/>
-                <NewPostFooter classFullName={classFullName}/>
+                <NewPostFooter classFullName={classDetail.fullName}/>
             </div>
         )
     }

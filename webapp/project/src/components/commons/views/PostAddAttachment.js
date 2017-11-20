@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import FileInput from '@ranyefet/react-file-input'
 import * as FileUtil from '../../../utils/fileUtil'
 import PostAttachmentsPreviewer from "./PostAttachmentsPreviewer";
@@ -24,7 +24,7 @@ class PostAddAttachment extends Component {
         });
     }
 
-    handleRemoveFile(index){
+    handleRemoveFile(index) {
         this.setState({
             files: this.state.files.filter((_, i) => i !== index)
         })
@@ -37,12 +37,12 @@ class PostAddAttachment extends Component {
                 <div className="post-add-attachment">
                     <div className="row">
                         <div className="col-sm-12">
-                            <a href="javascript:;" className="post-add-file">
-                                <FileInput name="file" onChange={this.handleUploadFile}>
+                            <FileInput name="file" onChange={this.handleUploadFile}>
+                                <a href="javascript:;" className="post-add-file">
                                     <i className="fa fa-file"></i>
                                     Add file
-                                </FileInput>
-                            </a>
+                                </a>
+                            </FileInput>
                         </div>
                     </div>
                 </div>
@@ -50,4 +50,5 @@ class PostAddAttachment extends Component {
         )
     }
 }
+
 export default PostAddAttachment;

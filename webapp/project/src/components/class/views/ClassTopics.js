@@ -31,7 +31,7 @@ class ClassTopics extends Component {
                         this.renderTopic(topic, index))
                 }
                 <div className="class-add-topic">
-                    <button className="btn btn-default pull-right">
+                    <button className="btn btn-white pull-right">
                         Add topic
                     </button>
                 </div>

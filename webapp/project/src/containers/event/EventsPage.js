@@ -15,6 +15,7 @@ class EventsPage extends Component {
     static defaultProps = {
         events: [
             {
+                'id': 1,
                 'title': 'All Day Event very long title',
                 'allDay': true,
                 'start': new Date(2015, 3, 0),
@@ -22,13 +23,14 @@ class EventsPage extends Component {
                 'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
             },
             {
+                'id': 2,
                 'title': 'Long Event',
                 'start': new Date(2015, 3, 7),
                 'end': new Date(2015, 3, 10),
                 'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
             },
-
             {
+                'id': 3,
                 'title': 'DTS STARTS',
                 'start': new Date(2016, 2, 13, 0, 0, 0),
                 'end': new Date(2016, 2, 20, 0, 0, 0),
@@ -36,19 +38,21 @@ class EventsPage extends Component {
             },
 
             {
+                'id': 4,
                 'title': 'DTS ENDS',
                 'start': new Date(2016, 10, 6, 0, 0, 0),
                 'end': new Date(2016, 10, 13, 0, 0, 0),
                 'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
             },
-
             {
+                'id': 5,
                 'title': 'Some Event',
                 'start': new Date(2015, 3, 9, 0, 0, 0),
                 'end': new Date(2015, 3, 9, 0, 0, 0),
                 'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
             },
             {
+                'id': 1,
                 'title': 'Conference',
                 'start': new Date(2015, 3, 11),
                 'end': new Date(2015, 3, 13),
@@ -70,8 +74,8 @@ class EventsPage extends Component {
                     </div>
                     <div className="col-sm-7">
                         <div className="row">
-                            <div className="events">
-                                <div className="events-headline">
+                            <div className="events clearfix">
+                                <div className="events-header">
                                     <span>Upcomming events</span>
                                 </div>
                                 <EventsAgenda events={events}/>

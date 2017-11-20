@@ -146,9 +146,9 @@ class ClassFilePage extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const className = ownProps.match.params.className
+    const className = ownProps.match.params.classId
     return {
-        className
+        classId: className
     }
 }
 

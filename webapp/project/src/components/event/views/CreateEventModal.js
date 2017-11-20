@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import FileInput from '@ranyefet/react-file-input'
 import Datetime from 'react-datetime'
 import 'react-datetime/css/react-datetime.css'
+import '../event.css'
 
 const customStyles = {
     overlay: {
@@ -39,7 +40,7 @@ class CreateEventModal extends Component{
         const {classDetail, modalIsOpen} = this.props
         var modalTitle = 'Create event';
         if(classDetail && classDetail.fullName){
-            modalTitle += "for" + classDetail.fullName;
+            modalTitle += " for " + classDetail.fullName;
         }
         return(
             <Modal
@@ -51,7 +52,7 @@ class CreateEventModal extends Component{
             >
                 <h2>{modalTitle}</h2>
                 <button className="mm-popup__close" onClick={this.props.closeModal}>×</button>
-                <form className="create-event-popup form-horizontal" role="form">
+                <form className="create-event-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Event Photo</label>
                         <div className="col-sm-9 event-photo-upload clearfix">
@@ -105,7 +106,7 @@ class CreateEventModal extends Component{
                     </div>
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
-                            <button className="btn btn-default" onClick={this.props.closeModal}>Cancel</button>
+                            <button className="btn btn-white" onClick={this.props.closeModal}>Cancel</button>
                             <button className="btn btn-primary">Create</button>
                         </div>
                     </div>

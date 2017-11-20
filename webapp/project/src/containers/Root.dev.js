@@ -15,6 +15,8 @@ import ClassMembersPage from "./class/ClassMembersPage";
 import EventsPage from "./event/EventsPage";
 import CalendarPage from "./event/CalendarPage";
 import DiscoveryPage from "./event/DiscoveryPage";
+import EventDetailPage from "./event/EventDetailPage";
+import ClassesPage from "./class/ClassesPage";
 
 const Root = ({store}) => (
     <Provider store={store}>
@@ -24,16 +26,18 @@ const Root = ({store}) => (
                 <Route exact path="/" component={HomePage}> </Route>
                 <Route exact path="/users/:userName/about" component={AboutPage}/>
                 <Route exact path="/users/:userName" component={UserProfilePage}/>
-                <Route exact path="/classes/:className" component={ClassTimelinePage}/>
-                <Route exact path="/classes/:className/files" component={ClassFilePage}/>
-                <Route exact path="/classes/:className/calendar" component={ClassCalendarPage}/>
-                <Route exact path="/classes/:className/events" component={ClassEventPage}/>
-                <Route exact path="/classes/:className/members" component={ClassMembersPage}/>
-                <Route exact path="/classes/:className/admins" component={ClassMembersPage}/>
-                <Route exact path="/classes/:className/teachers" component={ClassMembersPage}/>
+                <Route exact path="/classes" component={ClassesPage}/>
+                <Route exact path="/classes/:classId" component={ClassTimelinePage}/>
+                <Route exact path="/classes/:classId/files" component={ClassFilePage}/>
+                <Route exact path="/classes/:classId/calendar" component={ClassCalendarPage}/>
+                <Route exact path="/classes/:classId/events" component={ClassEventPage}/>
+                <Route exact path="/classes/:classId/members" component={ClassMembersPage}/>
+                <Route exact path="/classes/:classId/admins" component={ClassMembersPage}/>
+                <Route exact path="/classes/:classId/teachers" component={ClassMembersPage}/>
                 <Route exact path="/events" component={EventsPage}/>
                 <Route exact path="/events/discovery" component={DiscoveryPage}/>
                 <Route exact path="/events/calendar" component={CalendarPage}/>
+                <Route exact path="/events/:eventId" component={EventDetailPage}/>
             </Switch>
             {/*<DevTools />*/}
         </div>

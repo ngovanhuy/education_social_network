@@ -223,7 +223,7 @@ class DiscoveryFilter extends Component {
                         <div className="filter-container">
                             <div className="btn-group btn-group-filter clearfix">
                                 <div className="btn-group dropdown">
-                                    <a className="btn btn-default dropdown-toggle toggle-filter btn-filter"
+                                    <a className="btn btn-white dropdown-toggle toggle-filter btn-filter"
                                        ref="buttonDropdown"
                                        data-toggle="dropdown"
                                        onClick={this.showDropDown}>
@@ -362,7 +362,7 @@ class DiscoveryFilter extends Component {
                                                             {
                                                                 this.state.valueDropdown &&
                                                                 <input type="button"
-                                                                       className="btn btn-default add-filter filtering-complete"
+                                                                       className="btn btn-white add-filter filtering-complete"
                                                                        value="Lọc"
                                                                        onClick={this.search}/>
                                                             }

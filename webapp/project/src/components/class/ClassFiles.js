@@ -58,7 +58,7 @@ class ClassFiles extends Component{
                 </div>
                 <div className="dropdown pull-right action-with-file">
                     <a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">
-                        <button className="btn btn-default">
+                        <button className="btn btn-white">
                             <i className="fa fa-ellipsis-v"></i>
                         </button>
                         <span className="sr-only">Toggle Dropdown</span>
@@ -80,7 +80,7 @@ class ClassFiles extends Component{
                         <span>Files</span>
 
                         <FileInput name="classFile" onChange={this.handleUploadFile}>
-                            <button className="btn btn-default pull-right">
+                            <button className="btn btn-white pull-right">
                                 <i className="fa fa-upload"></i>
                                 Upload file
                             </button>
