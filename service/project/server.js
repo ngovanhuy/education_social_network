@@ -128,7 +128,9 @@ userRouter.route('/request/:userID/:friendUserID')
     .delete(userController.removeRequest);
 userRouter.route('/requested').get(userController.getRequesteds);
 userRouter.route('/requested/:userID').get(userController.getRequesteds);
-userRouter.route('/requested/:userID/:friendUserID').delete(userController.removeRequested);
+userRouter.route('/requested/:userID/:friendUserID')
+    .post(userController.confirmRequested)
+    .delete(userController.removeRequested);
 
 userRouter.route('/classrequest').get(userController.getClassRequests);
 userRouter.route('/classrequest/:userID').get(userController.getClassRequests);
@@ -164,7 +166,9 @@ groupRouter.route('/members/:groupID/:userID')
         .delete(groupController.removeMember)//, userController.getUser)
 
 groupRouter.route('/requested/:groupID').get(groupController.getRequesteds);
-groupRouter.route('/requested/:groupID/:userID').delete(groupController.removeRequested);
+groupRouter.route('/requested/:groupID/:userID')
+    .post(groupController.confirmRequested)
+    .delete(groupController.removeRequested);
 
 groupRouter.route('/files/:groupID').get(fileItemController.getFiles); //TEST
 /*-------------------FILE_API------------------------*/

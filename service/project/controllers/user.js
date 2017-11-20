@@ -1001,7 +1001,47 @@ async function removeRequested(req, res) {
         });
     }
 }
-
+async function confirmRequested(req, res) {
+    try {
+        let user = await findUser(req, false);
+        req.users.user_request = user;
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
+        let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
+        let friendUser = await getUserByID(friendUserID);
+        if (!friendUser) {
+            return res.status(400).send({
+                code: 400,
+                message: 'friendUserID Invalid',
+                data: null,
+            });
+        }
+        if (user.confirmRequested(friendUser)) {
+            friendUser = await friendUser.save();
+            user = await user.save();
+        }
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: {
+                user_id: user._id,
+                friend_id: friendUser._id,
+            },
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
 async function checkUserNameRequest(req, res, next) {
     let user = await findUser(req);
     if (user && !user.isDeleted) {
@@ -1081,6 +1121,7 @@ exports.addToClass = addToClass;
 exports.removeFromClass = removeFromClass;
 exports.getRequesteds = getRequesteds;
 exports.removeRequested = removeRequested;
+exports.confirmRequested = confirmRequested;
 exports.getRequests = getRequests;
 exports.addRequest = addRequest;
 exports.removeRequest = removeRequest;

@@ -244,7 +244,11 @@ function removeRequested(user) {
     return removeUserFromArray(user, this.requesteds) ? user : null;
 }
 function confirmRequested(user) {
-    //TODO: add member and remove requested.
+    if (addMember(user)) {
+        removeRequested(user);
+        return user;    
+    }
+    return null;
 }
 function addMember(user, typemember = 1) {//TODO: check owner.
     if (!user || !typemember) {
@@ -337,5 +341,6 @@ GroupSchema.methods.updateMember = updateMember;
 
 GroupSchema.methods.addRequested = addRequested;
 GroupSchema.methods.removeRequested = removeRequested;
+UserSchema.methods.confirmRequested = confirmRequested;
 
 module.exports = mongoose.model('Group', GroupSchema); 

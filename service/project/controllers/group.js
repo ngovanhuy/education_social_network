@@ -256,6 +256,50 @@ async function removeRequested(req, res) {
         });
     }
 }
+async function confirmRequested(req, res) {
+    try {
+        let user = await Users.findUser(req, false);
+        //req.users.user_request = user;
+        if (!user) {
+            return res.status(400).send({
+                code: 400,
+                message: 'UserID Invalid',
+                data: null,
+            });
+        }
+        let group = await findGroup(req);//, false);
+        req.groups.group_request = group;
+        if (!group || group.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Group Not Existed',
+                data: null,
+            });
+        }
+        if (group.confirmRequested(user)) {
+            group = await group.save();
+            user = await user.save();
+        } else {
+            //throw new Error();
+        }
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: {
+                user_id: user._id,
+                group_id: group._id,
+            },
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+
 async function updateGroupInfo(req, group, isCheckValidInput = true) {
     let message = [];
     if (isCheckValidInput) {
@@ -599,6 +643,7 @@ exports.removeMember = removeMember;
 exports.updateMember = updateMember;
 exports.getRequesteds = getRequesteds;
 exports.removeRequested = removeRequested;
+exports.confirmRequested = confirmRequested;
 exports.getGroups = getGroups;
 exports.findGroup = findGroup;
 exports.getGroupByID = getGroupByID;

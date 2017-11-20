@@ -317,7 +317,11 @@ function removeRequested(user) {
     return removeUserFromArray(user, this.requesteds) ? user : null;
 }
 function confirmRequested(user) {
-    //TODO: user confirm requested: addFriend + removeREquested.
+    if (addFriend(user, true)) {
+        removeRequested(user);
+        return user;
+    }
+    return null;
 }
 function addClassRequest(new_group) {
     let group = addGroupInArray(new_group, this.classrequests);
@@ -561,6 +565,7 @@ UserSchema.methods.addRequest = addRequest;
 UserSchema.methods.removeRequest = removeRequest;
 UserSchema.methods.addRequested = addRequested;
 UserSchema.methods.removeRequested = removeRequested;
+UserSchema.methods.confirmRequested = confirmRequested;
 
 UserSchema.methods.addClassRequest = addClassRequest;
 UserSchema.methods.removeClassRequest = removeClassRequest;
