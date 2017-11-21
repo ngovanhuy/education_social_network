@@ -1,21 +1,6 @@
 import { normalize, schema } from 'normalizr'
 import { camelizeKeys } from 'humps'
 
-// Extracts the next page URL from Github API response.
-const getNextPageUrl = response => {
-  const link = response.headers.get('link')
-  if (!link) {
-    return null
-  }
-
-  const nextLink = link.split(',').find(s => s.indexOf('rel="next"') > -1)
-  if (!nextLink) {
-    return null
-  }
-
-  return nextLink.split(';')[0].slice(1, -1)
-}
-
 const API_ROOT = 'https://api.github.com/'
 
 // Fetches an API response and normalizes the result JSON according to schema.
@@ -31,11 +16,9 @@ const callApi = (endpoint, schema) => {
         }
 
         const camelizedJson = camelizeKeys(json)
-        const nextPageUrl = getNextPageUrl(response)
 
         return Object.assign({},
-          normalize(camelizedJson, schema),
-          { nextPageUrl }
+          normalize(camelizedJson, schema)
         )
       })
     )
@@ -55,21 +38,13 @@ const callApi = (endpoint, schema) => {
 // That's why we're forcing lower cases down there.
 
 const userSchema = new schema.Entity('users', {}, {
-  idAttribute: user => user.login.toLowerCase()
-})
-
-const repoSchema = new schema.Entity('repos', {
-  owner: userSchema
-}, {
-  idAttribute: repo => repo.fullName.toLowerCase()
+  idAttribute: user => user.id
 })
 
 // Schemas for Github API responses.
 export const Schemas = {
   USER: userSchema,
   USER_ARRAY: [userSchema],
-  REPO: repoSchema,
-  REPO_ARRAY: [repoSchema]
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.

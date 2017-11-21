@@ -1,0 +1,53 @@
+.home-page .home-leftmenu .school-logo img {
+  height: 160px; }
+.home-page .home-leftmenu .user-info {
+  margin: 20px 0; }
+  .home-page .home-leftmenu .user-info img {
+    height: 30px; }
+  .home-page .home-leftmenu .user-info .user-profile-info {
+    display: inline-block;
+    margin-left: 10px; }
+.home-page .home-leftmenu .home-leftmenu-title {
+  font-weight: bold;
+  margin-bottom: 5px; }
+.home-page .home-leftmenu ul.home-leftmenu-list {
+  list-style: none;
+  padding-left: 10px; }
+  .home-page .home-leftmenu ul.home-leftmenu-list li {
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 0 5px;
+    line-height: 28px;
+    position: relative;
+    z-index: 0; }
+    .home-page .home-leftmenu ul.home-leftmenu-list li:hover {
+      background-color: #F6F7F9; }
+    .home-page .home-leftmenu ul.home-leftmenu-list li i.fa {
+      margin-right: 5px; }
+    .home-page .home-leftmenu ul.home-leftmenu-list li a {
+      color: #000; }
+      .home-page .home-leftmenu ul.home-leftmenu-list li a:hover {
+        text-decoration: none; }
+.home-page .school-profile-picture img {
+  height: 310px;
+  width: 100%; }
+.home-page .home-feed .feed .feed-content {
+  margin-top: 20px; }
+.home-page .home-notifications .notification-detail {
+  margin-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  .home-page .home-notifications .notification-detail:last-of-type {
+    border-bottom: none; }
+  .home-page .home-notifications .notification-detail .notification-time-user .user-profile-info {
+    display: inline-block; }
+.home-page .home-school-about .school-map img {
+  height: 100px;
+  width: 100%; }
+.home-page .home-school-about .school-about-detail {
+  margin: 5px 0; }
+  .home-page .home-school-about .school-about-detail i.fa {
+    margin-right: 10px; }
+
+/*# sourceMappingURL=home.css.map */

@@ -4,9 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import Explore from '../components/Explore'
-import { resetErrorMessage } from '../actions'
-import Header from "../components/common/Header";
+import Header from "../components/commons/Header";
 
 class App extends Component {
   static propTypes = {
@@ -17,7 +15,8 @@ class App extends Component {
   static defaultProps = {
       user:{
           fullName: "NgoVan Huy",
-          profilePictureUrl: "images/profile_picture.png"
+          profilePictureUrl: "/images/profile_picture.png",
+          userName: "ngovanhuy0241",
       }
   }
 
@@ -37,6 +36,4 @@ const mapStateToProps = (state, ownProps) => ({
   inputValue: ownProps.location.pathname.substring(1)
 })
 
-export default withRouter(connect(mapStateToProps, {
-  resetErrorMessage
-})(App))
+export default withRouter(connect(mapStateToProps, null)(App))
