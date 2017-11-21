@@ -1,54 +1,172 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var GenderEnum = {
-    0 : "None",
-    1 : "Male",
-    2 : "Female"
+    0: "None",
+    1: "Male",
+    2: "Female"
 }
 var TypeUserEnum = {
     0: "Normal",
     10: "Teacher",
     100: "System"
 }
-
 var StatusEnum = {
     0: "New",
     10: "Normal"
 }
-
 var UserSchema = new mongoose.Schema(
     {
-        id: { type: String, unique: true, require: true },
+        // id: { type: Number, unique: true, require: true, index: true, default: Date.now },
+        _id: { type: Number, default: getNewID },
         username: { type: String, unique: true, required: true, },
-        password: { type: String, required: true },//check privacy
-        firstName: { type: String,  required: true, },//maxLength
-        lastName: { type: String,  required: true, }, //maxLength
-        typeuser: { type: Number, require: false, default: 0, }, //type: 0, 10, 100
-        email: { type: String, required: false,  default: null, },//Array ???->unique.
-        phone: { type: String,  required: false, default: null, },//Array ????->unique
-        profileImageID: { type: String, required: false, default: null, }, // ID avatarImage file || null
-        coverImageID: {type: String, require: false, default: null,},//ID profileImage file || null
-        birthday: { type: Date, required: false, default: null, }, //Only Day//YYYY-MM-DD
-        gender: { type: Number,  required: false, default: 0,},// Enum = (0, 10, 20) ::: (NONE, MALE, FEMALE)
-        about: { type: String, required: false, default: "", },//maxLength
-        quote : { type: String,required: false, default: "", }, //maxLength
-        nickname: { type: Array, required: false, },//[nickname1, nickname2,...]
-        skills: { type: Array, required: false, default: [], },//[skill{[id], level[beginner|master|...-> [0, 1, ...]], description},]
-        worked: { type: Array, required: false, default: [], },//[work{startTime, [endTime], where, description}]
-        language: { type: Array, required: false, default: [{code:'en-US', text:'English(US)', isDefault: true}], },//[language: {code:'vi-vn', text='VietNam'}, ....]
-        lifeEvent: { type: Array, required: false, default: [], },//[event {startTime, [endTime], description},...]
-        classs: { type: Array, required: false, default:[], }, //[classID,...]
-        friends: { type: Array, required: false, default: [],},//[friendID,...] 
-        status: { type: Number, required: false, default: 0, }, //[NEW, BLOCKED, NORMAL] = [0, 10, 100]
-        location: {type: String, required: false, default:""},
-        isDeleted: { type: Boolean, require: false, default: false, }
+        password: { type: String, required: true },
+        firstName: { type: String, required: true, },
+        lastName: { type: String, required: true, },
+        typeuser: { type: Number, require: false, default: 0, min: 0, max: 1000 },
+        email: { type: String, required: false, default: null },//, unique: true},
+        phone: { type: String, required: false, default: null },// unique: true},
+        profileImageID: { type: String, required: false, default: null, },
+        coverImageID: { type: String, require: false, default: null, },
+        birthday: { type: Date, required: false, default: null, },
+        gender: { type: Number, required: false, default: 0, min: 0, max: 2 },
+        about: { type: String, required: false, default: "", },
+        quote: { type: String, required: false, default: "", },
+        nickname: { type: [String], required: false, },
+        skills: {
+            type: [{
+                _id: { type: Number, default: getNewID },
+                name: String,
+                description: String,
+                isRemoved: {type: Boolean, default: false}
+            }],
+            required: false,
+            default: [],
+        },
+        worked: {
+            type: [{
+                _id: { type: Number, default: getNewID },
+                startTime: Date,
+                endTime: { type: Date, default: null },
+                where: String,
+                description: String,
+                isRemoved: {type: Boolean, default: false}
+            }],
+            required: false,
+            default: [],
+        },
+        language: {
+            type: [{
+                _id: { type: Number, default: getNewID },
+                code: String,
+                text: String,
+                isDefault: {type: Boolean, default: false},
+                isRemoved: {type: Boolean, default: false}
+            }],
+            required: false,
+            default: [{ code: 'en-US', text: 'English(US)', isDefault: true }]
+        },
+        lifeEvent: {
+            type: [{
+                _id: { type: Number, default: getNewID },
+                startTime: Date,
+                endTime: { type: Date, default: null },
+                description: String,
+                isRemoved: {type: Boolean, default: false}
+            }],
+            required: false,
+            default: [],
+        },
+        classs: {
+            type: [{
+                _id: Number,
+                name: String,
+                profileImageID: String,
+                coverImageID: String,
+
+                // typemember: Number,
+                // typegroup: Number,
+                isRemoved: { type: Boolean, default: false, },
+                timeCreate: { type: Date, default: Date.now },
+                timeUpdate: { type: Date, default: Date.now },
+            }],
+            required: false,
+            default: [],
+        },
+        friends: {
+            type: [{
+                _id: Number,
+                firstName: String,
+                lastName: String,
+                profileImageID: String,
+                coverImageID: String,
+                isRemoved: { type: Boolean, default: false, },
+                timeCreate: { type: Date, default: Date.now },
+                timeUpdate: { type: Date, default: Date.now },
+            }],
+            required: false,
+            default: [],
+        },
+        status: { type: Number, required: false, default: 0, min: 0, max: 1000 },
+        location: { type: String, required: false, default: "" },
+        isDeleted: { type: Boolean, require: false, default: false, },
+        requests: {
+            type: [{
+                _id: Number,
+                firstName: String,
+                lastName: String,
+                profileImageID: String,
+                coverImageID: String,
+                isRemoved: { type: Boolean, default: false, },
+                timeCreate: { type: Date, default: Date.now },
+                timeUpdate: { type: Date, default: Date.now },
+            }],
+            require: true,
+            default: [],
+        },
+        requesteds: {
+            type: [{
+                _id: Number,
+                firstName: String,
+                lastName: String,
+                profileImageID: String,
+                coverImageID: String,
+                isRemoved: { type: Boolean, default: false, },
+                timeCreate: { type: Date, default: Date.now },
+                timeUpdate: { type: Date, default: Date.now },
+            }],
+            require: true,
+            default: [],
+        },
+        classrequests: {
+            type: [{
+                _id: Number,
+                name: String,
+                profileImageID: String,
+                coverImageID: String,
+                // typemember: Number,
+                // typegroup: Number,
+                isRemoved: { type: Boolean, default: false, },
+                timeCreate: { type: Date, default: Date.now },
+                timeUpdate: { type: Date, default: Date.now },
+            }],
+            require: true,
+            default: [],
+        },
+        timeCreate: {
+            type: Date,
+            default: Date.now,
+        },
+        timeUpdate: {
+            type: Date,
+            default: Date.now,
+        },
     }
 );
-
-UserSchema.pre('save', function(callback)  {
+UserSchema.pre('save', function (callback) {
     var user = this;
+    user.timeUpdate = Date.now();
     if (!user.isModified('password')) return callback();
-    bcrypt.genSalt(5,  (err, salt) => {
+    bcrypt.genSalt(5, (err, salt) => {
         if (err) return callback(err);
         bcrypt.hash(user.password, salt, null, (err, hash) => {
             if (err) return callback(err);
@@ -57,6 +175,174 @@ UserSchema.pre('save', function(callback)  {
         });
     });
 });
+
+function addUserInArray(new_user, arrays) {
+    if (!new_user) {
+        return null;
+    }
+    let user = null;
+    let timeUpdate = Date.now();
+    for (let index = 0; index < arrays.length; index++) {
+        user = arrays[index];
+        if (user._id == new_user._id) {
+            user.timeUpdate = timeUpdate;
+            if (user.isRemoved) {
+                user.isRemoved = false;
+                user.timeCreate = timeUpdate;
+            }
+            return user;
+        }
+    }
+    user = {
+        _id: new_user._id,
+        firstName: new_user.firstName,
+        lastName: new_user.lastName,
+        profileImageID: new_user.profileImageID,
+        coverImageID: new_user.coverImageID,
+        isRemoved: false,
+        timeCreate: timeUpdate,
+        timeUpdate: timeUpdate,
+    };
+    arrays.push(user);
+    return user;
+}
+function removeUserFromArray(remove_user, arrays) {
+    if (!remove_user) {
+        return null;
+    }
+    let user = null;
+    for (let index = 0; index < arrays.length; index++) {
+        user = arrays[index];
+        if (user._id == remove_user._id) {
+            user.isRemoved = true;
+            return user;
+        }
+    }
+    return null;
+}
+function addGroupInArray(new_group, arrays) {
+    if (!new_group) {
+        return null;
+    }
+    let group = null;
+    let timeUpdate = Date.now();
+    for (let index = 0; index < arrays.length; index++) {
+        group = arrays[index];
+        if (group._id == new_group._id) {
+            group.timeUpdate = timeUpdate;
+            if (group.isRemoved) {
+                group.isRemoved = false;
+                group.timeCreate = timeUpdate;
+            }
+            return group;
+        }
+    }
+    group = {
+        _id: new_group._id,
+        name: new_group.name,
+        profileImageID: new_group.profileImageID,
+        coverImageID: new_group.coverImageID,
+        isRemoved: false,
+        timeCreate: timeUpdate,
+        timeUpdate: timeUpdate,
+    };
+    arrays.push(group);
+    return group;
+}
+function removeGroupFromArray(remove_group, arrays) {
+    if (!remove_group) {
+        return null;
+    }
+    let group = null;
+    for (let index = 0; index < arrays.length; index++) {
+        group = arrays[index];
+        if (group._id == remove_group._id) {
+            group.isRemoved = true;
+            return group;
+        }
+    }
+    return null;
+}
+
+function addFriend(user, isUpdateReference = true) {
+    if (!user) {
+        return null;
+    }
+    let new_user = addUserInArray(user, this.friends);
+    if (new_user) {
+        if (isUpdateReference) {
+            return user.addFriend(this, false);
+        }
+        return user;
+        //var currentUser = this;
+        //return addUserInArray(currentUser, user.friends) ? user : null;
+    }
+    return null;
+}
+function removeFriend(user, isUpdateReference = true) {
+    if (!user) {
+        return null;
+    }
+    let remove_user = removeUserFromArray(user, this.friends);
+    if (remove_user) {
+        if (isUpdateReference) {
+            return user.removeFriend(this, false);
+        }
+        return user;
+        //var currentUser = this;
+        //return removeUserFromArray(currentUser, user.friends) ? user : null;
+    }
+    return null;
+}
+function addRequest(user) {
+    let new_user = addUserInArray(user, this.requests);
+    if (new_user) {
+        user.addRequested(this);
+        return user;
+    }
+    return null;
+}
+function removeRequest(user) {
+    let remove_user = removeUserFromArray(user, this.requests);
+    if (remove_user) {
+        user.removeRequested(this);
+        return user;
+    }
+    return null;
+}
+function addRequested(user) {
+    return addUserInArray(user, this.requesteds) ? user : null;
+}
+function removeRequested(user) {
+    return removeUserFromArray(user, this.requesteds) ? user : null;
+}
+function confirmRequested(user) {
+    if (addFriend(user, true)) {
+        removeRequested(user);
+        return user;
+    }
+    return null;
+}
+function addClassRequest(new_group) {
+    let group = addGroupInArray(new_group, this.classrequests);
+    if (group) {
+        new_group.addRequested(this);
+    }
+    return new_group;
+}
+function removeClassRequest(remove_group) {
+    let group = removeGroupFromArray(remove_group, this.classrequests);
+    if (group) {
+        remove_group.removeRequested(this);
+    }
+    return remove_group;
+}
+function addToClass(group) {
+    return addGroupInArray(group, this.classs) ? group : null;
+}
+function removeFromClass(group) {
+    return removeGroupFromArray(group, this.classs) ? group : null;
+}
 
 function validateEmail(email, isRequired = false) {
     if (!email) {
@@ -106,14 +392,12 @@ function validateStatus(status, isRequired = false) {
     }
     return StatusEnum[status];
 }
-
 function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = true) {
     if (typeof (obj) !== "string") {
         return !isRequired;
     }
     return obj.length >= minLength && obj.length <= maxLength;
 }
-
 function validateInputInfo(inputInfo, checkRequired = false) {
     if (!inputInfo) {
         return [];
@@ -165,7 +449,7 @@ function validateInputInfo(inputInfo, checkRequired = false) {
         message.push("Status Invalid Format");
     }
     if (inputInfo.birthday) {
-        if(!getDate(inputInfo.birthday)) {
+        if (!getBirthDate(inputInfo.birthday)) {
             message.push("Birthday Invalid Format");
         }
     }
@@ -173,12 +457,11 @@ function validateInputInfo(inputInfo, checkRequired = false) {
 }
 
 function getGenderInfo(enum_id) {
-    return {enum_id: enum_id, text: GenderInfo[enum_id]};
+    return { enum_id: enum_id, text: GenderInfo[enum_id] };
 }
 function getTypeUserInfo(enum_id) {
-    return {enum_id: enum_id, text: TypeUserEnum[enum_id]};
+    return { enum_id: enum_id, text: TypeUserEnum[enum_id] };
 }
-
 function getStringArray(jsonContent) {
     try {
         return [...items] = JSON.parse(jsonContent);
@@ -186,60 +469,74 @@ function getStringArray(jsonContent) {
         return null;
     }
 }
-
 function getArrayLanguage(languageString) {
     try {
         let [...languages] = JSON.parse(languageString);
         let data = [];
         for (let index = 0; index < languages.length; index++) {
-            var { code = 'en-US', text = 'English(US)'} = languages[index];
+            var { code = 'en-US', text = 'English(US)', isDefault = false,} = languages[index];
             data.push({
+                _id: index,
                 code: code,
                 text: text,
+                isDefault: isDefault ? isDefault: false,
             });
         }
         return data;
-    } catch(error) {
+    } catch (error) {
         return null;
     }
 }
-
 function getBirthDate(dateString) {
     if (!dateString) {
         return null;
     }
-    var date = new Date(dateString+ "Z");
+    var date = new Date(dateString + "Z");
     return isNaN(date.getDate()) ? null : date;
 }
-
 function getNewID() {
     return new Date().getTime();
 }
 function verifyPassword(password, cb) {
-    bcrypt.compare(password, this.password, (err, isMatch) => err ?  cb(err) : cb(null, isMatch));
+    bcrypt.compare(password, this.password, (err, isMatch) => err ? cb(err) : cb(null, isMatch));
 };
-
+function getInfo(params) {
+    if (!params) {
+        return getBasicInfo();
+    }
+    let o = {};
+    let ignoreField = ['password', 'isDeleted'];
+    for (let param in params) {
+        if (ignoreField.indexOf(param) > -1) {
+            continue;
+        }
+        let field = this[param];
+        if (field) {
+            o[param] = field;
+        }
+    };
+    return o;
+}
 function getBasicInfo() {
     return {
-        id:             this.id,
-        username:       this.username,
-        firstName:      this.firstName,
-        lastName:       this.lastName,
-        typeuser:       {enum_id: this.typeuser, text: TypeUserEnum[this.typeuser]}, 
-        email:          this.email,
-        birthday:       this.birthday.toLocaleString(),
-        phone:          this.phone,
-        gender:         {enum_id: this.gender, text: GenderEnum[this.typeuser]},
-        about:          this.about,
-        quote:          this.quote,
-        location:       this.location,
-        nickname:       this.nickname,
-        friends:        this.friends,
-        classs:         this.classs,
-        status:         {enum_id: this.status, text: StatusEnum[this.status]},
+        id: this.id,
+        username: this.username,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        typeuser: { enum_id: this.typeuser, text: TypeUserEnum[this.typeuser] },
+        email: this.email,
+        birthday: this.birthday ? this.birthday.toLocaleString() : null,
+        phone: this.phone,
+        gender: { enum_id: this.gender, text: GenderEnum[this.typeuser] },
+        about: this.about,
+        quote: this.quote,
+        location: this.location,
+        nickname: this.nickname,
+        // friends:        this.friends,
+        // classs:         this.classs,
+        // status:         {enum_id: this.status, text: StatusEnum[this.status]},
         profileImageID: this.profileImageID,
-        coverImageID:   this.coverImageID,
-
+        coverImageID: this.coverImageID,
     }
 }
 
@@ -260,5 +557,19 @@ UserSchema.statics.getNewID = getNewID;
 
 UserSchema.methods.verifyPassword = verifyPassword;
 UserSchema.methods.getBasicInfo = getBasicInfo;
+UserSchema.methods.getInfo = getInfo;
 
+UserSchema.methods.addFriend = addFriend;
+UserSchema.methods.removeFriend = removeFriend;
+UserSchema.methods.addRequest = addRequest;
+UserSchema.methods.removeRequest = removeRequest;
+UserSchema.methods.addRequested = addRequested;
+UserSchema.methods.removeRequested = removeRequested;
+UserSchema.methods.confirmRequested = confirmRequested;
+
+UserSchema.methods.addClassRequest = addClassRequest;
+UserSchema.methods.removeClassRequest = removeClassRequest;
+
+UserSchema.methods.addToClass = addToClass;
+UserSchema.methods.removeFromClass = removeFromClass;
 module.exports = mongoose.model('User', UserSchema); 

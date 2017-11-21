@@ -7,16 +7,9 @@ var FileItemSchema = new mongoose.Schema({
     size: { type: Number, required: true, default: 0, },
     createDate: { type: Date, required: false, default: Date.now(), },//YYYY-MM-DD HH:mm:ss
     isDeleted: { type: Boolean, required: true, default: false, },
+    userID: { type: Number, required: false, default: null },
+    groupID: { type: Number, required: false, default: null },
 });
-FileItemSchema.static.getFileItemBasicInfo = function(file) {
-    return {
-        id: file._id,
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        createDate: file.createDate.toLocaleString(),
-    }
-}
 
 FileItemSchema.methods.getBasicInfo = function() {
     return {
