@@ -1,0 +1,1 @@
+//A collection post in a group.

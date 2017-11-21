@@ -8,6 +8,7 @@ var fileItemController = require('./controllers/fileitem');
 var User = require('./models/user');
 var Group = require('./models/group');
 var FileItem = require('./models/fileitem');
+var PostSchema = require('./models/posts');
 Application.manager.connectToDB();
 
 var chars = "abcdefjhijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -31,9 +32,7 @@ function randomString(maxLength) {
     }
     return strs.join("");
 }
-async function t() {
-    let id = 1511193107482;
-    let user = await User.findById(id);
-    console.log(user['aod']);
-}
-t();
+var post = new PostSchema({
+    // _id: 10,
+});
+console.log(post.getBasicInfo());
