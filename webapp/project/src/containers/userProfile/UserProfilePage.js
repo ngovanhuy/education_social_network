@@ -15,6 +15,7 @@ class UserProfilePage extends Component{
 
     static defaultProps = {
         user:{
+            id: 1,
             coverPhotoUrl: "/images/cover_photo.jpg",
             profilePictureUrl: "/images/profile_picture.png",
             fullName: "NgoVan Huy",

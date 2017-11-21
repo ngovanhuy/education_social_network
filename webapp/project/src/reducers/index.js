@@ -1,7 +1,7 @@
 import merge from 'lodash/merge'
 import { combineReducers } from 'redux'
 
-const entities = (state = {}, action) => {
+const entities = (state = {users: {}, classes:{}, events: {}, feed: {}}, action) => {
     if (action.response && action.response.entities) {
         return merge({}, state, action.response.entities)
     }
