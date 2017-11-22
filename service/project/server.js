@@ -118,9 +118,7 @@ userRouter.route('/friends/:userID/:friendUserID')
     .post(userController.addFriend)
     .delete(userController.removeFriend);
 userRouter.route('/classs/:userID').get(userController.getClasss);
-userRouter.route('/classs/:userID/:groupID')
-    .post(userController.addToClass)
-    .delete(userController.removeFromClass);
+userRouter.route('/classs/:userID/:groupID').delete(userController.removeFromClass);
 userRouter.route('/request').get(userController.getRequests);
 userRouter.route('/request/:userID').get(userController.getRequests);
 userRouter.route('/request/:userID/:friendUserID')
@@ -154,11 +152,7 @@ groupRouter.route('/profileImage/:groupID')
         .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileItemController.getFile)
         .put(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage)
         .post(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage, );
-groupRouter.route('/members/:groupID')
-        .get(groupController.getMembers)
-        .post(groupController.addMember)//, userController.getUser)
-        .put(groupController.updateMember)//, userController.getUser)
-        .delete(groupController.removeMember)//, userController.getUser)
+groupRouter.route('/members/:groupID').get(groupController.getMembers)
 groupRouter.route('/members/:groupID/:userID')
         .get(userController.getUser)
         .post(groupController.addMember)//, userController.getUser)

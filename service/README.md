@@ -297,21 +297,19 @@ Thông tin **User** bao gồm:
 
 #### Xong các API cơ bản của Group: `/groups/*`
 
-Thông tin **User** bao gồm:
+Thông tin **Group** bao gồm:
 
         id: id_group unique
         name: group_name
         typegroup: type_group
+        typeGroup: [PRIMARY, SECONDARY, UNIVERSITY]
         profileImageID: profile_image_fileID
         coverImageID: cover_image_fileID
-        dateCreated: dateCreate
-        typeGroup: [PRIMARY, SECONDARY, UNIVERSITY]
         about: about
-        tags: tags
-        language: array_language
-        members: [{id:user, typemember:type_member}]
-        status: [NEW, BLOCKED, NORMAL]
+        dateCreated: dateCreate,
         location: location
+        members: [{id,typemember,firstName,lastName,profileImageID}]
+        status: [NEW, BLOCKED, NORMAL]
 
 **NOTE** :
 
@@ -421,3 +419,231 @@ Thông tin **User** bao gồm:
         - {code: 200, message: "...", data: [...users]}
     + Failed:
         - {code: 500, ...} : Server Error: Không thể lấy thông tin.
+
+### `22/11/2017`
+
+#### Xong các API thành viên của của Group: `/groups/*`
+
+Thông tin **Member** bao gồm:
+
+        _id: id
+        firstName: String,
+        lastName: String,
+        profileImageID: String,
+        coverImageID: String,
+        typemember: { type: Number, min: 0, max: 1000, default: 1 },
+        isRemoved: { type: Boolean, default: false, },
+        dateJoin: Date,
+        timeUpdate: Date,
+
+##### Lấy tất cả thành viên nhóm
+
+    + Method: GET
+    + URL: http://domain:port/groups/members/:groupID
+    + Success: `data` là thông tin các thành viên nhóm.
+        - {code: 200, message: "...", data: [<member>...]}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Thêm thành viên nhóm qua `userID`
+
+    + Method: POST
+    + URL: http://domain:port/groups/members/:groupID/:userID
+    + Success: `data` thông tin thành viên nhóm.
+        - {code: 200, message: "...", data: <member_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Thay đổi thông tin quyền thành viên nhóm qua `userID`
+
+    + Method: PUT
+    + URL: http://domain:port/groups/members/:groupID/:userID
+    + Success: `data` là thông tin người dùng đã thay đổi..
+        - {code: 200, message: "...", data: <user_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xóa thành viên nhóm qua `userID`
+
+    + Method: DELETE
+    + URL: http://domain:port/groups/members/:groupID/:userID
+    + Success: `data` là thông tin thành viên nhóm xóa.
+        - {code: 200, message: "...", data: <user_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Danh sách người dùng yêu cầu tham gia nhóm
+
+    + Method: GET
+    + URL: http://domain:port/requested/:groupID/:userID.
+    + Success: `data` mảng người dùng yêu cầu tham gia nhóm.
+        - {code: 200, message: "...", data: [<user_info>]}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xác nhận yêu cầu tham gia nhóm người dùng qua `userID`
+
+    + Method: POST
+    + URL: http://domain:port/requested/:groupID/:userID.
+    + Success: `data` thông tin người dùng.
+        - {code: 200, message: "...", data: <user_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xóa yêu cầu tham gia nhóm người dùng qua `userID`
+
+    + Method: DELETE
+    + URL: http://domain:port/groups/profileImage/:groupID
+    + Success: `data` thông tin người dùng.
+        - {code: 200, message: "...", data: <user_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+#### Xong các API khác của người dùng: `/users/*`
+
+##### Lấy danh sách bạn qua `userID`
+
+    + Method: GET
+    + URL: http://domain:port/users/friends/:userID
+    + Success: `data` mảng người dùng là bạn bè.
+        - {code: 200, message: "...", data: [<user_info>]}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xóa bạn bè của `userID` qua `friendUserID`
+
+    + Method: DELETE
+    + URL: http://domain:port/users/friends/:userID/:friendUserID
+    + Success: `data` người dùng đã xóa.
+        - {code: 200, message: "...", data: <user_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy danh sách lớp qua `userID`
+
+    + Method: GET
+    + URL: http://domain:port/users/classs/:userID
+    + Success: `data` mảng nhóm là thành viên.
+        - {code: 200, message: "...", data: [<group_info>]}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Ra khỏi nhóm với `userID` và `groupID`
+
+    + Method: DELETE
+    + URL: http://domain:port/users/classs/:userID/:groupID'
+    + Success: `data` nhóm đã xóa.
+        - {code: 200, message: "...", data: <group_info>}
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy danh sách yêu cầu đã tạo của `userID`
+
+    + Method: GET
+    + URL: http://domain:port/users/request/:userID
+    + Success: `data` mảng người dùng đã `userID` đã gửi yêu cầu.
+        - {code: 200, message: "...", data: [<user_info>]}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Tạo yêu cầu đến người dùng của `userID` đến `friendUserID`
+
+    + Method: POST
+    + URL: http://domain:port/users/request/:userID/:friendUserID
+    + Success: `data` thông tin người dùng tạo request.
+        - {code: 200, message: "...", data: <user_info>}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xóa yêu cầu đến người dùng của `userID` đến `friendUserID`
+
+    + Method: DELETE
+    + URL: http://domain:port/users/request/:userID/:friendUserID
+    + Success: `data` thông tin người dùng xóa request.
+        - {code: 200, message: "...", data: <user_info>}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy danh sách yêu cầu đã nhận của `userID`
+
+    + Method: GET
+    + URL: http://domain:port/users/requested/:userID
+    + Success: `data` mảng người dùng đã gửi request cho `userID`.
+        - {code: 200, message: "...", data: [<user_info>]}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xác nhận yêu cầu đến người dùng đến `userID` của `friendUserID`
+
+    + Method: POST
+    + URL: http://domain:port/users/requested/:userID/:friendUserID
+    + Success: `data` thông tin người dùng đã xác nhận request.
+        - {code: 200, message: "...", data: <user_info>}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xóa yêu cầu đến người dùng đến `userID` của `friendUserID`
+
+    + Method: DELETE
+    + URL: http://domain:port/users/requested/:userID/:friendUserID
+    + Success: `data` thông tin người dùng xóa request.
+        - {code: 200, message: "...", data: <user_info>}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy danh sách yêu cầu đã tạo của `userID` đến nhóm.
+
+    + Method: GET
+    + URL: http://domain:port/users/classrequest/:userID
+    + Success: `data` mảng nhóm đã `userID` đã gửi yêu cầu.
+        - {code: 200, message: "...", data: [<group_info>]}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Tạo yêu cầu đến người dùng của `userID` đến nhóm `groupID`
+
+    + Method: POST
+    + URL: http://domain:port/users/classrequest/:userID/:groupID
+    + Success: `data` thông tin nhóm tạo request.
+        - {code: 200, message: "...", data: <group_info>}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Xóa yêu cầu đến người dùng của `userID` đến nhóm `groupID`
+
+    + Method: DELETE
+    + URL: http://domain:port/users/classrequest/:userID/:groupID
+    + Success: `data` thông tin nhóm xóa request.
+        - {code: 200, message: "...", data: <group_info>}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Lấy thông tin người dùng của `userID` theo từng trường
+
+    + Method: GET
+    + URL: http://domain:port/users//info/:userID?field1=&field2=...
+    + Success: `data` thông tin cần lấy.
+        - {code: 200, message: "...", data: [<field1='', field2='',...>,]}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Thông tin lỗi.
+        - {code: 500, ...} : Server Error: Không thể thực hiện.
