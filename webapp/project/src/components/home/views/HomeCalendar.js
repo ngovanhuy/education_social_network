@@ -7,6 +7,13 @@ import moment from 'moment';
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 class HomeCalendar extends Component {
+    handleClickEvent = (event) => {
+        // alertAuthen(event.title)
+        var url = `/events/${event.id}`
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
+
     render() {
         const {events} = this.props
         return (
@@ -25,7 +32,7 @@ class HomeCalendar extends Component {
                             views={['month']}
                             step={60}
                             defaultDate={new Date(2015, 3, 1)}
-                            onSelectEvent={event => alert(event.title)}
+                            onSelectEvent={event => this.handleClickEvent(event)}
                             onSelectSlot={(slotInfo) => alert(
                                 `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
                                 `\nend: ${slotInfo.end.toLocaleString()}` +

@@ -3,18 +3,18 @@ import {Link} from 'react-router-dom'
 
 class ClassEventsCalendarHeadline extends Component {
     render() {
-        const {className, currentPage} = this.props
+        const {id: classId, currentPage} = this.props
 
         return (
             <div className="class-events-calendar-headline clearfix">
                 <ul className="clearfix">
                     <li>
-                        <Link to={`/classes/${className}/events`}>
+                        <Link to={`/classes/${classId}/events`}>
                             <span className={currentPage=="events"&&"current"}>Events</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to={`/classes/${className}/calendar`}>
+                        <Link to={`/classes/${classId}/calendar`}>
                             <span className={currentPage=="calendar"&&"current"}>Calendar</span>
                         </Link>
                     </li>

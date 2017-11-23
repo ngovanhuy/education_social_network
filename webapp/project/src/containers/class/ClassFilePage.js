@@ -9,7 +9,7 @@ import ClassFiles from "../../components/class/ClassFiles";
 class ClassFilePage extends Component{
     static propTypes = {
         classDetail: PropTypes.object,
-        className: PropTypes.string,
+        classId: PropTypes.string,
         files: PropTypes.array,
         topics: PropTypes.array,
     }
@@ -32,7 +32,7 @@ class ClassFilePage extends Component{
             topicName: 'task_3',
         }],
         files: [{
-            type: "image",
+            type: "jpg",
             typeFile: "jpg",
             fileName: "cover_photo.jpg",
             source: "/images/cover_photo.jpg",
@@ -43,7 +43,7 @@ class ClassFilePage extends Component{
                     coverPhotoUrl: "/images/cover_photo.jpg",
                     profilePictureUrl: "/images/profile_picture.png",
                     fullName: "NgoVan Huy",
-                    username: "ngovanhuy0241"
+                    userName: "ngovanhuy0241"
                 },
             },
         },{
@@ -58,7 +58,7 @@ class ClassFilePage extends Component{
                     coverPhotoUrl: "/images/cover_photo.jpg",
                     profilePictureUrl: "/images/profile_picture.png",
                     fullName: "NgoVan Huy",
-                    username: "ngovanhuy0241"
+                    userName: "ngovanhuy0241"
                 },
             },
         },{
@@ -73,21 +73,21 @@ class ClassFilePage extends Component{
                     coverPhotoUrl: "/images/cover_photo.jpg",
                     profilePictureUrl: "/images/profile_picture.png",
                     fullName: "NgoVan Huy",
-                    username: "ngovanhuy0241"
+                    userName: "ngovanhuy0241"
                 },
             },
         }],
     }
 
     render(){
-        const {classDetail, topics, className, files} = this.props
+        const {classDetail, topics, classId, files} = this.props
         return(
             <div>
                 <div className="container">
                     <div className="col-sm-2">
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           className={className} currentPage="files"/>
+                                           classId={classId} currentPage="files"/>
                         </div>
                     </div>
                     <div className="col-sm-10">
@@ -102,9 +102,9 @@ class ClassFilePage extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const className = ownProps.match.params.classId
+    const classId = ownProps.match.params.classId
     return {
-        classId: className
+        classId
     }
 }
 

@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 class AboutPage extends Component{
     static propTypes = {
         user: PropTypes.object,
-        userName: PropTypes.string,
+        id: PropTypes.string,
         feed: PropTypes.array,
     }
 
@@ -48,9 +48,9 @@ class AboutPage extends Component{
 
 
 const mapStateToProps = (state, ownProps) => {
-    const userName = ownProps.match.params.userName
+    const id = ownProps.match.params.id
     return{
-        userName
+        id
     }
 }
 

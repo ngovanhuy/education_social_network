@@ -1,16 +1,15 @@
-import merge from 'lodash/merge'
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
-const entities = (state = {users: {}, classes:{}, events: {}, feed: {}}, action) => {
-    if (action.response && action.response.entities) {
-        return merge({}, state, action.response.entities)
-    }
-
-    return state
-}
+import { authentication } from './authenticationReducer';
+import { registration } from './registrationReducer';
+import { users } from './usersReducer';
+import { alertAuthen } from './alertAuthenReducer';
 
 const rootReducer = combineReducers({
-    entities
-})
+  authentication,
+  registration,
+  users,
+  alertAuthen
+});
 
-export default rootReducer
+export default rootReducer;

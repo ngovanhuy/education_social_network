@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Provider} from 'react-redux'
 import DevTools from './DevTools'
-import {Route, Switch} from 'react-router-dom'
+import {Router, Route, Switch} from 'react-router-dom'
 import App from './App'
 import HomePage from "./home/HomePage";
 import UserProfilePage from "./userProfile/UserProfilePage";
@@ -17,29 +17,43 @@ import CalendarPage from "./event/CalendarPage";
 import DiscoveryPage from "./event/DiscoveryPage";
 import EventDetailPage from "./event/EventDetailPage";
 import ClassesPage from "./class/ClassesPage";
+import {LoginPage} from "./authen/LoginPage";
+import {RegisterPage} from "./authen/RegisterPage";
+import {PrivateRoute} from "../components/commons/PrivateRoute";
+import {history} from "../helpers/history";
+import LogoutPage from "./authen/LogoutPage";
+import ClassManagePage from "./class/ClassManagePage";
 
 const Root = ({store}) => (
     <Provider store={store}>
         <div>
-            <Route component={App}/>
-            <Switch>
-                <Route exact path="/" component={HomePage}/>
-                <Route exact path="/users/:userName/about" component={AboutPage}/>
-                <Route exact path="/users/:userName" component={UserProfilePage}/>
-                <Route exact path="/classes" component={ClassesPage}/>
-                <Route exact path="/classes/:classId" component={ClassTimelinePage}/>
-                <Route exact path="/classes/:classId/files" component={ClassFilePage}/>
-                <Route exact path="/classes/:classId/calendar" component={ClassCalendarPage}/>
-                <Route exact path="/classes/:classId/events" component={ClassEventPage}/>
-                <Route exact path="/classes/:classId/members" component={ClassMembersPage}/>
-                <Route exact path="/classes/:classId/admins" component={ClassMembersPage}/>
-                <Route exact path="/classes/:classId/teachers" component={ClassMembersPage}/>
-                <Route exact path="/events" component={EventsPage}/>
-                <Route exact path="/events/discovery" component={DiscoveryPage}/>
-                <Route exact path="/events/calendar" component={CalendarPage}/>
-                <Route exact path="/events/:eventId" component={EventDetailPage}/>
-            </Switch>
-            {/*<DevTools />*/}
+            <Router history={history}>
+                <div>
+                    <Route component={App}/>
+                    <Switch history={history}>
+                        <Route exact path="/login" component={LoginPage}/>
+                        <Route exact path="/register" component={RegisterPage}/>
+                        <Route exact path="/logout" component={LogoutPage}/>
+                        <PrivateRoute exact path="/" component={HomePage}/>
+                        <PrivateRoute exact path="/users/:userId/about" component={AboutPage}/>
+                        <PrivateRoute exact path="/users/:userId" component={UserProfilePage}/>
+                        <PrivateRoute exact path="/classes" component={ClassesPage}/>
+                        <PrivateRoute exact path="/classes/:classId" component={ClassTimelinePage}/>
+                        <PrivateRoute exact path="/classes/:classId/files" component={ClassFilePage}/>
+                        <PrivateRoute exact path="/classes/:classId/calendar" component={ClassCalendarPage}/>
+                        <PrivateRoute exact path="/classes/:classId/events" component={ClassEventPage}/>
+                        <PrivateRoute exact path="/classes/:classId/members" component={ClassMembersPage}/>
+                        <PrivateRoute exact path="/classes/:classId/admins" component={ClassMembersPage}/>
+                        <PrivateRoute exact path="/classes/:classId/teachers" component={ClassMembersPage}/>
+                        <PrivateRoute exact path="/classes/:classId/mamageClass" component={ClassManagePage}/>
+                        <PrivateRoute exact path="/events" component={EventsPage}/>
+                        <PrivateRoute exact path="/events/discovery" component={DiscoveryPage}/>
+                        <PrivateRoute exact path="/events/calendar" component={CalendarPage}/>
+                        <PrivateRoute exact path="/events/:eventId" component={EventDetailPage}/>
+                    </Switch>
+                </div>
+            </Router>
+            <DevTools/>
         </div>
     </Provider>
 )

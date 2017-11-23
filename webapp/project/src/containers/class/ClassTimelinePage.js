@@ -23,7 +23,8 @@ class ClassTimelinePage extends Component {
             profilePictureUrl: '/images/cover_photo.jpg',
             fullName: 'Chung ta la Anh em',
             memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
+            about: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
+            location: 'Room 101, D3'
         },
         topics: [{
             fullName: 'Task 1',
@@ -119,7 +120,7 @@ class ClassTimelinePage extends Component {
                                 coverPhotoUrl: "/images/cover_photo.jpg",
                                 profilePictureUrl: "/images/profile_picture.png",
                                 fullName: "NgoVan Huy",
-                                username: "ngovanhuy0241"
+                                userName: "ngovanhuy0241"
                             },
                         }
                     }
@@ -130,7 +131,7 @@ class ClassTimelinePage extends Component {
                         coverPhotoUrl: "/images/cover_photo.jpg",
                         profilePictureUrl: "/images/profile_picture.png",
                         fullName: "NgoVan Huy",
-                        username: "ngovanhuy0241"
+                        userName: "ngovanhuy0241"
                     },
                 }
 
@@ -193,7 +194,7 @@ class ClassTimelinePage extends Component {
                                 coverPhotoUrl: "/images/cover_photo.jpg",
                                 profilePictureUrl: "/images/profile_picture.png",
                                 fullName: "NgoVan Huy",
-                                username: "ngovanhuy0241"
+                                userName: "ngovanhuy0241"
                             },
                         }
                     }
@@ -204,7 +205,7 @@ class ClassTimelinePage extends Component {
                         coverPhotoUrl: "/images/cover_photo.jpg",
                         profilePictureUrl: "/images/profile_picture.png",
                         fullName: "NgoVan Huy",
-                        username: "ngovanhuy0241"
+                        userName: "ngovanhuy0241"
                     },
                 }
 
@@ -248,7 +249,7 @@ class ClassTimelinePage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
     return {
-        classId: classId
+        classId
     }
 }
 

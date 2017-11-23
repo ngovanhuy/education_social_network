@@ -118,7 +118,7 @@ class Header extends Component {
                                 <ul className="dropdown-menu pull-right-xs">
                                     <li className="arrow"></li>
                                     <li>
-                                        <Link to={`/users/${user.userName}`}>Profile</Link>
+                                        <Link to={`/users/${user.id}`}>Profile</Link>
                                     </li>
                                     {/*<li><a href="javascript:;"><span className="badge badge-danger pull-right">2</span> Inbox</a></li>*/}
                                     <li className="divider"></li>
@@ -133,7 +133,9 @@ class Header extends Component {
                                     </li>
                                     <li className="divider"></li>
                                     <li><a href="javascript:;">Settings</a></li>
-                                    <li><a href="pages-sign-in.html">Log Out</a></li>
+                                    <li>
+                                        <Link to={`/logout`}>Logout</Link>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

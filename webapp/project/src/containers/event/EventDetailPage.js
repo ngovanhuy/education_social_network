@@ -29,8 +29,11 @@ class EventDetailPage extends Component {
                     coverPhotoUrl: "/images/cover_photo.jpg",
                     profilePictureUrl: "/images/profile_picture.png",
                     fullName: "NgoVan Huy",
-                    username: "ngovanhuy0241"
+                    userName: "ngovanhuy0241"
                 },
+            },
+            forClass:{
+
             }
         }
     }

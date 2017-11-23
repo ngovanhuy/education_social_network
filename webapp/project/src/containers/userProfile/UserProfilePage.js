@@ -5,11 +5,17 @@ import { withRouter } from 'react-router-dom'
 import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/commons/Feed";
+// import {fetchUser} from '../../actions/userActions'
+
+const loadData = ({ id, loadUser, loadUserProfileFeed }) => {
+    // loadUser(id)
+    // loadUserProfileFeed(id)
+}
 
 class UserProfilePage extends Component{
     static propTypes = {
         user: PropTypes.object,
-        userName: PropTypes.string,
+        id: PropTypes.string,
         feed: PropTypes.array,
     }
 
@@ -95,7 +101,7 @@ class UserProfilePage extends Component{
                                 coverPhotoUrl: "/images/cover_photo.jpg",
                                 profilePictureUrl: "/images/profile_picture.png",
                                 fullName: "NgoVan Huy",
-                                username: "ngovanhuy0241"
+                                userName: "ngovanhuy0241"
                             },
                         }
                     }
@@ -106,12 +112,22 @@ class UserProfilePage extends Component{
                         coverPhotoUrl: "/images/cover_photo.jpg",
                         profilePictureUrl: "/images/profile_picture.png",
                         fullName: "NgoVan Huy",
-                        username: "ngovanhuy0241"
+                        userName: "ngovanhuy0241"
                     },
                 }
 
             }
         }]
+    }
+
+    componentWillMount() {
+        // loadData(this.props)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.id !== this.props.id) {
+            // loadData(nextProps)
+        }
     }
 
     render(){
@@ -142,11 +158,18 @@ class UserProfilePage extends Component{
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        // loadUser: (id) => dispatch(fetchUser(id)),
+    };
+};
+
 const mapStateToProps = (state, ownProps) => {
-    const userName = ownProps.match.params.userName
+    const id = ownProps.match.params.id
     return{
-        userName
+        id,
+        user: state.user
     }
 }
 
-export default withRouter(connect(mapStateToProps, null)(UserProfilePage));
+export default withRouter(connect(mapDispatchToProps, mapDispatchToProps)(UserProfilePage));
