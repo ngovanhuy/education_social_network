@@ -7,7 +7,7 @@ import { configureFakeBackend } from './helpers';
 
 const store = configureStore()
 
-configureFakeBackend();
+// configureFakeBackend();
 
 render(
   <Router>

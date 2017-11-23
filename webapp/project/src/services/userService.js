@@ -1,4 +1,4 @@
-import { authHeader } from '../helpers';
+import {authHeader} from '../helpers';
 import {DOMAIN_SERVICE} from '../constants'
 
 export const userService = {
@@ -13,8 +13,8 @@ export const userService = {
 function login(username, password) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password})
     };
 
     return fetch('/users/authenticate', requestOptions)
@@ -61,11 +61,17 @@ function getById(id) {
 
 function register(user) {
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-    const url = '/users/register'
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(user)
+        }
+    ;
+    const url = DOMAIN_SERVICE + '/users';
 
     return fetch(url, requestOptions).then(handleResponse);
 }
@@ -73,11 +79,12 @@ function register(user) {
 function update(user) {
     const requestOptions = {
         method: 'PUT',
-        headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        headers: {...authHeader(), 'Content-Type': 'application/json'},
         body: JSON.stringify(user)
     };
 
-    return fetch('/users/' + user.id, requestOptions).then(handleResponse);;
+    return fetch('/users/' + user.id, requestOptions).then(handleResponse);
+    ;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -87,7 +94,8 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch('/users/' + id, requestOptions).then(handleResponse);;
+    return fetch('/users/' + id, requestOptions).then(handleResponse);
+    ;
 }
 
 function handleResponse(response) {

@@ -40,7 +40,7 @@ class RegisterPage extends React.Component {
         this.setState({submitted: true});
         const {user} = this.state;
         const {dispatch} = this.props;
-        if (user.firstName && user.lastName && user.username && user.password) {
+        if (user.firstName && user.lastName && user.username && user.password && user.email) {
             dispatch(userActions.register(user));
         }
     }
