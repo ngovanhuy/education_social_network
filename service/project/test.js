@@ -32,7 +32,3 @@ function randomString(maxLength) {
     }
     return strs.join("");
 }
-var post = new PostSchema({
-    // _id: 10,
-});
-console.log(post.getBasicInfo());
