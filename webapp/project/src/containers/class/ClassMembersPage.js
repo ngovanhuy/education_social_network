@@ -10,7 +10,7 @@ import AddMember from "../../components/class/views/AddMember";
 class ClassMembersPage extends Component{
     static propTypes = {
         classDetail: PropTypes.object,
-        className: PropTypes.string,
+        classId: PropTypes.string,
         members: PropTypes.array,
         topics: PropTypes.array,
     }
@@ -38,7 +38,7 @@ class ClassMembersPage extends Component{
                 coverPhotoUrl: "/images/cover_photo.jpg",
                 profilePictureUrl: "/images/profile_picture.png",
                 fullName: "NgoVan Huy",
-                username: "ngovanhuy0241"
+                userName: "ngovanhuy0241"
             }
         ],
         members: [
@@ -47,51 +47,51 @@ class ClassMembersPage extends Component{
                 coverPhotoUrl: "/images/cover_photo.jpg",
                 profilePictureUrl: "/images/profile_picture.png",
                 fullName: "NgoVan Huy",
-                username: "ngovanhuy0241"
+                userName: "ngovanhuy0241"
             },{
                 id: "1",
                 coverPhotoUrl: "/images/cover_photo.jpg",
                 profilePictureUrl: "/images/profile_picture.png",
                 fullName: "NgoVan Huy",
-                username: "ngovanhuy0241"
+                userName: "ngovanhuy0241"
             },{
                 id: "1",
                 coverPhotoUrl: "/images/cover_photo.jpg",
                 profilePictureUrl: "/images/profile_picture.png",
                 fullName: "NgoVan Huy",
-                username: "ngovanhuy0241"
+                userName: "ngovanhuy0241"
             },{
                 id: "1",
                 coverPhotoUrl: "/images/cover_photo.jpg",
                 profilePictureUrl: "/images/profile_picture.png",
                 fullName: "NgoVan Huy",
-                username: "ngovanhuy0241"
+                userName: "ngovanhuy0241"
             },{
                 id: "1",
                 coverPhotoUrl: "/images/cover_photo.jpg",
                 profilePictureUrl: "/images/profile_picture.png",
                 fullName: "NgoVan Huy",
-                username: "ngovanhuy0241"
+                userName: "ngovanhuy0241"
             }
         ]
     }
 
     render(){
-        const {classDetail, topics, className, teacher, members} = this.props
+        const {classDetail, topics, classId, teacher, members} = this.props
         return(
             <div>
                 <div className="container">
                     <div className="col-sm-2">
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           className={className} currentPage="members"/>
+                                           classId={classId} currentPage="members"/>
                         </div>
                     </div>
                     <div className="col-sm-10">
                         <div className="row">
                             <div className="col-sm-9">
                                 <div className="row">
-                                    <ClassMembers members={teacher} className={className} classMemberTitle="Teachers"/>
+                                    <ClassMembers members={teacher} classId={classId} classMemberTitle="Teachers"/>
                                 </div>
                             </div>
                             <div className="col-sm-3 add-member-and-description">
@@ -103,7 +103,7 @@ class ClassMembersPage extends Component{
                             </div>
                         </div>
                         <div className="row">
-                            <ClassMembers members={members} className={className} classMemberTitle="Members"/>
+                            <ClassMembers members={members} classId={classId} classMemberTitle="Members"/>
                         </div>
                     </div>
                 </div>
@@ -113,9 +113,9 @@ class ClassMembersPage extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const className = ownProps.match.params.classId
+    const classId = ownProps.match.params.classId
     return {
-        classId: className
+        classId
     }
 }
 

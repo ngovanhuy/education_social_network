@@ -7,12 +7,12 @@ class ClassHeadline extends Component {
         return (
             <div className="class-headline">
                 <h1>{classDetail.fullName}</h1>
-                <form>
-                    <div className="navbar-search">
-                        <input type="text" placeholder="Search in this class" className="form-control"/>
-                        <button className="btn" type="submit"><i className="fa fa-search"></i></button>
-                    </div>
-                </form>
+                {/*<form>*/}
+                    {/*<div className="navbar-search">*/}
+                        {/*<input type="text" placeholder="Search in this class" className="form-control"/>*/}
+                        {/*<button className="btn" type="submit"><i className="fa fa-search"></i></button>*/}
+                    {/*</div>*/}
+                {/*</form>*/}
                 <Link to={`/classes/${classId}`}>
                     <div className={currentPage == "discussion" ? "class-headline-content current" : "class-headline-content"}>
                         <span>Discussion</span>
@@ -38,11 +38,11 @@ class ClassHeadline extends Component {
                         <span>Files</span>
                     </div>
                 </Link>
-                <a href="javascript:;">
+                <Link to={`/classes/${classId}/mamageClass?currentViewLink=memberRequests`}>
                     <div className={currentPage == "manage_class" ? "class-headline-content current" : "class-headline-content"}>
                         <span>Manage Class</span>
                     </div>
-                </a>
+                </Link>
             </div>
         )
     }
