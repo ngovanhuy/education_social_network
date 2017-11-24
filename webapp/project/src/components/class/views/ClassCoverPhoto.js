@@ -55,4 +55,14 @@ class CoverPhotoClass extends Component {
     }
 }
 
-export default CoverPhotoClass
+
+const mapStateToProps = (state, ownProps) => {
+    const userId = ownProps.match.params.userId
+    const {user} = state.authentication
+    return {
+        userId,
+        user
+    }
+}
+
+export default connect(mapStateToProps, null)(CoverPhotoClass);

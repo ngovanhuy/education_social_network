@@ -73,15 +73,58 @@ export function classes(state = {loading: false, items: [], classDetail: {}, cla
         case classConstants.CLASSES_UPDATE_REQUEST:
             return {
                 ...state,
+                loading: true
             };
         case classConstants.CLASSES_UPDATE_SUCCESS:
             return {
                 ...state,
+                loading: false,
                 classDetail: action.classDetail
             };
         case classConstants.CLASSES_UPDATE_FAILURE:
             return {
                 ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_GETMEMBERS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETMEMBERS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    members: action.data.members
+                }
+            };
+        case classConstants.CLASSES_GETMEMBERS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_GETFILES_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETFILES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    files: action.data
+                }
+            };
+        case classConstants.CLASSES_GETFILES_FAILURE:
+            return {
+                ...state,
+                loading: false,
                 error: action.error
             };
         default:

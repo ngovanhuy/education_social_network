@@ -6,8 +6,10 @@ export const classActions = {
     getAll,
     getById,
     getByUserId,
+    getMembers,
+    getFiles,
     insert,
-    update
+    update,
 };
 
 function getAll() {
@@ -58,6 +60,38 @@ function getByUserId(userId) {
     function failure(error) { return { type: classConstants.CLASSES_GETBYUSERID_FAILURE, error } }
 }
 
+function getMembers(classId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.getMembers(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_GETMEMBERS_REQUEST } }
+    function success(data) { return { type: classConstants.CLASSES_GETMEMBERS_SUCCESS, data } }
+    function failure(error) { return { type: classConstants.CLASSES_GETMEMBERS_FAILURE, error } }
+}
+
+function getFiles(classId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.getFiles(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_GETFILES_REQUEST } }
+    function success(data) { return { type: classConstants.CLASSES_GETFILES_SUCCESS, data } }
+    function failure(error) { return { type: classConstants.CLASSES_GETFILES_FAILURE, error } }
+}
+
 function insert(name) {
     return dispatch => {
         dispatch(request());
@@ -85,7 +119,7 @@ function update(classId, name, about, location) {
             .then(
                 response => {
                     dispatch(success(response.data));
-                    history.push('/classes' + classId);
+                    history.push('/classes/'+ response.data.id );
                 },
                 error => dispatch(failure(error))
             );

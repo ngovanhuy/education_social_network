@@ -4,6 +4,7 @@ import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
 import * as FileUtil from '../../utils/fileUtil'
 import ClassMembersHeadline from "./views/ClassMembersHeadline";
+import {defaultConstants} from "../../constants/defaultConstant";
 
 class ClassMembers extends Component {
 
@@ -14,10 +15,12 @@ class ClassMembers extends Component {
                     <div className="panel-body">
                         <a href="#">
                             <div className="text-center panel-member-col">
-                                <img src={member.profilePictureUrl} className="img-circle" alt="image"/>
+                                <img
+                                    src={member.profilePictureUrl ? member.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}
+                                    className="img-circle" alt="image"/>
 
                                 <h4 className="thin">
-                                    {member.fullName}
+                                    {member.firstName} {member.lastName}
                                 </h4>
                             </div>
                         </a>
@@ -45,7 +48,7 @@ class ClassMembers extends Component {
                     <div className="clearfix col-sm-12">
                         <ul className="clearfix">
                             <li>
-                                    <span className='current'>{classMemberTitle}</span>
+                                <span className='current'>{classMemberTitle}</span>
                             </li>
                         </ul>
                     </div>
@@ -57,7 +60,13 @@ class ClassMembers extends Component {
                                 members.map((member, index) => this.renderMember(member, index))
                             ) :
                             (
-                                <p>No members</p>
+                                <div className="col-sm-6 col-md-4 col-lg-3">
+                                    <div className="panel panel-default panel-member">
+                                        <div className="panel-body">
+                                            <p>No members</p>
+                                        </div>
+                                    </div>
+                                </div>
                             )
                     }
                 </div>

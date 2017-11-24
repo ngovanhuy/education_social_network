@@ -9,6 +9,13 @@ import queryString from "query-string"
 import {classActions} from "../../actions/classActions";
 
 class ClassManagePage extends Component {
+    constructor() {
+        super()
+        this.state = {
+            currentViewLink: "memberRequests",
+        }
+    }
+
     static propTypes = {
         classDetail: PropTypes.object,
         classId: PropTypes.string,

@@ -3,11 +3,11 @@ import ClassManageMemberRequest from "./ClassManageMemberRequest";
 import ClassManageChangeDetail from "./ClassManageChangeDetail";
 
 class ClassManageMainContent extends Component{
-    renderMainContent = (currentViewLink, classId, classDetail, memberRequests, onSubmitChangeDetail) => {
+    renderMainContent = (currentViewLink, classId, classDetail, memberRequests, onSubmitChangeDetail, isSubmitting) => {
         if(currentViewLink == "memberRequests"){
             return <ClassManageMemberRequest memberRequests={memberRequests} classId={classId}/>
         } else if(currentViewLink == "changeClassDetail"){
-            return <ClassManageChangeDetail classDetail={classDetail} classId={classId} onSubmitChangeDetail={onSubmitChangeDetail}/>;
+            return <ClassManageChangeDetail/>;
         }
     }
     render(){

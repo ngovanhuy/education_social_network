@@ -35,7 +35,7 @@ class ClassFiles extends Component{
             <div key={index} className="file clearfix">
                 <div className="preview-file clearfix">
                     {
-                        file.type == "image" ?
+                        (file.type && file.type.startsWith("image/")) ?
                             <div className="preview-image">
                                 <img src={file.source}/>
                             </div> :
@@ -45,16 +45,21 @@ class ClassFiles extends Component{
                     }
                 </div>
                 <div className="file-content">
-                    <div className="file-file-name">{file.fileName}</div>
+                    <div className="file-file-name">{file.name}</div>
                 </div>
                 <div className="file-content">
                     <div className="file-type">{file.type}</div>
                 </div>
                 <div className="file-content">
-                    <div className="file-user-full-name">
-                        <UserProfileInfo user={file.from.user}/>
-                    </div>
-                    <div className="file-create-time">{file.createTime.toLocaleString()}</div>
+                    {
+                        (file.from && file.from.user) ?
+                            (
+                                <div className="file-user-full-name">
+                                    <UserProfileInfo user={file.from.user}/>
+                                </div>
+                            ) : ''
+                    }
+                    <div className="file-create-time">{file.createDate}</div>
                 </div>
                 <div className="dropdown pull-right action-with-file">
                     <a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">

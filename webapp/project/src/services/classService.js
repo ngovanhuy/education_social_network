@@ -5,6 +5,8 @@ export const classService = {
     getAll,
     getById,
     getByUserId,
+    getMembers,
+    getFiles,
     insert,
     update
 };
@@ -36,10 +38,28 @@ function getByUserId(userId) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
+function getMembers(classId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/members/' + classId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getFiles(classId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/files/' + classId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
 function insert(name) {
     const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: authHeader(),
         body: JSON.stringify({name})
     };
     const url = DOMAIN_SERVICE + '/groups';
@@ -50,7 +70,7 @@ function insert(name) {
 function update(classId, name, about, location) {
     const requestOptions = {
         method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
+        headers: authHeader(),
         body: JSON.stringify({name, about, location})
     };
     const url = DOMAIN_SERVICE + '/groups/' + classId;

@@ -7,12 +7,6 @@ import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/commons/Feed";
 import {userActions} from "../../actions";
 import {userService} from "../../services";
-// import {fetchUser} from '../../actions/userActions'
-
-const loadData = ({id, loadUser, loadUserProfileFeed}) => {
-    // loadUser(id)
-    // loadUserProfileFeed(id)
-}
 
 class UserProfilePage extends Component {
     static propTypes = {
@@ -121,7 +115,6 @@ class UserProfilePage extends Component {
     }
 
     componentWillMount() {
-        // loadData(this.props)
         const {dispatch} = this.props;
         const {userId} = this.props;
         dispatch(userActions.getById(userId));
