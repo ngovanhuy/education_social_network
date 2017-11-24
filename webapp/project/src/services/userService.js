@@ -1,5 +1,6 @@
 import {authHeader} from '../helpers';
 import {DOMAIN_SERVICE} from '../constants'
+import axios from 'axios';
 
 export const userService = {
     login,
@@ -8,6 +9,8 @@ export const userService = {
     getAll,
     getById,
     update,
+    updateProfilePicture,
+    updateCoverPhoto,
 };
 
 function login(username, password) {
@@ -16,8 +19,9 @@ function login(username, password) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({username, password})
     };
-
-    return fetch('/users/authenticate', requestOptions)
+    const url = DOMAIN_SERVICE + '/users/login';
+    // const url = '/users/authenticate'
+    return fetch(url, requestOptions)
         .then(response => {
             if (!response.ok) {
                 return Promise.reject(response.statusText);
@@ -25,14 +29,18 @@ function login(username, password) {
 
             return response.json();
         })
-        .then(user => {
+        .then(response => {
             // login successful if there's a jwt token in the response
-            if (user && user.token) {
+            if (response) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
+                var user = {
+                    "id": response.data.id,
+                    "username": response.data.username
+                };
                 localStorage.setItem('user', JSON.stringify(user));
             }
 
-            return user;
+            return response.data;
         });
 }
 
@@ -46,8 +54,8 @@ function getAll() {
         method: 'GET',
         headers: authHeader()
     };
-
-    return fetch('/users', requestOptions).then(handleResponse);
+    const url = DOMAIN_SERVICE + '/test/users';
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 function getById(id) {
@@ -55,24 +63,32 @@ function getById(id) {
         method: 'GET',
         headers: authHeader()
     };
+    const url = DOMAIN_SERVICE + '/users/' + id;
+    return fetch(url, requestOptions).then(handleResponse);
+}
 
-    return fetch('/users/' + id, requestOptions).then(handleResponse);
+function updateProfilePicture(userId, file) {
+    const uploadProfilePictureUrl = DOMAIN_SERVICE + '/users/profileImage/' + userId;
+    const data = new FormData();
+    data.append('profileImage', file);
+    return axios.post(uploadProfilePictureUrl, data);
+}
+
+function updateCoverPhoto(userId, file) {
+    const uploadCoverPhotoUrl = DOMAIN_SERVICE + '/users/coverImage/' + userId;
+    const data = new FormData();
+    data.append('coverImage', file);
+    return axios.post(uploadCoverPhotoUrl, data);
 }
 
 function register(user) {
     const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:3000',
-                'Access-Control-Allow-Credentials': 'true'
-            },
-            body: JSON.stringify(user)
-        }
-    ;
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify(user)
+    };
     const url = DOMAIN_SERVICE + '/users';
-
+// const url = '/users/register'
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -84,7 +100,6 @@ function update(user) {
     };
 
     return fetch('/users/' + user.id, requestOptions).then(handleResponse);
-    ;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

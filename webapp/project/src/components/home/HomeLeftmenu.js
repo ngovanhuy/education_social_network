@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom'
 import CreateClassModal from "../class/views/CreateClassModal";
 import CreateEventModal from "../event/views/CreateEventModal";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
+import {defaultConstants} from "../../constants";
+import {classActions} from "../../actions";
+import {connect} from 'react-redux';
 
 class HomeLeftmenu extends Component {
     constructor() {
@@ -43,6 +46,11 @@ class HomeLeftmenu extends Component {
         )
     }
 
+    createClass = (className, membersInvited) => {
+        this.setState({modalCreateClassIsOpen: false});
+        this.props.dispatch(classActions.insert(className));
+    }
+
     render() {
         const {schoolDetail, user, classes} = this.props
         return (
@@ -58,7 +66,8 @@ class HomeLeftmenu extends Component {
                     <div className="col-sm-12">
                         <div className="user-info">
                             <Link to={`/users/${user.id}`}>
-                                <img src={user.profilePictureUrl}/>
+                                <img
+                                    src={(typeof(user.profilePictureUrl) !== "undefined" && user.profilePictureUrl) ? user.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
                             </Link>
                             <UserProfileInfo user={user}/>
                         </div>
@@ -74,7 +83,7 @@ class HomeLeftmenu extends Component {
                                 classes && classes.length > 0 ?
                                     (
                                         classes.map((classDetail, index) =>
-                                            this.renderListItem(index, `/classes/${classDetail.id}`, classDetail.fullName))
+                                            this.renderListItem(index, `/classes/${classDetail._id}`, classDetail.name))
                                     ) : ''
                             }
                         </ul>
@@ -117,7 +126,8 @@ class HomeLeftmenu extends Component {
                                 Class
                             </a>
                             <CreateClassModal modalIsOpen={this.state.modalCreateClassIsOpen}
-                                              closeModal={this.closeModalCreateClass}/>
+                                              closeModal={this.closeModalCreateClass}
+                                              onSubmit={this.createClass}/>
                         </div>
                     </div>
                 </div>
@@ -126,4 +136,12 @@ class HomeLeftmenu extends Component {
     }
 }
 
-export default HomeLeftmenu;
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {
+        user
+    };
+}
+
+
+export default connect(mapStateToProps)(HomeLeftmenu);

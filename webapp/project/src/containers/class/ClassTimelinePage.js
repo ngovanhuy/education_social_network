@@ -7,6 +7,7 @@ import ClassRightMenu from "../../components/class/ClassRightMenu";
 import '../../components/class/class.css'
 import NewPost from "../../components/commons/views/NewPost";
 import Feed from "../../components/commons/Feed";
+import {classActions} from "../../actions";
 
 class ClassTimelinePage extends Component {
     static propTypes = {
@@ -19,13 +20,13 @@ class ClassTimelinePage extends Component {
     }
 
     static defaultProps = {
-        classDetail: {
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            about: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-            location: 'Room 101, D3'
-        },
+        // classDetail: {
+        //     profilePictureUrl: '/images/cover_photo.jpg',
+        //     fullName: 'Chung ta la Anh em',
+        //     memberCount: 489,
+        //     about: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
+        //     location: 'Room 101, D3'
+        // },
         topics: [{
             fullName: 'Task 1',
             topicName: 'task_1',
@@ -213,6 +214,18 @@ class ClassTimelinePage extends Component {
         }]
     }
 
+    componentWillMount() {
+        const {dispatch, classId} = this.props;
+        dispatch(classActions.getById(classId));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.classId !== this.props.classId) {
+            const {classId} = nextProps;
+            this.props.dispatch(classActions.getById(classId));
+        }
+    }
+
     render() {
         const {classDetail, classId, topics, events, recentFiles, feed} = this.props
         return (
@@ -248,8 +261,10 @@ class ClassTimelinePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
+    const {classDetail} = state.classes
     return {
-        classId
+        classId,
+        classDetail
     }
 }
 

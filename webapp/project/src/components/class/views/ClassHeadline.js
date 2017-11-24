@@ -6,7 +6,7 @@ class ClassHeadline extends Component {
         const {classDetail, classId, currentPage} = this.props
         return (
             <div className="class-headline">
-                <h1>{classDetail.fullName}</h1>
+                <h1>{classDetail.name}</h1>
                 {/*<form>*/}
                     {/*<div className="navbar-search">*/}
                         {/*<input type="text" placeholder="Search in this class" className="form-control"/>*/}

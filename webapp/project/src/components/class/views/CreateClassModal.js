@@ -39,17 +39,27 @@ class CreateClassModal extends Component{
     constructor() {
         super()
         this.state = {
-            tags: []
+            className: '',
+            membersInvited: []
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleChangeName = this.handleChangeName.bind(this);
     }
 
-    handleChange(tags) {
-        this.setState({tags})
+    handleChange(membersInvited) {
+        this.setState({
+            membersInvited: membersInvited
+        })
+    }
+
+    handleChangeName(event){
+        this.setState({
+            className: event.target.value
+        })
     }
 
     render(){
-        const {modalIsOpen} = this.props
+        const {modalIsOpen, onSubmit} = this.props
         var modalTitle = 'Create New Group';
         return(
             <Modal
@@ -65,20 +75,21 @@ class CreateClassModal extends Component{
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Name your class</label>
                         <div className="col-sm-9 ">
-                            <input type="text" className="form-control" id="className"/>
+                            <input type="text" className="form-control" id="className"
+                                onChange={this.handleChangeName}/>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Class Name</label>
                         <div className="col-sm-9">
-                            <TagsInput value={this.state.tags} onChange={this.handleChange}
+                            <TagsInput value={this.state.membersInvited} onChange={this.handleChange}
                                        inputProps={customTagsInput.inputProps}/>
                         </div>
                     </div>
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
                             <button className="btn btn-white" onClick={this.props.closeModal}>Cancel</button>
-                            <button className="btn btn-primary">Create</button>
+                            <button className="btn btn-primary" onClick={() => onSubmit(this.state.className, this.state.membersInvited)}>Create</button>
                         </div>
                     </div>
                 </form>

@@ -6,13 +6,14 @@ import HomeLeftmenu from "../../components/home/HomeLeftmenu";
 import '../../components/home/home.css'
 import Feed from "../../components/commons/Feed";
 import HomeRightmenu from "../../components/home/HomeRightmenu";
+import {classActions} from "../../actions/classActions";
 
 class HomePage extends Component {
 
     static propTypes = {
         schoolDetail: PropTypes.object,
         user: PropTypes.object,
-        classes: PropTypes.array,
+        classesByUserId: PropTypes.array,
         feed: PropTypes.array,
         events: PropTypes.array,
         notifcationsLatest: PropTypes.array,
@@ -27,32 +28,32 @@ class HomePage extends Component {
             website: 'www.hust.edu.vn',
             schoolMap: '/images/school-map.png',
         },
-        user: {
-            id: "1",
-            coverPhotoUrl: "/images/cover_photo.jpg",
-            profilePictureUrl: "/images/profile_picture.png",
-            fullName: "NgoVan Huy",
-            userName: "ngovanhuy0241"
-        },
-        classes: [{
-            id: "1",
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },{
-            id: 2,
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },{
-            id: 3,
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        }],
+        // user: {
+        //     id: "1",
+        //     coverPhotoUrl: "/images/cover_photo.jpg",
+        //     profilePictureUrl: "/images/profile_picture.png",
+        //     fullName: "NgoVan Huy",
+        //     userName: "ngovanhuy0241"
+        // },
+        // classesByUserId: [{
+        //     id: "1",
+        //     profilePictureUrl: '/images/cover_photo.jpg',
+        //     fullName: 'Chung ta la Anh em',
+        //     memberCount: 489,
+        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
+        // },{
+        //     id: 2,
+        //     profilePictureUrl: '/images/cover_photo.jpg',
+        //     fullName: 'Chung ta la Anh em',
+        //     memberCount: 489,
+        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
+        // },{
+        //     id: 3,
+        //     profilePictureUrl: '/images/cover_photo.jpg',
+        //     fullName: 'Chung ta la Anh em',
+        //     memberCount: 489,
+        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
+        // }],
         feed:[{
             post:{
                 id: "123",
@@ -341,14 +342,20 @@ class HomePage extends Component {
         }]
     }
 
+    componentWillMount() {
+        // loadData(this.props)
+        const {dispatch, user} = this.props;
+        dispatch(classActions.getByUserId(user.id));
+    }
+
     render() {
-        const {schoolDetail, user, classes, feed, events, notifcationsLatest} = this.props
+        const {schoolDetail, user, classesByUserId, feed, events, notifcationsLatest} = this.props
         return (
             <div>
                 <div className="container">
                     <div className="home-page clearfix">
                         <div className="col-sm-2">
-                            <HomeLeftmenu schoolDetail={schoolDetail} user={user} classes={classes}/>
+                            <HomeLeftmenu schoolDetail={schoolDetail} classes={classesByUserId}/>
                         </div>
                         <div className="col-sm-10">
                             <div className="row">
@@ -377,5 +384,14 @@ class HomePage extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    const {classesByUserId} = state.classes;
+    return {
+        user,
+        classesByUserId
+    };
+}
 
-export default withRouter(HomePage);
+
+export default withRouter(connect(mapStateToProps)(HomePage));

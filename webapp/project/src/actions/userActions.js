@@ -8,6 +8,7 @@ export const userActions = {
     logout,
     register,
     getAll,
+    getById
 };
 
 function login(username, password) {
@@ -71,7 +72,23 @@ function getAll() {
             );
     };
 
-    function request() { return { type: userConstants.GETALL_REQUEST } }
-    function success(users) { return { type: userConstants.GETALL_SUCCESS, users } }
-    function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
+    function request() { return { type: userConstants.USERS_GETALL_REQUEST } }
+    function success(users) { return { type: userConstants.USERS_GETALL_SUCCESS, users } }
+    function failure(error) { return { type: userConstants.USERS_GETALL_FAILURE, error } }
+}
+
+function getById(id) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.getById(id)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_GETBYID_REQUEST } }
+    function success(user) { return { type: userConstants.USERS_GETBYID_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.USERS_GETBYID_FAILURE, error } }
 }

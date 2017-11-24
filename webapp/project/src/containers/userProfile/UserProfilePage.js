@@ -1,51 +1,51 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/commons/Feed";
+import {userActions} from "../../actions";
+import {userService} from "../../services";
 // import {fetchUser} from '../../actions/userActions'
 
-const loadData = ({ id, loadUser, loadUserProfileFeed }) => {
+const loadData = ({id, loadUser, loadUserProfileFeed}) => {
     // loadUser(id)
     // loadUserProfileFeed(id)
 }
 
-class UserProfilePage extends Component{
+class UserProfilePage extends Component {
     static propTypes = {
-        user: PropTypes.object,
-        id: PropTypes.string,
         feed: PropTypes.array,
     }
 
     static defaultProps = {
-        user:{
-            id: 1,
-            coverPhotoUrl: "/images/cover_photo.jpg",
-            profilePictureUrl: "/images/profile_picture.png",
-            fullName: "NgoVan Huy",
-            intros:[
-                {
-                    type: "education",
-                    message: "Studied at class 12A2"
-                },
-                {
-                    type: "education",
-                    message: "Studied at class 11A2"
-                },
-                {
-                    type: "education",
-                    message: "Studied at class 10A2"
-                },
-                {
-                    type: "home_place",
-                    message: "Lives in HaNoi, VietNam"
-                }
-            ]
-        },
-        feed:[{
-            post:{
+        // user:{
+        //     id: 1,
+        //     coverPhotoUrl: "/images/cover_photo.jpg",
+        //     profilePictureUrl: "/images/profile_picture.png",
+        //     fullName: "NgoVan Huy",
+        //     intros:[
+        //         {
+        //             type: "education",
+        //             message: "Studied at class 12A2"
+        //         },
+        //         {
+        //             type: "education",
+        //             message: "Studied at class 11A2"
+        //         },
+        //         {
+        //             type: "education",
+        //             message: "Studied at class 10A2"
+        //         },
+        //         {
+        //             type: "home_place",
+        //             message: "Lives in HaNoi, VietNam"
+        //         }
+        //     ]
+        // },
+        feed: [{
+            post: {
                 id: "123",
                 createTime: new Date(),
                 message: "[SINH VIÊN 5 TỐT]\n" +
@@ -53,17 +53,17 @@ class UserProfilePage extends Component{
                 "Bạn đã hoàn thành các tiêu chí về Đạo đức - Học tập - Thể lực - Tình nguyện - Hội nhập trong năm học 2016-2017?\n" +
                 "Bạn đã sẵn sàng nhận được danh hiệu cao quý \"Sinh viên 5 tốt\"",
                 pictureLink: "/images/cover_photo.jpg",
-                attachments:[{
+                attachments: [{
                     type: "image",
                     typeFile: "jpg",
                     fileName: "cover_photo.jpg",
                     source: "/images/cover_photo.jpg",
-                },{
+                }, {
                     type: "text",
                     typeFile: "txt",
                     fileName: "kinhnghiem.txt",
                     source: "/uploads/kinhnghiem.txt",
-                },{
+                }, {
                     type: "pdf",
                     typeFile: "pdf",
                     fileName: "ZenHabitsbook.pdf",
@@ -71,7 +71,7 @@ class UserProfilePage extends Component{
                 }],
                 favourites: {
                     favouriteCount: 1,
-                    usersFavourite:[{
+                    usersFavourite: [{
                         id: "1"
                     }]
                 },
@@ -82,7 +82,7 @@ class UserProfilePage extends Component{
                         createTime: new Date(),
                         favourites: {
                             favouriteCount: 1,
-                            usersFavourite:[{
+                            usersFavourite: [{
                                 id: "1"
                             }]
                         },
@@ -96,7 +96,7 @@ class UserProfilePage extends Component{
                             }
                         ],
                         from: {
-                            user:{
+                            user: {
                                 id: "1",
                                 coverPhotoUrl: "/images/cover_photo.jpg",
                                 profilePictureUrl: "/images/profile_picture.png",
@@ -107,7 +107,7 @@ class UserProfilePage extends Component{
                     }
                 ],
                 from: {
-                    user:{
+                    user: {
                         id: "1",
                         coverPhotoUrl: "/images/cover_photo.jpg",
                         profilePictureUrl: "/images/profile_picture.png",
@@ -122,23 +122,46 @@ class UserProfilePage extends Component{
 
     componentWillMount() {
         // loadData(this.props)
+        const {dispatch} = this.props;
+        const {userId} = this.props;
+        dispatch(userActions.getById(userId));
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.id !== this.props.id) {
-            // loadData(nextProps)
+        if (nextProps.userId !== this.props.userId) {
+            const {userId} = nextProps;
+            this.props.dispatch(userActions.getById(userId));
         }
     }
 
-    render(){
+    handleUploadCoverPhoto = (file) => {
+        const {userId} = this.props;
+        userService.updateCoverPhoto(userId, file)
+            .then(
+                this.props.dispatch(userActions.getById(userId))
+            )
+    }
+
+    handleUploadProfilePicture = (file) => {
+        const {userId} = this.props;
+
+        userService.updateProfilePicture(userId, file)
+            .then(
+                this.props.dispatch(userActions.getById(userId))
+            )
+    }
+
+    render() {
         const {user, feed} = this.props
-        return(
+        return (
             <div>
                 <div className="container">
                     <div className="col-sm-10">
                         <div className="row">
                             <div className="col-sm-12">
-                                <UserProfileTopContent user={user}/>
+                                <UserProfileTopContent user={user}
+                                                       onUploadProfilePicture={this.handleUploadProfilePicture}
+                                                       onUploadCoverPhoto={this.handleUploadCoverPhoto}/>
                             </div>
                         </div>
                         <div className="row">
@@ -158,18 +181,13 @@ class UserProfilePage extends Component{
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        // loadUser: (id) => dispatch(fetchUser(id)),
-    };
-};
-
 const mapStateToProps = (state, ownProps) => {
-    const id = ownProps.match.params.id
-    return{
-        id,
-        user: state.user
+    const userId = ownProps.match.params.userId
+    const {user} = state.authentication
+    return {
+        userId,
+        user
     }
 }
 
-export default withRouter(connect(mapDispatchToProps, mapDispatchToProps)(UserProfilePage));
+export default withRouter(connect(mapStateToProps, null)(UserProfilePage));

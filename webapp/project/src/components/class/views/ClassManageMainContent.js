@@ -3,19 +3,19 @@ import ClassManageMemberRequest from "./ClassManageMemberRequest";
 import ClassManageChangeDetail from "./ClassManageChangeDetail";
 
 class ClassManageMainContent extends Component{
-    renderMainContent = (currentViewLink, classId, classDetail, memberRequests) => {
+    renderMainContent = (currentViewLink, classId, classDetail, memberRequests, onSubmitChangeDetail) => {
         if(currentViewLink == "memberRequests"){
             return <ClassManageMemberRequest memberRequests={memberRequests} classId={classId}/>
         } else if(currentViewLink == "changeClassDetail"){
-            return <ClassManageChangeDetail classDetail={classDetail} classId={classId}/>;
+            return <ClassManageChangeDetail classDetail={classDetail} classId={classId} onSubmitChangeDetail={onSubmitChangeDetail}/>;
         }
     }
     render(){
-        const{currentViewLink, classDetail, classId, memberRequests} = this.props
+        const{currentViewLink, classDetail, classId, memberRequests, onSubmitChangeDetail} = this.props
         return(
             <div className="class-manage-main-content">
                 {
-                    this.renderMainContent(currentViewLink, classId, classDetail, memberRequests)
+                    this.renderMainContent(currentViewLink, classId, classDetail, memberRequests, onSubmitChangeDetail)
                 }
             </div>
         )

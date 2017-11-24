@@ -6,6 +6,7 @@ import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import ClassManage from "../../components/class/ClassManage";
 import queryString from "query-string"
+import {classActions} from "../../actions/classActions";
 
 class ClassManagePage extends Component {
     static propTypes = {
@@ -17,12 +18,12 @@ class ClassManagePage extends Component {
     }
 
     static defaultProps = {
-        classDetail: {
-            coverPhotoUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },
+        // classDetail: {
+        //     coverPhotoUrl: '/images/cover_photo.jpg',
+        //     fullName: 'Chung ta la Anh em',
+        //     memberCount: 489,
+        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
+        // },
         topics: [{
             fullName: 'Task 1',
             topicName: 'task_1',
@@ -54,10 +55,14 @@ class ClassManagePage extends Component {
         }]
     }
 
+    handleSubmitChangeDetail = (classId, name, about, location) => {
+        this.props.dispatch(classActions.update(classId, name, about, location));
+    }
+
     render() {
         const {classDetail, topics, classId, memberRequests} = this.props
         const queryStringParsed = queryString.parse(this.props.location.search)
-        const currentViewLink= (queryStringParsed && queryStringParsed.currentViewLink) ?  queryStringParsed.currentViewLink : 'memberRequests'
+        const currentViewLink = (queryStringParsed && queryStringParsed.currentViewLink) ? queryStringParsed.currentViewLink : 'memberRequests'
         return (
             <div>
                 <div className="container">
@@ -70,7 +75,8 @@ class ClassManagePage extends Component {
                     <div className="col-sm-10">
                         <div className="row">
                             <ClassManage currentViewLink={currentViewLink} classId={classId}
-                                         classDetail={classDetail} memberRequests={memberRequests}/>
+                                         classDetail={classDetail} memberRequests={memberRequests}
+                                         onSubmitChangeDetail={this.handleSubmitChangeDetail}/>
                         </div>
                     </div>
                 </div>
@@ -81,8 +87,10 @@ class ClassManagePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
+    const {classDetail} = state.classes
     return {
-        classId
+        classId,
+        classDetail
     }
 }
 

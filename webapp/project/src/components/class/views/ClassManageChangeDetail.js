@@ -6,30 +6,32 @@ class ClassManageChangeDetail extends Component{
         super(props);
 
         this.state = {
-            classFullName: '',
-            classAbout: '',
-            classLocation: '',
+            classId: '',
+            name: '',
+            about: '',
+            location: '',
             submitted: false
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount(){
         this.setState({
-            classFullName: this.props.classDetail.fullName,
-            classAbout: this.props.classDetail.about,
-            classLocation: this.props.classDetail.location,
+            classId: this.props.classDetail.id,
+            name: this.props.classDetail.name,
+            about: this.props.classDetail.about,
+            location: this.props.classDetail.location,
         });
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.classDetail !== this.props.classDetail) {
             this.setState({
-                classFullName: nextProps.classDetail.fullName,
-                classAbout: nextProps.classDetail.about,
-                classLocation: nextProps.classDetail.location,
+                classId: this.props.classDetail.id,
+                name: nextProps.classDetail.name,
+                about: nextProps.classDetail.about,
+                location: nextProps.classDetail.location,
             });
         }
     }
@@ -39,42 +41,36 @@ class ClassManageChangeDetail extends Component{
         this.setState({[name]: value});
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-
-        this.setState({submitted: true});
-        const {classFullName, classAbout, classLocation} = this.state;
-    }
-
     render(){
-        const {classFullName, classAbout, classLocation, submitted} = this.state;
+        const {onSubmitChangeDetail} = this.props
+        const {classId, name, about, location, submitted} = this.state;
         return(
             <div className="ui-box">
                 <div className="ui-box-title">
                     <span>Class Info</span>
                 </div>
                <div className="ui-box-content">
-                   <form name="form" onSubmit={this.handleSubmit}>
-                       <div className={'form-group' + (submitted && !classFullName ? ' has-error' : '')}>
+                   <form name="form">
+                       <div className={'form-group' + (submitted && !name ? ' has-error' : '')}>
                            <label htmlFor="classFullName">Class Full Name</label>
-                           <input type="text" className="form-control" name="classFullName" value={classFullName}
+                           <input type="text" className="form-control" name="classFullName" value={name}
                                   onChange={this.handleChange}/>
-                           {submitted && !classFullName &&
+                           {submitted && !name &&
                            <div className="help-block">Class Full Name is required</div>
                            }
                        </div>
                        <div className={'form-group'}>
                            <label htmlFor="classAbout">Class About</label>
-                           <input type="password" className="form-control" name="classAbout" value={classAbout}
+                           <input type="text" className="form-control" name="classAbout" value={about}
                                   onChange={this.handleChange}/>
                        </div>
                        <div className={'form-group'}>
                            <label htmlFor="classLocation">Class Location</label>
-                           <input type="password" className="form-control" name="classLocation" value={classLocation}
+                           <input type="text" className="form-control" name="classLocation" value={location}
                                   onChange={this.handleChange}/>
                        </div>
                        <div className="form-group">
-                           <button className="btn btn-primary">Update</button>
+                           <button className="btn btn-primary" onClick={() => onSubmitChangeDetail(classId, name, about, location)}>Update</button>
                        </div>
                    </form>
                </div>

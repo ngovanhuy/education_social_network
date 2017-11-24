@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
 import './common.css';
 import CreateClassModal from "../class/views/CreateClassModal";
+import {defaultConstants} from "../../constants";
+import {classActions} from "../../actions/classActions";
 
 class Header extends Component {
     constructor() {
@@ -25,6 +28,11 @@ class Header extends Component {
 
     closeModal() {
         this.setState({modalIsOpen: false});
+    }
+
+    createClass = (className, membersInvited) => {
+        this.setState({modalIsOpen: false});
+        this.props.dispatch(classActions.insert(className));
     }
 
     render() {
@@ -111,8 +119,9 @@ class Header extends Component {
                         <ul className="nav navbar-nav navbar-nav-expanded pull-right margin-md-right">
                             <li className="dropdown">
                                 <a data-toggle="dropdown" className="dropdown-toggle navbar-user" href="javascript:;">
-                                    <img className="img-circle" src={user.profilePictureUrl}/>
-                                    <span className="hidden-xs user_full_name">{user.fullName}</span>
+                                    <img className="img-circle"
+                                         src={user.profilePictureUrl ? user.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                                    <span className="hidden-xs user_full_name">{user.firstName} {user.lastName}</span>
                                     <b className="caret"></b>
                                 </a>
                                 <ul className="dropdown-menu pull-right-xs">
@@ -126,7 +135,8 @@ class Header extends Component {
                                         <Link to={`/classes`}>Classes</Link>
                                     </li>
                                     <li><a href="javascript:;" onClick={this.openModal}>Create class</a></li>
-                                    <CreateClassModal modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}/>
+                                    <CreateClassModal modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}
+                                                      onSubmit={this.createClass}/>
                                     <li className="divider"></li>
                                     <li>
                                         <Link to={`/events`}>Events</Link>
@@ -146,4 +156,12 @@ class Header extends Component {
     }
 }
 
-export default Header
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {
+        user
+    };
+}
+
+
+export default connect(mapStateToProps)(Header);
