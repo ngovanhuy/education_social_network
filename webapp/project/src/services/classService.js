@@ -1,14 +1,17 @@
 import {authHeader} from '../helpers';
 import {DOMAIN_SERVICE} from '../constants'
+import axios from 'axios';
 
 export const classService = {
     getAll,
     getById,
     getByUserId,
     getMembers,
+    getRequests,
     getFiles,
     insert,
-    update
+    update,
+    updateProfilePicture,
 };
 
 function getAll() {
@@ -47,6 +50,15 @@ function getMembers(classId) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
+function getRequests(classId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/requested/' + classId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
 function getFiles(classId) {
     const requestOptions = {
         method: 'GET',
@@ -76,6 +88,13 @@ function update(classId, name, about, location) {
     const url = DOMAIN_SERVICE + '/groups/' + classId;
     return fetch(url, requestOptions)
         .then(handleResponse)
+}
+
+function updateProfilePicture(classId, file) {
+    const uploadProfilePictureUrl = DOMAIN_SERVICE + '/groups/profileImage/' + classId;
+    const data = new FormData();
+    data.append('profileImage', file);
+    return axios.post(uploadProfilePictureUrl, data);
 }
 
 function handleResponse(response) {

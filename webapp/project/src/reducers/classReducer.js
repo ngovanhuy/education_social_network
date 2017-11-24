@@ -107,6 +107,26 @@ export function classes(state = {loading: false, items: [], classDetail: {}, cla
                 loading: false,
                 error: action.error
             };
+        case classConstants.CLASSES_GETREQUESTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETREQUESTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    requests: action.data
+                }
+            };
+        case classConstants.CLASSES_GETREQUESTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
         case classConstants.CLASSES_GETFILES_REQUEST:
             return {
                 ...state,

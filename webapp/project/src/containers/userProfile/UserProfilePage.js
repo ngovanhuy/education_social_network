@@ -115,9 +115,8 @@ class UserProfilePage extends Component {
     }
 
     componentWillMount() {
-        const {dispatch} = this.props;
         const {userId} = this.props;
-        dispatch(userActions.getById(userId));
+        this.props.dispatch(userActions.getById(userId));
     }
 
     componentWillReceiveProps(nextProps) {

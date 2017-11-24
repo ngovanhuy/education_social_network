@@ -5,7 +5,7 @@ import ClassManageChangeDetail from "./ClassManageChangeDetail";
 class ClassManageMainContent extends Component{
     renderMainContent = (currentViewLink, classId, classDetail, memberRequests, onSubmitChangeDetail, isSubmitting) => {
         if(currentViewLink == "memberRequests"){
-            return <ClassManageMemberRequest memberRequests={memberRequests} classId={classId}/>
+            return <ClassManageMemberRequest classId={classId}/>
         } else if(currentViewLink == "changeClassDetail"){
             return <ClassManageChangeDetail/>;
         }

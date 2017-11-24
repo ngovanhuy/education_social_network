@@ -7,6 +7,7 @@ export const classActions = {
     getById,
     getByUserId,
     getMembers,
+    getRequests,
     getFiles,
     insert,
     update,
@@ -74,6 +75,22 @@ function getMembers(classId) {
     function request() { return { type: classConstants.CLASSES_GETMEMBERS_REQUEST } }
     function success(data) { return { type: classConstants.CLASSES_GETMEMBERS_SUCCESS, data } }
     function failure(error) { return { type: classConstants.CLASSES_GETMEMBERS_FAILURE, error } }
+}
+
+function getRequests(classId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.getRequests(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_GETREQUESTS_REQUEST } }
+    function success(data) { return { type: classConstants.CLASSES_GETREQUESTS_SUCCESS, data } }
+    function failure(error) { return { type: classConstants.CLASSES_GETREQUESTS_FAILURE, error } }
 }
 
 function getFiles(classId) {
