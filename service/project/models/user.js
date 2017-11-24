@@ -176,6 +176,13 @@ UserSchema.pre('save', function (callback) {
     });
 });
 
+function comparePassword(candidatePassword, callback) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return callback(err);
+        callback(null, isMatch);
+    });
+}
+
 function addUserInArray(new_user, arrays) {
     if (!new_user) {
         return null;
@@ -557,6 +564,7 @@ UserSchema.statics.getNewID = getNewID;
 
 UserSchema.methods.verifyPassword = verifyPassword;
 UserSchema.methods.getBasicInfo = getBasicInfo;
+UserSchema.methods.comparePassword = comparePassword;
 UserSchema.methods.getInfo = getInfo;
 
 UserSchema.methods.addFriend = addFriend;

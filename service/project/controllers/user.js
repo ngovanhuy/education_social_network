@@ -1085,6 +1085,44 @@ async function checkPhoneNumber(req, res) {
         return res.status(500).end();
     }
 }
+
+async function login(req, res) {
+    let username = req.body.username;
+    let password = req.body.password;
+    if (!username || !password) {
+        res.status(400).end();
+    }
+    let user = await User.findOne({username: username});
+    if (!user) {
+        return res.status(400).send({
+            code: 400,
+            message: "User not found",
+            data: null
+        });
+    }
+    user.comparePassword(password, function(err, isMatch) {
+        if (err) {
+            return res.status(500).send({
+                code: 500,
+                message: "Server error",
+                data: null
+            });
+        }
+        if (!isMatch) {
+            return res.status(400).send({
+                code: 400,
+                message: "Password invalid",
+                data: null
+            });
+        }
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: user.getBasicInfo()
+        });
+    });
+}
+
 async function getUsers(req, res) {
     try {
         let users = await User.find({
@@ -1144,3 +1182,4 @@ exports.getUserByID = getUserByID;
 exports.findUser = findUser;
 exports.getUserInfo = getUserInfo;
 exports.getUsers = getUsers;
+exports.login = login;

@@ -641,9 +641,20 @@ Thông tin **Member** bao gồm:
 ##### Lấy thông tin người dùng của `userID` theo từng trường
 
     + Method: GET
-    + URL: http://domain:port/users//info/:userID?field1=&field2=...
+    + URL: http://domain:port/users/info/:userID?field1=&field2=...
     + Success: `data` thông tin cần lấy.
         - {code: 200, message: "...", data: [<field1='', field2='',...>,]}.
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi.
         - {code: 500, ...} : Server Error: Không thể thực hiện.
+
+##### Đăng nhập theo `username` và `password`
+
+    + Method: POST
+    + URL: http://domain:port/users/login
+    + Body data: username, password (form-urlencode/JSON)
+    + Success: `data` thông tin người dùng.
+        - {code: 200, message: "...", data: <user_info>}.
+    + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
+        - {code: 400, message:....} : Client Error: Không tồn tại người dùng/sai password/thiếu thông tin.
+        - {code: 500, ...} : Server Error.

@@ -136,6 +136,7 @@ userRouter.route('/classrequest/:userID/:groupID')
     .post(userController.addClassRequests)
     .delete(userController.removeClassRequest);
 
+userRouter.route('/login/').post(userController.login);
 userRouter.route('/info/:userID').get(userController.getUserInfo);
 userRouter.route('/files/:userID').get(fileItemController.getFiles); //TEST
 /*-------------------GROUP_API-----------------------*/
