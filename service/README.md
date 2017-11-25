@@ -644,13 +644,92 @@ Thông tin **Member** bao gồm:
 
 ### `25/11/2017`
 
-#### Bổ sung một số API mới
+#### Bổ sung một số API mới liên quan đến post, file nhóm, tìm kiếm. Thêm thông tin người tải file cho các API về file
 
-### Tìm kiếm nhóm theo tên
+Thông tin **Post** bao gồm:
 
-### Tìm kiếm người dùng theo tên
+        _id: Number, -> id bài post
+        title: String, -> Tiêu đề post
+        content: String -> nội dung post.
+        user: [Trả về]thông tin người dùng tạo.
+        group: [Trả về]Thông tin nhóm của bài đăng.
+        topic: Tên topic bài đăng
+        timeCreate: Date, -> thời gian tạo bài đăng.
 
-### Upload file nên nhóm
+Thông tin tạo **Post** có các option sau [Thêm khi tạo], cùng với các trường thông tin trên (title, content,...)
+
+        isShow: Boolean,-> có hiện hay không.
+        isSchedule: Boolean, -> true sẽ sử dụng 2 trường `startTime` và `endTime` (Khoảng thời gian hiện)
+        scopeType: 10[Protected] ->All member; 100[Private] -> list allow member (cung cấp trong `members`.)
+        startTime: { type: Date, default: null },
+        endTime: { type: Date, default: null },
+        members: [member_ID] -> mảng chuỗi người dùng ở chế độ scopeType là Private, VD: [member_id_1, member_id_2...]
+
+
+##### Tìm kiếm nhóm theo tên
+
+    + Method: GET
+    + URL: http://domain:port/groups/search?groupname=key
+    + Success: `data` là mảng thông tin nhóm có tên chứa `key`.
+        - {code: 200, message: "...", data: [<group_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Tìm kiếm người dùng theo tên
+
+    + Method: GET
+    + URL: http://domain:port/users/search?username=key
+    + Success: `data` là mảng thông tin người dùng có tên chứa `key`.
+        - {code: 200, message: "...", data: [<user_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Upload file nên nhóm
+
+    + Method: POST
+    + URL: http://domain:port/groups/files/:groupID
+    + Success: `data` là thông tin file đã upload.
+        - {code: 200, message: "...", data: [<file_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Lấy tất cả post trong nhóm
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID
+    + Success: `data` là mảng thông tin các post.
+        - {code: 200, message: "...", data: [<post_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Lấy tất cả post theo user
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID/:userID
+    + Success: `data` là mảng thông tin các post người dùng có thể lấy.
+        - {code: 200, message: "...", data: [<post_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Tạo post mới[Cơ bản]
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID/:userID
+    + Cấu hình: title, content, topic, [scopeType = 10, isSchedule= false]
+    + Success: `data` là mảng thông tin post vừa tạo.
+        - {code: 200, message: "...", data: <post_info>}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Tạo post mới [Assignment]
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID/:userID
+    + Cấu hình: title, content, topic, [scopeType = 100, isSchedule= true, startTime, endTime, members]
+    + Success: `data` là mảng thông tin post vừa tạo.
+        - {code: 200, message: "...", data: <post_info>}
+    + Failed:
+        - {code: 500, ...} : Server Error.
 
 #### TEST API
 

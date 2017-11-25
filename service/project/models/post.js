@@ -97,7 +97,8 @@ function getBasicInfo() {
     return {
         id: this._id,
         title: this.title,
-        short_content: getShortContent(this.content),
+        // short_content: getShortContent(this.content),
+        content: this.content,
         timeCreate: this.timeCreate.toLocaleString(),
         user: this.userCreate,
         group: this.group,
