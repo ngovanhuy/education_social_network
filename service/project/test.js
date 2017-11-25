@@ -9,7 +9,7 @@ var User = require('./models/user');
 var Group = require('./models/group');
 var FileItem = require('./models/fileitem');
 var PostSchema = require('./models/post');
-Application.manager.connectToDB();
+// Application.manager.connectToDB();
 
 var chars = "abcdefjhijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789";
 var numbers = "0123456789";
@@ -43,4 +43,6 @@ function validateGroupName(name, isRequired = true) {
     return false;
 }
 
-console.log(validateGroupName("dondon odndon"));
+let dateString = "2017-11-25T09:18:48"
+var date = new Date(dateString + "Z");
+console.log(date.toLocaleDateString());
