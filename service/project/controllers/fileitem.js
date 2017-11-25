@@ -97,10 +97,70 @@ async function postFile(req, res, next) {
             isDeleted: false,
         });
         if (req.users.user_request) {
-            file.userID = req.users.user_request._id;
+            user = req.users.user_request;
+            file.user = {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            }
+        } else {
+            file.user = null;
         }
         if (req.groups.group_request) {
-            file.groupID = req.groups.group_request._id;
+            let group = req.groups.group_request;
+            file.group = {
+                _id: group._id,
+                name: group.name,
+            }
+        } else {
+            file.group = null;
+        }
+        file = await file.save();
+        req.files.file_saved = file;
+        req.files.file_selected_id = file ? file._id : null;
+        return next();
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Upload Failed',
+            data: null,
+            error: error.message
+        });
+    }
+};
+async function postFileIfHave(req, res, next) {
+    try {
+        req.files.file_saved = null;
+        req.files.file_selected_id = null;
+        if (!req.file) {
+            return next();
+        }
+        let file = new FileItem({
+            id: req.file.filename,
+            name: req.file.originalname,
+            type: req.file.mimetype,
+            size: req.file.size,
+            createDate: Date.now(),
+            isDeleted: false,
+        });
+        if (req.users.user_request) {
+            user = req.users.user_request;
+            file.user = {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            }
+        } else {
+            file.user = null;
+        }
+        if (req.groups.group_request) {
+            let group = req.groups.group_request;
+            file.group = {
+                _id: group._id,
+                name: group.name,
+            }
+        } else {
+            file.group = null;
         }
         file = await file.save();
         req.files.file_saved = file;
@@ -263,3 +323,4 @@ exports.getInfoFile = getInfoFile;
 exports.deleteFile = deleteFile;
 exports.postFile = postFile;
 exports.cleanUploadFolder = cleanUploadFolder;
+exports.postFileIfHave = postFileIfHave;

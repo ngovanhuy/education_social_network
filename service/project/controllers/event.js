@@ -4,9 +4,5 @@ var Schedules = require('../controllers/schedule');
 var Posts = require('../controllers/post');
 var EventItem = require('../models/event');
 
-async function findEvent(req) {
-
-}
-
 
 exports.findEvent = findEvent;

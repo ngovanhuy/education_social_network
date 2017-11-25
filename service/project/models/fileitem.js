@@ -9,6 +9,23 @@ var FileItemSchema = new mongoose.Schema({
     isDeleted: { type: Boolean, required: true, default: false, },
     userID: { type: Number, required: false, default: null },
     groupID: { type: Number, required: false, default: null },
+    user: {
+        type: {
+            _id: Number,
+            firstName: String,
+            lastName: String,
+        },
+        required: true,
+        default: null,
+    },
+    group: {
+        type: {
+            _id: Number,
+            name: String,
+        },
+        required: true,
+        default: null
+    },
 });
 
 FileItemSchema.methods.getBasicInfo = function() {
@@ -17,6 +34,8 @@ FileItemSchema.methods.getBasicInfo = function() {
         name:       this.name,
         type:       this.type,
         size:       this.size,
+        user:       this.user,
+        group:      this.group,
         createDate: this.createDate.toLocaleString(),
     }
 }
