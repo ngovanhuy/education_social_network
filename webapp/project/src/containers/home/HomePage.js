@@ -7,6 +7,7 @@ import '../../components/home/home.css'
 import Feed from "../../components/commons/Feed";
 import HomeRightmenu from "../../components/home/HomeRightmenu";
 import {classActions} from "../../actions/classActions";
+import {userActions} from "../../actions/userActions";
 
 class HomePage extends Component {
 
@@ -343,9 +344,12 @@ class HomePage extends Component {
     }
 
     componentWillMount() {
-        // loadData(this.props)
-        const {dispatch, user} = this.props;
-        dispatch(classActions.getByUserId(user.id));
+        var {user} = this.props;
+        if(!user || !user.id){
+            user = JSON.parse(localStorage.getItem('user'))
+        }
+        this.props.dispatch(userActions.getById(user.id));
+        this.props.dispatch(classActions.getByUserId(user.id));
     }
 
     render() {
@@ -355,7 +359,7 @@ class HomePage extends Component {
                 <div className="container">
                     <div className="home-page clearfix">
                         <div className="col-sm-2">
-                            <HomeLeftmenu schoolDetail={schoolDetail} classes={classesByUserId}/>
+                            <HomeLeftmenu schoolDetail={schoolDetail} user={user} classes={classesByUserId}/>
                         </div>
                         <div className="col-sm-10">
                             <div className="row">

@@ -14,26 +14,21 @@ class App extends Component {
     }
 
     static propTypes = {
-        // user: PropTypes.object,
         children: PropTypes.node
-    }
-
-    static defaultProps = {
-        // user: {
-        //     id: 1,
-        //     fullName: "NgoVan Huy",
-        //     profilePictureUrl: "/images/profile_picture.png",
-        //     username: "ngovanhuy0241",
-        // }
     }
 
     componentWillMount(){
         const {loggedIn} = this.props
+        let user = JSON.parse(localStorage.getItem('user'))
         if(!loggedIn){
-            this.props.dispatch(userActions.logout());
-            const { history } = this.props
-            // history.pushState(null, '/login')
-            history.replace('/login', null)
+            if(user){
+                history.push('/')
+            } else {
+                this.props.dispatch(userActions.logout());
+                const { history } = this.props
+                // history.pushState(null, '/login')
+                history.replace('/login', null)
+            }
         }
     }
 

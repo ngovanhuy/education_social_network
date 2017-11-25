@@ -8,7 +8,8 @@ export const userActions = {
     logout,
     register,
     getAll,
-    getById
+    getById,
+    update,
 };
 
 function login(username, password) {
@@ -91,4 +92,23 @@ function getById(id) {
     function request() { return { type: userConstants.USERS_GETBYID_REQUEST } }
     function success(user) { return { type: userConstants.USERS_GETBYID_SUCCESS, user } }
     function failure(error) { return { type: userConstants.USERS_GETBYID_FAILURE, error } }
+}
+
+function update(user) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.update(user)
+            .then(
+                response => {
+                    dispatch(success(response.data))
+                    history.push(`/users/${response.data.id}`)
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_UPDATE_REQUEST } }
+    function success(user) { return { type: userConstants.USERS_UPDATE_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.USERS_UPDATE_FAILURE, error } }
 }

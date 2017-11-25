@@ -64,13 +64,20 @@ class HomeLeftmenu extends Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <div className="user-info">
-                            <Link to={`/users/${user.id}`}>
-                                <img
-                                    src={(typeof(user.profilePictureUrl) !== "undefined" && user.profilePictureUrl) ? user.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
-                            </Link>
-                            <UserProfileInfo user={user}/>
-                        </div>
+                        {
+                            user &&
+                            (
+                                <div className="user-info">
+                                    <a href={`/users/${user.id}`}>
+                                        <span className="imgWrap">
+                                            <img
+                                                src={(typeof(user.profilePictureUrl) !== "undefined" && user.profilePictureUrl) ? user.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                                        </span>
+                                        <UserProfileInfo user={user}/>
+                                    </a>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="row">
@@ -136,12 +143,5 @@ class HomeLeftmenu extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    const {user} = state.authentication;
-    return {
-        user
-    };
-}
 
-
-export default connect(mapStateToProps)(HomeLeftmenu);
+export default connect(null, null)(HomeLeftmenu);

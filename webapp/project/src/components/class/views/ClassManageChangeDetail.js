@@ -46,13 +46,12 @@ class ClassManageChangeDetail extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {classId, name, about, location, submitted} = this.state;
+        const {classId, name, about, location} = this.state;
         this.setState({submitted: true});
         this.props.dispatch(classActions.update(classId, name, about, location));
     }
 
     render() {
-        const {onSubmitChangeDetail} = this.props
         const {classId, name, about, location, submitted} = this.state;
         return (
             <div className="ui-box">

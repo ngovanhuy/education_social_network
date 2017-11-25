@@ -23,9 +23,23 @@ export function authentication(state = {}, action) {
         case userConstants.USERS_GETBYID_SUCCESS:
             return {
                 ...state,
+                loggedIn: true,
                 user: action.user
             };
         case userConstants.USERS_GETBYID_FAILURE:
+            return {
+                ...state
+            };
+        case userConstants.USERS_UPDATE_REQUEST:
+            return {
+                ...state
+            };
+        case userConstants.USERS_UPDATE_SUCCESS:
+            return {
+                ...state,
+                user: action.user
+            };
+        case userConstants.USERS_UPDATE_FAILURE:
             return {
                 ...state
             };

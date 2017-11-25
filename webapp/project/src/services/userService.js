@@ -98,8 +98,8 @@ function update(user) {
         headers: {...authHeader(), 'Content-Type': 'application/json'},
         body: JSON.stringify(user)
     };
-
-    return fetch('/users/' + user.id, requestOptions).then(handleResponse);
+    const url = DOMAIN_SERVICE + '/users/' + user.id;
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

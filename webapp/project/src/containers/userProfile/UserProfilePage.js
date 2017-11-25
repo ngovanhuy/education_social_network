@@ -116,13 +116,17 @@ class UserProfilePage extends Component {
 
     componentWillMount() {
         const {userId} = this.props;
-        this.props.dispatch(userActions.getById(userId));
+        if(userId) {
+            this.props.dispatch(userActions.getById(userId));
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.userId !== this.props.userId) {
             const {userId} = nextProps;
-            this.props.dispatch(userActions.getById(userId));
+            if(userId) {
+                this.props.dispatch(userActions.getById(userId));
+            }
         }
     }
 
@@ -151,7 +155,7 @@ class UserProfilePage extends Component {
                     <div className="col-sm-10">
                         <div className="row">
                             <div className="col-sm-12">
-                                <UserProfileTopContent user={user}
+                                <UserProfileTopContent user={user} currentLink="timeline"
                                                        onUploadProfilePicture={this.handleUploadProfilePicture}
                                                        onUploadCoverPhoto={this.handleUploadCoverPhoto}/>
                             </div>
