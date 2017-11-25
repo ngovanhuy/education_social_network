@@ -609,8 +609,8 @@ async function addPost(req, res, next) {
                 error: error.message
             });
         }
-        let isShow = req.body.isShow ? req.body.isShow : false;
-        let isSchedule = req.body.isSchedule ? req.body.isSchedule : false;
+        let isShow = req.body.isShow ? req.body.isShow == 'true' ? true : false : false;
+        let isSchedule = req.body.isSchedule ? req.body.isSchedule == 'true' ? true : false : false;
         let scopeType = req.body.scopeType ? req.body.scopeType : 10;
         let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
