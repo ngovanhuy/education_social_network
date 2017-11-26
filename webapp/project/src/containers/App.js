@@ -1,39 +1,55 @@
 /* eslint-disable no-undef */
 
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import Header from "../components/commons/Header";
+import {history} from "../helpers/history";
+import {alertAuthenActions} from "../actions/alertAuthenActions";
 
 class App extends Component {
-  static propTypes = {
-      user: PropTypes.object,
-    children: PropTypes.node
-  }
+    constructor(props) {
+        super(props);
 
-  static defaultProps = {
-      user:{
-          fullName: "NgoVan Huy",
-          profilePictureUrl: "/images/profile_picture.png",
-          userName: "ngovanhuy0241",
-      }
-  }
+        const {dispatch} = this.props;
+        history.listen((location, action) => {
+            dispatch(alertAuthenActions.clear());
+        });
+    }
 
-  render() {
-    const { children, user } = this.props
-    return (
-      <div>
-        <Header user={user}/>
-        {children}
-      </div>
-    )
-  }
+    static propTypes = {
+        user: PropTypes.object,
+        children: PropTypes.node
+    }
+
+    static defaultProps = {
+        user: {
+            id: 1,
+            fullName: "NgoVan Huy",
+            profilePictureUrl: "/images/profile_picture.png",
+            username: "ngovanhuy0241",
+        }
+    }
+
+    render() {
+        const {children, user, loggedIn} = this.props
+        return (
+            <div>
+                {
+                    (loggedIn) ? <Header user={user}/> : ''
+                }
+                {children}
+            </div>
+        )
+    }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  errorMessage: state.errorMessage,
-  inputValue: ownProps.location.pathname.substring(1)
-})
+function mapStateToProps(state, ownProps) {
+    const {loggedIn, user} = state.authentication;
+    return {
+        loggedIn
+    };
+}
 
 export default withRouter(connect(mapStateToProps, null)(App))

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var CommentSchema = new mongoose.Schema({
     _id: Number,
     content: String,//short_content.
-    userID: {
+    user: {
         type: {
             _id: Number,
             firstName: String,
@@ -44,15 +44,5 @@ function getNewID() {
     return new Date().getTime();
 }
 
-function addCommentToPost(post) {
-    //TODO addCommentToPost
-}
-
-function removeCommentFromPost(post) {
-    //TODO: RemoveCommentFromPost
-}
-
 CommentSchema.methods.getBasicInfo = getBasicInfo;
-CommentSchema.statics.getNewID = getNewID;
-
 module.exports = mongoose.model('Comment', CommentSchema);

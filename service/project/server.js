@@ -1,3 +1,4 @@
+//Require package
 var Application = require('./application/application');
 var oauth2Controller = require('./controllers/oauth2');
 var session = require('express-session');
@@ -11,6 +12,7 @@ var clientController = require('./controllers/client');
 var groupController = require('./controllers/group');
 var fileItemController = require('./controllers/fileitem');
 
+//Router controller
 var app = express();
 var apiRouter = express.Router();
 var fileRouter = express.Router();
@@ -20,6 +22,7 @@ var checkRouter = express.Router();
 var testRouter = express.Router();
 var taskRouter = express.Router();
 
+//Finally error handing.
 var errorHanding = function (err, req, res, next) {
         if (err) {
                 let status = err.status ? err.status : 500;
@@ -38,7 +41,7 @@ var errorHanding = function (err, req, res, next) {
                 error: 'Client Error'
         });
 }
-
+//Clear upload folder action
 var cleanUploadFolderInterval = null;
 function startCleanUploadFolderTask() {
         if (cleanUploadFolderInterval) return;
@@ -55,7 +58,7 @@ function stopCleanUploadFolderTask() {
 Application.manager.connectToDB();
 Application.manager.start();
 app.set('view engine', 'ejs');
-//Log request.
+//Init extends object, log request.
 app.use(function (req, res, next) {
         req.files = req.files ? req.files : {};
         req.users = req.users ? req.users : {};
@@ -73,6 +76,7 @@ app.use(session({
         resave: true
 }));
 app.use(passport.initialize());
+// app.use(passport.session());
 /*---------------------------------------------*/
 apiRouter.route('/').get(function (req, res) {
         return res.json({
@@ -83,8 +87,9 @@ apiRouter.route('/users')
         .post(userController.postUser)
         .get(authController.isAuthenticated, userController.getUsers);
 apiRouter.route('/clients')
+        .get(authController.isAuthenticated, clientController.getClients)
         .post(authController.isAuthenticated, clientController.postClients)
-        .get(authController.isAuthenticated, clientController.getClients);
+        .delete(authController.isAuthenticated, clientController.deleteClient);
 
 // Create endpoint handlers for oauth2 authorize
 apiRouter.route('/oauth2/authorize')
@@ -97,11 +102,6 @@ apiRouter.route('/oauth2/token').post(authController.isClientAuthenticated, oaut
 userRouter.route('/')
         .get(userController.getUser)
         .post(userController.postUser, userController.getUser)
-        .put(userController.putUser, userController.getUser)
-        .delete(userController.deleteUser, userController.getUser);
-
-userRouter.route('/:userID')
-        .get(userController.getUser)
         .put(userController.putUser, userController.getUser)
         .delete(userController.deleteUser, userController.getUser);
 userRouter.route('/profileImage/:userID')
@@ -136,48 +136,53 @@ userRouter.route('/classrequest/:userID/:groupID')
     .post(userController.addClassRequests)
     .delete(userController.removeClassRequest);
 
+userRouter.route('/login/').post(userController.login);
 userRouter.route('/info/:userID').get(userController.getUserInfo);
-userRouter.route('/files/:userID').get(fileItemController.getFiles); //TEST
+userRouter.route('/files/:userID').get(userController.getFiles);
+userRouter.route('/search').get(userController.searchUserByName);
+userRouter.route('/:userID')
+        .get(userController.getUser)
+        .put(userController.putUser, userController.getUser)
+        .delete(userController.deleteUser, userController.getUser);
 /*-------------------GROUP_API-----------------------*/
-groupRouter.route('/')
-        .get(groupController.getGroup)
-        .post(groupController.postGroup, groupController.getGroup)
-        .put(groupController.putGroup, groupController.getGroup)
-        .delete(groupController.deleteGroup, groupController.getGroup);
-groupRouter.route('/:groupID')
-        .get(groupController.getGroup)
-        .put(groupController.putGroup, groupController.getGroup)
-        .delete(groupController.deleteGroup, groupController.getGroup);
+// groupRouter.route('/').post(groupController.postGroup, groupController.getGroup);
+groupRouter.route('/all').get(groupController.getGroups);
+groupRouter.route('/create/:userID').post(groupController.postGroup, groupController.getGroup);
+groupRouter.route('/info/:groupID').get(groupController.checkGroupRequest, groupController.getGroup);
 groupRouter.route('/profileImage/:groupID')
         .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileItemController.getFile)
         .put(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage)
         .post(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage, );
-groupRouter.route('/members/:groupID').get(groupController.getMembers)
+groupRouter.route('/members/:groupID').get(groupController.checkGroupRequest, groupController.getMembers)
 groupRouter.route('/members/:groupID/:userID')
-        .get(userController.getUser)
-        .post(groupController.addMember)//, userController.getUser)
-        .put(groupController.updateMember)//, userController.getUser)
-        .delete(groupController.removeMember)//, userController.getUser)
+        .get(groupController.checkGroupRequest, userController.getUser)
+        .post(groupController.checkGroupRequest, groupController.addMember)//, userController.getUser)
+        .put(groupController.checkGroupRequest, groupController.updateMember)//, userController.getUser)
+        .delete(groupController.checkGroupRequest, groupController.removeMember)//, userController.getUser)
 
-groupRouter.route('/requested/:groupID').get(groupController.getRequesteds);
+groupRouter.route('/requested/:groupID').get(groupController.checkGroupRequest, groupController.getRequesteds);
 groupRouter.route('/requested/:groupID/:userID')
-    .post(groupController.confirmRequested)
-    .delete(groupController.removeRequested);
-
-groupRouter.route('/files/:groupID').get(fileItemController.getFiles); //TEST
+        .post(groupController.checkGroupRequest, groupController.confirmRequested)
+        .delete(groupController.checkGroupRequest, groupController.removeRequested);
+groupRouter.route('/action/:groupID/:userID')
+        .put(groupController.checkGroupRequest, groupController.putGroup, groupController.getGroup)
+        .delete(groupController.checkGroupRequest, groupController.deleteGroup, groupController.getGroup);
+groupRouter.route('/files/:groupID')
+        .get(groupController.checkGroupRequest, groupController.getFiles)
+        .post(groupController.checkGroupRequest, fileItemController.fileUpload, fileItemController.postFile, groupController.postFile, );
+groupRouter.route('/search').get(groupController.checkGroupRequest, groupController.searchGroupByName);
+groupRouter.route('/post/:groupID')
+        .get(groupController.checkGroupRequest, groupController.getPosts)//, groupController.getGroup)
+groupRouter.route('/post/:groupID/:userID')
+        .get(groupController.checkGroupRequest, groupController.getPosts)//, groupController.getGroup)
+        .post(groupController.checkGroupRequest, fileItemController.fileUpload, fileItemController.postFileIfHave, groupController.addPost, groupController.getGroup);
 /*-------------------FILE_API------------------------*/
-fileRouter.route('/upload')
-        .post(fileItemController.fileUpload, fileItemController.postFile, fileItemController.getInfoFile);
-fileRouter.route('/image')
-        .post(fileItemController.imageUpload, fileItemController.postFile, fileItemController.getInfoFile);
-fileRouter.route('/get/:fileID')
-        .get(fileItemController.getFile);
-fileRouter.route('/attach/:fileID')
-        .get(fileItemController.attachFile);
-fileRouter.route('/delete/:fileID')
-        .delete(fileItemController.deleteFile);
-fileRouter.route('/info/:fileID')
-        .get(fileItemController.getInfoFile);
+fileRouter.route('/upload').post(fileItemController.fileUpload, fileItemController.postFile, fileItemController.getInfoFile);
+fileRouter.route('/image').post(fileItemController.imageUpload, fileItemController.postFile, fileItemController.getInfoFile);
+fileRouter.route('/get/:fileID').get(fileItemController.getFile);
+fileRouter.route('/attach/:fileID').get(fileItemController.attachFile);
+fileRouter.route('/delete/:fileID').delete(fileItemController.deleteFile);
+fileRouter.route('/info/:fileID').get(fileItemController.getInfoFile);
 
 /*----------------CHECK_API--------------------- */
 checkRouter.route('/username').get(userController.checkUserName);

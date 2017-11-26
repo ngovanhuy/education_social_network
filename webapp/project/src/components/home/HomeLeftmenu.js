@@ -57,7 +57,9 @@ class HomeLeftmenu extends Component {
                 <div className="row">
                     <div className="col-sm-12">
                         <div className="user-info">
-                            <img src={user.profilePictureUrl}/>
+                            <Link to={`/users/${user.id}`}>
+                                <img src={user.profilePictureUrl}/>
+                            </Link>
                             <UserProfileInfo user={user}/>
                         </div>
                     </div>

@@ -104,13 +104,15 @@
   .class-events-upcomming .btn {
     margin-top: 10px; }
 
-.add-member-and-description {
+.add-member-and-description-and-location {
   margin-top: 10px;
   padding: 10px;
   background-color: #fff; }
-  .add-member-and-description .description {
+  .add-member-and-description-and-location .description, .add-member-and-description-and-location .location {
     margin-top: 15px;
     border-top: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  .add-member-and-description-and-location h3 {
+    font-size: 16px; }
 
 .add-member h3 {
   font-size: 16px; }
@@ -240,7 +242,7 @@
     margin-right: 5px; }
   .class-members .class-members-headline a {
     color: #000; }
-    .class-members .class-members-headline a:hover {
+    .class-members .class-members-headline a:hover, .class-members .class-members-headline a:focus {
       text-decoration: none; }
   .class-members .class-members-headline .current {
     padding-bottom: 3px;
@@ -300,5 +302,38 @@
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); }
       .classes .classes-content .class-detail .class-detail-left .class-info {
         margin: 0 10px; }
+
+.class-manage .class-manage-leftmenu {
+  padding: 10px 0; }
+  .class-manage .class-manage-leftmenu a:hover, .class-manage .class-manage-leftmenu a:focus {
+    text-decoration: none; }
+  .class-manage .class-manage-leftmenu .class-manage-leftmenu-content {
+    align-items: center;
+    display: flex;
+    height: 28px;
+    line-height: 28px;
+    position: relative;
+    z-index: 0;
+    padding: 0 5px; }
+    .class-manage .class-manage-leftmenu .class-manage-leftmenu-content:hover {
+      background-color: #e6ecf0; }
+  .class-manage .class-manage-leftmenu .class-manage-leftmenu-content.current {
+    background-color: #e6ecf0; }
+.class-manage .class-manage-main-content .member-request {
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  .class-manage .class-manage-main-content .member-request:first-of-type {
+    margin-top: 0; }
+  .class-manage .class-manage-main-content .member-request:last-of-type {
+    border-bottom: none; }
+  .class-manage .class-manage-main-content .member-request .member-info {
+    display: inline-block; }
+    .class-manage .class-manage-main-content .member-request .member-info .member-info-content {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px; }
+    .class-manage .class-manage-main-content .member-request .member-info .btn-group {
+      vertical-align: middle; }
 
 /*# sourceMappingURL=class.css.map */

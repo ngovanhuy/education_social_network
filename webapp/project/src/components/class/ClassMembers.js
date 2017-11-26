@@ -37,7 +37,7 @@ class ClassMembers extends Component {
     }
 
     render() {
-        const {members, className, classMemberTitle} = this.props
+        const {members, classId, classMemberTitle} = this.props
         return (
             <div className="class-members">
                 {/*<ClassMembersHeadline currentHeadline="members" className={className}/>*/}

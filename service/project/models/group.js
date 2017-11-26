@@ -1,10 +1,15 @@
 var mongoose = require('mongoose');
 var TypeMemberEnum = {
-    0: "Guest",
+    // 0: "Guest",
     1: "Normal",
     10: "Admin",
-    100: "Owner",
-    1000: "System",
+    // 100: "Owner",
+    // 1000: "System",
+}
+var ScopePostEnum = {
+    0: "Public",//All user.
+    10: "Protected", //All member
+    100: "Private",//list allow member.
 }
 var TypeGroupEnum = {
     0: "Basic",
@@ -44,6 +49,7 @@ var GroupSchema = new mongoose.Schema(
                 profileImageID: String,
                 coverImageID: String,
                 typemember: { type: Number, min: 0, max: 1000, default: 1 },
+                typeuser: Number,
                 isRemoved: { type: Boolean, default: false, },
                 dateJoin: Date,
                 timeUpdate: Date,
@@ -51,6 +57,7 @@ var GroupSchema = new mongoose.Schema(
             required: false,
             default: [],
         },
+        memberCount: {type: Number, default: 0},
         status: { type: Number, required: false, default: 0, min: 0, max: 1000 },
         location: { type: String, required: false, default: "" },
         tags: { type: [String], required: false, },
@@ -61,6 +68,7 @@ var GroupSchema = new mongoose.Schema(
                 firstName: String,
                 lastName: String,
                 profileImageID: String,
+                typeuser: Number,
                 coverImageID: String,
                 isRemoved: { type: Boolean, default: false, },
                 timeCreate: { type: Date, default: Date.now },
@@ -69,8 +77,40 @@ var GroupSchema = new mongoose.Schema(
             require: true,
             default: [],
         },
-        timeCreate: { type: Date, default: Date.now, },
-        timeUpdate: { type: Date, default: Date.now, },
+        topics: {
+            type: [{
+                _id: String,
+                isDeleted: { type: Boolean, default: false }
+            }],
+            required: true,
+            default: [],
+        },
+        posts: {
+            type: [{
+                _id: Number,
+                title: String,
+                options: {
+                    isShow: { type: Boolean, default: true },
+                    isSchedule: { type: Boolean, default: false },
+                    scopeType: { type: Number, min: 0, max: 1000, default: 10 },
+                    scheduleOptions: {
+                        startTime: { type: Date, default: null },
+                        endTime: { type: Date, default: null },
+                    },
+                    members: {
+                        type: [Number],
+                        default: [],
+                    },
+                },
+                // index: {type: Number, default: 0},
+                timeCreate: { type: Date, default: Date.now() },
+                isDeleted: { type: Boolean, default: false },
+            }],
+            required: true,
+            default: []
+        },
+        timeCreate: { type: Date, default: Date.now(), },
+        timeUpdate: { type: Date, default: Date.now(), },
     }
 );
 
@@ -84,7 +124,7 @@ function validateGroupName(name, isRequired = true) {
     if (!name) {
         return !isRequired;
     }
-    var re = /^([a-zA-Z\-0-9\.\_]{1,40})$/;
+    var re = /^([a-zA-Z\-0-9\.\_\ ]{1,40})$/;
     if (re.test(name)) {
         return true;
     }
@@ -178,18 +218,65 @@ function getBasicInfo() {
     return {
         id: this.id,
         name: this.name,
-        typegroup: { enum_id: this.typeuser, text: TypeGroupEnum[this.typegroup] },
+        // typegroup: { enum_id: this.typeuser, text: TypeGroupEnum[this.typegroup] },
         // dateCreated:        this.dateCreated.toLocaleString(),
         about: this.about,
         location: this.location,
-        tags: this.tags,
+        memberCount: this.memberCount,
+        // members: this.members.length,
+        // tags: this.tags,
         // members:         this.members,
         profileImageID: this.profileImageID,
-        coverImageID: this.coverImageID,
-
+        // coverImageID: this.coverImageID,
     }
 }
-
+function getMembersInfo() {
+    let members = [];
+    for (let index = 0; index < this.members.length; index++) {
+        member = this.members[index];
+        members.push({
+            _id: member._id,
+            firstName: member.firstName,
+            lastName: member.lastName,
+            profileImageID: member.profileImageID,
+            isAdmin: TypeMemberEnum[member.typemember] == 'Admin',
+            typeuser: member.typeuser,
+            dateJoin: member.dateJoin.toLocaleString(),
+        });
+    }
+    return members;
+}
+function getMemberUser(user) {
+    if (!user) return null;
+    for (let index = 0; index < this.members.length; index++) {
+        member = this.members[index];
+        if (member._id == user._id) {
+            return member;
+        }
+    }
+    return null;
+}
+function getMemberById(id) {
+    if (!id) return null;
+    for (let index = 0; index < this.members.length; index++) {
+        member = this.members[index];
+        if (member._id == id) {
+            return member;
+        }
+    }
+    return null;
+}
+function isMember(user) {
+    return getMemberUser.call(this, user) ? true : false;
+}
+function isMemberInGroupById(id) {
+    return getMemberById.call(this, id) ? true : false;
+}
+function isAdmin(user) {
+    let member = getMemberUser(user);
+    if (!member) return false;
+    return TypeMemberEnum[member.typemember] == 'Admin';
+}
 function getNewID() {
     return new Date().getTime();
 }
@@ -216,6 +303,7 @@ function addUserInArray(new_user, arrays) {
         lastName: new_user.lastName,
         profileImageID: new_user.profileImageID,
         coverImageID: new_user.coverImageID,
+        typeuser: user.typeuser,
         isRemoved: false,
         timeCreate: timeUpdate,
         timeUpdate: timeUpdate,
@@ -246,7 +334,7 @@ function removeRequested(user) {
 function confirmRequested(user) {
     if (addMember(user)) {
         removeRequested(user);
-        return user;    
+        return user;
     }
     return null;
 }
@@ -268,6 +356,7 @@ function addMember(user, typemember = 1) {//TODO: check owner.
                 member.isRemoved = false;
                 member.dateJoin = timeUpdate;
             }
+            this.memberCount++;
             return user;
         }
     }
@@ -278,12 +367,20 @@ function addMember(user, typemember = 1) {//TODO: check owner.
         profileImageID: user.profileImageID,
         coverImageID: user.coverImageID,
         typemember: typemember,
+        typeuser: user.typeuser,
         isRemoved: false,
         dateJoin: timeUpdate,
         timeUpdate: timeUpdate,
     };
     this.members.push(member);
+    this.memberCount++;
     return user;
+}
+function addNormalMember(user) {
+    return addMember(user, 1);
+}
+function addAdminMember(user) {
+    return addMember(user, 10)
 }
 function updateMember(user, typemember) {//TODO: check 1 owner.
     if (!user || !typemember) {
@@ -316,11 +413,113 @@ function removeMember(user) {//TODO: remove owner.
     for (let index = 0; index < this.members.length; index++) {
         member = this.members[index];
         if (member._id == user._id) {
-            member.isRemoved = true; 
+            member.isRemoved = true;
+            this.memberCount--;
             return user; // this.members.splice(removeindex, 1);
         }
     }
     return null;
+}
+function addTopic(topic_name) {
+    let topic = this.topics.find(t => t._id == topic_name);
+    if (!topic) {
+        topic = { _id: topic_name, isDeleted: false };
+        this.topics.push(topic);
+    } else if (topic.isDeleted) {
+        topic.isDeleted = false;
+    }
+    return topic;
+}
+function removeTopic(topic_name) {
+    let topic = this.topics.find(t => t._id == topic_name);
+    if (topic && !topic.isDeleted) {
+        topic.isDeleted = true;
+    }
+    return topic;
+}
+function addPost(new_post, topic_name, new_options = null) {
+    if (!this.posts) {
+        this.posts = [];
+    }
+    let post = this.posts.find(item => item._id == new_post);
+    let options;
+    if (!new_options) {
+        options = {
+            isShow: true,
+            isSchedule: false,
+            scopeType: 10,
+            scheduleOptions: {
+                startTime: null,
+                endTime: null,
+            },
+            members: [],
+        }
+    } else {
+        // let now = Date.now();
+        let isShow = new_options.isShow ? new_options.isShow : false;
+        let isSchedule = new_options.isSchedule ? new_options.isSchedule : false;
+        let scopeType = new_options.scopeType ? new_options.scopeType : 10
+        let scheduleOptions = new_options.scheduleOptions;
+        let startTime = scheduleOptions ? scheduleOptions.startTime ? scheduleOptions.startTime : null : null;
+        let endTime = scheduleOptions ? scheduleOptions.endTime ? scheduleOptions.endTime : null : null;
+        let users = new_options.members ? new_options.members : [];
+        options = {
+            isShow: isShow,
+            isSchedule: isSchedule,
+            scopeType: scopeType,
+            scheduleOptions: {
+                startTime: startTime,
+                endTime: endTime,
+            },
+            members: users,
+        }
+    }
+    if (!post) {
+        post = {
+            _id: new_post._id,
+            title: new_post.title,
+            options: options,
+            timeCreate: Date.now(),
+            isDeleted: false,
+        }
+        this.posts.push(post);
+    } else {
+        post.options = options;
+        post.timeCreate = Date.now();
+        post.isDeleted = false;
+    }
+    if (this.addTopic.call(this, topic_name)) {
+        // post.addTopic.call(post, topic_name);
+    }
+    return post;
+}
+function getPostIDs(user, topics = null, top = -1) {
+    if (!this.posts) {
+        return [];
+    }
+    let postIDs = [];
+    if (!user) {
+        for (let index = this.posts.length - 1; index >= 0; index--) {
+            let post = this.posts[index];
+            if (post.isDeleted) continue;
+            postIDs.push(post._id);
+        }
+        return postIDs;
+    };
+    if (!isMember.call(this, user)) {
+        return [];
+    }
+
+    let max = top > 0 ? this.posts.length : top;
+    let count = 0;
+    for (let index = this.posts.length - 1; index >= 0; index--) {
+        let post = this.posts[index];
+        if (count == max) break;
+        postIDs.push(post._id);
+        count++;
+        continue;
+    }
+    return postIDs;
 }
 /*-------------------------------------- */
 GroupSchema.statics.getTypeMemberInfo = getTypeMemberInfo;
@@ -338,9 +537,22 @@ GroupSchema.statics.getNewID = getNewID;
 GroupSchema.methods.addMember = addMember;
 GroupSchema.methods.removeMember = removeMember;
 GroupSchema.methods.updateMember = updateMember;
+GroupSchema.methods.getMemberUser = getMemberUser;
+
+GroupSchema.methods.addAdminMember = addAdminMember;
+GroupSchema.methods.addNormalMember = addNormalMember;
 
 GroupSchema.methods.addRequested = addRequested;
 GroupSchema.methods.removeRequested = removeRequested;
 GroupSchema.methods.confirmRequested = confirmRequested;
+GroupSchema.methods.getMembersInfo = getMembersInfo;
+GroupSchema.methods.getMemberUser = getMemberUser;
+GroupSchema.methods.getMemberById = getMemberById;
+GroupSchema.methods.isMember = isMember;
+GroupSchema.methods.isMemberInGroupById = isMemberInGroupById;
+GroupSchema.methods.isAdmin = isAdmin;
+GroupSchema.methods.addTopic = addTopic;
+GroupSchema.methods.addPost = addPost;
+GroupSchema.methods.getPostIDs = getPostIDs;
 
 module.exports = mongoose.model('Group', GroupSchema); 

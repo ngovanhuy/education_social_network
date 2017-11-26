@@ -167,13 +167,16 @@ $main-color: rgba(146, 181, 88, 1);
   }
 }
 
-.add-member-and-description {
+.add-member-and-description-and-location {
   margin-top: 10px;
   padding: 10px;
   background-color: #fff;
-  .description {
+  .description, .location {
     margin-top: 15px;
     border-top: .1rem solid rgba(0, 0, 0, 0.12);
+  }
+  h3{
+    font-size: 16px;
   }
 }
 
@@ -356,7 +359,7 @@ $main-color: rgba(146, 181, 88, 1);
     }
     a {
       color: #000;
-      &:hover {
+      &:hover, &:focus {
         text-decoration: none;
       }
     }
@@ -447,4 +450,55 @@ $main-color: rgba(146, 181, 88, 1);
     }
   }
 
+}
+
+.class-manage{
+  .class-manage-leftmenu{
+    padding: 10px 0;
+    a {
+      &:hover, &:focus{
+        text-decoration: none;
+      }
+    }
+    .class-manage-leftmenu-content {
+      align-items: center;
+      display: flex;
+      height: 28px;
+      line-height: 28px;
+      position: relative;
+      z-index: 0;
+      padding: 0 5px;
+      &:hover {
+        background-color: #e6ecf0;
+      }
+    }
+    .class-manage-leftmenu-content.current {
+      background-color: #e6ecf0;
+    }
+
+  }
+  .class-manage-main-content{
+    .member-request{
+      margin-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
+      &:first-of-type{
+        margin-top: 0;
+      }
+      &:last-of-type{
+        border-bottom: none;
+      }
+      .member-info{
+        display: inline-block;
+        .member-info-content{
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: 20px;
+        }
+        .btn-group{
+          vertical-align: middle;
+        }
+      }
+    }
+  }
 }

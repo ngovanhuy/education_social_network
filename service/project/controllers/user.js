@@ -1,5 +1,7 @@
 var User = require('../models/user');
 var Groups = require('../controllers/group');
+var Files = require('../models/fileitem');
+
 async function getUserByID(id) {
     if (!id) {
         return null;
@@ -1062,7 +1064,10 @@ async function checkUserName(req, res) {
         let username = req.query.username ? req.query.username : 
                             req.params.username ? req.params.username : (req.body.username ? req.body.username : null);
         let user = await getUserByUserName(username);
-        return res.status(user ? 200 : 400).end();
+        if (user) {
+            return res.status(200).json(user.getBasicInfo());    
+        }
+        return res.status(400).end();
     } catch (error) {
         return res.status(500).end();
     }
@@ -1071,7 +1076,10 @@ async function checkEmail(req, res) {
     try {
         let email = req.query.email ? req.query.email : req.params.email;
         let user = await getUserbyEmail(email);
-        return res.status(user ? 200 : 400).end();
+        if (user) {
+            return res.status(200).json(user.getBasicInfo());    
+        }
+        return res.status(400).end();
     } catch (error) {
         return res.status(500).end();
     }
@@ -1080,11 +1088,52 @@ async function checkPhoneNumber(req, res) {
     try {
         let phone = req.query.phone ? req.query.phone : req.params.phone;
         let user = await getUserByPhone(phone);
-        return res.status(user ? 200 : 400).end();
+        if (user) {
+            return res.status(200).json(user.getBasicInfo());    
+        }
+        return res.status(400).end();
     } catch (error) {
         return res.status(500).end();
     }
 }
+
+async function login(req, res) {
+    let username = req.body.username;
+    let password = req.body.password;
+    if (!username || !password) {
+        res.status(400).end();
+    }
+    let user = await User.findOne({username: username});
+    if (!user) {
+        return res.status(400).send({
+            code: 400,
+            message: "User not found",
+            data: null
+        });
+    }
+    user.comparePassword(password, function(err, isMatch) {
+        if (err) {
+            return res.status(500).send({
+                code: 500,
+                message: "Server error",
+                data: null
+            });
+        }
+        if (!isMatch) {
+            return res.status(400).send({
+                code: 400,
+                message: "Password invalid",
+                data: null
+            });
+        }
+        return res.status(200).send({
+            code: 200,
+            message: 'Success',
+            data: user.getBasicInfo()
+        });
+    });
+}
+
 async function getUsers(req, res) {
     try {
         let users = await User.find({
@@ -1108,6 +1157,52 @@ async function getUsers(req, res) {
         return res.status(500).send(error);
     }
 };
+
+async function getFiles(req, res) {
+    try {
+        let userID = req.params.userID;
+        if (!userID) {
+            return res.status(400).json({
+                code: 400,
+                message: 'userID invalid',
+                data: null
+            });
+        }
+        let datas = (await Files.find({
+            isDeleted: false,
+            'user._id': userID,
+        }, { _id: 1, name: 1, type: 1, size: 1, createDate: 1 })).map(file => file.getBasicInfo());
+        return res.send({
+            code: 200,
+            message: 'Success',
+            length: datas.length,
+            data: datas
+        });
+    } catch (error) {
+        return res.status(500).json({
+            code: 500,
+            message: 'Server Error',
+            data: null
+        });
+    }
+}
+
+async function searchUserByName(req, res) {
+    try {
+        let key = req.query.username;
+        if (!key) {
+            return res.status(400).json({code: 400, message:'', data:[]});    
+        }
+        let users = await User.find({username: {$regex: key}});
+        return res.status(200).json({
+            code: 200, 
+            message: '', 
+            data: users.map(user => user.getBasicInfo())
+        });
+    } catch(error) {
+        return res.status(500).json({code: 500, message:'', data:[]});
+    }
+}
 /*----------------EXPORT------------------ */
 exports.postUser = postUser;
 exports.putUser = putUser;
@@ -1144,3 +1239,6 @@ exports.getUserByID = getUserByID;
 exports.findUser = findUser;
 exports.getUserInfo = getUserInfo;
 exports.getUsers = getUsers;
+exports.login = login;
+exports.getFiles = getFiles;
+exports.searchUserByName = searchUserByName;

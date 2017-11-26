@@ -42,7 +42,7 @@ async function connectToDB() {
     try {
         // let c = "mongodb://192.168.1.17:27017/education_social_network";
         // await mongoose.connect(c, {
-        // console.log(exports.connectString);
+        console.log(exports.connectString);
         await mongoose.connect(exports.connectString, {//loi khi debug -> can fix.
             useMongoClient: true,
             // server: {auto_reconnect: true}//Default reconnect in 30s.

@@ -15,11 +15,15 @@ class ClassRightMenu extends Component{
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <div className="add-member-and-description">
+                        <div className="add-member-and-description-and-location">
                             <AddMember memberCount={classDetail.memberCount}/>
                             <div className="description">
-                                <h3>Description</h3>
-                                <span>{classDetail.description}</span>
+                                <h3>About</h3>
+                                <span>{classDetail.about}</span>
+                            </div>
+                            <div className="location">
+                                <h3>Location</h3>
+                                <span>{classDetail.location}</span>
                             </div>
                         </div>
                     </div>

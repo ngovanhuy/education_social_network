@@ -26,12 +26,19 @@ class ClassCalendar extends Component {
         this.setState({modalIsOpen: false});
     }
 
+    handleClickEvent = (event) => {
+        // alertAuthen(event.title)
+        var url = `/events/${event.id}`
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
+
     render() {
-        const {events, className, classDetail} = this.props
+        const {events, classId, classDetail} = this.props
         return (
             <div className="class-calendar">
                 <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
-                <ClassEventsCalendarHeadline className={className} currentPage="calendar" openModal={this.openModal}/>
+                <ClassEventsCalendarHeadline classId={classId} currentPage="calendar" openModal={this.openModal}/>
                 <BigCalendar
                     selectable
                     {...this.props}
@@ -39,7 +46,7 @@ class ClassCalendar extends Component {
                     views={allViews}
                     step={60}
                     defaultDate={new Date(2015, 3, 1)}
-                    onSelectEvent={event => alert(event.title)}
+                    onSelectEvent={event => this.handleClickEvent(event)}
                     onSelectSlot={(slotInfo) => alert(
                         `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
                         `\nend: ${slotInfo.end.toLocaleString()}` +

@@ -1,10 +1,15 @@
 var mongoose = require('mongoose');
-
+var utils = require('../application/utils');
 var ClientSchema = new mongoose.Schema({
-    name: { type: String, unique: true, required: true },
-    id: { type: String, required: true },
-    secret: { type: String, required: true },
-    userId: { type: String, required: true }
+    _id: { type: String, required: true, default: Date.now},
+    name: { type: String, required: true, index: true},
+    secret: { type: String, required: true, default: getNewSecret},
+    userId: { type: String, required: true },
+    timeCreate: {type: Date, required: true, default: Date.now},
+    isDeleted: {type: Boolean, required: true, default: false}
 });
 
+function getNewSecret() {
+    return utils.randomString();
+}
 module.exports = mongoose.model('Client', ClientSchema);
