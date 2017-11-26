@@ -392,7 +392,6 @@ Thông tin **Group** bao gồm:
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-
 ### `22/11/2017`
 
 #### Xong các API thành viên của của Group: `/groups/*`
@@ -579,7 +578,7 @@ Thông tin **Member** bao gồm:
         - {code: 400, message:....} : Client Error: Thông tin lỗi.
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### Lấy danh sách yêu cầu đã tạo của `userID` đến nhóm.
+##### Lấy danh sách yêu cầu đã tạo của `userID` đến nhóm
 
     + Method: GET
     + URL: http://domain:port/users/classrequest/:userID
@@ -661,10 +660,18 @@ Thông tin tạo **Post** có các option sau [Thêm khi tạo], cùng với cá
         isShow: Boolean,-> có hiện hay không.
         isSchedule: Boolean, -> true sẽ sử dụng 2 trường `startTime` và `endTime` (Khoảng thời gian hiện)
         scopeType: 10[Protected] ->All member; 100[Private] -> list allow member (cung cấp trong `members`.)
-        startTime: { type: Date, default: null },
+        startTime: { type: Date, default: null },//VD: 2017-11-20 14:44:20
         endTime: { type: Date, default: null },
         members: [member_ID] -> mảng chuỗi người dùng ở chế độ scopeType là Private, VD: [member_id_1, member_id_2...]
 
+##### Lấy thông tin tất cả các nhóm
+
+    + Method: GET
+    + URL: http://domain:port/groups/all
+    + Success: `data` là mảng thông tin nhóm.
+        - {code: 200, message: "...", data: [<group_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
 
 ##### Tìm kiếm nhóm theo tên
 
