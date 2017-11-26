@@ -8,8 +8,8 @@ var fileItemController = require('./controllers/fileitem');
 var User = require('./models/user');
 var Group = require('./models/group');
 var FileItem = require('./models/fileitem');
-var PostSchema = require('./models/posts');
-Application.manager.connectToDB();
+var PostSchema = require('./models/post');
+// Application.manager.connectToDB();
 
 var chars = "abcdefjhijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789";
 var numbers = "0123456789";
@@ -32,3 +32,17 @@ function randomString(maxLength) {
     }
     return strs.join("");
 }
+function validateGroupName(name, isRequired = true) {
+    if (!name) {
+        return !isRequired;
+    }
+    var re = /^([a-zA-Z\-0-9\.\_\ ]{1,40})$/;
+    if (re.test(name)) {
+        return true;
+    }
+    return false;
+}
+
+let dateString = "2017-11-25T09:18:48"
+var date = new Date(dateString + "Z");
+console.log(date.toLocaleDateString());

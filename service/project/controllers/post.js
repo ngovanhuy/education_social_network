@@ -22,7 +22,7 @@ async function addComment(req, res) {
 }
 
 async function getComments(req, res) {//bulk comments with index.
-
+    
 }
 //------------------EXPORT---------------------
 exports.addPost = addPost;

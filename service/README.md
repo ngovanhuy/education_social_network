@@ -96,15 +96,6 @@ Thông tin **FileItem** bao gồm:
         - {code: 400, message:....} : Client Error: Không tồn tại file.
         - {code: 500, ...} : Server Error: Không thể lấy thông tin.
 
-##### `[TEST_API]` Lấy về tất cả file tải lên: `(sau sẽ thay bằng người dùng)`
-
-    + Method: GET
-    + URL: http://domain:port/test/files
-    + Success: `data` là mảng thông tin file.
-        - {code: 200, message: "...", data: [...files]}
-    + Failed:
-        - {code: 500, ...} : Server Error: Không thể lấy thông tin.
-
 ---
 
 ### `31/10/2017`
@@ -256,16 +247,6 @@ Thông tin **User** bao gồm:
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
-
-##### `[TEST_API]` Lấy về tất cả User
-
-    + Method: GET
-    + URL: http://domain:port/test/users
-    + Success: `data` là mảng thông tin user.
-        - {code: 200, message: "...", data: [...users]}
-    + Failed:
-        - {code: 500, ...} : Server Error: Không thể lấy thông tin.
-
 ---
 
 ### `03/11/2017`
@@ -316,8 +297,8 @@ Thông tin **Group** bao gồm:
 ##### Tạo nhóm
 
     + Method: POST
-    + URL: http://domain:port/groups/
-    + Success: `data` là thông tin Group User được tạo.
+    + URL: http://domain:port/groups/create/:userID
+    + Success: `data` là thông tin Group được tạo bởi userID(sau sẽ bỏ, chỉ người dùng là Teacher mới được tạo).
         - {code: 200, message: "...", data: <group_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
@@ -326,7 +307,7 @@ Thông tin **Group** bao gồm:
 ##### Update thông tin nhóm qua `groupID`
 
     + Method: PUT
-    + URL: http://domain:port/groups/:groupID
+    + URL: http://domain:port/groups/action/:groupID/:userID
     + Success: `data` là thông tin Group được update.
         - {code: 200, message: "...", data: <group_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
@@ -336,8 +317,8 @@ Thông tin **Group** bao gồm:
 ##### Lấy thông tin cơ bản nhóm qua `groupID`
 
     + Method: GET
-    + URL: http://domain:port/groups/:groupID
-    + Success: `data` là thông tin nhóm cần lấy.
+    + URL: http://domain:port/groups/info/:groupID
+    + Success: `data` là thông tin nhóm cần lấy
         - {code: 200, message: "...", data: <group_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
@@ -346,7 +327,7 @@ Thông tin **Group** bao gồm:
 ##### Xóa nhóm qua `groupID`
 
     + Method: DELETE
-    + URL: http://domain:port/groups/:groupID
+    + URL: http://domain:port/groups/action/:groupID/:userID
     + Success: `data` là thông tin nhóm xóa.
         - {code: 200, message: "...", data: <nhóm_info>}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
@@ -366,7 +347,7 @@ Thông tin **Group** bao gồm:
 ##### Danh sách file nhóm qua `groupID`
 
     + Method: GET
-    + URL: http://domain:port/groups/files/:grouprID
+    + URL: http://domain:port/groups/files/:groupID
     + Success: `data` mảng id file.
         - {code: 200, message: "...", data: [...files]}
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
@@ -411,14 +392,6 @@ Thông tin **Group** bao gồm:
         - {code: 400, message:....} : Client Error: Thông tin lỗi (thiếu, sai định dạng).
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
-##### `[TEST_API]` Lấy về tất cả nhóm
-
-    + Method: GET
-    + URL: http://domain:port/test/groupss
-    + Success: `data` là mảng thông tin nhóm.
-        - {code: 200, message: "...", data: [...users]}
-    + Failed:
-        - {code: 500, ...} : Server Error: Không thể lấy thông tin.
 
 ### `22/11/2017`
 
@@ -430,11 +403,9 @@ Thông tin **Member** bao gồm:
         firstName: String,
         lastName: String,
         profileImageID: String,
-        coverImageID: String,
-        typemember: { type: Number, min: 0, max: 1000, default: 1 },
-        isRemoved: { type: Boolean, default: false, },
         dateJoin: Date,
-        timeUpdate: Date,
+        isAdmin: Boolean,
+        typeuser: Number,//10-> teacher.
 
 ##### Lấy tất cả thành viên nhóm
 
@@ -638,6 +609,10 @@ Thông tin **Member** bao gồm:
         - {code: 400, message:....} : Client Error: Thông tin lỗi.
         - {code: 500, ...} : Server Error: Không thể thực hiện.
 
+### `24/11/2017`
+
+#### Bổ sung một số API
+
 ##### Lấy thông tin người dùng của `userID` theo từng trường
 
     + Method: GET
@@ -658,3 +633,129 @@ Thông tin **Member** bao gồm:
     + Failed: HTTP_RESPONSE_CODE khác 200 trùng với <logic_code>
         - {code: 400, message:....} : Client Error: Không tồn tại người dùng/sai password/thiếu thông tin.
         - {code: 500, ...} : Server Error.
+
+#### Chỉnh sửa các API cũ
+
+- Chỉnh sửa lại các API liên quan đến nhóm: thay đổi link request, bổ sung thêm user thực hiện hành động (sẽ được thay đổi khi làm xong phần lưu session người dùng)
+- Chỉnh sửa lại dữ liệu thành viên trả về: bỏ một số trường không liên quan, thêm trường kiểm tra admin: `isAdmin`
+- Chỉnh sửa API lấy thông tin các file trong nhóm, người dùng (chỉnh sửa lỗi).
+
+---
+
+### `25/11/2017`
+
+#### Bổ sung một số API mới liên quan đến post, file nhóm, tìm kiếm. Thêm thông tin người tải file cho các API về file
+
+Thông tin **Post** bao gồm:
+
+        _id: Number, -> id bài post
+        title: String, -> Tiêu đề post
+        content: String -> nội dung post.
+        user: [Trả về]thông tin người dùng tạo.
+        group: [Trả về]Thông tin nhóm của bài đăng.
+        topic: Tên topic bài đăng
+        timeCreate: Date, -> thời gian tạo bài đăng.
+
+Thông tin tạo **Post** có các option sau [Thêm khi tạo], cùng với các trường thông tin trên (title, content,...)
+
+        isShow: Boolean,-> có hiện hay không.
+        isSchedule: Boolean, -> true sẽ sử dụng 2 trường `startTime` và `endTime` (Khoảng thời gian hiện)
+        scopeType: 10[Protected] ->All member; 100[Private] -> list allow member (cung cấp trong `members`.)
+        startTime: { type: Date, default: null },
+        endTime: { type: Date, default: null },
+        members: [member_ID] -> mảng chuỗi người dùng ở chế độ scopeType là Private, VD: [member_id_1, member_id_2...]
+
+
+##### Tìm kiếm nhóm theo tên
+
+    + Method: GET
+    + URL: http://domain:port/groups/search?groupname=key
+    + Success: `data` là mảng thông tin nhóm có tên chứa `key`.
+        - {code: 200, message: "...", data: [<group_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Tìm kiếm người dùng theo tên
+
+    + Method: GET
+    + URL: http://domain:port/users/search?username=key
+    + Success: `data` là mảng thông tin người dùng có tên chứa `key`.
+        - {code: 200, message: "...", data: [<user_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Upload file nên nhóm
+
+    + Method: POST
+    + URL: http://domain:port/groups/files/:groupID
+    + Success: `data` là thông tin file đã upload.
+        - {code: 200, message: "...", data: [<file_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Lấy tất cả post trong nhóm
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID
+    + Success: `data` là mảng thông tin các post.
+        - {code: 200, message: "...", data: [<post_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Lấy tất cả post theo user
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID/:userID
+    + Success: `data` là mảng thông tin các post người dùng có thể lấy.
+        - {code: 200, message: "...", data: [<post_info>]}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Tạo post mới[Cơ bản]
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID/:userID
+    + Cấu hình: title, content, topic, [scopeType = 10, isSchedule= false]
+    + Success: `data` là mảng thông tin post vừa tạo.
+        - {code: 200, message: "...", data: <post_info>}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+##### Tạo post mới [Assignment]
+
+    + Method: POST
+    + URL: http://domain:port/groups/post/:groupID/:userID
+    + Cấu hình: title, content, topic, [scopeType = 100, isSchedule= true, startTime, endTime, members]
+    + Success: `data` là mảng thông tin post vừa tạo.
+        - {code: 200, message: "...", data: <post_info>}
+    + Failed:
+        - {code: 500, ...} : Server Error.
+
+#### TEST API
+
+##### `[TEST_API]` Lấy về tất cả User
+
+    + Method: GET
+    + URL: http://domain:port/test/users
+    + Success: `data` là mảng thông tin user.
+        - {code: 200, message: "...", data: [...users]}
+    + Failed:
+        - {code: 500, ...} : Server Error: Không thể lấy thông tin.
+
+##### `[TEST_API]` Lấy về tất cả nhóm
+
+    + Method: GET
+    + URL: http://domain:port/test/groupss
+    + Success: `data` là mảng thông tin nhóm.
+        - {code: 200, message: "...", data: [...users]}
+    + Failed:
+        - {code: 500, ...} : Server Error: Không thể lấy thông tin.
+
+##### `[TEST_API]` Lấy về tất cả file tải lên: `(sau sẽ thay bằng người dùng)`
+
+    + Method: GET
+    + URL: http://domain:port/test/files
+    + Success: `data` là mảng thông tin file.
+        - {code: 200, message: "...", data: [...files]}
+    + Failed:
+        - {code: 500, ...} : Server Error: Không thể lấy thông tin.

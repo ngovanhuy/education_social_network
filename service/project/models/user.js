@@ -538,7 +538,7 @@ function getBasicInfo() {
         about: this.about,
         quote: this.quote,
         location: this.location,
-        nickname: this.nickname,
+        // nickname: this.nickname,
         // friends:        this.friends,
         // classs:         this.classs,
         // status:         {enum_id: this.status, text: StatusEnum[this.status]},
@@ -546,7 +546,17 @@ function getBasicInfo() {
         coverImageID: this.coverImageID,
     }
 }
+function isNormalUser() {
+    return TypeUserEnum[this.typeuser] == 'Normal';
+}
 
+function isTeacher() {
+    return TypeUserEnum[this.typeuser] == 'Teacher';
+}
+
+function isSystem() {
+    return TypeUserEnum[this.typeuser] == 'System';
+}
 /*-------------------------------------- */
 UserSchema.statics.GenderInfo = getGenderInfo;
 UserSchema.statics.TypeUserInfo = getTypeUserInfo;
@@ -566,6 +576,9 @@ UserSchema.methods.verifyPassword = verifyPassword;
 UserSchema.methods.getBasicInfo = getBasicInfo;
 UserSchema.methods.comparePassword = comparePassword;
 UserSchema.methods.getInfo = getInfo;
+UserSchema.methods.isNormalUser = isNormalUser;
+UserSchema.methods.isTeacher = isTeacher;
+UserSchema.methods.isSystem = isSystem;
 
 UserSchema.methods.addFriend = addFriend;
 UserSchema.methods.removeFriend = removeFriend;
