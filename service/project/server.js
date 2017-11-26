@@ -58,6 +58,20 @@ function stopCleanUploadFolderTask() {
 Application.manager.connectToDB();
 Application.manager.start();
 app.set('view engine', 'ejs');
+//CORS
+app.all('/*', function (req, res, next) {
+        // CORS headers
+        res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        // Set custom headers for CORS
+        res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
+        if (req.method == 'OPTIONS') {
+                return res.status(200).end();
+        } else {
+                return next();
+        }
+});
+
 //Init extends object, log request.
 app.use(function (req, res, next) {
         req.files = req.files ? req.files : {};
@@ -105,7 +119,7 @@ userRouter.route('/')
         .put(userController.putUser, userController.getUser)
         .delete(userController.deleteUser, userController.getUser);
 userRouter.route('/profileImage/:userID')
-        .get(userController.checkUserNameRequest,userController.getProfileImageID, fileItemController.getFile)
+        .get(userController.checkUserNameRequest, userController.getProfileImageID, fileItemController.getFile)
         .put(userController.checkUserNameRequest, fileItemController.profileUpload, fileItemController.postFile, userController.putProfileImage)
         .post(userController.checkUserNameRequest, fileItemController.profileUpload, fileItemController.postFile, userController.putProfileImage);
 userRouter.route('/coverImage/:userID')
@@ -115,26 +129,26 @@ userRouter.route('/coverImage/:userID')
 
 userRouter.route('/friends/:userID').get(userController.getFriends);
 userRouter.route('/friends/:userID/:friendUserID')
-    .post(userController.addFriend)
-    .delete(userController.removeFriend);
+        .post(userController.addFriend)
+        .delete(userController.removeFriend);
 userRouter.route('/classs/:userID').get(userController.getClasss);
 userRouter.route('/classs/:userID/:groupID').delete(userController.removeFromClass);
 userRouter.route('/request').get(userController.getRequests);
 userRouter.route('/request/:userID').get(userController.getRequests);
 userRouter.route('/request/:userID/:friendUserID')
-    .post(userController.addRequest)
-    .delete(userController.removeRequest);
+        .post(userController.addRequest)
+        .delete(userController.removeRequest);
 userRouter.route('/requested').get(userController.getRequesteds);
 userRouter.route('/requested/:userID').get(userController.getRequesteds);
 userRouter.route('/requested/:userID/:friendUserID')
-    .post(userController.confirmRequested)
-    .delete(userController.removeRequested);
+        .post(userController.confirmRequested)
+        .delete(userController.removeRequested);
 
 userRouter.route('/classrequest').get(userController.getClassRequests);
 userRouter.route('/classrequest/:userID').get(userController.getClassRequests);
 userRouter.route('/classrequest/:userID/:groupID')
-    .post(userController.addClassRequests)
-    .delete(userController.removeClassRequest);
+        .post(userController.addClassRequests)
+        .delete(userController.removeClassRequest);
 
 userRouter.route('/login/').post(userController.login);
 userRouter.route('/info/:userID').get(userController.getUserInfo);

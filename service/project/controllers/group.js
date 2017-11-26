@@ -612,7 +612,7 @@ async function addPost(req, res, next) {
         let isShow = req.body.isShow ? req.body.isShow == 'true' ? true : false : false;
         let isSchedule = req.body.isSchedule ? req.body.isSchedule == 'true' ? true : false : false;
         let scopeType = req.body.scopeType ? req.body.scopeType : 10;
-        let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
+        let startTime = req.body.startTime ? Utils.parseDate(req.bodyiinp.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
         let members = req.body.members ? Utils.getStringArray(req.body.members) : [];
 
