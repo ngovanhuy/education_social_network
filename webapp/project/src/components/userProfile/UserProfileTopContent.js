@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import FileInput from '@ranyefet/react-file-input'
 import './userProfile.css'
-import {defaultConstants} from "../../constants";
+import {DOMAIN_SERVICE, defaultConstants} from "../../constants";
+import {fileUtils} from "../../utils";
 
 class UserProfileTopContent extends Component {
     render() {
@@ -15,7 +16,7 @@ class UserProfileTopContent extends Component {
                         <div>
                             <div className="top-content-user-profile clearfix">
                                 <div className="cover-photo clearfix">
-                                    <img src={user.coverPhotoUrl ? user.coverPhotoUrl : defaultConstants.USER_COVER_PHOTO_URL}/>
+                                    <img src={user.coverImageID ? fileUtils.renderFileSource(user.coverImageID) : defaultConstants.USER_COVER_PHOTO_URL}/>
                                     <div className="cover-cover-photo">
                                         <FileInput name="coverPhoto"
                                                    onChange={(event) => onUploadCoverPhoto(event.target.files[0])}>
@@ -27,7 +28,7 @@ class UserProfileTopContent extends Component {
                                 </div>
                                 <div className="profile-picture">
                                     <img className="img-circle"
-                                         src={user.profilePictureUrl ? user.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                                         src={user.profileImageID ? fileUtils.renderFileSource(user.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}/>
                                     <div className="cover-profile-picture">
                                         <FileInput name="profilePicture"
                                                    onChange={(event) => onUploadProfilePicture(event.target.files[0])}>

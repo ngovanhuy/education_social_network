@@ -7,6 +7,7 @@ import './common.css';
 import CreateClassModal from "../class/views/CreateClassModal";
 import {defaultConstants} from "../../constants";
 import {classActions} from "../../actions/classActions";
+import {fileUtils} from "../../utils/fileUtils";
 
 class Header extends Component {
     constructor() {
@@ -120,7 +121,7 @@ class Header extends Component {
                             <li className="dropdown">
                                 <a data-toggle="dropdown" className="dropdown-toggle navbar-user" href="javascript:;">
                                     <img className="img-circle"
-                                         src={user.profilePictureUrl ? user.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                                         src={user.profileImageID ? fileUtils.renderFileSource(user.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}/>
                                     <span className="hidden-xs user_full_name">{user.firstName} {user.lastName}</span>
                                     <b className="caret"></b>
                                 </a>

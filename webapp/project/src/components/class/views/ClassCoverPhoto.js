@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import FileInput from '@ranyefet/react-file-input'
-import * as fileUtil from '../../../utils/fileUtil'
+import * as fileUtil from '../../../utils/fileUtils'
 import {connect} from 'react-redux'
 import {classService} from "../../../services";
 import {classActions} from "../../../actions";

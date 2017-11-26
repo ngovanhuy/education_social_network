@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import ClassInfo from "../commons/views/ClassInfo";
 import {defaultConstants} from "../../constants/defaultConstant";
+import {fileUtils} from "../../utils/fileUtils";
 
 class Classes extends Component {
     renderClassDetail = (classDetail, index) => {
@@ -11,7 +12,7 @@ class Classes extends Component {
                     <div className="class-detail-left">
                         <div className="class-profile-picture">
                             <Link to={`/classes/${classDetail.id}`}>
-                                <img src={classDetail.profilePictureUrl ? classDetail.profilePictureUrl : defaultConstants.CLASS_PROFILE_PICTURE_URL}/>
+                                <img src={classDetail.profileImageID ? fileUtils.renderFileSource(classDetail.profileImageID) : defaultConstants.CLASS_PROFILE_PICTURE_URL}/>
                             </Link>
                         </div>
                         <div className="class-info">

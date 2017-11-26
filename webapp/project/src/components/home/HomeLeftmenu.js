@@ -6,6 +6,7 @@ import UserProfileInfo from "../commons/views/UserProfileInfo";
 import {defaultConstants} from "../../constants";
 import {classActions} from "../../actions";
 import {connect} from 'react-redux';
+import {fileUtils} from "../../utils/fileUtils";
 
 class HomeLeftmenu extends Component {
     constructor() {
@@ -71,7 +72,8 @@ class HomeLeftmenu extends Component {
                                     <a href={`/users/${user.id}`}>
                                         <span className="imgWrap">
                                             <img
-                                                src={(typeof(user.profilePictureUrl) !== "undefined" && user.profilePictureUrl) ? user.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                                                src={(typeof(user.profileImageID) !== "undefined" && user.profileImageID) ?
+                                                    fileUtils.renderFileSource(user.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}/>
                                         </span>
                                         <UserProfileInfo user={user}/>
                                     </a>

@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
-import * as FileUtil from '../../utils/fileUtil'
+import * as FileUtil from '../../utils/fileUtils'
 import ClassMembersHeadline from "./views/ClassMembersHeadline";
 import {defaultConstants} from "../../constants/defaultConstant";
+import {fileUtils} from "../../utils/fileUtils";
 
 class ClassMembers extends Component {
 
@@ -13,17 +15,17 @@ class ClassMembers extends Component {
             <div key={index} className="col-sm-6 col-md-4 col-lg-3">
                 <div className="panel panel-default panel-member">
                     <div className="panel-body">
-                        <a href="#">
+                        <Link to={`/users/${member._id}`}>
                             <div className="text-center panel-member-col">
                                 <img
-                                    src={member.profilePictureUrl ? member.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}
+                                    src={member.profileImageID ? fileUtils.renderFileSource(member.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}
                                     className="img-circle" alt="image"/>
 
                                 <h4 className="thin">
                                     {member.firstName} {member.lastName}
                                 </h4>
                             </div>
-                        </a>
+                        </Link>
                         <div className="dropdown panel-member-col">
                             <button data-toggle="dropdown" className="btn btn-white dropdown-toggle" type="button">
                                 <span className="fa fa-cog"></span>

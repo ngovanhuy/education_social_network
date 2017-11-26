@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import FileInput from '@ranyefet/react-file-input'
-import * as FileUtil from '../../../utils/fileUtil'
+import {fileUtils} from '../../../utils'
 import PostAttachmentsPreviewer from "./PostAttachmentsPreviewer";
 
 class PostAddAttachment extends Component {
@@ -19,7 +19,7 @@ class PostAddAttachment extends Component {
         this.setState({
             files: [
                 ...this.state.files,
-                FileUtil.fileToPlainObject(file)
+                fileUtils.fileToPlainObject(file)
             ]
         });
     }

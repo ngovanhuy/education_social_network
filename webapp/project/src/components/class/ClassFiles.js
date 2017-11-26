@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
-import * as FileUtil from '../../utils/fileUtil'
+import * as FileUtil from '../../utils/fileUtils'
 
 class ClassFiles extends Component{
     // constructor(props) {

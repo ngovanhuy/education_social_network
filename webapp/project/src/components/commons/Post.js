@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import UserProfileInfo from './views/UserProfileInfo'
-import * as dateUtil from '../../utils/dateUtil'
+import {dateUtils} from '../../utils'
 
 import './common.css'
 import Attachment from "./views/Attachment";
@@ -37,7 +37,7 @@ class Post extends Component {
                     <img className="post-user-profile-picture img-circle" src={post.from.user.profilePictureUrl}></img>
                     <div className="post-user-content">
                         <UserProfileInfo user={post.from.user}/>
-                        <div className="post-create-time">{dateUtil.formatDate(post.createTime)}</div>
+                        <div className="post-create-time">{dateUtils.formatDate(post.createTime)}</div>
                     </div>
                     <div className="pull-right">
                         <div className="dropdown">

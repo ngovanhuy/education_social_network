@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import UserProfileInfo from "../../commons/views/UserProfileInfo";
 import {classActions} from "../../../actions";
 import {defaultConstants} from "../../../constants/defaultConstant";
+import {fileUtils} from "../../../utils/fileUtils";
 
 class ClassManageMemberRequest extends Component {
 
@@ -30,7 +31,7 @@ class ClassManageMemberRequest extends Component {
             <div key={index} className="member-request clearfix">
                 <div className="member-info">
                     <img
-                        src={memberRequest.profilePictureUrl ? memberRequest.profilePictureUrl : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                        src={memberRequest.profileImageID ? fileUtils.renderFileSource(memberRequest.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}/>
                     <div className="member-info-content">
                         <UserProfileInfo user={user}/>
                         <div>

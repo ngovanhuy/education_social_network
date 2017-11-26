@@ -7,6 +7,7 @@ import '../../components/class/class.css'
 import ClassMembers from "../../components/class/ClassMembers";
 import AddMember from "../../components/class/views/AddMember";
 import {classActions} from "../../actions";
+import {classConstants} from "../../constants";
 
 class ClassMembersPage extends Component{
 
@@ -86,7 +87,15 @@ class ClassMembersPage extends Component{
     }
 
     render(){
-        const {classId, classDetail, topics, teacher} = this.props
+        const {classId, classDetail, topics} = this.props
+        const members = (classDetail.members && classDetail.members.length > 0) ?
+            classDetail.members.filter(function (member) {
+                return member.typemember.enum_id == classConstants.MEMBER_TYPE_IS_MEMBER
+            }) : [];
+        const teachers = (classDetail.members && classDetail.members.length > 0) ?
+            classDetail.members.filter(function (member) {
+                return member.typemember.enum_id == classConstants.MEMBER_TYPE_IS_TEACHER
+            }) : [];
         return(
             <div>
                 <div className="container">
@@ -98,11 +107,11 @@ class ClassMembersPage extends Component{
                     </div>
                     <div className="col-sm-10">
                         <div className="row">
-                            {/*<div className="col-sm-9">*/}
-                                {/*<div className="row">*/}
-                                    {/*<ClassMembers members={teacher} classId={classId} classMemberTitle="Teachers"/>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
+                            <div className="col-sm-9">
+                                <div className="row">
+                                    <ClassMembers members={teachers} classId={classId} classMemberTitle="Teachers"/>
+                                </div>
+                            </div>
                             <div className="col-sm-3 add-member-and-description">
                                <div className="row">
                                    <div className="container-fluid-md">
@@ -112,7 +121,7 @@ class ClassMembersPage extends Component{
                             </div>
                         </div>
                         <div className="row">
-                            <ClassMembers members={classDetail.members} classId={classId} classMemberTitle="Members"/>
+                            <ClassMembers members={members} classId={classId} classMemberTitle="Members"/>
                         </div>
                     </div>
                 </div>
