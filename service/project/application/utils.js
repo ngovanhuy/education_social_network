@@ -77,6 +77,9 @@ function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = 
     }
     return obj.length >= minLength && obj.length <= maxLength;
 }
+function exportDate(date) {
+    return date ? date.toLocaleString() : null;
+}
 exports.nextInt = nextInt;
 exports.randomString = randomString;
 exports.randomStringNumber = randomStringNumber;
@@ -87,3 +90,4 @@ exports.getStringArray = getStringArray;
 exports.validateEmail = validateEmail;
 exports.validatePhoneNumber = validatePhoneNumber;
 exports.validateStringLength = validateStringLength;
+exports.exportDate = exportDate;

@@ -172,7 +172,6 @@ function comparePassword(candidatePassword, callback) {
         callback(null, isMatch);
     });
 }
-
 function addUserInArray(new_user, arrays) {
     if (!new_user) {
         return null;
@@ -250,9 +249,7 @@ function addGroupInArray(new_group, arrays) {
     return group;
 }
 function removeGroupFromArray(remove_group, arrays) {
-    if (!remove_group) {
-        return null;
-    }
+    if (!remove_group) { return null; }
     let group = null;
     for (let index = 0; index < arrays.length; index++) {
         group = arrays[index];
@@ -264,18 +261,29 @@ function removeGroupFromArray(remove_group, arrays) {
     return null;
 }
 
+function getFriends() {
+    let friends = [];
+    this.friends.forEach(friend => {
+        if (!friend.isRemoved) {
+            friends.push({
+                _id: friend._id,
+                firstName: friend.firstName,
+                lastName: friend.lastName,
+                profileImageID: friend.profileImageID,
+                timeCreate: Utils.exportDate(friend.timeCreate),
+            });
+        }
+    });
+    return friends;
+}
 function addFriend(user, isUpdateReference = true) {
-    if (!user) {
-        return null;
-    }
+    if (!user) { return null; }
     let new_user = addUserInArray(user, this.friends);
     if (new_user) {
         if (isUpdateReference) {
             return user.addFriend.call(user, this, false);
         }
         return user;
-        //var currentUser = this;
-        //return addUserInArray(currentUser, user.friends) ? user : null;
     }
     return null;
 }
@@ -289,26 +297,57 @@ function removeFriend(user, isUpdateReference = true) {
             user.removeFriend.call(user, this, false);
         }
         return user;
-        //var currentUser = this;
-        //return removeUserFromArray(currentUser, user.friends) ? user : null;
     }
     return null;
 }
+function getRequests() {
+    let requests = [];
+    this.requests.forEach(request => {
+        if (!request.isRemoved) {
+            requests.push({
+                _id: request._id,
+                firstName: request.firstName,
+                lastName: request.lastName,
+                profileImageID: request.profileImageID,
+                timeCreate: Utils.exportDate(request.timeCreate),
+            });
+        }
+    });
+    return requests;
+}
 function addRequest(user) {
+    //TODO check user is friends, requested
     let new_user = addUserInArray(user, this.requests);
     if (new_user) {
-        user.addRequested.call(user, this);
-        return user;
+        if (user.addRequested.call(user, this)) {
+            return user;
+        }
     }
     return null;
 }
 function removeRequest(user) {
     let remove_user = removeUserFromArray(user, this.requests);
     if (remove_user) {
-        user.removeRequested.call(user, this);
-        return user;
+        if (user.removeRequested.call(user, this)) {
+            return user;
+        }
     }
     return null;
+}
+function getRequesteds() {
+    let requesteds = [];
+    this.requesteds.forEach(requested => {
+        if (!requested.isRemoved) {
+            requesteds.push({
+                _id: requested._id,
+                firstName: requested.firstName,
+                lastName: requested.lastName,
+                profileImageID: requested.profileImageID,
+                timeCreate: Utils.exportDate(requested.timeCreate),
+            });
+        }
+    });
+    return requesteds;
 }
 function addRequested(user) {
     return addUserInArray(user, this.requesteds) ? user : null;
@@ -317,11 +356,20 @@ function removeRequested(user) {
     return removeUserFromArray(user, this.requesteds) ? user : null;
 }
 function confirmRequested(user) {
-    if (addFriend(user, true)) {
-        removeRequested(user);
-        return user;
-    }
-    return null;
+    return (addFriend(user, true) && removeRequested(user)) ? user : null;
+}
+function getClassRequests() {
+    let requests = [];
+    this.classrequests.forEach(request => {
+        if (!request.isRemoved) {
+            requests.push({
+                _id: request.id,
+                name: request.name,
+                profileImageID: null,
+            });
+        }
+    });
+    return requests;
 }
 function addClassRequest(new_group) {
     let group = addGroupInArray(new_group, this.classrequests);
@@ -344,33 +392,20 @@ function addToClass(group) {
     return addGroupInArray(group, this.classs) ? group : null;
 }
 function removeFromClass(group) {
-    return removeGroupFromArray(group, this.classs) ? group : null;
+    return (removeGroupFromArray(group, this.classs) && group.removeMember(this)) ? group : null;
 }
-function getGroups() {
-    let groups = [];
-    this.groups.forEach(group =>  {
-        if (!group.isRemoved) {
-            groups.push({
-                id: group.id,
-                name: group.name,
-                profileImageID: group.profileImageID,
+function getClasss() {
+    let classs = [];
+    this.classs.forEach(classItem =>  {
+        if (!classItem.isRemoved) {
+            classs.push({
+                id: classItem.id,
+                name: classItem.name,
+                profileImageID: classItem.profileImageID,
             });
         }
     });
-    return groups;
-}
-function getClassRequests() {
-    let requests = [];
-    this.classrequests.forEach(request => {
-        if (!request.isRemoved) {
-            requests.push({
-                _id: request.id,
-                name: request.name,
-                profileImageID: null,
-            });
-        }
-    });
-    return requests;
+    return classs;
 }
 
 function validateUserName(username, isRequired = true) {
@@ -500,7 +535,7 @@ function getInfo(params) {
         return getBasicInfo.call(this);
     }
     let o = {};
-    let ignoreField = ['password', 'isDeleted'];
+    let ignoreField = ['password', 'isDeleted', 'classs', 'friends'];
     for (let param in params) {
         if (ignoreField.indexOf(param) > -1) {
             continue;
@@ -520,7 +555,7 @@ function getBasicInfo() {
         lastName: this.lastName,
         typeuser: { enum_id: this.typeuser, text: TypeUserEnum[this.typeuser] },
         email: this.email,
-        birthday: this.birthday ? this.birthday.toLocaleString() : null,
+        birthday: Utils.exportDate(this.birthday),
         phone: this.phone,
         gender: { enum_id: this.gender, text: GenderEnum[this.gender] },
         about: this.about,
@@ -530,14 +565,13 @@ function getBasicInfo() {
         coverImageID: this.coverImageID,
     }
 }
+
 function isNormalUser() {
     return TypeUserEnum[this.typeuser] === 'Normal';
 }
-
 function isTeacher() {
     return TypeUserEnum[this.typeuser] === 'Teacher';
 }
-
 function isSystem() {
     return TypeUserEnum[this.typeuser] === 'System';
 }
@@ -574,7 +608,10 @@ UserSchema.methods.removeClassRequest = removeClassRequest;
 
 UserSchema.methods.addToClass = addToClass;
 UserSchema.methods.removeFromClass = removeFromClass;
-UserSchema.methods.getGroups = getGroups;
+UserSchema.methods.getClasss = getClasss;
 UserSchema.methods.getClassRequests = getClassRequests;
+UserSchema.methods.getFriends = getFriends;
+UserSchema.methods.getRequests = getRequests;
+UserSchema.methods.getRequesteds = getRequesteds;
 
 module.exports = mongoose.model('User', UserSchema); 

@@ -17,12 +17,8 @@ async function getUserByID(id) {
     }
 }
 async function getUserByUserName(username) {
-    if (!(User.validateUserName(username, true))) {
-        return null;
-    }
-    return await User.findOne({
-        username: username,
-    });
+    if (!(User.validateUserName(username, true))) { return null;}
+    return await User.findOne({ username: username,});
 }
 async function getUserByPhone(phone) {
     if (!(Utils.validatePhoneNumber(phone, true))) {
@@ -59,96 +55,29 @@ async function getUserByIDOrUserName(info) {
         return getUserByUserName(info);
     }
 }
-async function getUserByUniqueInfo(info, arrays = null) {
-    if (!info) {
-        return null;
-    }
-    let user = null;
-    if (!arrays) {
-        user = await getUserByPhone(info);
-        if (!user) {
-            user = await getUserbyEmail(info);
-        }
-        return user;
-    }
-    for (let index = 0; index < arrays.length; index) {
-        switch (arrays[index]) {
-            case 'id|username':
-                user = await getUserByIDOrUserName(info);
-                break;
-            case 'id':
-                user = await getUserByID(info);
-                break;
-            case 'username':
-                user = await getUserByUserName(info);
-                break;
-            case 'phone':
-                user = await getUserByPhone(info);
-                break;
-            case 'email':
-                user = await getUserbyEmail(info);
-                break;
-        }
-        if (user) {
-            return user;
-        }
-    }
-    return user;
-}
-async function getUserByInfo(arrays, ...infos) {
-    if (!infos || infos.length <= 0) {
-        return null;
-    }
-    let user = null;
-    for (let index = 0; index < infos.length; index++) {
-        if (!infos[index]) {
-            continue;
-        }
-        user = await getUserByUniqueInfo(infos[index]);
-        if (user) {
-            return user;
-        }
-    }
-    return user;
-}
-async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->request_userID->request_username->body_param[id>username>phone>email]
-    let userFind = null;
+async function findUser(req, isFindWithPhoneAndEmail = true) {
     if (req.users.user_request) {
         return req.users.user_request;
     }
     if (req.params.userID) {
-        userFind = await getUserByIDOrUserName(req.params.userID);
-        if (userFind) {
-            return userFind;
-        }
+        return await getUserByID(req.params.userID);
     }
     if (req.params.username) {
-        userFind = await getUserByUserName(req.params.username);
-        if (userFind) {
-            return userFind;
-        }
+        return await getUserByUserName(req.params.username);
     }
     if (req.body.userID) {
-        userFind = await getUserByID(req.body.userID);
-        if (userFind) {
-            return userFind;
-        }
+        return await getUserByID(req.body.userID);
     }
     if (req.body.id) {
-        userFind = await getUserByID(req.body.id);
-        if (userFind) {
-            return userFind;
-        }
+        return await getUserByID(req.body.id);
     }
     if (req.body.username) {
-        userFind = await getUserByUserName(req.body.username);
-        if (userFind) {
-            return userFind;
-        }
+        return await getUserByUserName(req.body.username);
     }
     if (!isFindWithPhoneAndEmail) {
         return null;
     }
+    let userFind = null;
     if (req.body.phone) {
         userFind = await getUserByPhone(req.body.phone);
         if (userFind) {
@@ -244,7 +173,6 @@ async function postUser(req, res, next) {
             });
         }
         let user = new User({
-            // id: User.getNewID(),
             username: req.body.username,
             password: req.body.password,
             firstName: req.body.firstName,
@@ -262,7 +190,7 @@ async function postUser(req, res, next) {
         }
         user = await user.save();
         req.users.user_request = user;
-        next();
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -274,7 +202,11 @@ async function postUser(req, res, next) {
 }
 async function putUser(req, res, next) {
     try {
+        let user = req.users.user_request;
         let message = User.validateInputInfo(req.body, false);
+        if (message && message.length === 0) {
+            message = await updateUserInfo(req, user, false);
+        }
         if (!message || message.length > 0) {
             return res.status(400).send({
                 code: 400,
@@ -283,27 +215,9 @@ async function putUser(req, res, next) {
                 error: "Request Invalid",
             });
         }
-        let user = await findUser(req, false);
-        req.users.user_request = user;
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'User Not Existed',
-                data: null,
-            });
-        }
-        message = await updateUserInfo(req, user, false);
-        if (!message || message.length > 0) {
-            return res.status(400).send({
-                code: 400,
-                message: message,
-                data: null,
-                error: 'Request Invalid',
-            });
-        }
         user = await user.save();
         req.users.user_request = user;
-        next();
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -345,27 +259,9 @@ async function deleteUser(req, res, next) {
         });
     }
 }
-async function getUser(req, res, next) {
+function getUser(req, res, next) {
     try {
-        let user = await findUser(req);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
-        if (user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'User Deleted',
-                data: {
-                    id: user.id,
-                    username: user.username
-                }
-            });
-        }
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: 'Success',
@@ -380,7 +276,7 @@ async function getUser(req, res, next) {
         });
     }
 }
-async function getProfileImageID(req, res, next) {
+function getProfileImageID(req, res, next) {
     req.files.file_selected_id = req.users.user_request ? req.users.user_request.profileImageID : null;
     return next();
 }
@@ -389,16 +285,10 @@ async function putProfileImage(req, res) {
         if (!req.files.file_saved) {
             throw new Error("Upload file Error");
         }
-        let user = await findUser(req);
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         user.profileImageID = String(req.files.file_saved._id);
         user = await user.save();
+        req.users.user_request = user;
         return res.json({
             code: 200,
             message: 'Success',
@@ -413,25 +303,19 @@ async function putProfileImage(req, res) {
         });
     }
 }
-async function getCoverImageID(req, res, next) {
+function getCoverImageID(req, res, next) {
     req.files.file_selected_id = req.users.user_request ? req.users.user_request.coverImageID : null;
-    next();
+    return next();
 }
 async function putCoverImage(req, res) {
     try {
         if (!req.files.file_saved) {
             throw new Error("Upload file Error");
         }
-        let user = await findUser(req);
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         user.coverImageID = String(req.files.file_saved._id);
         user = await user.save();
+        req.users.user_request = user;
         return res.json({
             code: 200,
             message: 'Success',
@@ -446,27 +330,9 @@ async function putCoverImage(req, res) {
         });
     }
 }
-async function getUserInfo(req, res, next) {
+function getUserInfo(req, res, next) {
     try {
-        let user = await findUser(req);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
-        if (user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'User Deleted',
-                data: {
-                    id: user.id,
-                    username: user.username
-                }
-            });
-        }
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: 'Success',
@@ -481,21 +347,13 @@ async function getUserInfo(req, res, next) {
         });
     }
 }
-
-async function getFriends(req, res) {
+function getFriends(req, res) {
     try {
-        let user = await findUser(req);
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: 'Success',
-            data: user.friends
+            data: user.getFriends()
         })
     } catch (error) {
         return res.status(500).send({
@@ -508,15 +366,7 @@ async function getFriends(req, res) {
 }
 async function addFriend(req, res) {//, next) {
     try {
-        let user = await findUser(req);//, false);
-        req.users.user_request = user;
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'User Not Existed',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
         let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
         let friendUser = await getUserByID(friendUserID);
         if (!friendUser) {
@@ -532,6 +382,7 @@ async function addFriend(req, res) {//, next) {
         } else {
             throw new Error();
         }
+        req.users.user_request = user;
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -551,15 +402,7 @@ async function addFriend(req, res) {//, next) {
 }
 async function removeFriend(req, res) {
     try {
-        let user = await findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
         let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
         let friendUser = await getUserByID(friendUserID);
         if (!friendUser) {
@@ -573,6 +416,7 @@ async function removeFriend(req, res) {
             friendUser = await friendUser.save();
             user = await user.save();
         }
+        req.users.user_request = user;
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -590,68 +434,14 @@ async function removeFriend(req, res) {
         });
     }
 }
-async function getClasss(req, res) {
+function getClasss(req, res) {
     try {
-        let user = await findUser(req);
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: '',
-            data: user.getGroups()
+            data: user.getClasss()
         })
-    } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
-    }
-}
-async function addToClass(req, res) {
-    try {
-        let user = await Users.findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
-        let group = await GroupController.findGroup(req);//, false);
-        //req.groups.group_request = group;
-        if (!group || group.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Group Not Existed',
-                data: null,
-            });
-        }
-        if (user.addToClass(group)) {
-            if (group.addMember(user)) {
-                group = await group.save();
-                user = await user.save();
-            } else {
-                throw new Error();
-            }
-        } else {
-            throw new Error();
-        }
-        return res.status(200).send({
-            code: 200,
-            message: 'Success',
-            data: {
-                user_id: user._id,
-                group_id: group._id,
-            },
-        });
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -663,29 +453,13 @@ async function addToClass(req, res) {
 }
 async function removeFromClass(req, res) {
     try {
-        let user = await Users.findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
-        let group = await GroupController.findGroup(req);//, false);
-        //req.groups.group_request = group;
-        if (!group || group.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Group Not Existed',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
         if (user.removeFromClass(group)) {
-            if (group.removeMember(user)) {
-                group = await group.save();
-                user = await user.save();
-            }
+            group = await group.save();
+            user = await user.save();
+            req.users.user_request = user;
+            req.groups.group_request = group;
         }
         return res.status(200).send({
             code: 200,
@@ -704,16 +478,9 @@ async function removeFromClass(req, res) {
         });
     }
 }
-async function getClassRequests(req, res) {
+function getClassRequests(req, res) {
     try {
-        let user = await findUser(req);
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: '',
@@ -730,27 +497,13 @@ async function getClassRequests(req, res) {
 }
 async function addClassRequest(req, res) {
     try {
-        let user = await findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
-        let group = await GroupController.findGroup(req);//, false);
-        req.groups.group_request = group;
-        if (!group || group.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Group Not Existed',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
         if (user.addClassRequest(group)) {
             group = await group.save();
             user = await user.save();
+            req.users.user_request = user;
+            req.groups.group_request = group;
         } else {
             throw new Error();
         }
@@ -773,28 +526,14 @@ async function addClassRequest(req, res) {
 }
 async function removeClassRequest(req, res) {
     try {
-        let user = await findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
-        let group = await GroupController.findGroup(req);//, false);
-        //req.groups.group_request = group;
-        if (!group || group.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Group Not Existed',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
         if (user.removeClassRequest(group)) {
             if (group.removeRequested(user)) {
                 group = await group.save();
                 user = await user.save();
+                req.users.user_request = user;
+                req.groups.group_request = group;
             } else {
                 throw new Error();
             }
@@ -818,21 +557,13 @@ async function removeClassRequest(req, res) {
         });
     }
 }
-
-async function getRequests(req, res) {
+function getRequests(req, res) {
     try {
-        let user = await findUser(req);
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: '',
-            data: user.requests,
+            data: user.getRequests(),
         })
     } catch (error) {
         return res.status(500).send({
@@ -843,17 +574,9 @@ async function getRequests(req, res) {
         });
     }
 }
-async function addRequest(req, res) {//, next) {
+async function addRequest(req, res) {
     try {
-        let user = await findUser(req);//, false);
-        req.users.user_request = user;
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'User Not Existed',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
         let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
         let friendUser = await getUserByID(friendUserID);
         if (!friendUser) {
@@ -869,6 +592,7 @@ async function addRequest(req, res) {//, next) {
         } else {
             throw new Error();
         }
+        req.users.user_request = user;
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -888,15 +612,7 @@ async function addRequest(req, res) {//, next) {
 }
 async function removeRequest(req, res) {
     try {
-        let user = await findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
         let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
         let friendUser = await getUserByID(friendUserID);
         if (!friendUser) {
@@ -910,6 +626,7 @@ async function removeRequest(req, res) {
             friendUser = await friendUser.save();
             user = await user.save();
         }
+        req.users.user_request = user;
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -927,21 +644,13 @@ async function removeRequest(req, res) {
         });
     }
 }
-
-async function getRequesteds(req, res) {
+function getRequesteds(req, res) {
     try {
-        let user = await findUser(req);
-        if (!user || user.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit user',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: '',
-            data: user.requesteds,
+            data: user.getRequesteds(),
         })
     } catch (error) {
         return res.status(500).send({
@@ -954,15 +663,7 @@ async function getRequesteds(req, res) {
 }
 async function removeRequested(req, res) {
     try {
-        let user = await findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
         let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
         let friendUser = await getUserByID(friendUserID);
         if (!friendUser) {
@@ -976,6 +677,7 @@ async function removeRequested(req, res) {
             friendUser = await friendUser.save();
             user = await user.save();
         }
+        req.users.user_request = user;
         return res.status(200).send({
             code: 200,
             message: 'Success',
@@ -995,15 +697,7 @@ async function removeRequested(req, res) {
 }
 async function confirmRequested(req, res) {
     try {
-        let user = await findUser(req, false);
-        req.users.user_request = user;
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                message: 'UserID Invalid',
-                data: null,
-            });
-        }
+        let user = req.users.user_request;
         let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
         let friendUser = await getUserByID(friendUserID);
         if (!friendUser) {
@@ -1016,6 +710,7 @@ async function confirmRequested(req, res) {
         if (user.confirmRequested(friendUser)) {
             friendUser = await friendUser.save();
             user = await user.save();
+            req.users.user_request = user;
         }
         return res.status(200).send({
             code: 200,
@@ -1034,7 +729,8 @@ async function confirmRequested(req, res) {
         });
     }
 }
-async function checkUserNameRequest(req, res, next) {
+
+async function checkUserRequest(req, res, next) {
     let user = await findUser(req);
     if (user && !user.isDeleted) {
         req.users.user_request = user;
@@ -1047,7 +743,6 @@ async function checkUserNameRequest(req, res, next) {
             data: null
         });
     }
-    // throw new Error('Not exited has username or id.');
 }
 async function checkUserName(req, res) {
     try {
@@ -1086,14 +781,13 @@ async function checkPhoneNumber(req, res) {
         return res.status(500).end();
     }
 }
-
 async function login(req, res) {
     let username = req.body.username;
     let password = req.body.password;
     if (!username || !password) {
         res.status(400).end();
     }
-    let user = await User.findOne({username: username});
+    let user = await getUserByUserName(username);
     if (!user) {
         return res.status(400).send({
             code: 400,
@@ -1123,7 +817,6 @@ async function login(req, res) {
         });
     });
 }
-
 async function getUsers(req, res) {
     try {
         let users = await User.find({
@@ -1133,7 +826,6 @@ async function getUsers(req, res) {
             code: 200,
             message: 'Success',
             count: users.length,
-            // data: users.map(user => user.getBasicInfo(user))
             data: users.map(user => ({
                 id: user.id,
                 username: user.username,
@@ -1147,7 +839,6 @@ async function getUsers(req, res) {
         return res.status(500).send(error);
     }
 }
-
 async function getFiles(req, res) {
     try {
         let userID = Number(req.params.userID);
@@ -1176,7 +867,6 @@ async function getFiles(req, res) {
         });
     }
 }
-
 async function searchUserByName(req, res) {
     try {
         let key = req.query.username;
@@ -1193,6 +883,7 @@ async function searchUserByName(req, res) {
         return res.status(500).json({code: 500, message:'', data:[]});
     }
 }
+
 /*----------------EXPORT------------------ */
 exports.postUser = postUser;
 exports.putUser = putUser;
@@ -1202,7 +893,6 @@ exports.getFriends = getFriends;
 exports.addFriend = addFriend;
 exports.removeFriend = removeFriend;
 exports.getClasss = getClasss;
-exports.addToClass = addToClass;
 exports.removeFromClass = removeFromClass;
 exports.getRequesteds = getRequesteds;
 exports.removeRequested = removeRequested;
@@ -1212,7 +902,7 @@ exports.addRequest = addRequest;
 exports.removeRequest = removeRequest;
 
 exports.checkUserName = checkUserName;
-exports.checkUserNameRequest = checkUserNameRequest;
+exports.checkUserRequest = checkUserRequest;
 exports.checkEmail = checkEmail;
 exports.checkPhoneNumber = checkPhoneNumber;
 exports.putProfileImage = putProfileImage;

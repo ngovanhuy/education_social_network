@@ -160,24 +160,10 @@ async function getRequesteds(req, res) {
         //TODO: Check current user.
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        let requesteds = [];
-        group.requesteds.forEach(requested => {
-            if (!requested.isRemoved) {
-                requesteds.push({
-                    _id: requested._id,
-                    firstName: requested.firstName,
-                    lastName: requested.lastName,
-                    profileImageID: requested.profileImageID,
-                    coverImageID: requested.coverImageID,
-                    timeCreate: requested.timeCreate.toLocaleString(),
-                    timeUpdate: requested.timeUpdate.toLocaleString(),
-                });
-            }
-        });
         return res.send({
             code: 200,
             message: 'Success',
-            data: requesteds
+            data: group.getRequesteds()
         });
     } catch (error) {
         return res.status(500).send({

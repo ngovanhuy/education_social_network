@@ -80,7 +80,7 @@ let GroupSchema = new mongoose.Schema(
                 _id: String,
                 isDeleted: { type: Boolean, default: false }
             }],
-            required: true,
+            required: false,
             default: [],
         },
         posts: {
@@ -104,7 +104,7 @@ let GroupSchema = new mongoose.Schema(
                 timeCreate: { type: Date, default: Date.now() },
                 isDeleted: { type: Boolean, default: false },
             }],
-            required: true,
+            required: false,
             default: []
         },
         timeCreate: { type: Date, default: Date.now(), },
@@ -507,6 +507,24 @@ function getPostIDs(user, topics = null, top = -1) {
     }
     return postIDs;
 }
+
+function getRequesteds() {
+    let requesteds = [];
+    this.requesteds.forEach(requested => {
+        if (!requested.isRemoved) {
+            requesteds.push({
+                _id: requested._id,
+                firstName: requested.firstName,
+                lastName: requested.lastName,
+                profileImageID: requested.profileImageID,
+                coverImageID: requested.coverImageID,
+                timeCreate: requested.timeCreate.toLocaleString(),
+                timeUpdate: requested.timeUpdate.toLocaleString(),
+            });
+        }
+    });
+    return requesteds;
+}
 /*-------------------------------------- */
 GroupSchema.statics.getTypeMemberInfo = getTypeMemberInfo;
 GroupSchema.statics.TypeGroupInfo = getTypeGroupInfo;
@@ -539,5 +557,6 @@ GroupSchema.methods.isAdmin = isAdmin;
 GroupSchema.methods.addTopic = addTopic;
 GroupSchema.methods.addPost = addPost;
 GroupSchema.methods.getPostIDs = getPostIDs;
+GroupSchema.methods.getRequesteds = getRequesteds;
 
 module.exports = mongoose.model('Group', GroupSchema); 
