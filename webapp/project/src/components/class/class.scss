@@ -191,6 +191,16 @@ $main-color: rgba(146, 181, 88, 1);
   .form-control {
     font-size: 12px;
   }
+  .react-autosuggest__container{
+    .react-autosuggest__input{
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border: 1px solid #ccc;
+    }
+    .react-autosuggest__suggestions-container{
+
+    }
+  }
 }
 
 .class-recent-files {

@@ -2,32 +2,8 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
-import * as FileUtil from '../../utils/fileUtils'
 
 class ClassFiles extends Component{
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         files: []
-    //     };
-    // }
-
-    // componentWillReceiveProps(newProps){
-    //     if(newProps.files != this.props.files){
-    //         this.setState({files: newProps.files })
-    //     }
-    // }
-
-    handleUploadFile = (event)=> {
-        console.log(event.target.files[0]);
-        // const file = event.target.files[0];
-        // this.setState({
-        //     files: [
-        //         ...this.state.files,
-        //         FileUtil.fileToPlainObject(file)
-        //     ]
-        // })
-    }
 
     renderFile = (file, index) => {
         const defaultImageDocument = "/images/basic-document.png"
@@ -77,14 +53,14 @@ class ClassFiles extends Component{
     }
 
     render(){
-        const {files} = this.props
+        const {files, onUploadFile} = this.props
         return(
             <div className="class-files files">
                 <div className="class-files-headline clearfix">
                     <h2 className="clearfix">
                         <span>Files</span>
 
-                        <FileInput name="classFile" onChange={this.handleUploadFile}>
+                        <FileInput name="classFile" onChange={(event) => onUploadFile(event.target.files[0])}>
                             <button className="btn btn-white pull-right">
                                 <i className="fa fa-upload"></i>
                                 Upload file
@@ -105,9 +81,5 @@ class ClassFiles extends Component{
         )
     }
 }
-//
-// const mapStateToProps = state => ({
-//     files : state.files,
-// });
 
-export default (ClassFiles);
+export default ClassFiles;

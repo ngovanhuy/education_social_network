@@ -12,6 +12,9 @@ export const classService = {
     insert,
     update,
     updateProfilePicture,
+    uploadFile,
+    searchByClassname,
+    addMember,
 };
 
 function getAll() {
@@ -95,6 +98,31 @@ function updateProfilePicture(classId, file) {
     const data = new FormData();
     data.append('profileImage', file);
     return axios.post(uploadProfilePictureUrl, data);
+}
+
+function uploadFile(classId, file) {
+    const uploadFileUrl = DOMAIN_SERVICE + '/groups/files/' + classId;
+    const data = new FormData();
+    data.append('fileUpload', file);
+    return axios.post(uploadFileUrl, data);
+}
+
+function searchByClassname(className) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/search?groupname=' + className;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function addMember(classId, userId) {
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/members/' + classId + "/" + userId;
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

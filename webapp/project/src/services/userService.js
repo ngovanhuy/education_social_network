@@ -16,7 +16,8 @@ export const userService = {
     createRequestJoinClass,
     deleteRequestJoinClass,
     approveRequestJoinClass,
-    leaveClass
+    leaveClass,
+    searchByUsername,
 };
 
 function login(username, password) {
@@ -167,6 +168,15 @@ function getClassRequest(userId) {
         headers: authHeader()
     };
     const url = DOMAIN_SERVICE + '/users/classrequest/' + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function searchByUsername(username) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/users/search?username=' + username;
     return fetch(url, requestOptions).then(handleResponse);
 }
 

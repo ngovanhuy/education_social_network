@@ -122,6 +122,10 @@
     font-size: 14px; }
 .add-member .form-control {
   font-size: 12px; }
+.add-member .react-autosuggest__container .react-autosuggest__input {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border: 1px solid #ccc; }
 
 .class-recent-files {
   margin-top: 20px;

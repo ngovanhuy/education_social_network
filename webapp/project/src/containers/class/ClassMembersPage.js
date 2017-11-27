@@ -115,7 +115,7 @@ class ClassMembersPage extends Component{
                             <div className="col-sm-3 add-member-and-description">
                                <div className="row">
                                    <div className="container-fluid-md">
-                                       <AddMember memberCount={classDetail.memberCount}/>
+                                       <AddMember memberCount={classDetail.memberCount} classId={classId}/>
                                    </div>
                                </div>
                             </div>
