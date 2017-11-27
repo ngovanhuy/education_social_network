@@ -23,6 +23,8 @@
 
 [API_DETAIL_UPDATE_LINK](https://app.swaggerhub.com/apis/huynv/profile_new/1.0.0)
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c87a030df1df0c5e9d79)
+
 ---
 
 ## CHANGE LOG
