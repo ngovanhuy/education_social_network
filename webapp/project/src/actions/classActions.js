@@ -5,7 +5,7 @@ import {history} from "../helpers/history";
 export const classActions = {
     getAll,
     getById,
-    getByUserId,
+    // getByUserId,
     getMembers,
     getRequests,
     getFiles,
@@ -45,21 +45,21 @@ function getById(id) {
     function failure(error) { return { type: classConstants.CLASSES_GETBYID_FAILURE, error } }
 }
 
-function getByUserId(userId) {
-    return dispatch => {
-        dispatch(request());
-
-        classService.getByUserId(userId)
-            .then(
-                response => dispatch(success(response.data)),
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: classConstants.CLASSES_GETBYUSERID_REQUEST } }
-    function success(classes) { return { type: classConstants.CLASSES_GETBYUSERID_SUCCESS, classes } }
-    function failure(error) { return { type: classConstants.CLASSES_GETBYUSERID_FAILURE, error } }
-}
+// function getByUserId(userId) {
+//     return dispatch => {
+//         dispatch(request());
+//
+//         classService.getByUserId(userId)
+//             .then(
+//                 response => dispatch(success(response.data)),
+//                 error => dispatch(failure(error))
+//             );
+//     };
+//
+//     function request() { return { type: classConstants.CLASSES_GETBYUSERID_REQUEST } }
+//     function success(classes) { return { type: classConstants.CLASSES_GETBYUSERID_SUCCESS, classes } }
+//     function failure(error) { return { type: classConstants.CLASSES_GETBYUSERID_FAILURE, error } }
+// }
 
 function getMembers(classId) {
     return dispatch => {

@@ -19,7 +19,7 @@ class ClassMembers extends Component {
                             <div className="text-center panel-member-col">
                                 <img
                                     src={member.profileImageID ? fileUtils.renderFileSource(member.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}
-                                    className="img-circle" alt="image"/>
+                                    className="img-circle" alt="No Image"/>
 
                                 <h4 className="thin">
                                     {member.firstName} {member.lastName}

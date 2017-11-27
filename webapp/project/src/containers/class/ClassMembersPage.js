@@ -90,11 +90,11 @@ class ClassMembersPage extends Component{
         const {classId, classDetail, topics} = this.props
         const members = (classDetail.members && classDetail.members.length > 0) ?
             classDetail.members.filter(function (member) {
-                return member.typemember.enum_id == classConstants.MEMBER_TYPE_IS_MEMBER
+                return member.isAdmin == false
             }) : [];
         const teachers = (classDetail.members && classDetail.members.length > 0) ?
             classDetail.members.filter(function (member) {
-                return member.typemember.enum_id == classConstants.MEMBER_TYPE_IS_TEACHER
+                return member.isAdmin == true
             }) : [];
         return(
             <div>

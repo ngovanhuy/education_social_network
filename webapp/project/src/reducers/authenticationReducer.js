@@ -43,6 +43,42 @@ export function authentication(state = {}, action) {
             return {
                 ...state
             };
+
+        case userConstants.USERS_GETCLASSJOINED_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case userConstants.USERS_GETCLASSJOINED_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classUserJoined: action.classes
+            };
+        case userConstants.USERS_GETCLASSJOINED_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+
+        case userConstants.USERS_GETCLASSREQUEST_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case userConstants.USERS_GETCLASSREQUEST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classUserRequest: action.classes
+            };
+        case userConstants.USERS_GETCLASSREQUEST_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
         default:
             return state
     }

@@ -8,7 +8,9 @@
     position: relative;
     width: 20px; }
   .home-page .home-leftmenu .user-info img {
-    height: 30px; }
+    height: 30px;
+    width: 30px;
+    border-radius: 50%; }
   .home-page .home-leftmenu .user-info .user-profile-info {
     display: inline-block;
     margin-left: 10px;

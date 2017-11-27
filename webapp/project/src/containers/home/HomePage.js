@@ -349,17 +349,17 @@ class HomePage extends Component {
             user = JSON.parse(localStorage.getItem('user'))
         }
         this.props.dispatch(userActions.getById(user.id));
-        this.props.dispatch(classActions.getByUserId(user.id));
+        this.props.dispatch(userActions.getClassJoined(user.id));
     }
 
     render() {
-        const {schoolDetail, user, classesByUserId, feed, events, notifcationsLatest} = this.props
+        const {schoolDetail, user, classUserJoined, feed, events, notifcationsLatest} = this.props
         return (
             <div>
                 <div className="container">
                     <div className="home-page clearfix">
                         <div className="col-sm-2">
-                            <HomeLeftmenu schoolDetail={schoolDetail} user={user} classes={classesByUserId}/>
+                            <HomeLeftmenu schoolDetail={schoolDetail} user={user} classes={classUserJoined}/>
                         </div>
                         <div className="col-sm-10">
                             <div className="row">
@@ -389,11 +389,10 @@ class HomePage extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user} = state.authentication;
-    const {classesByUserId} = state.classes;
+    const {user, classUserJoined} = state.authentication;
     return {
         user,
-        classesByUserId
+        classUserJoined
     };
 }
 

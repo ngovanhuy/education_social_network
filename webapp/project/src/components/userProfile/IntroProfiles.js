@@ -26,30 +26,33 @@ const renderInfo = (infoLabel, infoValue) => {
 }
 
 const IntroProfiles = ({user}) => {
-    return (
-        <div className="intros">
-            <h2 className="user-fullname">{user.firstName} {user.lastName}</h2>
-            <ul className="list-intro">
-                {/*{*/}
+    if(user){
+        return(
+            <div className="intros">
+                <h2 className="user-fullname">{user.firstName} {user.lastName}</h2>
+                <ul className="list-intro">
+                    {/*{*/}
                     {/*user.intros ? (*/}
-                        {/*user.intros.map((intro, index) => renderIntro(intro, index))*/}
+                    {/*user.intros.map((intro, index) => renderIntro(intro, index))*/}
                     {/*) : ''*/}
-                {/*}*/}
-                {
-                    renderInfo("About", user.about)
-                }
-                {
-                    renderInfo("Quote", user.quote)
-                }
-                {
-                    renderInfo("Location", user.location)
-                }
-                {
-                    renderInfo("Birthday", user.birthday)
-                }
-            </ul>
-        </div>
-    )
+                    {/*}*/}
+                    {
+                        renderInfo("About", user.about)
+                    }
+                    {
+                        renderInfo("Quote", user.quote)
+                    }
+                    {
+                        renderInfo("Location", user.location)
+                    }
+                    {
+                        renderInfo("Birthday", user.birthday)
+                    }
+                </ul>
+            </div>
+        )
+    }
+    return null;
 }
 
 export default IntroProfiles

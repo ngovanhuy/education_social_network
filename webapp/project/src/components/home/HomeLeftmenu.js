@@ -75,8 +75,8 @@ class HomeLeftmenu extends Component {
                                                 src={(typeof(user.profileImageID) !== "undefined" && user.profileImageID) ?
                                                     fileUtils.renderFileSource(user.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}/>
                                         </span>
-                                        <UserProfileInfo user={user}/>
                                     </a>
+                                    <UserProfileInfo user={user}/>
                                 </div>
                             )
                         }

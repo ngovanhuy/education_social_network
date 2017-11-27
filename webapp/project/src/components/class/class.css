@@ -296,7 +296,9 @@
       align-items: center;
       display: flex;
       justify-content: flex-start;
-      overflow: hidden; }
+      overflow: hidden;
+      width: 65%;
+      margin-left: 10%; }
       .classes .classes-content .class-detail .class-detail-left .class-profile-picture img {
         width: 80px;
         height: 80px;
@@ -304,6 +306,16 @@
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); }
       .classes .classes-content .class-detail .class-detail-left .class-info {
         margin: 0 10px; }
+        .classes .classes-content .class-detail .class-detail-left .class-info .class-full-name {
+          display: inline-block;
+          max-width: 250px;
+          overflow: hidden;
+          padding-left: 0;
+          -o-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+          white-space: nowrap; }
+    .classes .classes-content .class-detail .buttons {
+      width: 25%; }
 
 .class-manage .class-manage-leftmenu {
   padding: 10px 0; }

@@ -436,6 +436,8 @@ $main-color: rgba(146, 181, 88, 1);
         display: flex;
         justify-content: flex-start;
         overflow: hidden;
+        width: 65%;
+        margin-left: 10%;
         .class-profile-picture {
           img {
             width: 80px;
@@ -446,7 +448,19 @@ $main-color: rgba(146, 181, 88, 1);
         }
         .class-info {
           margin: 0 10px;
+          .class-full-name{
+            display: inline-block;
+            max-width: 250px;
+            overflow: hidden;
+            padding-left: 0;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
+      }
+      .buttons{
+        width: 25%;
       }
     }
   }

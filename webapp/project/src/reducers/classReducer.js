@@ -98,7 +98,7 @@ export function classes(state = {loading: false, items: [], classDetail: {}, cla
                 loading: false,
                 classDetail: {
                     ...state.classDetail,
-                    members: action.data.members
+                    members: action.data
                 }
             };
         case classConstants.CLASSES_GETMEMBERS_FAILURE:

@@ -10,6 +10,8 @@ export const userActions = {
     getAll,
     getById,
     update,
+    getClassJoined,
+    getClassRequest,
 };
 
 function login(username, password) {
@@ -111,4 +113,56 @@ function update(user) {
     function request() { return { type: userConstants.USERS_UPDATE_REQUEST } }
     function success(user) { return { type: userConstants.USERS_UPDATE_SUCCESS, user } }
     function failure(error) { return { type: userConstants.USERS_UPDATE_FAILURE, error } }
+}
+
+function getClassJoined(userId) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.getClassJoined(userId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_GETCLASSJOINED_REQUEST } }
+    function success(classes) { return { type: userConstants.USERS_GETCLASSJOINED_SUCCESS, classes } }
+    function failure(error) { return { type: userConstants.USERS_GETCLASSJOINED_FAILURE, error } }
+}
+
+function getClassRequest(userId) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.getClassRequest(userId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_GETCLASSREQUEST_FAILURE } }
+    function success(classes) { return { type: userConstants.USERS_GETCLASSREQUEST_SUCCESS, classes } }
+    function failure(error) { return { type: userConstants.USERS_GETCLASSREQUEST_FAILURE, error } }
+}
+
+function updateupdateStatusOfClass(userId) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.getAllClassesSentRequest(userId)
+            .then(
+                response => {
+                    dispatch(getAllClassesSentRequest(response.data));
+                    history.push('/classes/'+ response.data.id );
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_REQUEST } }
+    function getAllClassesSentRequest(classDetail) { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_SENTREQUEST_SUCCESS, classDetail } }
+    function getAllClassesJoined(classDetail) { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_JOINED_SUCCESS, classDetail } }
+    function failure(error) { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_FAILURE, error } }
 }

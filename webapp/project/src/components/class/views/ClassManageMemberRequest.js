@@ -4,6 +4,8 @@ import UserProfileInfo from "../../commons/views/UserProfileInfo";
 import {classActions} from "../../../actions";
 import {defaultConstants} from "../../../constants/defaultConstant";
 import {fileUtils} from "../../../utils/fileUtils";
+import {userService} from "../../../services/userService";
+import {userActions} from "../../../actions/userActions";
 
 class ClassManageMemberRequest extends Component {
 
@@ -21,7 +23,7 @@ class ClassManageMemberRequest extends Component {
         }
     }
 
-    renderMemberRequest = (memberRequest, index) => {
+    renderMemberRequest = (memberRequest, classId, index) => {
         var user = {
             id: memberRequest._id.toString(),
             firstName: memberRequest.firstName,
@@ -40,11 +42,11 @@ class ClassManageMemberRequest extends Component {
                     </div>
                 </div>
                 <div className="btn-group pull-right">
-                    <a href="#" className="btn btn-white">
+                    <a className="btn btn-white" onClick={() => this.handleApproveRequestJoinClass(user.id, classId)}>
                         <i className="fa fa-check"></i>
                         Approve
                     </a>
-                    <a href="#" className="btn btn-white">
+                    <a className="btn btn-white" onClick={() => this.handleDeleteRequestJoinClass(user.id, classId)}>
                         <i className="fa fa-times"></i>
                         Decline
                     </a>
@@ -53,8 +55,25 @@ class ClassManageMemberRequest extends Component {
         )
     }
 
+    handleDeleteRequestJoinClass = (userId, classId) => {
+        userService.deleteRequestJoinClass(userId, classId)
+            .then(
+                this.props.dispatch(userActions.getClassRequest(userId)),
+                this.props.dispatch(classActions.getRequests(classId))
+            )
+    }
+
+    handleApproveRequestJoinClass = (userId, classId) => {
+        userService.approveRequestJoinClass(userId, classId)
+            .then(
+                this.props.dispatch(userActions.getClassJoined(userId)),
+                this.props.dispatch(classActions.getRequests(classId)),
+                this.props.dispatch(classActions.getMembers(classId))
+            )
+    }
+
     render() {
-        const {memberRequests} = this.props
+        const {classDetail} = this.props
         return (
             <div>
                 <div className="row">
@@ -65,9 +84,9 @@ class ClassManageMemberRequest extends Component {
                             </div>
                             <div className="ui-box-content">
                                 {
-                                    (memberRequests && memberRequests.length > 0) ?
+                                    (classDetail.requests && classDetail.requests.length > 0) ?
                                         (
-                                            memberRequests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, index))
+                                            classDetail.requests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, classDetail.id, index))
                                         ) : ''
                                 }
                             </div>
@@ -80,12 +99,9 @@ class ClassManageMemberRequest extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const memberRequests =
-        (state.classes.classDetail && state.classes.classDetail.requests &&
-            state.classes.classDetail.requests.length > 0) ?
-            state.classes.classDetail.requests : []
+    const {classDetail} = state.classes
     return {
-        memberRequests
+        classDetail
     }
 }
 

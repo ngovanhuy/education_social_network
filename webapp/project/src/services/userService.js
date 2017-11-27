@@ -11,6 +11,12 @@ export const userService = {
     update,
     updateProfilePicture,
     updateCoverPhoto,
+    getClassJoined,
+    getClassRequest,
+    createRequestJoinClass,
+    deleteRequestJoinClass,
+    approveRequestJoinClass,
+    leaveClass
 };
 
 function login(username, password) {
@@ -99,6 +105,68 @@ function update(user) {
         body: JSON.stringify(user)
     };
     const url = DOMAIN_SERVICE + '/users/' + user.id;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function createRequestJoinClass(userId, classId) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, classId})
+    };
+    const url = DOMAIN_SERVICE + '/users/classrequest/' + userId + "/" + classId;
+    return fetch(url, requestOptions)
+        .then(handleResponse);
+}
+
+function deleteRequestJoinClass(userId, classId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, classId})
+    };
+    const url = DOMAIN_SERVICE + '/users/classrequest/' + userId + "/" + classId;
+    return fetch(url, requestOptions)
+        .then(handleResponse);
+}
+
+function approveRequestJoinClass(userId, classId) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, classId})
+    };
+    const url = DOMAIN_SERVICE + '/requested/' + classId + "/" + userId;
+    return fetch(url, requestOptions)
+        .then(handleResponse);
+}
+
+function leaveClass(userId, classId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, classId})
+    };
+    const url = DOMAIN_SERVICE + '/users/classs/' + userId + "/" + classId;
+    return fetch(url, requestOptions)
+        .then(handleResponse);
+}
+
+function getClassJoined(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/users/classs/' + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getClassRequest(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/users/classrequest/' + userId;
     return fetch(url, requestOptions).then(handleResponse);
 }
 
