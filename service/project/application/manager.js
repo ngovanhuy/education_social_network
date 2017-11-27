@@ -58,7 +58,8 @@ async function connectToDB() {
 }
 //TODO: export
 exports.portRunning = process.env.PORT || 3000;
-// exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://localhost:27017/education_social_network";
-exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://admin:admin@ds113636.mlab.com:13636/esservice";
+exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://localhost:27017/education_social_network";
+// exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://192.168.1.17:27017/education_social_network";
+// exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://admin:admin@ds113636.mlab.com:13636/esservice";
 exports.connectToDB = connectToDB;
 exports.start = start;

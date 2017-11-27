@@ -1,29 +1,29 @@
 //Require package
-var Application = require('./application/application');
-var oauth2Controller = require('./controllers/oauth2');
-var session = require('express-session');
-var ejs = require('ejs');
-var express = require('express');
-var passport = require('passport');
-var authController = require('./controllers/auth');
-var bodyParser = require('body-parser');
-var userController = require('./controllers/user');
-var clientController = require('./controllers/client');
-var groupController = require('./controllers/group');
-var fileItemController = require('./controllers/fileitem');
+let Application = require('./application/application');
+let oauth2Controller = require('./controllers/oauth2');
+let session = require('express-session');
+let ejs = require('ejs');
+let express = require('express');
+let passport = require('passport');
+let authController = require('./controllers/auth');
+let bodyParser = require('body-parser');
+let userController = require('./controllers/user');
+let clientController = require('./controllers/client');
+let groupController = require('./controllers/group');
+let fileItemController = require('./controllers/fileitem');
 
 //Router controller
-var app = express();
-var apiRouter = express.Router();
-var fileRouter = express.Router();
-var userRouter = express.Router();
-var groupRouter = express.Router();
-var checkRouter = express.Router();
-var testRouter = express.Router();
-var taskRouter = express.Router();
+let app = express();
+let apiRouter = express.Router();
+let fileRouter = express.Router();
+let userRouter = express.Router();
+let groupRouter = express.Router();
+let checkRouter = express.Router();
+let testRouter = express.Router();
+let taskRouter = express.Router();
 
 //Finally error handing.
-var errorHanding = function (err, req, res, next) {
+let errorHanding = function (err, req, res, next) {
         if (err) {
                 let status = err.status ? err.status : 500;
                 let logicCode = err.logicCode ? err.logicCode : status;
@@ -40,9 +40,9 @@ var errorHanding = function (err, req, res, next) {
                 data: null,
                 error: 'Client Error'
         });
-}
+};
 //Clear upload folder action
-var cleanUploadFolderInterval = null;
+let cleanUploadFolderInterval = null;
 function startCleanUploadFolderTask() {
         if (cleanUploadFolderInterval) return;
         cleanUploadFolderInterval = setInterval(() => {
@@ -65,7 +65,7 @@ app.all('/*', function (req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
         // Set custom headers for CORS
         res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
-        if (req.method == 'OPTIONS') {
+        if (req.method === 'OPTIONS') {
                 return res.status(200).end();
         } else {
                 return next();
@@ -147,7 +147,7 @@ userRouter.route('/requested/:userID/:friendUserID')
 userRouter.route('/classrequest').get(userController.getClassRequests);
 userRouter.route('/classrequest/:userID').get(userController.getClassRequests);
 userRouter.route('/classrequest/:userID/:groupID')
-        .post(userController.addClassRequests)
+        .post(userController.addClassRequest)
         .delete(userController.removeClassRequest);
 
 userRouter.route('/login/').post(userController.login);
@@ -167,12 +167,12 @@ groupRouter.route('/profileImage/:groupID')
         .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileItemController.getFile)
         .put(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage)
         .post(groupController.checkGroupRequest, fileItemController.profileUpload, fileItemController.postFile, groupController.putProfileImage, );
-groupRouter.route('/members/:groupID').get(groupController.checkGroupRequest, groupController.getMembers)
+groupRouter.route('/members/:groupID').get(groupController.checkGroupRequest, groupController.getMembers);
 groupRouter.route('/members/:groupID/:userID')
         .get(groupController.checkGroupRequest, userController.getUser)
         .post(groupController.checkGroupRequest, groupController.addMember)//, userController.getUser)
         .put(groupController.checkGroupRequest, groupController.updateMember)//, userController.getUser)
-        .delete(groupController.checkGroupRequest, groupController.removeMember)//, userController.getUser)
+        .delete(groupController.checkGroupRequest, groupController.removeMember);//, userController.getUser)
 
 groupRouter.route('/requested/:groupID').get(groupController.checkGroupRequest, groupController.getRequesteds);
 groupRouter.route('/requested/:groupID/:userID')
@@ -184,9 +184,8 @@ groupRouter.route('/action/:groupID/:userID')
 groupRouter.route('/files/:groupID')
         .get(groupController.checkGroupRequest, groupController.getFiles)
         .post(groupController.checkGroupRequest, fileItemController.fileUpload, fileItemController.postFile, groupController.postFile, );
-groupRouter.route('/search').get(groupController.checkGroupRequest, groupController.searchGroupByName);
-groupRouter.route('/post/:groupID')
-        .get(groupController.checkGroupRequest, groupController.getPosts)//, groupController.getGroup)
+groupRouter.route('/search').get(groupController.searchGroupByName);
+groupRouter.route('/post/:groupID').get(groupController.checkGroupRequest, groupController.getPosts);//, groupController.getGroup)
 groupRouter.route('/post/:groupID/:userID')
         .get(groupController.checkGroupRequest, groupController.getPosts)//, groupController.getGroup)
         .post(groupController.checkGroupRequest, fileItemController.fileUpload, fileItemController.postFileIfHave, groupController.addPost, groupController.getGroup);

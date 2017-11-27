@@ -1,6 +1,7 @@
-var User = require('../models/user');
-var Groups = require('../controllers/group');
-var Files = require('../models/fileitem');
+let User = require('../models/user');
+let GroupController = require('../controllers/group');
+let Files = require('../models/fileitem');
+let Utils = require('../application/utils');
 
 async function getUserByID(id) {
     if (!id) {
@@ -24,7 +25,7 @@ async function getUserByUserName(username) {
     });
 }
 async function getUserByPhone(phone) {
-    if (!(User.validatePhoneNumber(phone, true))) {
+    if (!(Utils.validatePhoneNumber(phone, true))) {
         return null;
     }
     return await User.findOne({
@@ -32,7 +33,7 @@ async function getUserByPhone(phone) {
     });
 }
 async function getUserbyEmail(email) {
-    if (!(User.validateEmail(email, true))) {
+    if (!(Utils.validateEmail(email, true))) {
         return null;
     }
     return await User.findOne({
@@ -149,7 +150,7 @@ async function findUser(req, isFindWithPhoneAndEmail = true) { //signed_in->requ
         return null;
     }
     if (req.body.phone) {
-        userFind = await getUserByPhone(req.body.phone)
+        userFind = await getUserByPhone(req.body.phone);
         if (userFind) {
             return userFind;
         }
@@ -172,7 +173,7 @@ async function updateUserInfo(req, user, isCheckValidInput = true) {
         }
     }
     if (req.body.email) {
-        if (req.body.email != user.email) {
+        if (req.body.email !== user.email) {
             let checkUser = await getUserbyEmail(req.body.email);
             if (checkUser) {
                 message.push('Email used.');
@@ -182,7 +183,7 @@ async function updateUserInfo(req, user, isCheckValidInput = true) {
         }
     }
     if (req.body.phone) {
-        if (req.body.phone != user.phone) {
+        if (req.body.phone !== user.phone) {
             if (await getUserByPhone(req.body.phone)) {
                 message.push('Phone used.');
                 return message;
@@ -209,7 +210,7 @@ async function updateUserInfo(req, user, isCheckValidInput = true) {
         user.quote = req.body.quote;
     }
     if (req.body.nickname) {
-        user.nickname = User.getStringArray(req.body.nickname);
+        user.nickname = Utils.getStringArray(req.body.nickname);
     }
     if (req.body.language) {
         user.language = User.getArrayLanguage(req.body.language);
@@ -270,7 +271,7 @@ async function postUser(req, res, next) {
             error: error.message
         });
     }
-};
+}
 async function putUser(req, res, next) {
     try {
         let message = User.validateInputInfo(req.body, false);
@@ -342,7 +343,7 @@ async function deleteUser(req, res, next) {
             data: null,
             error: error.message
         });
-    };
+    }
 }
 async function getUser(req, res, next) {
     try {
@@ -494,7 +495,7 @@ async function getFriends(req, res) {
         return res.send({
             code: 200,
             message: 'Success',
-            data: user.friends,
+            data: user.friends
         })
     } catch (error) {
         return res.status(500).send({
@@ -602,7 +603,7 @@ async function getClasss(req, res) {
         return res.send({
             code: 200,
             message: '',
-            data: user.classs,
+            data: user.getGroups()
         })
     } catch (error) {
         return res.status(500).send({
@@ -624,7 +625,7 @@ async function addToClass(req, res) {
                 data: null,
             });
         }
-        let group = await Groups.findGroup(req);//, false);
+        let group = await GroupController.findGroup(req);//, false);
         //req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -671,7 +672,7 @@ async function removeFromClass(req, res) {
                 data: null,
             });
         }
-        let group = await Groups.findGroup(req);//, false);
+        let group = await GroupController.findGroup(req);//, false);
         //req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -713,16 +714,10 @@ async function getClassRequests(req, res) {
                 data: null
             });
         }
-        let requests = [];
-        user.classrequests.forEach(request => {
-            if (!request.isRemoved) {
-                requests.push(request);
-            }
-        });
         return res.send({
             code: 200,
             message: '',
-            data: requests,
+            data: user.getClassRequests(),
         })
     } catch (error) {
         return res.status(500).send({
@@ -733,7 +728,7 @@ async function getClassRequests(req, res) {
         });
     }
 }
-async function addClassRequests(req, res) {
+async function addClassRequest(req, res) {
     try {
         let user = await findUser(req, false);
         req.users.user_request = user;
@@ -744,7 +739,7 @@ async function addClassRequests(req, res) {
                 data: null,
             });
         }
-        let group = await Groups.findGroup(req);//, false);
+        let group = await GroupController.findGroup(req);//, false);
         req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -754,13 +749,8 @@ async function addClassRequests(req, res) {
             });
         }
         if (user.addClassRequest(group)) {
-            if (group.addRequested(user)) {
-                //Promise.all
-                group = await group.save();
-                user = await user.save();
-            } else {
-                throw new Error();
-            }
+            group = await group.save();
+            user = await user.save();
         } else {
             throw new Error();
         }
@@ -792,7 +782,7 @@ async function removeClassRequest(req, res) {
                 data: null,
             });
         }
-        let group = await Groups.findGroup(req);//, false);
+        let group = await GroupController.findGroup(req);//, false);
         //req.groups.group_request = group;
         if (!group || group.isDeleted) {
             return res.status(400).send({
@@ -1156,11 +1146,11 @@ async function getUsers(req, res) {
     } catch (error) {
         return res.status(500).send(error);
     }
-};
+}
 
 async function getFiles(req, res) {
     try {
-        let userID = req.params.userID;
+        let userID = Number(req.params.userID);
         if (!userID) {
             return res.status(400).json({
                 code: 400,
@@ -1171,7 +1161,7 @@ async function getFiles(req, res) {
         let datas = (await Files.find({
             isDeleted: false,
             'user._id': userID,
-        }, { _id: 1, name: 1, type: 1, size: 1, createDate: 1 })).map(file => file.getBasicInfo());
+        })).map(file => file.getBasicInfo());
         return res.send({
             code: 200,
             message: 'Success',
@@ -1231,7 +1221,7 @@ exports.getProfileImageID = getProfileImageID;
 exports.getCoverImageID = getCoverImageID;
 
 exports.getClassRequests = getClassRequests;
-exports.addClassRequests = addClassRequests;
+exports.addClassRequest = addClassRequest;
 exports.removeClassRequest = removeClassRequest;
 
 exports.getUserByUserName = getUserByUserName;

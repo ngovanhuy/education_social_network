@@ -1,8 +1,8 @@
-var Group = require('../models/group');
-var Users = require('../controllers/user');
-var Files = require('../models/fileitem');
-var Post = require('../models/post');
-var Utils = require('../application/utils');
+let Group = require('../models/group');
+let Users = require('../controllers/user');
+let Files = require('../models/fileitem');
+let Post = require('../models/post');
+let Utils = require('../application/utils');
 
 async function getGroupByID(id) {
     if (!id) {
@@ -277,7 +277,7 @@ async function updateGroupInfo(req, group, isCheckValidInput = true) {
         group.about = req.body.about;
     }
     if (req.body.tags) {
-        group.tags = Group.getStringArray(req.body.tags);
+        group.tags = Utils.getStringArray(req.body.tags);
     }
     if (req.body.language) {
         group.language = Group.getArrayLanguage(req.body.language);
@@ -513,12 +513,7 @@ async function getGroups(req, res) {
             code: 200,
             message: 'Success',
             count: groups.length,
-            data: groups.map(group => ({
-                id: group.id,
-                name: group.name,
-                coverImageID: group.coverImageID,
-                profileImageID: group.profileImageID,
-            }))
+            data: groups.map(group => group.getBasicInfo())
         });
     } catch (error) {
         return res.status(500).send(error);
@@ -625,7 +620,7 @@ async function addPost(req, res, next) {
                 endTime: endTime,
             },
             members: members,
-        }
+        };
         let now = Date.now();
         let post = new Post({
             _id: now,

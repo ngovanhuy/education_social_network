@@ -1,10 +1,24 @@
-var bcrypt = require('bcrypt-nodejs');
-var chars = "abcdefjhijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789+=-_";
-var numbers = "0123456789";
-var random = Math.random;
-var maxIndex = chars.length;
-var isLog = true;
+let bcrypt = require('bcrypt-nodejs');
+let chars = "abcdefjhijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789+=-_";
+let numbers = "0123456789";
+let random = Math.random;
+let maxIndex = chars.length;
+let isLog = true;
 
+function validatePhoneNumber(phone, isRequired = false) {
+    if (!phone) {
+        return !isRequired;
+    }
+    let re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    return re.test(phone) || re.test(Number(phone));
+}
+function validateEmail(email, isRequired = false) {
+    if (!email) {
+        return !isRequired;
+    }
+    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
 function nextInt(max = 100, min = 0) {
     return min + Math.ceil((max - min) * random());
 }
@@ -40,7 +54,7 @@ function parseDate(dateString) {
     if (!dateString) {
         return null;
     }
-    var date = new Date(dateString + "Z");
+    let date = new Date(dateString + "Z");
     return isNaN(date.getDate()) ? null : date;
 }
 function getStringArray(jsonContent) {
@@ -52,9 +66,16 @@ function getStringArray(jsonContent) {
 }
 exports.setLog = _isLog => {
     isLog = _isLog === true;
-}
+};
 exports.log = content => {
     isLog ? console.log(content) : undefined;
+};
+
+function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = true) {
+    if (typeof (obj) !== "string") {
+        return !isRequired;
+    }
+    return obj.length >= minLength && obj.length <= maxLength;
 }
 exports.nextInt = nextInt;
 exports.randomString = randomString;
@@ -63,3 +84,6 @@ exports.hash = hash;
 exports.hashSync = hashSync;
 exports.parseDate = parseDate;
 exports.getStringArray = getStringArray;
+exports.validateEmail = validateEmail;
+exports.validatePhoneNumber = validatePhoneNumber;
+exports.validateStringLength = validateStringLength;
