@@ -5,19 +5,14 @@ let random = Math.random;
 let maxIndex = chars.length;
 let isLog = true;
 
+let phoneReg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+let emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 function validatePhoneNumber(phone, isRequired = false) {
-    if (!phone) {
-        return !isRequired;
-    }
-    let re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    return re.test(phone) || re.test(Number(phone));
+    return phone ? (phoneReg.test(phone) || phoneReg.test(Number(phone))): !isRequired;
 }
 function validateEmail(email, isRequired = false) {
-    if (!email) {
-        return !isRequired;
-    }
-    let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+    return email ? emailReg.test(email) : !isRequired;
 }
 function nextInt(max = 100, min = 0) {
     return min + Math.ceil((max - min) * random());

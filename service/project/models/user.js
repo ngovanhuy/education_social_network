@@ -161,7 +161,7 @@ UserSchema.pre('save', function (callback) {
         bcrypt.hash(user.password, salt, null, (err, hash) => {
             if (err) return callback(err);
             user.password = hash;
-            callback();
+            return callback();
         });
     });
 });
@@ -169,185 +169,97 @@ UserSchema.pre('save', function (callback) {
 function comparePassword(candidatePassword, callback) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return callback(err);
-        callback(null, isMatch);
+        return callback(null, isMatch);
     });
 }
 function addUserInArray(new_user, arrays) {
-    if (!new_user) {
-        return null;
+    if (!new_user) return null;
+    let user = arrays.find(u => u._id === new_user._id);
+    if (!user) {
+        user = {_id: new_user._id};
+        arrays.push(user);
     }
-    let user = null;
     let timeUpdate = Date.now();
-    for (let index = 0; index < arrays.length; index++) {
-        user = arrays[index];
-        if (user._id === new_user._id) {
-            user.timeUpdate = timeUpdate;
-            user.firstName = new_user.firstName;
-            user.lastName = new_user.lastName;
-            user.profileImageID = new_user.profileImageID;
-            if (user.isRemoved) {
-                user.isRemoved = false;
-                user.timeCreate = timeUpdate;
-            }
-            return user;
-        }
+    user.timeUpdate = timeUpdate;
+    user.firstName = new_user.firstName;
+    user.lastName = new_user.lastName;
+    user.profileImageID = new_user.profileImageID;
+    if (user.isRemoved) {
+        user.isRemoved = false;
+        user.timeCreate = timeUpdate;
     }
-    user = {
-        _id: new_user._id,
-        firstName: new_user.firstName,
-        lastName: new_user.lastName,
-        profileImageID: new_user.profileImageID,
-        isRemoved: false,
-        timeCreate: timeUpdate,
-        timeUpdate: timeUpdate,
-    };
-    arrays.push(user);
     return user;
 }
 function removeUserFromArray(remove_user, arrays) {
-    if (!remove_user) {
-        return null;
-    }
-    let user = null;
-    for (let index = 0; index < arrays.length; index++) {
-        user = arrays[index];
-        if (user._id === remove_user._id) {
-            user.isRemoved = true;
-            return user;
-        }
-    }
-    return null;
+    if (!remove_user) return null;
+    let user = arrays.find(u => u._id === remove_user._id);
+    if (user) user.isRemoved = true;
+    return user;
 }
 function addGroupInArray(new_group, arrays) {
-    if (!new_group) {
-        return null;
-    }
-    let group = null;
+    if (!new_group) return null;
     let timeUpdate = Date.now();
-    for (let index = 0; index < arrays.length; index++) {
-        group = arrays[index];
-        if (group._id === new_group._id) {
-            group.timeUpdate = timeUpdate;
-            group.name = new_group.name;
-            group.profileImageID = new_group.profileImageID;
-            if (group.isRemoved) {
-                group.isRemoved = false;
-                group.timeCreate = timeUpdate;
-            }
-            return group;
-        }
+    let group = arrays.find(g => g._id === new_group._id);
+    if (!group) {
+        group = {_id: new_group._id};
+        arrays.push(group);
     }
-    group = {
-        _id: new_group._id,
-        name: new_group.name,
-        profileImageID: new_group.profileImageID,
-        isRemoved: false,
-        timeCreate: timeUpdate,
-        timeUpdate: timeUpdate,
-    };
-    arrays.push(group);
+    group.timeUpdate = timeUpdate;
+    group.name = new_group.name;
+    group.profileImageID = new_group.profileImageID;
+    if (group.isRemoved) {
+        group.isRemoved = false;
+        group.timeCreate = timeUpdate;
+    }
     return group;
 }
 function removeGroupFromArray(remove_group, arrays) {
     if (!remove_group) { return null; }
-    let group = null;
-    for (let index = 0; index < arrays.length; index++) {
-        group = arrays[index];
-        if (group._id === remove_group._id) {
-            group.isRemoved = true;
-            return group;
-        }
-    }
-    return null;
+    let group = arrays.find(g => g._id === new_group._id);
+    if (group) group.isRemoved = true;
+    return group;
 }
 
 function getFriends() {
-    let friends = [];
-    this.friends.forEach(friend => {
-        if (!friend.isRemoved) {
-            friends.push({
-                _id: friend._id,
-                firstName: friend.firstName,
-                lastName: friend.lastName,
-                profileImageID: friend.profileImageID,
-                timeCreate: Utils.exportDate(friend.timeCreate),
-            });
-        }
-    });
-    return friends;
+    return this.friends.filter(friend => friend.isRemoved === false).map(friend => ({
+        _id: friend._id,
+        firstName: friend.firstName,
+        lastName: friend.lastName,
+        profileImageID: friend.profileImageID,
+        timeCreate: Utils.exportDate(friend.timeCreate),
+    }));
 }
 function addFriend(user, isUpdateReference = true) {
     if (!user) { return null; }
-    let new_user = addUserInArray(user, this.friends);
-    if (new_user) {
-        if (isUpdateReference) {
-            return user.addFriend.call(user, this, false);
-        }
-        return user;
-    }
-    return null;
+    return addUserInArray(user, this.friends) ? (isUpdateReference ? user.addFriend.call(user, this, false) : user) : null;
 }
 function removeFriend(user, isUpdateReference = true) {
-    if (!user) {
-        return null;
-    }
-    let remove_user = removeUserFromArray(user, this.friends);
-    if (remove_user) {
-        if (isUpdateReference) {
-            user.removeFriend.call(user, this, false);
-        }
-        return user;
-    }
-    return null;
+    if (!user) return null;
+    return removeUserFromArray(user, this.friends) ? (isUpdateReference ? user.removeFriend.call(user, this, false) : user) : null;
 }
 function getRequests() {
-    let requests = [];
-    this.requests.forEach(request => {
-        if (!request.isRemoved) {
-            requests.push({
-                _id: request._id,
-                firstName: request.firstName,
-                lastName: request.lastName,
-                profileImageID: request.profileImageID,
-                timeCreate: Utils.exportDate(request.timeCreate),
-            });
-        }
-    });
-    return requests;
+    return this.requests.filter(request => request.isRemoved === false).map(request => ({
+        _id: request._id,
+        firstName: request.firstName,
+        lastName: request.lastName,
+        profileImageID: request.profileImageID,
+        timeCreate: Utils.exportDate(request.timeCreate),
+    }));
 }
 function addRequest(user) {
-    //TODO check user is friends, requested
-    let new_user = addUserInArray(user, this.requests);
-    if (new_user) {
-        if (user.addRequested.call(user, this)) {
-            return user;
-        }
-    }
-    return null;
+    return addUserInArray(user, this.requests) ? user.addRequested.call(user, this) ? user : null : null;
 }
 function removeRequest(user) {
-    let remove_user = removeUserFromArray(user, this.requests);
-    if (remove_user) {
-        if (user.removeRequested.call(user, this)) {
-            return user;
-        }
-    }
-    return null;
+    return removeUserFromArray(user, this.requests) ? user.removeRequested.call(user, this) ? user : null : null;
 }
 function getRequesteds() {
-    let requesteds = [];
-    this.requesteds.forEach(requested => {
-        if (!requested.isRemoved) {
-            requesteds.push({
-                _id: requested._id,
-                firstName: requested.firstName,
-                lastName: requested.lastName,
-                profileImageID: requested.profileImageID,
-                timeCreate: Utils.exportDate(requested.timeCreate),
-            });
-        }
-    });
-    return requesteds;
+    return this.requesteds.filter(requested => requested.isRemoved === false).map(requested => ({
+        _id: requested._id,
+        firstName: requested.firstName,
+        lastName: requested.lastName,
+        profileImageID: requested.profileImageID,
+        timeCreate: Utils.exportDate(requested.timeCreate),
+    }));
 }
 function addRequested(user) {
     return addUserInArray(user, this.requesteds) ? user : null;
@@ -359,34 +271,17 @@ function confirmRequested(user) {
     return (addFriend(user, true) && removeRequested(user)) ? user : null;
 }
 function getClassRequests() {
-    let requests = [];
-    this.classrequests.forEach(request => {
-        if (!request.isRemoved) {
-            requests.push({
-                _id: request.id,
-                name: request.name,
-                profileImageID: null,
-            });
-        }
-    });
-    return requests;
+    return this.classrequests.filter(request => request.isRemoved === false).map(request => ({
+        _id: request.id,
+        name: request.name,
+        profileImageID: null,
+    }));
 }
 function addClassRequest(new_group) {
-    let group = addGroupInArray(new_group, this.classrequests);
-    if (group) {
-        if (new_group.addRequested.call(new_group, this)) {
-            return group;
-        }
-        return null;
-    }
-    return group;
+    return addGroupInArray(new_group, this.classrequests) ? new_group.addRequested.call(new_group, this) ? new_group : null : null;
 }
 function removeClassRequest(remove_group) {
-    let group = removeGroupFromArray(remove_group, this.classrequests);
-    if (group) {
-        remove_group.removeRequested.call(remove_group, this);
-    }
-    return remove_group;
+    return removeGroupFromArray(remove_group, this.classrequests) ? remove_group.removeRequested.call(remove_group, this) : null;
 }
 function addToClass(group) {
     return addGroupInArray(group, this.classs) ? group : null;
@@ -395,54 +290,31 @@ function removeFromClass(group) {
     return (removeGroupFromArray(group, this.classs) && group.removeMember(this)) ? group : null;
 }
 function getClasss() {
-    let classs = [];
-    this.classs.forEach(classItem =>  {
-        if (!classItem.isRemoved) {
-            classs.push({
-                id: classItem.id,
-                name: classItem.name,
-                profileImageID: classItem.profileImageID,
-            });
-        }
-    });
-    return classs;
+    return this.classs.filter(classItem => classItem.isRemoved === false).map(classItem => ({
+        id: classItem.id,
+        name: classItem.name,
+        profileImageID: classItem.profileImageID,
+    }));
 }
 
 function validateUserName(username, isRequired = true) {
-    if (!username) {
-        return !isRequired;
-    }
+    if (!username) return !isRequired;
     let re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
-    if (re.test(username)) {
-        return true;
-    }
-    if (Utils.validateEmail(username)) {
-        return true;
-    }
+    if (re.test(username)) {return true; }
+    if (Utils.validateEmail(username)) { return true; }
     return Utils.validatePhoneNumber(username);
 }
 function validateGender(gender, isRequired = false) {
-    if (!gender) {
-        return !isRequired;
-    }
-    return GenderEnum[gender];
+    return gender ? GenderEnum[gender] : !isRequired;
 }
 function validateTypeUser(typeUser, isRequired = false) {
-    if (!typeUser) {
-        return !isRequired;
-    }
-    return TypeUserEnum[typeUser];
+    return typeUser ? TypeUserEnum[typeUser] : !isRequired;
 }
 function validateStatus(status, isRequired = false) {
-    if (!status) {
-        return !isRequired;
-    }
-    return StatusEnum[status];
+    return status ? StatusEnum[status] : !isRequired;
 }
 function validateInputInfo(inputInfo, checkRequired = false) {
-    if (!inputInfo) {
-        return [];
-    }
+    if (!inputInfo) return [];
     let message = [];
     //---------- REQUIRED --------------
     if (!(validateUserName(inputInfo.username, checkRequired))) {
