@@ -1,18 +1,18 @@
-var FileItem = require('../models/fileitem');
-var multer = require('multer');
-var fs = require('fs');
-var path = require('path');
-var UPLOAD_PATH = 'uploads/';
-var MAX_FILE_SIZE = 1 << 26;// 64M
-var MAX_IMAGE_SIZE = 1 << 23; //8M
-var file_upload = multer({// var storage = multer.memoryStorage();
+let FileItem = require('../models/fileitem');
+let multer = require('multer');
+let fs = require('fs');
+let path = require('path');
+let UPLOAD_PATH = 'uploads/';
+let MAX_FILE_SIZE = 1 << 26;// 64M
+let MAX_IMAGE_SIZE = 1 << 23; //8M
+let file_upload = multer({// var storage = multer.memoryStorage();
     dest: UPLOAD_PATH,
     // storage: storage,
     // limits: {
     //     fileSize: 1 << 22, // 4M 
     // },
 });
-var image_upload = multer({
+let image_upload = multer({
     dest: UPLOAD_PATH,
     fileFilter: function (req, file, cb) {
         if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
@@ -27,7 +27,7 @@ var image_upload = multer({
 
 function getLocalFilePath(file) {
     return file ? path.join(UPLOAD_PATH, file.id) : null;
-};
+}
 async function checkFileExited(file) {
     return new Promise(resolve => fs.exists(getLocalFilePath(file), exists => resolve(exists)));
 }
@@ -42,13 +42,16 @@ async function checkFilesExisted(files) {
                 if (file) {
                     datas.push(file);
                 }
-            })
+            });
             resolve(datas);
         });
     });
 }
 async function getAllFiles() {
-    return (await FileItem.find({isDeleted: false }, {_id: 1, name: 1, type: 1, size: 1, createDate: 1})).map(file => {
+    // return (await FileItem.find({isDeleted: false }, {_id: 1, name: 1, type: 1, size: 1, createDate: 1, user: 1, group: 1})).map(file => {
+    //     return file.getBasicInfo();
+    // });
+    return (await FileItem.find({isDeleted: false })).map(file => {
         return file.getBasicInfo();
     });
 }
@@ -127,7 +130,7 @@ async function postFile(req, res, next) {
             error: error.message
         });
     }
-};
+}
 async function postFileIfHave(req, res, next) {
     try {
         req.files.file_saved = null;
@@ -174,7 +177,7 @@ async function postFileIfHave(req, res, next) {
             error: error.message
         });
     }
-};
+}
 async function deleteFile(req, res) {
     try {
         let file = await findFile(req);
@@ -205,7 +208,7 @@ async function deleteFile(req, res) {
             error: error.message
         });
     }
-};
+}
 async function getInfoFile(req, res) {
     try {
         let  file = await findFile(req);
@@ -238,7 +241,7 @@ async function getInfoFile(req, res) {
             error: error.message
         });
     }
-};
+}
 async function getOrAttachFile(req, res, isAttach) {
     try {
         let file = await findFile(req);
@@ -277,13 +280,13 @@ async function getOrAttachFile(req, res, isAttach) {
             data: null
         });
     }
-};
+}
 async function getFile(req, res) {
     return await getOrAttachFile(req, res, false);
-};
+}
 async function attachFile(req, res) {
     return await getOrAttachFile(req, res, true);
-};
+}
 async function getFiles(req, res, next) {
     try {
         let datas = await getAllFiles();

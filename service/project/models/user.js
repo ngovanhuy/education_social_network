@@ -1,23 +1,23 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
-var GenderEnum = {
+let mongoose = require('mongoose');
+let bcrypt = require('bcrypt-nodejs');
+let Utils = require('../application/utils');
+let GenderEnum = {
     0: "None",
     1: "Male",
     2: "Female"
-}
-var TypeUserEnum = {
+};
+let TypeUserEnum = {
     0: "Normal",
     10: "Teacher",
     100: "System"
-}
-var StatusEnum = {
+};
+let StatusEnum = {
     0: "New",
     10: "Normal"
-}
-var UserSchema = new mongoose.Schema(
+};
+let UserSchema = new mongoose.Schema(
     {
-        // id: { type: Number, unique: true, require: true, index: true, default: Date.now },
-        _id: { type: Number, default: getNewID },
+        _id: { type: Number, default: getNewID },// id: { type: Number, unique: true, require: true, index: true, default: Date.now },
         username: { type: String, unique: true, required: true, },
         password: { type: String, required: true },
         firstName: { type: String, required: true, },
@@ -81,13 +81,9 @@ var UserSchema = new mongoose.Schema(
                 _id: Number,
                 name: String,
                 profileImageID: String,
-                coverImageID: String,
-
-                // typemember: Number,
-                // typegroup: Number,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now },
-                timeUpdate: { type: Date, default: Date.now },
+                timeCreate: { type: Date, default: Date.now() },
+                timeUpdate: { type: Date, default: Date.now() },
             }],
             required: false,
             default: [],
@@ -98,10 +94,9 @@ var UserSchema = new mongoose.Schema(
                 firstName: String,
                 lastName: String,
                 profileImageID: String,
-                coverImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now },
-                timeUpdate: { type: Date, default: Date.now },
+                timeCreate: { type: Date, default: Date.now() },
+                timeUpdate: { type: Date, default: Date.now() },
             }],
             required: false,
             default: [],
@@ -115,7 +110,6 @@ var UserSchema = new mongoose.Schema(
                 firstName: String,
                 lastName: String,
                 profileImageID: String,
-                coverImageID: String,
                 isRemoved: { type: Boolean, default: false, },
                 timeCreate: { type: Date, default: Date.now },
                 timeUpdate: { type: Date, default: Date.now },
@@ -129,7 +123,6 @@ var UserSchema = new mongoose.Schema(
                 firstName: String,
                 lastName: String,
                 profileImageID: String,
-                coverImageID: String,
                 isRemoved: { type: Boolean, default: false, },
                 timeCreate: { type: Date, default: Date.now },
                 timeUpdate: { type: Date, default: Date.now },
@@ -142,9 +135,6 @@ var UserSchema = new mongoose.Schema(
                 _id: Number,
                 name: String,
                 profileImageID: String,
-                coverImageID: String,
-                // typemember: Number,
-                // typegroup: Number,
                 isRemoved: { type: Boolean, default: false, },
                 timeCreate: { type: Date, default: Date.now },
                 timeUpdate: { type: Date, default: Date.now },
@@ -163,7 +153,7 @@ var UserSchema = new mongoose.Schema(
     }
 );
 UserSchema.pre('save', function (callback) {
-    var user = this;
+    let user = this;
     user.timeUpdate = Date.now();
     if (!user.isModified('password')) return callback();
     bcrypt.genSalt(5, (err, salt) => {
@@ -171,7 +161,7 @@ UserSchema.pre('save', function (callback) {
         bcrypt.hash(user.password, salt, null, (err, hash) => {
             if (err) return callback(err);
             user.password = hash;
-            callback();
+            return callback();
         });
     });
 });
@@ -179,143 +169,97 @@ UserSchema.pre('save', function (callback) {
 function comparePassword(candidatePassword, callback) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return callback(err);
-        callback(null, isMatch);
+        return callback(null, isMatch);
     });
 }
-
 function addUserInArray(new_user, arrays) {
-    if (!new_user) {
-        return null;
+    if (!new_user) return null;
+    let user = arrays.find(u => u._id === new_user._id);
+    if (!user) {
+        user = {_id: new_user._id};
+        arrays.push(user);
     }
-    let user = null;
     let timeUpdate = Date.now();
-    for (let index = 0; index < arrays.length; index++) {
-        user = arrays[index];
-        if (user._id == new_user._id) {
-            user.timeUpdate = timeUpdate;
-            if (user.isRemoved) {
-                user.isRemoved = false;
-                user.timeCreate = timeUpdate;
-            }
-            return user;
-        }
+    user.timeUpdate = timeUpdate;
+    user.firstName = new_user.firstName;
+    user.lastName = new_user.lastName;
+    user.profileImageID = new_user.profileImageID;
+    if (user.isRemoved) {
+        user.isRemoved = false;
+        user.timeCreate = timeUpdate;
     }
-    user = {
-        _id: new_user._id,
-        firstName: new_user.firstName,
-        lastName: new_user.lastName,
-        profileImageID: new_user.profileImageID,
-        coverImageID: new_user.coverImageID,
-        isRemoved: false,
-        timeCreate: timeUpdate,
-        timeUpdate: timeUpdate,
-    };
-    arrays.push(user);
     return user;
 }
 function removeUserFromArray(remove_user, arrays) {
-    if (!remove_user) {
-        return null;
-    }
-    let user = null;
-    for (let index = 0; index < arrays.length; index++) {
-        user = arrays[index];
-        if (user._id == remove_user._id) {
-            user.isRemoved = true;
-            return user;
-        }
-    }
-    return null;
+    if (!remove_user) return null;
+    let user = arrays.find(u => u._id === remove_user._id);
+    if (user) user.isRemoved = true;
+    return user;
 }
 function addGroupInArray(new_group, arrays) {
-    if (!new_group) {
-        return null;
-    }
-    let group = null;
+    if (!new_group) return null;
     let timeUpdate = Date.now();
-    for (let index = 0; index < arrays.length; index++) {
-        group = arrays[index];
-        if (group._id == new_group._id) {
-            group.timeUpdate = timeUpdate;
-            if (group.isRemoved) {
-                group.isRemoved = false;
-                group.timeCreate = timeUpdate;
-            }
-            return group;
-        }
+    let group = arrays.find(g => g._id === new_group._id);
+    if (!group) {
+        group = {_id: new_group._id};
+        arrays.push(group);
     }
-    group = {
-        _id: new_group._id,
-        name: new_group.name,
-        profileImageID: new_group.profileImageID,
-        coverImageID: new_group.coverImageID,
-        isRemoved: false,
-        timeCreate: timeUpdate,
-        timeUpdate: timeUpdate,
-    };
-    arrays.push(group);
+    group.timeUpdate = timeUpdate;
+    group.name = new_group.name;
+    group.profileImageID = new_group.profileImageID;
+    if (group.isRemoved) {
+        group.isRemoved = false;
+        group.timeCreate = timeUpdate;
+    }
     return group;
 }
 function removeGroupFromArray(remove_group, arrays) {
-    if (!remove_group) {
-        return null;
-    }
-    let group = null;
-    for (let index = 0; index < arrays.length; index++) {
-        group = arrays[index];
-        if (group._id == remove_group._id) {
-            group.isRemoved = true;
-            return group;
-        }
-    }
-    return null;
+    if (!remove_group) { return null; }
+    let group = arrays.find(g => g._id === new_group._id);
+    if (group) group.isRemoved = true;
+    return group;
 }
 
+function getFriends() {
+    return this.friends.filter(friend => friend.isRemoved === false).map(friend => ({
+        _id: friend._id,
+        firstName: friend.firstName,
+        lastName: friend.lastName,
+        profileImageID: friend.profileImageID,
+        timeCreate: Utils.exportDate(friend.timeCreate),
+    }));
+}
 function addFriend(user, isUpdateReference = true) {
-    if (!user) {
-        return null;
-    }
-    let new_user = addUserInArray(user, this.friends);
-    if (new_user) {
-        if (isUpdateReference) {
-            return user.addFriend(this, false);
-        }
-        return user;
-        //var currentUser = this;
-        //return addUserInArray(currentUser, user.friends) ? user : null;
-    }
-    return null;
+    if (!user) { return null; }
+    return addUserInArray(user, this.friends) ? (isUpdateReference ? user.addFriend.call(user, this, false) : user) : null;
 }
 function removeFriend(user, isUpdateReference = true) {
-    if (!user) {
-        return null;
-    }
-    let remove_user = removeUserFromArray(user, this.friends);
-    if (remove_user) {
-        if (isUpdateReference) {
-            return user.removeFriend(this, false);
-        }
-        return user;
-        //var currentUser = this;
-        //return removeUserFromArray(currentUser, user.friends) ? user : null;
-    }
-    return null;
+    if (!user) return null;
+    return removeUserFromArray(user, this.friends) ? (isUpdateReference ? user.removeFriend.call(user, this, false) : user) : null;
+}
+function getRequests() {
+    return this.requests.filter(request => request.isRemoved === false).map(request => ({
+        _id: request._id,
+        firstName: request.firstName,
+        lastName: request.lastName,
+        profileImageID: request.profileImageID,
+        timeCreate: Utils.exportDate(request.timeCreate),
+    }));
 }
 function addRequest(user) {
-    let new_user = addUserInArray(user, this.requests);
-    if (new_user) {
-        user.addRequested(this);
-        return user;
-    }
-    return null;
+    return addUserInArray(user, this.requests) ? user.addRequested.call(user, this) ? user : null : null;
 }
 function removeRequest(user) {
-    let remove_user = removeUserFromArray(user, this.requests);
-    if (remove_user) {
-        user.removeRequested(this);
-        return user;
-    }
-    return null;
+    return removeUserFromArray(user, this.requests) ? user.removeRequested.call(user, this) ? user : null : null;
+}
+function getRequesteds() {
+    return this.requesteds.filter(requested => requested.isRemoved === false).map(requested => ({
+        _id: requested._id,
+        firstName: requested.firstName,
+        lastName: requested.lastName,
+        profileImageID: requested.profileImageID,
+        timeCreate: Utils.exportDate(requested.timeCreate),
+    }));
 }
 function addRequested(user) {
     return addUserInArray(user, this.requesteds) ? user : null;
@@ -324,114 +268,76 @@ function removeRequested(user) {
     return removeUserFromArray(user, this.requesteds) ? user : null;
 }
 function confirmRequested(user) {
-    if (addFriend(user, true)) {
-        removeRequested(user);
-        return user;
-    }
-    return null;
+    return (addFriend(user, true) && removeRequested(user)) ? user : null;
+}
+function getClassRequests() {
+    return this.classrequests.filter(request => request.isRemoved === false).map(request => ({
+        _id: request.id,
+        name: request.name,
+        profileImageID: null,
+    }));
 }
 function addClassRequest(new_group) {
-    let group = addGroupInArray(new_group, this.classrequests);
-    if (group) {
-        new_group.addRequested(this);
-    }
-    return new_group;
+    return addGroupInArray(new_group, this.classrequests) ? new_group.addRequested.call(new_group, this) ? new_group : null : null;
 }
 function removeClassRequest(remove_group) {
-    let group = removeGroupFromArray(remove_group, this.classrequests);
-    if (group) {
-        remove_group.removeRequested(this);
-    }
-    return remove_group;
+    return removeGroupFromArray(remove_group, this.classrequests) ? remove_group.removeRequested.call(remove_group, this) : null;
 }
 function addToClass(group) {
     return addGroupInArray(group, this.classs) ? group : null;
 }
 function removeFromClass(group) {
-    return removeGroupFromArray(group, this.classs) ? group : null;
+    return (removeGroupFromArray(group, this.classs) && group.removeMember(this)) ? group : null;
+}
+function getClasss() {
+    return this.classs.filter(classItem => classItem.isRemoved === false).map(classItem => ({
+        id: classItem.id,
+        name: classItem.name,
+        profileImageID: classItem.profileImageID,
+    }));
 }
 
-function validateEmail(email, isRequired = false) {
-    if (!email) {
-        return !isRequired;
-    }
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-function validatePhoneNumber(phone, isRequired = false) {
-    if (!phone) {
-        return !isRequired;
-    }
-    var re = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    return re.test(phone) || re.test(Number(phone));
-}
 function validateUserName(username, isRequired = true) {
-    if (!username) {
-        return !isRequired;
-    }
-    var re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
-    if (re.test(username)) {
-        return true;
-    }
-    if (validateEmail(username)) {
-        return true;
-    }
-    if (validatePhoneNumber(username)) {
-        return true;
-    }
-    return false;
+    if (!username) return !isRequired;
+    let re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
+    if (re.test(username)) {return true; }
+    if (Utils.validateEmail(username)) { return true; }
+    return Utils.validatePhoneNumber(username);
 }
 function validateGender(gender, isRequired = false) {
-    if (!gender) {
-        return !isRequired;
-    }
-    return GenderEnum[gender];
+    return gender ? GenderEnum[gender] : !isRequired;
 }
 function validateTypeUser(typeUser, isRequired = false) {
-    if (!typeUser) {
-        return !isRequired;
-    }
-    return TypeUserEnum[typeUser];
+    return typeUser ? TypeUserEnum[typeUser] : !isRequired;
 }
 function validateStatus(status, isRequired = false) {
-    if (!status) {
-        return !isRequired;
-    }
-    return StatusEnum[status];
-}
-function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = true) {
-    if (typeof (obj) !== "string") {
-        return !isRequired;
-    }
-    return obj.length >= minLength && obj.length <= maxLength;
+    return status ? StatusEnum[status] : !isRequired;
 }
 function validateInputInfo(inputInfo, checkRequired = false) {
-    if (!inputInfo) {
-        return [];
-    }
+    if (!inputInfo) return [];
     let message = [];
     //---------- REQUIRED --------------
     if (!(validateUserName(inputInfo.username, checkRequired))) {
         message.push("UserName Invalid Format");
     }
-    if (!validateStringLength(inputInfo.firstName, 2, 20, checkRequired)) {
+    if (!Utils.validateStringLength(inputInfo.firstName, 2, 20, checkRequired)) {
         message.push("FirstName Invalid Format");
     }
-    if (!validateStringLength(inputInfo.lastName, 2, 20, checkRequired)) {
+    if (!Utils.validateStringLength(inputInfo.lastName, 2, 20, checkRequired)) {
         message.push("LastName Invalid Format");
     }
-    if (!validateStringLength(inputInfo.password, 5, 20, checkRequired)) {
+    if (!Utils.validateStringLength(inputInfo.password, 5, 20, checkRequired)) {
         message.push("Password Invalid Format");
     }
     //------------ NOT REQUIRED ----------------
-    if (!validateStringLength(inputInfo.about, 0, 200, false)) {
+    if (!Utils.validateStringLength(inputInfo.about, 0, 200, false)) {
         message.push("About Invalid Format");
     }
-    if (!validateStringLength(inputInfo.quote, 0, 100, false)) {
+    if (!Utils.validateStringLength(inputInfo.quote, 0, 100, false)) {
         message.push("Quote Invalid Format");
     }
     if (inputInfo.nickname) {
-        if (!getStringArray(inputInfo.nickname)) {
+        if (!Utils.getStringArray(inputInfo.nickname)) {
             message.push("NickName Invalid Format");
         }
     }
@@ -440,10 +346,10 @@ function validateInputInfo(inputInfo, checkRequired = false) {
             message.push("Language Invalid Format");
         }
     }
-    if (!validateEmail(inputInfo.email, false)) {
+    if (!Utils.validateEmail(inputInfo.email, false)) {
         message.push("Email Invalid Format");
     }
-    if (!validatePhoneNumber(inputInfo.phone, false)) {
+    if (!Utils.validatePhoneNumber(inputInfo.phone, false)) {
         message.push("Phone Invalid Format");
     }
     if (!validateGender(inputInfo.gender, false)) {
@@ -469,19 +375,12 @@ function getGenderInfo(enum_id) {
 function getTypeUserInfo(enum_id) {
     return { enum_id: enum_id, text: TypeUserEnum[enum_id] };
 }
-function getStringArray(jsonContent) {
-    try {
-        return [...items] = JSON.parse(jsonContent);
-    } catch (error) {
-        return null;
-    }
-}
 function getArrayLanguage(languageString) {
     try {
         let [...languages] = JSON.parse(languageString);
         let data = [];
         for (let index = 0; index < languages.length; index++) {
-            var { code = 'en-US', text = 'English(US)', isDefault = false,} = languages[index];
+            let { code = 'en-US', text = 'English(US)', isDefault = false,} = languages[index];
             data.push({
                 _id: index,
                 code: code,
@@ -495,24 +394,20 @@ function getArrayLanguage(languageString) {
     }
 }
 function getBirthDate(dateString) {
-    if (!dateString) {
-        return null;
-    }
-    var date = new Date(dateString + "Z");
-    return isNaN(date.getDate()) ? null : date;
+    return Utils.parseDate(dateString);
 }
 function getNewID() {
     return new Date().getTime();
 }
 function verifyPassword(password, cb) {
     bcrypt.compare(password, this.password, (err, isMatch) => err ? cb(err) : cb(null, isMatch));
-};
+}
 function getInfo(params) {
     if (!params) {
-        return getBasicInfo();
+        return getBasicInfo.call(this);
     }
     let o = {};
-    let ignoreField = ['password', 'isDeleted'];
+    let ignoreField = ['password', 'isDeleted', 'classs', 'friends'];
     for (let param in params) {
         if (ignoreField.indexOf(param) > -1) {
             continue;
@@ -521,7 +416,7 @@ function getInfo(params) {
         if (field) {
             o[param] = field;
         }
-    };
+    }
     return o;
 }
 function getBasicInfo() {
@@ -532,42 +427,34 @@ function getBasicInfo() {
         lastName: this.lastName,
         typeuser: { enum_id: this.typeuser, text: TypeUserEnum[this.typeuser] },
         email: this.email,
-        birthday: this.birthday ? this.birthday.toLocaleString() : null,
+        birthday: Utils.exportDate(this.birthday),
         phone: this.phone,
-        gender: { enum_id: this.gender, text: GenderEnum[this.typeuser] },
+        gender: { enum_id: this.gender, text: GenderEnum[this.gender] },
         about: this.about,
         quote: this.quote,
         location: this.location,
-        // nickname: this.nickname,
-        // friends:        this.friends,
-        // classs:         this.classs,
-        // status:         {enum_id: this.status, text: StatusEnum[this.status]},
         profileImageID: this.profileImageID,
         coverImageID: this.coverImageID,
     }
 }
+
 function isNormalUser() {
-    return TypeUserEnum[this.typeuser] == 'Normal';
+    return TypeUserEnum[this.typeuser] === 'Normal';
 }
-
 function isTeacher() {
-    return TypeUserEnum[this.typeuser] == 'Teacher';
+    return TypeUserEnum[this.typeuser] === 'Teacher';
 }
-
 function isSystem() {
-    return TypeUserEnum[this.typeuser] == 'System';
+    return TypeUserEnum[this.typeuser] === 'System';
 }
 /*-------------------------------------- */
 UserSchema.statics.GenderInfo = getGenderInfo;
 UserSchema.statics.TypeUserInfo = getTypeUserInfo;
-UserSchema.statics.validateEmail = validateEmail;
-UserSchema.statics.validatePhoneNumber = validatePhoneNumber;
 UserSchema.statics.validateUserName = validateUserName;
 UserSchema.statics.validateGender = validateGender;
 UserSchema.statics.validateTypeUser = validateTypeUser;
 UserSchema.statics.validateStatus = validateStatus;
 UserSchema.statics.validateInputInfo = validateInputInfo;
-UserSchema.statics.getStringArray = getStringArray;
 UserSchema.statics.getArrayLanguage = getArrayLanguage;
 UserSchema.statics.getBirthDate = getBirthDate;
 UserSchema.statics.getNewID = getNewID;
@@ -593,4 +480,10 @@ UserSchema.methods.removeClassRequest = removeClassRequest;
 
 UserSchema.methods.addToClass = addToClass;
 UserSchema.methods.removeFromClass = removeFromClass;
+UserSchema.methods.getClasss = getClasss;
+UserSchema.methods.getClassRequests = getClassRequests;
+UserSchema.methods.getFriends = getFriends;
+UserSchema.methods.getRequests = getRequests;
+UserSchema.methods.getRequesteds = getRequesteds;
+
 module.exports = mongoose.model('User', UserSchema); 
