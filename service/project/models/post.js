@@ -71,6 +71,7 @@ var PostSchema = new mongoose.Schema({
     },
     files: {
         type: [{
+            _id: Number,
             name: { type: String, required: true, default: 'NoName' },
             type: { type: String, required: true, default: 'application/octet-stream', },
             size: { type: Number, required: true, default: 0, },
@@ -185,6 +186,9 @@ function addTopic(topic_name) {
     }
     return topic;
 }
+function getFiles() {
+    return this.files.filter(file => file.isDeleted === false);
+}
 function removeTopic(topic_name) {
     let topic = this.topics.find(t => t._id == topic_name);
     if (topic && !topic.isDeleted) {
@@ -225,7 +229,7 @@ PostSchema.methods.addComment = addComment;
 PostSchema.methods.setBlockComment = setBlockComment;
 PostSchema.methods.addTopic = addTopic;
 PostSchema.methods.removeTopic = removeTopic;
-
+PostSchema.methods.getFiles = getFiles;
 PostSchema.statics.getNewID = getNewID;
 
 module.exports = mongoose.model('Post', PostSchema);

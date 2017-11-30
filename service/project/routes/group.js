@@ -7,7 +7,7 @@ let fileController = require('../controllers/fileitem');
 /*-------------------GROUP_API-----------------------*/
 // router.route('/').post(groupController.postGroup, groupController.getGroup);
 router.route('/all').get(groupController.getGroups);
-router.route('/create/:userID').post(groupController.postGroup, groupController.getGroup);
+router.route('/create/:userID').post(userController.checkUserRequest, groupController.postGroup, groupController.getGroup);
 router.route('/info/:groupID').get(groupController.checkGroupRequest, groupController.getGroup);
 router.route('/profileImage/:groupID')
     .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileController.getFile)
@@ -29,7 +29,8 @@ router.route('/action/:groupID/:userID')
     .delete(groupController.checkGroupRequest, groupController.deleteGroup, groupController.getGroup);
 router.route('/files/:groupID')
     .get(groupController.checkGroupRequest, groupController.getFiles)
-    .post(groupController.checkGroupRequest, fileController.fileUpload, fileController.postFile, groupController.postFile, );
+    // .post(groupController.checkGroupRequest, fileController.fileUpload, fileController.postFile, fileController.getInfoFile )
+    .post(groupController.checkGroupRequest, fileController.arrayFileUpload, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(groupController.searchGroupByName);
 router.route('/post/:groupID').get(groupController.checkGroupRequest, groupController.getPosts);
 router.route('/post/:groupID/:userID')

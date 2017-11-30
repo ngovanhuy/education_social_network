@@ -59,6 +59,15 @@ function getStringArray(jsonContent) {
         return null;
     }
 }
+function isNumber(o) {
+    if (isNaN(o)) {
+        return false;
+    }
+    if (typeof(o) === 'number') {
+        return true;
+    }
+    return !isNaN(Number(o));
+}
 exports.setLog = _isLog => {
     isLog = _isLog === true;
 };

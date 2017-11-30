@@ -3,9 +3,9 @@ let multer = require('multer');
 let fs = require('fs');
 let path = require('path');
 let UPLOAD_PATH = 'uploads/';
-let MAX_FILE_SIZE = 1 << 26;// 64M
-let MAX_IMAGE_SIZE = 1 << 23; //8M
-let file_upload = multer({// var storage = multer.memoryStorage();
+// let MAX_FILE_SIZE = 1 << 26;// 64M
+// let MAX_IMAGE_SIZE = 1 << 23; //8M
+let file_upload = multer({// let storage = multer.memoryStorage();
     dest: UPLOAD_PATH,
     // storage: storage,
     // limits: {
@@ -18,9 +18,9 @@ let image_upload = multer({
         if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
             return cb(new Error('Only image files are allowed!'), false);
         }
-        if (file.length > MAX_IMAGE_SIZE) { //8M
-            return cb(new Error('File Large. Only support Image < 8M'), false);
-        }
+        // if (file.length > MAX_IMAGE_SIZE) { //8M
+        //     return cb(new Error('File Large. Only support Image < 8M'), false);
+        // }
         cb(null, true);
     },
 });
@@ -34,7 +34,8 @@ async function checkFileExited(file) {
 async function checkFilesExisted(files) {
     return new Promise(resolve => {
         let promises = files.map(file => {
-            return checkFileExited(file, error => reject(error)).then(exists => exists ? file : null);
+            // return checkFileExited(file, error => reject(error)).then(exists => exists ? file : null);
+            return checkFileExited(file, error => error).then(exists => exists ? file : null);
         });
         let datas = [];
         Promise.all(promises).then(files => {
@@ -48,42 +49,79 @@ async function checkFilesExisted(files) {
     });
 }
 async function getAllFiles() {
-    // return (await FileItem.find({isDeleted: false }, {_id: 1, name: 1, type: 1, size: 1, createDate: 1, user: 1, group: 1})).map(file => {
-    //     return file.getBasicInfo();
-    // });
     return (await FileItem.find({isDeleted: false })).map(file => {
         return file.getBasicInfo();
     });
 }
 async function findFile(req) {
-    if (!req) {
-        return null;
-    }
-    let file = req.files.file_selected;
-    if (file) {
-        return file;
+    if (!req) { return null; }
+    if (req.files.file_selected) {
+        return req.files.file_selected;
     }
     if (req.files.file_selected_id) {
-        file = await FileItem.findById(req.files.file_selected_id);
-        if (file) {
-            return file;
-        }
+        return await FileItem.findById(req.files.file_selected_id);
     }
     if (req.params.fileID) {
-        file = await FileItem.findById(req.params.fileID);
-        if (file) {
-            return file;
-        }
+        return await FileItem.findById(req.params.fileID);
     }
     if (req.body.fileID) {
-        file = await FileItem.findById(req.body.fileID);
-        if (file) {
-            return file;
-        }
+        return await FileItem.findById(req.body.fileID);
     }
     return null;
 }
-
+async function postFiles(req, res, next) {
+    try {
+        req.files.file_saved = null;
+        req.files.file_selected_id = null;
+        req.files.files_saved = null;
+        if (!req.files) {
+            throw new Error("Input files null");
+        }
+        let current_user = null;
+        let current_group = null;
+        if (req.users.user_request) {
+            let user = req.users.user_request;
+            current_user = {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            }
+        }
+        if (req.groups.group_request) {
+            let group = req.groups.group_request;
+            current_group = {
+                _id: group._id,
+                name: group.name,
+            }
+        }
+        let files = [];
+        let now = Date.now();
+        req.files.forEach(file => {
+            let fileSave = new FileItem({
+                id: file.filename,
+                name: file.originalname,
+                type: file.mimetype,
+                size: file.size,
+                createDate: now,
+                isDeleted: false,
+                user: current_user,
+                group: current_group,
+            });
+            files.push(fileSave);
+        });
+        Promise.all(files.map(file => file.save())).then(filesaveds => {
+            req.files.files_saved = filesaveds;
+            next();
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Upload Failed',
+            data: null,
+            error: error.message
+        });
+    }
+}
 async function postFile(req, res, next) {
     try {
         req.files.file_saved = null;
@@ -242,6 +280,31 @@ async function getInfoFile(req, res) {
         });
     }
 }
+async function getInfoFiles(req, res) {
+    try {
+        let files = req.files.files_saved;
+        if (!files) {
+            return res.status(400).json({
+                code: 400,
+                message: 'Files not exited or deleted.',
+                data: null
+            });
+        }
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: files.filter(file => file.isDeleted === false).map(file => file.getBasicInfo()),
+        });
+    } catch (error) {
+        return res.status(400).json({
+            code: 400,
+            message: 'Not exit file.',
+            data: null,
+            error: error.message
+        });
+    }
+}
+
 async function getOrAttachFile(req, res, isAttach) {
     try {
         let file = await findFile(req);
@@ -303,27 +366,49 @@ async function getFiles(req, res, next) {
         return next(error);
     }
 }
-
 async function cleanUploadFolder() {
     let files = await FileItem.find({isDeleted : true});
     let filesExisted = await checkFilesExisted(files);
     let errorHandler = err => {};
     filesExisted.forEach(file => {
-        // console.log("Deleted:" + getLocalFilePath(file));
         fs.unlink(getLocalFilePath(file), errorHandler);
     });
     return filesExisted;
 }
+
 /*----------------------------------------------- */
-exports.fileUpload = file_upload.single('fileUpload');
-exports.imageUpload = image_upload.single('imageUpload');
-exports.coverUpload = image_upload.single('coverImage');
-exports.profileUpload = image_upload.single('profileImage');
+let singleFileUpload = file_upload.single('fileUpload');
+let singleImageUpload = image_upload.single('imageUpload');
+let arrayFileUpload = file_upload.array('fileUpload', 10);
+let arrayImageUpload = image_upload.array('imageUpload', 10);
+let mixFileImageUpload = file_upload.fields([
+    {name: 'coverImage', maxCount: 1},
+    {name: 'profileImage', maxCount: 1},
+    {name: 'fileUpload', maxCount: 5},
+    {name: 'imageUpload', maxCount: 5},
+]);
+
+let coverImageUpload = file_upload.single('coverImage');
+let profileImageUpload = file_upload.single('profileImage');
+
+let anyFileUpload = file_upload.any();
+
+exports.anyFileUpload = anyFileUpload;
+exports.fileUpload = singleFileUpload;
+exports.imageUpload = singleImageUpload;
+exports.coverUpload = coverImageUpload;
+exports.profileUpload = profileImageUpload;
+exports.arrayFileUpload = arrayFileUpload;
+exports.arrayImageUpload = arrayImageUpload;
+exports.mixFileImageUpload = mixFileImageUpload;
+
 exports.getFiles = getFiles;
 exports.attachFile = attachFile;
 exports.getFile = getFile;
 exports.getInfoFile = getInfoFile;
+exports.getInfoFiles = getInfoFiles;
 exports.deleteFile = deleteFile;
 exports.postFile = postFile;
+exports.postFiles = postFiles;
 exports.cleanUploadFolder = cleanUploadFolder;
 exports.postFileIfHave = postFileIfHave;
