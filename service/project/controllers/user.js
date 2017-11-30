@@ -2,6 +2,7 @@ let User = require('../models/user');
 let GroupController = require('../controllers/group');
 let Files = require('../models/fileitem');
 let Utils = require('../application/utils');
+let Posts = require('../models/post');
 
 async function getUserByID(id) {
     if (!id) {
@@ -884,6 +885,42 @@ async function searchUserByName(req, res) {
     }
 }
 
+async function getPosts(req, res) {
+    try {
+        let userID = Number(req.params.userID);
+        if (!userID) {
+            return res.status(400).json({
+                code: 400,
+                message: 'userID invalid',
+                data: null
+            });
+        }
+        let datas = (await Posts.find({
+            isDeleted: false,
+            'userCreate._id': userID,
+        })).map(post => ({
+            id: post._id,
+            title: post.title,
+            content: post.content,
+            timeCreate: Utils.exportDate(post.timeCreate),
+            countComments: post.countComments,
+            countLikes: post.countLikes,
+            files: post.getFiles(),
+        }));
+        return res.send({
+            code: 200,
+            message: 'Success',
+            length: datas.length,
+            data: datas
+        });
+    } catch (error) {
+        return res.status(500).json({
+            code: 500,
+            message: 'Server Error',
+            data: null
+        });
+    }
+}
 /*----------------EXPORT------------------ */
 exports.postUser = postUser;
 exports.putUser = putUser;
@@ -922,3 +959,4 @@ exports.getUsers = getUsers;
 exports.login = login;
 exports.getFiles = getFiles;
 exports.searchUserByName = searchUserByName;
+exports.getPosts = getPosts;
