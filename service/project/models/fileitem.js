@@ -1,14 +1,12 @@
-var mongoose = require('mongoose');
-
-var FileItemSchema = new mongoose.Schema({
+let mongoose = require('mongoose');
+let Utils = require('../application/utils');
+let FileItemSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true, },
     name: { type: String, required: true, default: 'NoName' },
     type: { type: String, required: true, default: 'application/octet-stream', },
     size: { type: Number, required: true, default: 0, },
-    createDate: { type: Date, required: false, default: Date.now(), },//YYYY-MM-DD HH:mm:ss
+    createDate: { type: Date, required: false, default: Date.now(), },
     isDeleted: { type: Boolean, required: true, default: false, },
-    // userID: { type: Number, required: false, default: null },
-    // groupID: { type: Number, required: false, default: null },
     user: {
         type: {
             _id: Number,
@@ -36,7 +34,7 @@ FileItemSchema.methods.getBasicInfo = function() {
         size:       this.size,
         user:       this.user,
         group:      this.group,
-        createDate: this.createDate.toLocaleString(),
+        createDate: Utils.exportDate(this.createDate),
     }
-}
+};
 module.exports = mongoose.model('FileItem', FileItemSchema);

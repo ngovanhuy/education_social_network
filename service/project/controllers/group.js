@@ -1,5 +1,6 @@
 let Group = require('../models/group');
-let Users = require('../controllers/user');
+let UserControllers = require('../controllers/user');
+let Users = require('../models/user')
 let Files = require('../models/fileitem');
 let Post = require('../models/post');
 let Utils = require('../application/utils');
@@ -42,7 +43,7 @@ async function addMember(req, res) {
         let group = req.groups.group_request;
         if (!group) throw new Error();
         let userID = req.params.userID ? req.params.userID : req.body.userID;
-        let user = await Users.getUserByID(userID);
+        let user = await UserControllers.getUserByID(userID);
         if (!user) {
             return res.status(400).send({
                 code: 400,
@@ -83,7 +84,7 @@ async function removeMember(req, res) {//, next) {
         let group = req.groups.group_request;
         if (!group) throw new Error();
         let userID = req.params.userID ? req.params.userID : req.body.userID;
-        let user = await Users.getUserByID(userID);
+        let user = await UserControllers.getUserByID(userID);
         if (!user) {
             return res.status(400).send({
                 code: 400,
@@ -121,7 +122,7 @@ async function updateMember(req, res) {
         let group = req.groups.group_request;
         if (!group) throw new Error();
         let userID = req.params.userID ? req.params.userID : req.body.userID;
-        let user = await Users.getUserByID(userID);
+        let user = await UserControllers.getUserByID(userID);
         if (!user) {
             return res.status(400).send({
                 code: 400,
@@ -178,7 +179,7 @@ async function removeRequested(req, res) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        let user = await Users.findUser(req, false);
+        let user = await UserControllers.findUser(req, false);
         //req.users.user_request = user;
         if (!user) {
             return res.status(400).send({
@@ -214,7 +215,7 @@ async function confirmRequested(req, res) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        let user = await Users.findUser(req, false); //req.users.user_request = user;
+        let user = await UserControllers.findUser(req, false); //req.users.user_request = user;
         if (!user) {
             return res.status(400).send({
                 code: 400,
@@ -278,8 +279,8 @@ async function updateGroupInfo(req, group, isCheckValidInput = true) {
 }
 async function postGroup(req, res, next) {
     try {
-        let user = await Users.findUser(req);
-        if (!user || !user.isTeacher) {
+        let user = req.users.user_request;
+        if (!user.isTeacher()) {
             return res.status(400).send({
                 code: 400,
                 data: null,
@@ -301,19 +302,47 @@ async function postGroup(req, res, next) {
             isDeleted: false,
             dateCreated: Date.now(),
         });
-        group.addAdmin(user);
-        message = await updateGroupInfo(req, group, false);
-        if (!message || message.length > 0) {
-            return res.status(400).send({
-                code: 400,
-                message: message,
-                data: null,
-                error: 'Request Invalid',
-            });
+        if (group.addAdminMember(user)) {
+            message = await updateGroupInfo(req, group, false);
+            if (!message || message.length > 0) {
+                return res.status(400).send({
+                    code: 400,
+                    message: message,
+                    data: null,
+                    error: 'Request Invalid',
+                });
+            }
+            // if (user.addToClass(group)) {
+            //     group = await group.save();
+            //     user = await user.save();
+            //     req.groups.group_request = group;
+            //     req.users.user_request = user;
+            // } else {
+            //     throw new Error("Add class to member error");
+            // }
+        } else {
+            throw new Error("Add member to class error");
         }
-        group = await group.save();
-        req.groups.group_request = group;
-        return next();
+        if (req.body.members) {
+            let userIDs = Utils.getStringArray(req.body.members).map(item => Number(item));
+            let users = await Users.find({id: {$in: userIDs}});
+            // users.forEach(user => {
+            //    if (user.isTeacher()) {
+            //        group.addAdminMember(user);
+            //    } else {
+            //        group.addNormalMember(user);
+            //    }
+            // });
+            Promise.all(users.map(user => user.save())).then(usersaved => {
+                next();
+            });
+        } else {
+            user = await user.save();
+            group = await group.save();
+            req.users.user_request = user;
+            req.groups.group_request = group;
+            return next();
+        }
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -327,7 +356,7 @@ async function putGroup(req, res, next) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        let user = await Users.findUser(req);
+        let user = await UserControllers.findUser(req);
         if (!user || !group.isAdmin(user)) {
             return res.status(400).send({
                 code: 400,
@@ -337,9 +366,9 @@ async function putGroup(req, res, next) {
             });
         }
         let message = Group.validateInputInfo(req.body, false);
-        if (message && message.length == 0) {
+        if (message && message.length === 0) {
             message = await updateGroupInfo(req, group, false);
-            if (message && message.length == 0) {
+            if (message && message.length === 0) {
                 group = await group.save();
                 return next();
             }
@@ -363,7 +392,7 @@ async function deleteGroup(req, res, next) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        let user = await Users.findUser(req);
+        let user = await UserControllers.findUser(req);
         if (!user || !group.isAdmin(user)) {
             return res.status(400).send({
                 code: 400,
@@ -543,27 +572,6 @@ async function searchGroupByName(req, res) {
         return res.status(500).json({ code: 500, message: '', data: [] });
     }
 }
-async function postFile(req, res) {
-    try {
-        let group = req.groups.group_request;
-        if (!group) throw new Error();
-        let currentFile = req.files.file_saved;
-        if (!currentFile) { throw new Error("Upload file Error"); }
-        group = await group.save();
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: currentFile.getBasicInfo(),
-        });
-    } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
-    }
-}
 async function addPost(req, res, next) {
     try {
         let group = req.groups.group_request;
@@ -590,8 +598,8 @@ async function addPost(req, res, next) {
                 error: error.message
             });
         }
-        let isShow = req.body.isShow ? req.body.isShow == 'true' ? true : false : false;
-        let isSchedule = req.body.isSchedule ? req.body.isSchedule == 'true' ? true : false : false;
+        let isShow = req.body.isShow ? req.body.isShow : false;
+        let isSchedule = req.body.isSchedule ? req.body.isSchedule : false;
         let scopeType = req.body.scopeType ? req.body.scopeType : 10;
         let startTime = req.body.startTime ? Utils.parseDate(req.bodyiinp.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
@@ -701,6 +709,5 @@ exports.findGroup = findGroup;
 exports.getGroupByID = getGroupByID;
 exports.getFiles = getFiles;
 exports.searchGroupByName = searchGroupByName;
-exports.postFile = postFile;
 exports.addPost = addPost;
 exports.getPosts = getPosts;

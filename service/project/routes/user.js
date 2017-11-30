@@ -45,8 +45,11 @@ router.route('/classrequest/:userID/:groupID')
     .delete(userController.checkUserRequest, groupController.checkGroupRequest, userController.removeClassRequest);
 
 router.route('/login/').post(userController.login);
-router.route('/info/:userID').get(userController.checkUserRequest, userController.getUserInfo);
-router.route('/files/:userID').get(userController.checkUserRequest, userController.getFiles);
+router.route('/info/:userID')
+    .get(userController.checkUserRequest, userController.getUserInfo);
+router.route('/files/:userID')
+    .get(userController.checkUserRequest, userController.getFiles)
+    .post(userController.checkUserRequest, fileController.arrayFileUpload, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(userController.searchUserByName);
 router.route('/:userID')
     .get(userController.checkUserRequest, userController.getUser)

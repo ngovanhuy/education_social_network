@@ -358,7 +358,10 @@ function addMember(user, typemember = 1) {//TODO: check owner.
     };
     this.members.push(member);
     this.memberCount++;
-    return user;
+    if (user.addToClass(this)) {
+        return user;
+    }
+    return null;
 }
 function addNormalMember(user) {
     return addMember.call(this, user, 1);
