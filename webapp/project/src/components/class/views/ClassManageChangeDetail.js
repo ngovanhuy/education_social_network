@@ -7,6 +7,7 @@ class ClassManageChangeDetail extends Component {
         super(props);
 
         this.state = {
+            userId: '',
             classId: '',
             name: '',
             about: '',
@@ -20,6 +21,7 @@ class ClassManageChangeDetail extends Component {
 
     componentWillMount() {
         this.setState({
+            userId: this.props.user.id,
             classId: this.props.classDetail.id,
             name: this.props.classDetail.name,
             about: this.props.classDetail.about,
@@ -30,7 +32,8 @@ class ClassManageChangeDetail extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.classDetail !== this.props.classDetail) {
             this.setState({
-                classId: this.props.classDetail.id,
+                userId: nextProps.user.id,
+                classId: nextProps.classDetail.id,
                 name: nextProps.classDetail.name,
                 about: nextProps.classDetail.about,
                 location: nextProps.classDetail.location,
@@ -46,13 +49,13 @@ class ClassManageChangeDetail extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {classId, name, about, location} = this.state;
+        const {userId, classId, name, about, location} = this.state;
         this.setState({submitted: true});
-        this.props.dispatch(classActions.update(classId, name, about, location));
+        this.props.dispatch(classActions.update(userId, classId, name, about, location));
     }
 
     render() {
-        const {classId, name, about, location, submitted} = this.state;
+        const {name, about, location, submitted} = this.state;
         return (
             <div className="ui-box">
                 <div className="ui-box-title">
@@ -91,8 +94,10 @@ class ClassManageChangeDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const {classDetail} = state.classes
+    const {user} = state.authentication
     return {
-        classDetail
+        classDetail,
+        user
     }
 }
 

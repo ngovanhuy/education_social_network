@@ -37,9 +37,17 @@ class ClassFilePage extends Component{
         }
     }
 
-    handleUploadFile = function (file) {
-        const {classId} = this.props;
+    handleUploadFile = (classId, file) => {
         classService.uploadFile(classId, file)
+            .then(
+                this.props.dispatch(classActions.getById(classId)),
+                this.props.dispatch(classActions.getFiles(classId))
+            )
+    }
+
+    handleDeleteFile = (fileId) => {
+        const {classId} = this.props;
+        classService.deleteFile(fileId)
             .then(
                 this.props.dispatch(classActions.getById(classId)),
                 this.props.dispatch(classActions.getFiles(classId))
@@ -59,7 +67,8 @@ class ClassFilePage extends Component{
                     </div>
                     <div className="col-sm-10">
                         <div className="row">
-                            <ClassFiles files={classDetail.files} onUploadFile={this.handleUploadFile}/>
+                            <ClassFiles classId={classId} files={classDetail.files} onUploadFile={this.handleUploadFile}
+                                onDeleteFile={this.handleDeleteFile}/>
                         </div>
                     </div>
                 </div>

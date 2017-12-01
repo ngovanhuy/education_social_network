@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import Autosuggest from 'react-autosuggest';
 import {userService} from "../../../services/userService";
 import {classService} from "../../../services/classService";
@@ -16,6 +17,7 @@ class AddMember extends Component{
         super();
 
         this.state = {
+            classId: '',
             value: '',
             suggestions: [],
             memberCount: 0
@@ -24,6 +26,7 @@ class AddMember extends Component{
 
     componentWillMount() {
         this.setState({
+            classId: this.props.classId,
             memberCount: this.props.memberCount
         });
     }
@@ -63,7 +66,7 @@ class AddMember extends Component{
     };
 
     render(){
-        const { memberCount, value, suggestions } = this.state;
+        const { classId, memberCount, value, suggestions } = this.state;
 
         const inputProps = {
             placeholder: 'Enter username',
@@ -75,9 +78,9 @@ class AddMember extends Component{
                 <div className="add-member">
                     <h3>
                         Add members
-                        <a href="#">
+                        <Link to={`/classes/${classId}/members`}>
                             <span className="pull-right">{memberCount} members</span>
-                        </a>
+                        </Link>
                     </h3>
 
                     <div className="controls">

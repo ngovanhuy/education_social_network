@@ -359,7 +359,7 @@ class HomePage extends Component {
                 <div className="container">
                     <div className="home-page clearfix">
                         <div className="col-sm-2">
-                            <HomeLeftmenu schoolDetail={schoolDetail} user={user} classes={classUserJoined}/>
+                            <HomeLeftmenu schoolDetail={schoolDetail} classes={classUserJoined}/>
                         </div>
                         <div className="col-sm-10">
                             <div className="row">

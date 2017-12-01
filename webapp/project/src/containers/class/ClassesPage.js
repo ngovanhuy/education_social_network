@@ -5,6 +5,7 @@ import Classes from "../../components/class/Classes";
 import CreateClassModal from "../../components/class/views/CreateClassModal";
 import {userActions, classActions} from "../../actions";
 import {classConstants} from "../../constants/classConstants";
+import {userUtils} from "../../utils/userUtils";
 
 const updateStatusOfClass = (classDetail, classUserJoined, classUserRequest) => {
     var classNewDetail = {
@@ -64,14 +65,15 @@ class ClassesPage extends Component {
         }
     }
 
-    handleCreateClass = (className, membersInvited) => {
+    handleCreateClass = (userId, className, membersInvited) => {
         this.setState({modalIsOpen: false});
-        this.props.dispatch(classActions.insert(className));
+        this.props.dispatch(classActions.insert(userId, className));
     }
 
 
     render() {
         const {classes, classUserJoined, classUserRequest, user} = this.props
+        const isTeacher = userUtils.checkIsTeacher(user)
         var classHasStatus = updateStatusOfClasses(classes, classUserJoined, classUserRequest);
         return (
             <div>
@@ -82,16 +84,26 @@ class ClassesPage extends Component {
                                 <div className="col-sm-12">
                                     <div className="classes-header clearfix">
                                         <span className="current">Classes</span>
-                                        <div className="pull-right">
-                                            <a className="btn btn-primary btn-create-group" href="javascript:;"
-                                               onClick={this.openModal}>
-                                                <i className="fa fa-plus"></i>
-                                                Create Class
-                                            </a>
-                                            <CreateClassModal modalIsOpen={this.state.modalIsOpen}
-                                                              closeModal={this.closeModal}
-                                                              onSubmit={this.handleCreateClass}/>
-                                        </div>
+                                        {
+                                            isTeacher &&
+                                            (
+                                                <div className="pull-right">
+                                                    <a className="btn btn-primary btn-create-group" href="javascript:;"
+                                                       onClick={this.openModal}>
+                                                        <i className="fa fa-plus"></i>
+                                                        Create Class
+                                                    </a>
+                                                    {
+                                                        (user) && (
+                                                            <CreateClassModal modalIsOpen={this.state.modalIsOpen}
+                                                                              closeModal={this.closeModal}
+                                                                              userId={user.id}
+                                                                              onSubmit={this.handleCreateClass}/>
+                                                        )
+                                                    }
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +132,7 @@ const mapStateToProps = (state, ownProps) => {
         classes,
         user,
         classUserJoined,
-        classUserRequest
+        classUserRequest,
     }
 }
 

@@ -25,6 +25,12 @@ ul.nav li .user_full_name {
   padding: 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12); }
+.feed .no-post {
+  margin: 10px 15px;
+  padding: 10px;
+  background-color: #fff;
+  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  font-weight: bold; }
 
 .post-detail {
   padding: 10px 10px 0 10px; }
@@ -172,7 +178,8 @@ ul.nav li .user_full_name {
   .new-post .new-post-content .new-post-message {
     float: left; }
   .new-post .new-post-content .announcement {
-    width: 550px; }
+    width: 550px;
+    margin-top: 10px; }
   .new-post .new-post-content textarea {
     resize: vertical;
     min-height: 34px;

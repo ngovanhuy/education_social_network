@@ -9,12 +9,17 @@ export const classService = {
     getMembers,
     getRequests,
     getFiles,
+    getPosts,
+    getPostsByUser,
     insert,
+    insertPost,
     update,
     updateProfilePicture,
     uploadFile,
+    deleteFile,
     searchByClassname,
     addMember,
+    deleteMember
 };
 
 function getAll() {
@@ -71,24 +76,53 @@ function getFiles(classId) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function insert(name) {
+function getPosts(classId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/post/' + classId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getPostsByUser(classId, userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/post/' + classId + "/" + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function insert(userId, name) {
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
         body: JSON.stringify({name})
     };
-    const url = DOMAIN_SERVICE + '/groups';
+    const url = DOMAIN_SERVICE + '/groups/create/' + userId;
     return fetch(url, requestOptions)
         .then(handleResponse)
 }
 
-function update(classId, name, about, location) {
+function insertPost(classId, userId, title, content, topic, members, isSchedule, scopeType, startTime, endTime) {
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify({title, content, topic, members, isSchedule, scopeType, startTime, endTime})
+    };
+    const url = DOMAIN_SERVICE + '/groups/post/' + classId + "/" + userId;
+    return fetch(url, requestOptions)
+        .then(handleResponse)
+}
+
+function update(userId, classId, name, about, location) {
     const requestOptions = {
         method: 'PUT',
         headers: authHeader(),
         body: JSON.stringify({name, about, location})
     };
-    const url = DOMAIN_SERVICE + '/groups/' + classId;
+    const url = DOMAIN_SERVICE + '/groups/action/' + classId + "/" + userId;
     return fetch(url, requestOptions)
         .then(handleResponse)
 }
@@ -107,6 +141,15 @@ function uploadFile(classId, file) {
     return axios.post(uploadFileUrl, data);
 }
 
+function deleteFile(fileId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/files/delete/' + fileId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
 function searchByClassname(className) {
     const requestOptions = {
         method: 'GET',
@@ -119,6 +162,15 @@ function searchByClassname(className) {
 function addMember(classId, userId) {
     const requestOptions = {
         method: 'POST',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/members/' + classId + "/" + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function deleteMember(classId, userId) {
+    const requestOptions = {
+        method: 'DELETE',
         headers: authHeader()
     };
     const url = DOMAIN_SERVICE + '/groups/members/' + classId + "/" + userId;

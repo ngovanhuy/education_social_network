@@ -10,17 +10,9 @@ import {userActions} from "../../../actions/userActions";
 class ClassManageMemberRequest extends Component {
 
     componentWillMount() {
-        const {classId} = this.props;
-        this.props.dispatch(classActions.getById(classId));
-        this.props.dispatch(classActions.getRequests(classId));
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.classId !== this.props.classId) {
-            const {classId} = nextProps;
-            this.props.dispatch(classActions.getById(classId));
-            this.props.dispatch(classActions.getRequests(classId));
-        }
+        const {classDetail} = this.props;
+        this.props.dispatch(classActions.getById(classDetail.id));
+        this.props.dispatch(classActions.getRequests(classDetail.id));
     }
 
     renderMemberRequest = (memberRequest, classId, index) => {

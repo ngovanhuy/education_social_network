@@ -16,21 +16,7 @@ class ClassManagePage extends Component {
         }
     }
 
-    static propTypes = {
-        classDetail: PropTypes.object,
-        classId: PropTypes.string,
-        topics: PropTypes.array,
-        currentViewLink: PropTypes.string,
-        memberRequests: PropTypes.array,
-    }
-
     static defaultProps = {
-        // classDetail: {
-        //     coverPhotoUrl: '/images/cover_photo.jpg',
-        //     fullName: 'Chung ta la Anh em',
-        //     memberCount: 489,
-        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        // },
         topics: [{
             fullName: 'Task 1',
             topicName: 'task_1',
@@ -40,34 +26,11 @@ class ClassManagePage extends Component {
         }, {
             fullName: 'Task 3',
             topicName: 'task_3',
-        }],
-        memberRequests: [{
-            user: {
-                id: "1",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: 'ngovanhuy0241',
-            },
-            createTime: new Date()
-        }, {
-            user: {
-                id: "2",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: 'ngovanhuy0241',
-            },
-            createTime: new Date()
         }]
     }
 
-    handleSubmitChangeDetail = (classId, name, about, location) => {
-        this.props.dispatch(classActions.update(classId, name, about, location));
-    }
-
     render() {
-        const {classDetail, topics, classId, memberRequests} = this.props
+        const {classDetail, topics, classId} = this.props
         const queryStringParsed = queryString.parse(this.props.location.search)
         const currentViewLink = (queryStringParsed && queryStringParsed.currentViewLink) ? queryStringParsed.currentViewLink : 'memberRequests'
         return (
@@ -81,9 +44,7 @@ class ClassManagePage extends Component {
                     </div>
                     <div className="col-sm-10">
                         <div className="row">
-                            <ClassManage currentViewLink={currentViewLink} classId={classId}
-                                         classDetail={classDetail} memberRequests={memberRequests}
-                                         onSubmitChangeDetail={this.handleSubmitChangeDetail}/>
+                            <ClassManage currentViewLink={currentViewLink} classId={classId}/>
                         </div>
                     </div>
                 </div>

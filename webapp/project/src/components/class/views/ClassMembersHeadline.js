@@ -10,17 +10,17 @@ class ClassMembersHeadline extends Component {
                     <ul className="clearfix">
                         <li>
                             <Link to={`/classes/${className}/members`}>
-                                <span className={currentHeadline == "members" && 'current'}>Members</span>
+                                <span className={currentHeadline === "members" && 'current'}>Members</span>
                             </Link>
                         </li>
                         <li>
                             <Link to={`/classes/${className}/admins`}>
-                                <span className={currentHeadline == "admins" && 'current'}>Admins</span>
+                                <span className={currentHeadline === "admins" && 'current'}>Admins</span>
                             </Link>
                         </li>
                         <li>
                             <Link to={`/classes/${className}/teachers`}>
-                                <span className={currentHeadline == "teachers" && 'current'}>Teachers</span>
+                                <span className={currentHeadline === "teachers" && 'current'}>Teachers</span>
                             </Link>
                         </li>
                         <li className="pull-right">

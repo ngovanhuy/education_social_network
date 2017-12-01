@@ -8,6 +8,7 @@ import CreateClassModal from "../class/views/CreateClassModal";
 import {defaultConstants} from "../../constants";
 import {classActions} from "../../actions/classActions";
 import {fileUtils} from "../../utils/fileUtils";
+import {userUtils} from "../../utils/userUtils";
 
 class Header extends Component {
     constructor() {
@@ -31,13 +32,14 @@ class Header extends Component {
         this.setState({modalIsOpen: false});
     }
 
-    createClass = (className, membersInvited) => {
+    handleCreateClass = (userId, className, membersInvited) => {
         this.setState({modalIsOpen: false});
-        this.props.dispatch(classActions.insert(className));
+        this.props.dispatch(classActions.insert(userId, className));
     }
 
     render() {
         const {user} = this.props
+        const isTeacher = userUtils.checkIsTeacher(user)
         return (
             <header>
                 <nav className="navbar navbar-default navbar-static-top no-margin" role="navigation">
@@ -135,9 +137,17 @@ class Header extends Component {
                                     <li>
                                         <Link to={`/classes`}>Classes</Link>
                                     </li>
-                                    <li><a href="javascript:;" onClick={this.openModal}>Create class</a></li>
-                                    <CreateClassModal modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}
-                                                      onSubmit={this.createClass}/>
+                                    {
+                                        isTeacher &&
+                                        (
+                                            <li>
+                                                <a href="javascript:;" onClick={this.openModal}>Create class</a>
+                                                <CreateClassModal modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}
+                                                                  userId={user.id}
+                                                                  onSubmit={this.handleCreateClass}/>
+                                            </li>
+                                        )
+                                    }
                                     <li className="divider"></li>
                                     <li>
                                         <Link to={`/events`}>Events</Link>
@@ -160,7 +170,7 @@ class Header extends Component {
 function mapStateToProps(state) {
     const {user} = state.authentication;
     return {
-        user
+        user,
     };
 }
 

@@ -36,23 +36,23 @@ export function classes(state = {loading: false, items: [], classDetail: {}, cla
                 loading: false,
                 error: action.error
             };
-        case classConstants.CLASSES_GETBYUSERID_REQUEST:
-            return {
-                ...state,
-                loading: true
-            };
-        case classConstants.CLASSES_GETBYUSERID_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                classesByUserId: action.classes
-            };
-        case classConstants.CLASSES_GETBYUSERID_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
+        // case classConstants.CLASSES_GETBYUSERID_REQUEST:
+        //     return {
+        //         ...state,
+        //         loading: true
+        //     };
+        // case classConstants.CLASSES_GETBYUSERID_SUCCESS:
+        //     return {
+        //         ...state,
+        //         loading: false,
+        //         classesByUserId: action.classes
+        //     };
+        // case classConstants.CLASSES_GETBYUSERID_FAILURE:
+        //     return {
+        //         ...state,
+        //         loading: false,
+        //         error: action.error
+        //     };
         case classConstants.CLASSES_INSERT_REQUEST:
             return {
                 ...state,
@@ -142,6 +142,46 @@ export function classes(state = {loading: false, items: [], classDetail: {}, cla
                 }
             };
         case classConstants.CLASSES_GETFILES_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_GETPOSTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETPOSTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    posts: action.data
+                }
+            };
+        case classConstants.CLASSES_GETPOSTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_GETPOSTSBYUSER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETPOSTSBYUSER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    postsByUser: action.data
+                }
+            };
+        case classConstants.CLASSES_GETPOSTSBYUSER_FAILURE:
             return {
                 ...state,
                 loading: false,

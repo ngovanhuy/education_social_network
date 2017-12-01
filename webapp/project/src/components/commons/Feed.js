@@ -24,10 +24,13 @@ class Feed extends Component {
         return (
             <div className="feed">
                 {
-                    feed && feed.length > 0 &&
-                    feed.map((feedContent, index) =>
-                        this.renderFeedDetail(feedContent, index)
-                    )
+                    (feed && feed.length > 0) ?
+                        (
+                            feed.map((feedContent, index) =>
+                                this.renderFeedDetail(feedContent, index)
+                            )
+                        ) :
+                        <div className="no-post">No post</div>
                 }
             </div>
         )

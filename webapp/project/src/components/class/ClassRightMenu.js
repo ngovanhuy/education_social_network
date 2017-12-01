@@ -1,11 +1,14 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import ClassEventsUpcomming from "./views/ClassEventsUpcomming";
 import AddMember from "./views/AddMember";
 import ClassRecentFiles from "./views/ClassRecentFiles";
+import {userUtils} from "../../utils/userUtils";
 
 class ClassRightMenu extends Component{
     render(){
-        const {classDetail, events, recentFiles} = this.props
+        const {user, classDetail, events, recentFiles} = this.props
+        const isTeacher = userUtils.checkIsTeacher(user)
         return(
             <div>
                 <div className="row">
@@ -16,7 +19,12 @@ class ClassRightMenu extends Component{
                 <div className="row">
                     <div className="col-sm-12">
                         <div className="add-member-and-description-and-location">
-                            <AddMember memberCount={classDetail.memberCount} classId={classDetail.id}/>
+                            {
+                                isTeacher &&
+                                (
+                                    <AddMember memberCount={classDetail.memberCount} classId={classDetail.id}/>
+                                )
+                            }
                             <div className="description">
                                 <h3>About</h3>
                                 <span>{classDetail.about}</span>
@@ -30,7 +38,7 @@ class ClassRightMenu extends Component{
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <ClassRecentFiles recentFiles={recentFiles}/>
+                        <ClassRecentFiles classId={classDetail.id} recentFiles={recentFiles}/>
                     </div>
                 </div>
             </div>
@@ -38,4 +46,11 @@ class ClassRightMenu extends Component{
     }
 }
 
-export default ClassRightMenu;
+const mapStateToProps = (state, ownProps) => {
+    const {user} = state.authentication
+    return {
+        user
+    }
+}
+
+export default connect(mapStateToProps)(ClassRightMenu);

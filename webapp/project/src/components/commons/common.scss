@@ -40,6 +40,13 @@ ul.nav {
     background-color: #fff;
     border: .1rem solid rgba(0, 0, 0, 0.12);
   }
+  .no-post{
+    margin: 10px 15px;
+    padding: 10px;
+    background-color: #fff;
+    border: 0.1rem solid rgba(0, 0, 0, 0.12);
+    font-weight: bold;
+  }
 }
 
 .post-detail {
@@ -259,6 +266,7 @@ ul.nav {
     }
     .announcement {
       width: 550px;
+      margin-top: 10px;
     }
     textarea {
       resize: vertical;

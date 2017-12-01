@@ -7,6 +7,7 @@ import {defaultConstants} from "../../constants";
 import {classActions} from "../../actions";
 import {connect} from 'react-redux';
 import {fileUtils} from "../../utils/fileUtils";
+import {userUtils} from "../../utils/userUtils";
 
 class HomeLeftmenu extends Component {
     constructor() {
@@ -47,13 +48,14 @@ class HomeLeftmenu extends Component {
         )
     }
 
-    createClass = (className, membersInvited) => {
+    handleCreateClass = (userId, className, membersInvited) => {
         this.setState({modalCreateClassIsOpen: false});
-        this.props.dispatch(classActions.insert(className));
+        this.props.dispatch(classActions.insert(userId, className));
     }
 
     render() {
         const {schoolDetail, user, classes} = this.props
+        const isTeacher = userUtils.checkIsTeacher(user)
         return (
             <div className="home-leftmenu clearfix">
                 <div className="row">
@@ -130,13 +132,26 @@ class HomeLeftmenu extends Component {
                             </a>
                             <CreateEventModal modalIsOpen={this.state.modalCreateEventIsOpen}
                                               closeModal={this.closeModalCreateEvent}/>
-                            <span role="presentation" aria-hidden="true"> · </span>
-                            <a href="#" onClick={this.openModalCreateClass}>
-                                Class
-                            </a>
-                            <CreateClassModal modalIsOpen={this.state.modalCreateClassIsOpen}
-                                              closeModal={this.closeModalCreateClass}
-                                              onSubmit={this.createClass}/>
+                            {
+                                isTeacher &&
+                                (
+                                    <span>
+                                        <span role="presentation" aria-hidden="true"> · </span>
+                                        <a href="#" onClick={this.openModalCreateClass}>
+                                            Class
+                                        </a>
+                                        {
+                                            user &&
+                                            (
+                                                <CreateClassModal modalIsOpen={this.state.modalCreateClassIsOpen}
+                                                                  userId={user.id}
+                                                                  closeModal={this.closeModalCreateClass}
+                                                                  onSubmit={this.handleCreateClass}/>
+                                            )
+                                        }
+                                    </span>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -145,5 +160,12 @@ class HomeLeftmenu extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {
+        user,
+    };
+}
 
-export default connect(null, null)(HomeLeftmenu);
+
+export default connect(mapStateToProps)(HomeLeftmenu);

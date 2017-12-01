@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
+import {fileUtils} from "../../utils";
 
 class ClassFiles extends Component{
 
-    renderFile = (file, index) => {
+    renderFile = (file, index, onDeleteFile) => {
         const defaultImageDocument = "/images/basic-document.png"
         return(
             <div key={index} className="file clearfix">
@@ -45,7 +46,8 @@ class ClassFiles extends Component{
                         <span className="sr-only">Toggle Dropdown</span>
                     </a>
                     <ul role="menu" className="dropdown-menu">
-                        <li><a href={file.source} target="_blank" download="proposed_file_name">Download</a></li>
+                        <li><a href={fileUtils.renderFileSource(file.id)} target="_blank" download="proposed_file_name">Download</a></li>
+                        <li><a href="#" onClick={() => onDeleteFile(file.id)}>Delete This File</a></li>
                     </ul>
                 </div>
             </div>
@@ -53,14 +55,14 @@ class ClassFiles extends Component{
     }
 
     render(){
-        const {files, onUploadFile} = this.props
+        const {classId, files, onUploadFile, onDeleteFile} = this.props
         return(
             <div className="class-files files">
                 <div className="class-files-headline clearfix">
                     <h2 className="clearfix">
                         <span>Files</span>
 
-                        <FileInput name="classFile" onChange={(event) => onUploadFile(event.target.files[0])}>
+                        <FileInput name="classFile" onChange={(event) => onUploadFile(classId, event.target.files[0])}>
                             <button className="btn btn-white pull-right">
                                 <i className="fa fa-upload"></i>
                                 Upload file
@@ -71,7 +73,7 @@ class ClassFiles extends Component{
                 {
                     files && files.length > 0 ?
                         (
-                            files.map((file, index) => this.renderFile(file, index))
+                            files.map((file, index) => this.renderFile(file, index, onDeleteFile))
                         ) :
                         (
                             <p>No files upload</p>

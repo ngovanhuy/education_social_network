@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 
 import '../../commons/common.css'
+import {Link} from 'react-router-dom'
 
 class ClassRecentFiles extends Component{
     renderFile = (file, index) => {
@@ -36,13 +37,13 @@ class ClassRecentFiles extends Component{
     }
 
     render(){
-        const {recentFiles} = this.props
+        const {classId, recentFiles} = this.props
         return(
             <div className="class-recent-files files">
                 <div>
                     <h3>
                         Recent class files
-                        <a href="#" className="pull-right">See all</a>
+                        <Link to={`/classes/${classId}/files`} className="pull-right">See all</Link>
                     </h3>
                 </div>
                 {

@@ -8,7 +8,7 @@ class PostAddAttachment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            files: []
+            filesInfo: []
         };
         this.handleUploadFile = this.handleUploadFile.bind(this);
         this.handleRemoveFile = this.handleRemoveFile.bind(this);
@@ -16,24 +16,26 @@ class PostAddAttachment extends Component {
 
     handleUploadFile(event) {
         const file = event.target.files[0];
+        this.props.onUploadFile(file)
         this.setState({
-            files: [
-                ...this.state.files,
+            filesInfo: [
+                ...this.state.filesInfo,
                 fileUtils.fileToPlainObject(file)
             ]
         });
     }
 
     handleRemoveFile(index) {
+        this.props.onRemoveUploadFile(index)
         this.setState({
-            files: this.state.files.filter((_, i) => i !== index)
+            filesInfo: this.state.filesInfo.filter((_, i) => i !== index)
         })
     }
 
     render() {
         return (
             <div>
-                <PostAttachmentsPreviewer files={this.state.files} onRemoveFile={this.handleRemoveFile}/>
+                <PostAttachmentsPreviewer filesInfo={this.state.filesInfo} onRemoveFile={this.handleRemoveFile}/>
                 <div className="post-add-attachment">
                     <div className="row">
                         <div className="col-sm-12">

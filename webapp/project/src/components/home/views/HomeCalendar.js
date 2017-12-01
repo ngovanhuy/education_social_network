@@ -3,15 +3,14 @@ import {Link} from 'react-router-dom'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment';
+import {history} from "../../../helpers/history";
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 class HomeCalendar extends Component {
     handleClickEvent = (event) => {
-        // alertAuthen(event.title)
         var url = `/events/${event.id}`
-        var win = window.open(url, '_blank');
-        win.focus();
+        history.push(url)
     }
 
     render() {

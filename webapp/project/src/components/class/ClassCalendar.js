@@ -5,6 +5,7 @@ import BigCalendar from 'react-big-calendar'
 import moment from 'moment';
 import CreateEventModal from "../event/views/CreateEventModal";
 import ClassEventsCalendarHeadline from "./views/ClassEventsCalendarHeadline";
+import {history} from "../../helpers/history";
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
@@ -29,8 +30,7 @@ class ClassCalendar extends Component {
     handleClickEvent = (event) => {
         // alertAuthen(event.title)
         var url = `/events/${event.id}`
-        var win = window.open(url, '_blank');
-        win.focus();
+        history.push(url)
     }
 
     render() {

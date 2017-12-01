@@ -59,7 +59,7 @@ class CreateClassModal extends Component{
     }
 
     render(){
-        const {modalIsOpen, onSubmit} = this.props
+        const {userId, modalIsOpen, onSubmit} = this.props
         var modalTitle = 'Create New Group';
         return(
             <Modal
@@ -70,7 +70,9 @@ class CreateClassModal extends Component{
 
             >
                 <h2>{modalTitle}</h2>
-                <button className="mm-popup__close" onClick={this.props.closeModal}>×</button>
+                <button className="mm-popup__close"
+                        data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
+                        onClick={this.props.closeModal}>×</button>
                 <form className="create-class-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Name your class</label>
@@ -89,7 +91,7 @@ class CreateClassModal extends Component{
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
                             <button className="btn btn-white" onClick={this.props.closeModal}>Cancel</button>
-                            <button className="btn btn-primary" onClick={() => onSubmit(this.state.className, this.state.membersInvited)}>Create</button>
+                            <button className="btn btn-primary" onClick={() => onSubmit(userId, this.state.className, this.state.membersInvited)}>Create</button>
                         </div>
                     </div>
                 </form>

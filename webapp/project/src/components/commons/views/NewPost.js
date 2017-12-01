@@ -24,7 +24,7 @@ class NewPost extends Component {
     }
 
     render() {
-        const {classDetail} = this.props
+        const {classDetail, isTeacher} = this.props
         return (
             <div className="new-post">
                 <div className="new-post-headline">
@@ -36,18 +36,23 @@ class NewPost extends Component {
                                     Create announcement
                                 </div>
                             </Tab>
-                            <Tab>
-                                <div className="new-post-headline-content">
-                                    <i className="fa fa-tasks"></i>
-                                    Create assignment
-                                </div>
-                            </Tab>
-                            <Tab>
-                                <div className="new-post-headline-content">
-                                    <i className="fa fa-question-circle"></i>
-                                    Create question
-                                </div>
-                            </Tab>
+                            {
+                                isTeacher &&
+                                (
+                                    <Tab>
+                                        <div className="new-post-headline-content">
+                                            <i className="fa fa-tasks"></i>
+                                            Create assignment
+                                        </div>
+                                    </Tab>
+                                )
+                            }
+                            {/*<Tab>*/}
+                                {/*<div className="new-post-headline-content">*/}
+                                    {/*<i className="fa fa-question-circle"></i>*/}
+                                    {/*Create question*/}
+                                {/*</div>*/}
+                            {/*</Tab>*/}
                             <Tab disabled={true}>
                                 <div className="new-post-headline-content dropdown">
                                     <button data-toggle="dropdown" className="btn btn-white dropdown-toggle"
@@ -70,18 +75,21 @@ class NewPost extends Component {
                         <TabPanel>
                             <PostCreateAnnouncement/>
                         </TabPanel>
-                        <TabPanel>
-                            <PostCreateAssignment/>
-                        </TabPanel>
-                        <TabPanel>
-                            <h2>Any content 3</h2>
-                        </TabPanel>
+                        {
+                            isTeacher &&
+                            (
+                                <TabPanel>
+                                    <PostCreateAssignment/>
+                                </TabPanel>
+                            )
+                        }
+                        {/*<TabPanel>*/}
+                            {/*<h2>Any content 3</h2>*/}
+                        {/*</TabPanel>*/}
                         <TabPanel>
                         </TabPanel>
                     </Tabs>
                 </div>
-                <PostAddAttachment/>
-                <NewPostFooter classFullName={classDetail.fullName}/>
             </div>
         )
     }

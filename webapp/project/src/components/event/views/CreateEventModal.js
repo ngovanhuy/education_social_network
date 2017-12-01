@@ -30,19 +30,41 @@ const customStyles = {
     }
 };
 
-class CreateEventModal extends Component{
+class CreateEventModal extends Component {
+    constructor() {
+        super()
+        this.state = {
+            uploadedPhoto: false,
+            photoSource: '',
+        }
+        this.handleEventPhotoChanged = this.handleEventPhotoChanged.bind(this);
+        this.handleRemoveEventPhoto = this.handleRemoveEventPhoto.bind(this);
+    }
 
     handleEventPhotoChanged = function (event) {
         console.log('Selected file:', event.target.files[0]);
+        const file = event.target.files[0]
+        this.setState({
+            uploadedPhoto: true,
+            photoSource: URL.createObjectURL(file)
+        })
     }
 
-    render(){
+    handleRemoveEventPhoto() {
+        this.setState({
+            uploadedPhoto: false,
+            photoSource: ""
+        })
+    }
+
+    render() {
+        const {uploadedPhoto, photoSource} = this.state
         const {classDetail, modalIsOpen} = this.props
         var modalTitle = 'Create event';
-        if(classDetail && classDetail.fullName){
-            modalTitle += " for " + classDetail.fullName;
+        if (classDetail && classDetail.name) {
+            modalTitle += " for " + classDetail.name;
         }
-        return(
+        return (
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={this.props.closeModal}
@@ -51,19 +73,36 @@ class CreateEventModal extends Component{
 
             >
                 <h2>{modalTitle}</h2>
-                <button className="mm-popup__close" onClick={this.props.closeModal}>×</button>
+                <button className="mm-popup__close"
+                        data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
+                        onClick={this.props.closeModal}>×</button>
                 <form className="create-event-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Event Photo</label>
-                        <div className="col-sm-9 event-photo-upload clearfix">
-                            <div>
-                                <FileInput name="coverPhoto" onChange={this.handleEventPhotoChanged}>
-                                    <div className="upload-content">
-                                        <i className="fa fa-camera"></i>
-                                        <span>Upload Photo</span>
-                                    </div>
-                                </FileInput>
-                            </div>
+                        <div className="col-sm-9">
+                            {
+                                !uploadedPhoto ?
+                                    (
+                                        <div className="event-photo-upload clearfix">
+                                            <FileInput name="coverPhoto" onChange={this.handleEventPhotoChanged}>
+                                                <div className="upload-content">
+                                                    <i className="fa fa-camera"></i>
+                                                    <span>Upload Photo</span>
+                                                </div>
+                                            </FileInput>
+                                        </div>
+                                    ) :
+                                    (
+                                        <div className="event-photo-preview">
+                                            <img src={photoSource}/>
+
+                                            <button className="mm-popup__close btn-remove-event-photo"
+                                                    data-toggle="tooltip" data-placement="top" data-original-title="Remove event photo"
+                                                    onClick={this.handleRemoveEventPhoto}>×
+                                            </button>
+                                        </div>
+                                    )
+                            }
                         </div>
                     </div>
                     <div className="form-group">

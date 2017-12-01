@@ -9,8 +9,12 @@ import {defaultConstants} from "../../constants/defaultConstant";
 import {fileUtils} from "../../utils/fileUtils";
 
 class ClassMembers extends Component {
+    constructor(props) {
+        super(props)
+        this.renderMember = this.renderMember.bind(this);
+    }
 
-    renderMember = (member, index) => {
+    renderMember = (member, index, isTeacher) => {
         return (
             <div key={index} className="col-sm-6 col-md-4 col-lg-3">
                 <div className="panel panel-default panel-member">
@@ -26,15 +30,26 @@ class ClassMembers extends Component {
                                 </h4>
                             </div>
                         </Link>
-                        <div className="dropdown panel-member-col">
-                            <button data-toggle="dropdown" className="btn btn-white dropdown-toggle" type="button">
-                                <span className="fa fa-cog"></span>
-                                <span className="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul role="menu" className="dropdown-menu pull-right-xs">
-                                <li><a href="javascript:;">Remove from Class</a></li>
-                            </ul>
-                        </div>
+                        {
+                            isTeacher &&
+                            (
+                                <div className="dropdown panel-member-col">
+                                    <button data-toggle="dropdown" className="btn btn-white dropdown-toggle"
+                                            type="button">
+                                        <span className="fa fa-cog"></span>
+                                        <span className="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul role="menu" className="dropdown-menu pull-right-xs">
+                                        <li>
+                                            <a href="javascript:;"
+                                               onClick={() => this.props.onDeleteMember(this.props.classId, member._id)}>
+                                                Remove from Class
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
@@ -42,7 +57,7 @@ class ClassMembers extends Component {
     }
 
     render() {
-        const {members, classId, classMemberTitle} = this.props
+        const {isTeacher, members, classId, classMemberTitle} = this.props
         return (
             <div className="class-members">
                 {/*<ClassMembersHeadline currentHeadline="members" className={className}/>*/}
@@ -59,7 +74,7 @@ class ClassMembers extends Component {
                     {
                         members && members.length > 0 ?
                             (
-                                members.map((member, index) => this.renderMember(member, index))
+                                members.map((member, index) => this.renderMember(member, index, isTeacher))
                             ) :
                             (
                                 <div className="col-sm-6 col-md-4 col-lg-3">

@@ -9,6 +9,8 @@ export const classActions = {
     getMembers,
     getRequests,
     getFiles,
+    getPosts,
+    getPostsByUser,
     insert,
     update,
 };
@@ -109,11 +111,43 @@ function getFiles(classId) {
     function failure(error) { return { type: classConstants.CLASSES_GETFILES_FAILURE, error } }
 }
 
-function insert(name) {
+function getPosts(classId) {
     return dispatch => {
         dispatch(request());
 
-        classService.insert(name)
+        classService.getPosts(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_GETPOSTS_REQUEST } }
+    function success(data) { return { type: classConstants.CLASSES_GETPOSTS_SUCCESS, data } }
+    function failure(error) { return { type: classConstants.CLASSES_GETPOSTS_FAILURE, error } }
+}
+
+function getPostsByUser(classId, userId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.getPostsByUser(classId, userId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_GETPOSTSBYUSER_REQUEST } }
+    function success(data) { return { type: classConstants.CLASSES_GETPOSTSBYUSER_SUCCESS, data } }
+    function failure(error) { return { type: classConstants.CLASSES_GETPOSTSBYUSER_FAILURE, error } }
+}
+
+function insert(userId, name) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.insert(userId, name)
             .then(
                 response => {
                     dispatch(success(response.data));
@@ -128,11 +162,11 @@ function insert(name) {
     function failure(error) { return { type: classConstants.CLASSES_INSERT_FAILURE, error } }
 }
 
-function update(classId, name, about, location) {
+function update(userId, classId, name, about, location) {
     return dispatch => {
         dispatch(request());
 
-        classService.update(classId, name, about, location)
+        classService.update(userId, classId, name, about, location)
             .then(
                 response => {
                     dispatch(success(response.data));

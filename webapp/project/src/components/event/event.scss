@@ -392,7 +392,6 @@ $main-color: rgba(146, 181, 88, 1);
     width: 386px;
     height: 202px;
     display: flex;
-    margin: 0 15px;
     div {
       margin: auto;
     }
@@ -409,6 +408,16 @@ $main-color: rgba(146, 181, 88, 1);
         padding-bottom: 2px;
         vertical-align: middle;
       }
+    }
+  }
+  .event-photo-preview{
+    img{
+      width: 386px;
+      height: 202px;
+    }
+    .btn-remove-event-photo{
+      top: 10px;
+      right: 95px;
     }
   }
   textarea {
