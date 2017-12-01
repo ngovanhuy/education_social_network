@@ -74,7 +74,7 @@ async function postFiles(req, res, next) {
         req.files.file_saved = null;
         req.files.file_selected_id = null;
         req.files.files_saved = null;
-        if (!req.files) {
+        if (!req.files || !Array.isArray(req.files)) {
             throw new Error("Input files null");
         }
         let current_user = null;
@@ -96,6 +96,60 @@ async function postFiles(req, res, next) {
         }
         let files = [];
         let now = Date.now();
+        req.files.forEach(file => {
+            let fileSave = new FileItem({
+                id: file.filename,
+                name: file.originalname,
+                type: file.mimetype,
+                size: file.size,
+                createDate: now,
+                isDeleted: false,
+                user: current_user,
+                group: current_group,
+            });
+            files.push(fileSave);
+        });
+        Promise.all(files.map(file => file.save())).then(filesaveds => {
+            req.files.files_saved = filesaveds;
+            next();
+        }).catch(error => next(error));
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Upload Failed',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function postFilesIfHave(req, res, next) {
+    try {
+        req.files.file_saved = null;
+        req.files.file_selected_id = null;
+        req.files.files_saved = null;
+        if (!req.files || !Array.isArray(req.files)) {
+            return next();
+        }
+        let current_user = null;
+        let current_group = null;
+        if (req.users.user_request) {
+            let user = req.users.user_request;
+            current_user = {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            }
+        }
+        if (req.groups.group_request) {
+            let group = req.groups.group_request;
+            current_group = {
+                _id: group._id,
+                name: group.name,
+            }
+        }
+        let files = [];
+        let now = Date.now();
+        console.log(req.files);
         req.files.forEach(file => {
             let fileSave = new FileItem({
                 id: file.filename,
@@ -412,3 +466,4 @@ exports.postFile = postFile;
 exports.postFiles = postFiles;
 exports.cleanUploadFolder = cleanUploadFolder;
 exports.postFileIfHave = postFileIfHave;
+exports.postFilesIfHave = postFilesIfHave;

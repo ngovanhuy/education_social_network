@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-
-var CommentSchema = new mongoose.Schema({
+let mongoose = require('mongoose');
+let Utils = require('../application/utils');
+let CommentSchema = new mongoose.Schema({
     _id: Number,
-    content: String,//short_content.
+    content: String,
     user: {
         type: {
             _id: Number,
@@ -19,12 +19,16 @@ var CommentSchema = new mongoose.Schema({
         required: true,
         default: null,
     },
+    file: {
+        type: {_id: String, name: String, type: String, size: Number},
+        default:null,
+    },
     timeCreate: {type: Date, required: true, default: Date.now},
     timeUpdate: {type: Date, required: true, default: Date.now},
     isDeleted: {type: Boolean, required: true, default: false}
 });
 CommentSchema.pre('save', function (callback) {
-    var _this = this;
+    let _this = this;
     _this.timeUpdate = Date.now();
     return callback();
 });
@@ -32,17 +36,67 @@ CommentSchema.pre('save', function (callback) {
 function getBasicInfo() {
     return {
         id: this._id,
-        content: this.content,//short_content recomment
-        userID: this.userID,
-        groupID: this.groupID,
-        timeCreate: this.timeCreate.toLocaleString(),
-        timeUpdate: this.timeUpdate.toLocaleString(),
+        content: this.content,
+        user: this.user,
+        postID: this.postID,
+        timeCreate: Utils.exportDate(this.timeCreate),
+        timeUpdate: Utils.exportDate(this.timeUpdate),
     }
 }
-
+function addFile(fileItem) {
+    if (!fileItem) return null;
+    this.file = {
+        // _id: fileItem._id,
+        id: fileItem.id,
+        name: fileItem.name,
+        type: fileItem.type,
+        size: fileItem.size
+    };
+    return this.file;
+}
+function removeFile() {
+    this.file = null;
+}
 function getNewID() {
     return new Date().getTime();
 }
 
+function createNewComment(user, post, content, file) {
+    if (!user || !post || !content) {
+        return null;
+    }
+    let now = Date.now();
+    let comment = {
+        _id: now,
+        content: content,
+        user: {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImageID: user.profileImageID,
+            timeUpdate: now,
+        },
+        postID: post._id,
+        file: null,
+        timeCreate: now,
+        timeUpdate: now,
+        isDeleted: false
+    };
+    if (!file) addFile.call(comment, file);
+    return comment;
+}
+
+function addToPost(post) {
+    if (!post) return null;
+    this.postID = post._id;
+    return post;
+}
+
 CommentSchema.methods.getBasicInfo = getBasicInfo;
+CommentSchema.methods.getNewID = getNewID;
+CommentSchema.methods.addFile = addFile;
+CommentSchema.methods.removeFile = removeFile;
+CommentSchema.methods.addToPost = addToPost;
+
+CommentSchema.statics.createNewComment = createNewComment;
 module.exports = mongoose.model('Comment', CommentSchema);

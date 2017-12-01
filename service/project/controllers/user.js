@@ -918,7 +918,7 @@ async function getPosts(req, res) {
 async function getManyUsers(userIDs) {
     try {
         if (!userIDs) { return null; }
-        let userNumberIDs = userIDs.map(id => Number(id)).filter(id => !isNaN(id));
+        let userNumberIDs = Utils.getNumbers(userIDs);
         return await User.find({_id: {$in: userNumberIDs}});
     } catch(error) {
         return null;
