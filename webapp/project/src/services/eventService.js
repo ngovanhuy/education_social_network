@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const eventService = {
     getAll,
+    filter,
     getById,
     insert,
     update,
@@ -15,6 +16,16 @@ function getAll() {
         headers: authHeader()
     };
     const url = DOMAIN_SERVICE + '/events/all';
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function filter(textSearch, userId, classId, startDate, endDate) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader(),
+        body: JSON.stringify({textSearch, userId, classId, startDate, endDate})
+    };
+    const url = DOMAIN_SERVICE + '/groups/search';
     return fetch(url, requestOptions).then(handleResponse);
 }
 

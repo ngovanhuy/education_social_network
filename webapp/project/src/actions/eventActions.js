@@ -4,6 +4,7 @@ import {history} from "../helpers/history";
 
 export const eventActions = {
     getAll,
+    filter,
     getById,
     insert,
     update,
@@ -30,6 +31,30 @@ function getAll() {
 
     function failure(error) {
         return {type: eventConstants.EVENTS_GETALL_FAILURE, error}
+    }
+}
+
+function filter(textSearch, userId, classId, startDate, endDate) {
+    return dispatch => {
+        dispatch(request({textSearch, userId, classId, startDate, endDate}));
+
+        eventService.filter(textSearch, userId, classId, startDate, endDate)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request(filters) {
+        return {type: eventConstants.EVENTS_FILTER_REQUEST, filters}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_FILTER_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_FILTER_FAILURE, error}
     }
 }
 

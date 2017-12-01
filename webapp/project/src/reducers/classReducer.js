@@ -36,23 +36,6 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 error: action.error
             };
-        // case classConstants.CLASSES_GETBYUSERID_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     };
-        // case classConstants.CLASSES_GETBYUSERID_SUCCESS:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         classesByUserId: action.classes
-        //     };
-        // case classConstants.CLASSES_GETBYUSERID_FAILURE:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error: action.error
-        //     };
         case classConstants.CLASSES_INSERT_REQUEST:
             return {
                 ...state,

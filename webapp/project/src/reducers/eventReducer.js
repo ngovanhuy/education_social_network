@@ -19,6 +19,24 @@ export function events(state = {loading: false, items: [], eventDetail: {}}, act
                 loading: false,
                 error: action.error
             };
+        case eventConstants.EVENTS_FILTER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                filters: action.filters
+            };
+        case eventConstants.EVENTS_FILTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                items: action.events
+            };
+        case eventConstants.EVENTS_FILTER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
         case eventConstants.EVENTS_GETBYID_REQUEST:
             return {
                 ...state,

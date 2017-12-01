@@ -5,7 +5,6 @@ import axios from 'axios';
 export const classService = {
     getAll,
     getById,
-    // getByUserId,
     getMembers,
     getRequests,
     getFiles,
@@ -42,15 +41,6 @@ function getById(id) {
     const url = DOMAIN_SERVICE + '/groups/info/' + id;
     return fetch(url, requestOptions).then(handleResponse);
 }
-
-// function getByUserId(userId) {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: authHeader()
-//     };
-//     const url = DOMAIN_SERVICE + '/users/classs/' + userId;
-//     return fetch(url, requestOptions).then(handleResponse);
-// }
 
 function getMembers(classId) {
     const requestOptions = {
