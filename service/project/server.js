@@ -37,7 +37,6 @@ app.all('/*', function (req, res, next) {
 app.use(function (req, res, next) {
         req.posts = req.posts ? req.posts : {};
         req.fileitems = req.fileitems ? req.fileitems : {};
-        // req.files = req.files ? req.files : {};
         req.users = req.users ? req.users : {};
         req.groups = req.groups ? req.groups : {};
         console.log("Request:" + req.path + "[" + req.method + "]");
