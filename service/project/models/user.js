@@ -111,8 +111,8 @@ let UserSchema = new mongoose.Schema(
                 lastName: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now },
-                timeUpdate: { type: Date, default: Date.now },
+                timeCreate: { type: Date, default: Date.now() },
+                timeUpdate: { type: Date, default: Date.now() },
             }],
             require: true,
             default: [],
@@ -124,8 +124,8 @@ let UserSchema = new mongoose.Schema(
                 lastName: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now },
-                timeUpdate: { type: Date, default: Date.now },
+                timeCreate: { type: Date, default: Date.now() },
+                timeUpdate: { type: Date, default: Date.now() },
             }],
             require: true,
             default: [],
@@ -136,8 +136,8 @@ let UserSchema = new mongoose.Schema(
                 name: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now },
-                timeUpdate: { type: Date, default: Date.now },
+                timeCreate: { type: Date, default: Date.now() },
+                timeUpdate: { type: Date, default: Date.now() },
             }],
             require: true,
             default: [],
@@ -175,18 +175,24 @@ function comparePassword(candidatePassword, callback) {
 function addUserInArray(new_user, arrays) {
     if (!new_user) return null;
     let user = arrays.find(u => u._id === new_user._id);
+    let timeUpdate = Date.now();
     if (!user) {
         user = {_id: new_user._id};
-        arrays.push(user);
-    }
-    let timeUpdate = Date.now();
-    user.timeUpdate = timeUpdate;
-    user.firstName = new_user.firstName;
-    user.lastName = new_user.lastName;
-    user.profileImageID = new_user.profileImageID;
-    if (user.isRemoved) {
+        user.timeUpdate = timeUpdate;
+        user.firstName = new_user.firstName;
+        user.lastName = new_user.lastName;
+        user.profileImageID = new_user.profileImageID;
         user.isRemoved = false;
-        user.timeCreate = timeUpdate;
+        arrays.push(user);
+    } else {
+        user.timeUpdate = timeUpdate;
+        user.firstName = new_user.firstName;
+        user.lastName = new_user.lastName;
+        user.profileImageID = new_user.profileImageID;
+        if (user.isRemoved) {
+            user.isRemoved = false;
+            user.timeCreate = timeUpdate;
+        }
     }
     return user;
 }
@@ -202,20 +208,25 @@ function addGroupInArray(new_group, arrays) {
     let group = arrays.find(g => g._id === new_group._id);
     if (!group) {
         group = {_id: new_group._id};
-        arrays.push(group);
-    }
-    group.timeUpdate = timeUpdate;
-    group.name = new_group.name;
-    group.profileImageID = new_group.profileImageID;
-    if (group.isRemoved) {
         group.isRemoved = false;
-        group.timeCreate = timeUpdate;
+        group.timeUpdate = timeUpdate;
+        group.name = new_group.name;
+        group.profileImageID = new_group.profileImageID;
+        arrays.push(group);
+    } else {
+        group.timeUpdate = timeUpdate;
+        group.name = new_group.name;
+        group.profileImageID = new_group.profileImageID;
+        if (group.isRemoved) {
+            group.isRemoved = false;
+            group.timeCreate = timeUpdate;
+        }
     }
     return group;
 }
 function removeGroupFromArray(remove_group, arrays) {
     if (!remove_group) { return null; }
-    let group = arrays.find(g => g._id === new_group._id);
+    let group = arrays.find(g => g._id === remove_group._id);
     if (group) group.isRemoved = true;
     return group;
 }
@@ -287,7 +298,8 @@ function addToClass(group) {
     return addGroupInArray(group, this.classs) ? group : null;
 }
 function removeFromClass(group) {
-    return (removeGroupFromArray(group, this.classs) && group.removeMember(this)) ? group : null;
+    return (removeGroupFromArray(group, this.classs) && group.removeMember(this, false)) ? group : null;
+    // return removeGroupFromArray(group, this.classs) ? group : null;
 }
 function getClasss() {
     return this.classs.filter(classItem => classItem.isRemoved === false).map(classItem => ({
@@ -426,6 +438,7 @@ function getBasicInfo() {
         firstName: this.firstName,
         lastName: this.lastName,
         typeuser: { enum_id: this.typeuser, text: TypeUserEnum[this.typeuser] },
+        isTeacher: TypeUserEnum[this.typeuser] === 'Teacher',
         email: this.email,
         birthday: Utils.exportDate(this.birthday),
         phone: this.phone,

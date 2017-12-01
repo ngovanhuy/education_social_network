@@ -13,9 +13,12 @@ router.route('/profileImage/:groupID')
     .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileController.getFile)
     .put(groupController.checkGroupRequest, fileController.profileUpload, fileController.postFile, groupController.putProfileImage)
     .post(groupController.checkGroupRequest, fileController.profileUpload, fileController.postFile, groupController.putProfileImage, );
-router.route('/members/:groupID').get(groupController.checkGroupRequest, groupController.getMembers);
+router.route('/members/:groupID')
+    .get(groupController.checkGroupRequest, groupController.getMembers)
+    .post(groupController.checkGroupRequest, groupController.addMember)
+    .put(groupController.checkGroupRequest, groupController.updateMember)
+    .delete(groupController.checkGroupRequest, groupController.removeMember);
 router.route('/members/:groupID/:userID')
-    .get(groupController.checkGroupRequest, userController.getUser)
     .post(groupController.checkGroupRequest, groupController.addMember)
     .put(groupController.checkGroupRequest, groupController.updateMember)
     .delete(groupController.checkGroupRequest, groupController.removeMember);
@@ -25,6 +28,9 @@ router.route('/requested/:groupID/:userID')
     .post(groupController.checkGroupRequest, groupController.confirmRequested)
     .delete(groupController.checkGroupRequest, groupController.removeRequested);
 router.route('/action/:groupID/:userID')
+    .put(groupController.checkGroupRequest, groupController.putGroup, groupController.getGroup)
+    .delete(groupController.checkGroupRequest, groupController.deleteGroup, groupController.getGroup);
+router.route('/action/:groupID')
     .put(groupController.checkGroupRequest, groupController.putGroup, groupController.getGroup)
     .delete(groupController.checkGroupRequest, groupController.deleteGroup, groupController.getGroup);
 router.route('/files/:groupID')
@@ -37,4 +43,10 @@ router.route('/post/:groupID/:userID')
     .get(groupController.checkGroupRequest, groupController.getPosts)
     .post(groupController.checkGroupRequest, fileController.fileUpload, fileController.postFileIfHave, groupController.addPost, groupController.getGroup);
 
+router.route('/topic/:groupID')
+    .get(groupController.checkGroupRequest, groupController.getTopics)
+    .post(groupController.checkGroupRequest, groupController.addTopic)
+    .put(groupController.checkGroupRequest, groupController.addTopic)
+    .delete(groupController.checkGroupRequest, groupController.removeTopic);
+router.route('/addtopics/:groupID').post(groupController.checkGroupRequest, groupController.addTopics);
 module.exports = router;

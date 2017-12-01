@@ -211,20 +211,15 @@ function getBasicInfo() {
 }
 
 function getMembersInfo() {
-    let members = [];
-    for (let index = 0; index < this.members.length; index++) {
-        member = this.members[index];
-        members.push({
-            _id: member._id,
-            firstName: member.firstName,
-            lastName: member.lastName,
-            profileImageID: member.profileImageID,
-            isAdmin: TypeMemberEnum[member.typemember] === 'Admin',
-            typeuser: member.typeuser,
-            dateJoin: member.dateJoin.toLocaleString(),
-        });
-    }
-    return members;
+    return this.members.filter(member => member.isRemoved === false).map(member => ({
+        _id: member._id,
+        firstName: member.firstName,
+        lastName: member.lastName,
+        profileImageID: member.profileImageID,
+        isAdmin: TypeMemberEnum[member.typemember] === 'Admin',
+        typeuser: member.typeuser,
+        dateJoin: member.dateJoin.toLocaleString(),
+    }));
 }
 function getMemberUser(user) {
     if (!user) return null;
@@ -253,7 +248,7 @@ function isMemberInGroupById(id) {
     return !!getMemberById.call(this, id);
 }
 function isAdmin(user) {
-    let member = getMemberUser(user);
+    let member = getMemberUser.call(this, user);
     if (!member) return false;
     return TypeMemberEnum[member.typemember] === 'Admin';
 }
@@ -320,48 +315,37 @@ function confirmRequested(user) {
     }
     return null;
 }
+
 function addMember(user, typemember = 1) {//TODO: check owner.
-    if (!user || !typemember) {
-        return null;
-    }
-    if (!TypeMemberEnum[typemember]) {
-        return null;
-    }
-    let member = null;
+    if (!user) { return null; }
     let timeUpdate = Date.now();
-    for (let index = 0; index < this.members.length; index++) {
-        member = this.members[index];
-        if (member._id === user._id) {
-            member.typemember = typemember;
-            member.timeUpdate = timeUpdate;
-            member.firstName = user.firstName;
-            member.lastName = user.lastName;
-            member.profileImageID = user.profileImageID;
-            if (member.isRemoved) {
-                member.isRemoved = false;
-                member.dateJoin = timeUpdate;
-            }
+    let member = this.members.find(member => member._id === user._id);
+    if (!member) {
+        member = {_id : user._id};
+        member.dateJoin = timeUpdate;
+        member.isRemoved = false;
+        member.typemember = TypeMemberEnum[typemember] ? typemember : 1;
+        member.firstName = user.firstName;
+        member.lastName = user.lastName;
+        member.profileImageID = user.profileImageID;
+        member.typeuser = user.typeuser;
+        member.timeUpdate = timeUpdate;
+        this.members.push(member);
+        this.memberCount++;
+    } else {
+        member.typemember = TypeMemberEnum[typemember] ? typemember : 1;
+        member.firstName = user.firstName;
+        member.lastName = user.lastName;
+        member.profileImageID = user.profileImageID;
+        member.typeuser = user.typeuser;
+        member.timeUpdate = timeUpdate;
+        if (member.isRemoved) {
+            member.isRemoved = false;
+            member.dateJoin = timeUpdate;
             this.memberCount++;
-            return user;
         }
     }
-    member = {
-        _id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        profileImageID: user.profileImageID,
-        typemember: typemember,
-        typeuser: user.typeuser,
-        isRemoved: false,
-        dateJoin: timeUpdate,
-        timeUpdate: timeUpdate,
-    };
-    this.members.push(member);
-    this.memberCount++;
-    if (user.addToClass(this)) {
-        return user;
-    }
-    return null;
+    return user.addToClass(this) ? user : null;
 }
 function addNormalMember(user) {
     return addMember.call(this, user, 1);
@@ -370,47 +354,30 @@ function addAdminMember(user) {
     return addMember.call(this, user, 10)
 }
 function updateMember(user, typemember) {//TODO: check 1 owner.
-    if (!user || !typemember) {
-        return null;
-    }
-    if (!TypeMemberEnum[typemember]) {
-        return null;
-    }
-    let member = null;
+    if (!user) { return null; }
+    let member = this.members.find(member => member._id === user._id);
+    if (!member || member.isRemoved) { return null; }
     let timeUpdate = Date.now();
-    for (let index = 0; index < this.members.length; index++) {
-        member = this.members[index];
-        if (member._id === user._id) {
-            member.typemember = typemember;
-            member.timeUpdate = timeUpdate;
-            member.firstName = user.firstName;
-            member.lastName = user.lastName;
-            member.profileImageID = user.profileImageID;
-            if (member.isRemoved) {
-                member.isRemoved = false;
-                member.dateJoin = timeUpdate;
-            }
-            return user;
-        }
-    }
-    return null;
+    member.typemember = TypeMemberEnum[typemember] ? typemember : member.typemember;
+    member.timeUpdate = timeUpdate;
+    member.firstName = user.firstName;
+    member.lastName = user.lastName;
+    member.profileImageID = user.profileImageID;
+    member.dateJoin = timeUpdate;
+    return user.addToClass(this) ? user : null;
 }
-function removeMember(user) {//TODO: remove owner.
-    if (!user) {
-        return null;
-    }
-    let member = null;
-    for (let index = 0; index < this.members.length; index++) {
-        member = this.members[index];
-        if (member._id === user._id) {
-            member.isRemoved = true;
-            this.memberCount--;
-            return user; // this.members.splice(removeindex, 1);
-        }
-    }
-    return null;
+function removeMember(user, isUpdateReference = true) {//TODO: remove owner.
+    if (!user) { return null; }
+    let member = this.members.find(member => member._id === user._id);
+    if (!member) { return null; }
+    if (member.isRemoved) return user;
+    member.isRemoved = true;
+    this.memberCount--;
+    return isUpdateReference ? (user.removeFromClass(this) ? user : null) : user;
 }
+
 function addTopic(topic_name) {
+    if (!this.topics) this.topics = [];
     let topic = this.topics.find(t => t._id === topic_name);
     if (!topic) {
         topic = { _id: topic_name, isDeleted: false };
@@ -420,13 +387,32 @@ function addTopic(topic_name) {
     }
     return topic;
 }
+function addTopics(topics) {
+    if (!this.topics) this.topics = [];
+    if (!topics) return null;
+    topics.forEach(topic => {
+       let exited = this.topics.find(t => t._id === topic) ;
+       if (!exited) {
+           this.topics.push({_id: topic, isDeleted : false});
+       } else if (exited.isDeleted) {
+           exited.isDeleted = false;
+       }
+    });
+    return topics;
+}
 function removeTopic(topic_name) {
+    if (!this.topics) this.topics = [];
     let topic = this.topics.find(t => t._id === topic_name);
     if (topic && !topic.isDeleted) {
         topic.isDeleted = true;
     }
     return topic;
 }
+function getTopics() {
+    if (!this.topics) return [];
+    return this.topics.filter(topic => topic.isDeleted === false).map(topic => topic._id);
+}
+
 function addPost(new_post, topic_name, new_options = null) {
     if (!this.posts) {
         this.posts = [];
@@ -558,6 +544,9 @@ GroupSchema.methods.isMember = isMember;
 GroupSchema.methods.isMemberInGroupById = isMemberInGroupById;
 GroupSchema.methods.isAdmin = isAdmin;
 GroupSchema.methods.addTopic = addTopic;
+GroupSchema.methods.addTopics = addTopics;
+GroupSchema.methods.removeTopic = removeTopic;
+GroupSchema.methods.getTopics = getTopics;
 GroupSchema.methods.addPost = addPost;
 GroupSchema.methods.getPostIDs = getPostIDs;
 GroupSchema.methods.getRequesteds = getRequesteds;

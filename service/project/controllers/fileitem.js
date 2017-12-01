@@ -112,7 +112,7 @@ async function postFiles(req, res, next) {
         Promise.all(files.map(file => file.save())).then(filesaveds => {
             req.files.files_saved = filesaveds;
             next();
-        });
+        }).catch(error => next(error));
     } catch (error) {
         return res.status(500).send({
             code: 500,
