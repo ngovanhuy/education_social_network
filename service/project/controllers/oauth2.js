@@ -1,27 +1,27 @@
-var oauth2orize = require('oauth2orize')
-var User = require('../models/user');
-var Client = require('../models/client');
-var Token = require('../models/token');
-var Code = require('../models/code');
+let oauth2orize = require('oauth2orize')
+let User = require('../models/user');
+let Client = require('../models/client');
+let Token = require('../models/token');
+let Code = require('../models/code');
 
 function uid(len) {
-    var buf = []
+    let buf = []
         , chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
         , charlen = chars.length;
 
-    for (var i = 0; i < len; ++i) {
+    for (let i = 0; i < len; ++i) {
         buf.push(chars[getRandomInt(0, charlen - 1)]);
     }
 
     return buf.join('');
-};
+}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // Create OAuth 2.0 server
-var server = oauth2orize.createServer();
+let server = oauth2orize.createServer();
 
 // Register serialialization function
 server.serializeClient(function (client, callback) {
@@ -41,7 +41,7 @@ server.deserializeClient(function (id, callback) {
 // Register authorization code grant type
 server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, callback) {
     // Create a new authorization code
-    var code = new Code({
+    let code = new Code({
         value: uid(16),
         clientId: client._id,
         redirectUri: redirectUri,
@@ -81,7 +81,7 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, c
             }
 
             // Create a new access token
-            var token = new Token({
+            let token = new Token({
                 value: uid(256),
                 clientId: authCode.clientId,
                 userId: authCode.userId
@@ -114,15 +114,15 @@ exports.authorization = [
     function (req, res) {
         res.render('dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
     }
-]
+];
 
 // User decision endpoint
 exports.decision = [
     server.decision()
-]
+];
 
 // Application client token exchange endpoint
 exports.token = [
     server.token(),
     server.errorHandler()
-]
+];

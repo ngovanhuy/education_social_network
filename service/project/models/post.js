@@ -1,7 +1,6 @@
-var mongoose = require('mongoose');
-var utils = require('../application/utils');
-var FileItem = require('../models/fileitem');
-var PostSchema = new mongoose.Schema({
+let mongoose = require('mongoose');
+let Utils = require('../application/utils');
+let PostSchema = new mongoose.Schema({
     _id: { type: Number, default: getNewID },
     title: { type: String, required: true, default: 'No Title' },
     content: { type: String, required: true, default: 'No Content' },//short_content
@@ -43,8 +42,9 @@ var PostSchema = new mongoose.Schema({
             lastName: String,
             profileImageID: String,
             file: {
-                type: {_id: String, name: String, type: String, size: Number, isDeleted: Boolean},
-                default:[],
+                type: {_id: String, name: String, type: String, size: Number},
+                required: false,
+                default: {},
             },
             timeUpdate: { type: Date, default: Date.now, required: true },
             isDeleted: { type: Boolean, default: false }
@@ -71,7 +71,7 @@ var PostSchema = new mongoose.Schema({
     },
     files: {
         type: [{
-            _id: Number,
+            _id: String,
             name: { type: String, required: true, default: 'NoName' },
             type: { type: String, required: true, default: 'application/octet-stream', },
             size: { type: Number, required: true, default: 0, },
@@ -89,7 +89,7 @@ var PostSchema = new mongoose.Schema({
 });
 
 PostSchema.pre('save', function (callback) {
-    var post = this;
+    let post = this;
     post.timeUpdate = Date.now();
     return callback();
 });
@@ -98,30 +98,29 @@ function getBasicInfo() {
     return {
         id: this._id,
         title: this.title,
-        // short_content: getShortContent(this.content),
         content: this.content,
-        timeCreate: this.timeCreate.toLocaleString(),
+        timeCreate: Utils.exportDate(this.timeCreate),
         user: this.userCreate,
         group: this.group,
-        // likes:          this.likes.length,
-        // comments:       this.comments.length,
+        files: this.files.map(file => ({
+            id: file._id,
+            name: file.name,
+            type: file.type,
+            size: file.size,
+        })),
+        countComments: this.countComments,
+        countLikes: this.countLikes,
     }
-}
-function getShortContent(content) {
-    if (!content) return "";
-    if (content.length > 30) return content.substring(0, 30) + '...';
-    return content;
 }
 function getNewID() {
     return new Date().getTime();
 }
+
 function addLike(user) {
-    let like = this.likes.find(like => like._id == user._id);
+    if (!this.likes) this.likes = [];
+    let like = this.likes.find(like => like._id === user._id);
     if (!like) {
-        like = {
-            _id: user._id,
-            isDeleted: false
-        };
+        like = {  _id: user._id, isDeleted: false };
         this.likes.push(like);
         this.countLikes++;
     } else if (like.isDeleted) {
@@ -130,16 +129,75 @@ function addLike(user) {
     }
     return like;
 }
+function addLikes(users) {
+    if (!this.likes) this.likes = [];
+    if (!users) return null;
+    users.forEach(user => {
+        let exited = this.likes.find(t => t._id === user) ;
+        if (!exited) {
+            this.likes.push({_id: user._id, isDeleted : false});
+            this.countLikes++;
+        } else if (exited.isDeleted) {
+            exited.isDeleted = false;
+            this.countLikes++;
+        }
+    });
+    return users;
+}
 function removeLike(user) {
-    let like = this.likes.find(like => like._id == user._id);
+    if (!this.likes) this.likes = [];
+    let like = this.likes.find(like => like._id === user._id);
     if (like && !like.isDeleted) {
         like.isDeleted = true;
         this.countLikes--;
     }
     return like;
 }
+function getLikes() {
+    if (!this.likes) this.likes = [];
+    return this.likes.filter(like => like.isDeleted === false).map(like => _id);
+
+}
+
+function addTopic(topic_name) {
+    if (!this.topics) this.topics = [];
+    let topic = this.topics.find(t => t._id === topic_name);
+    if (!topic) {
+        topic = { _id: topic_name, isDeleted: false };
+        this.topics.push(topic);
+    } else if (topic.isDeleted) {
+        topic.isDeleted = false;
+    }
+    return topic;
+}
+function addTopics(topics) {
+    if (!this.topics) this.topics = [];
+    if (!topics) return null;
+    topics.forEach(topic => {
+        let exited = this.topics.find(t => t._id === topic) ;
+        if (!exited) {
+            this.topics.push({_id: topic, isDeleted : false});
+        } else if (exited.isDeleted) {
+            exited.isDeleted = false;
+        }
+    });
+    return topics;
+}
+function removeTopic(topic_name) {
+    if (!this.topics) this.topics = [];
+    let topic = this.topics.find(t => t._id === topic_name);
+    if (topic && !topic.isDeleted) {
+        topic.isDeleted = true;
+    }
+    return topic;
+}
+function getTopics() {
+    if (!this.topics) return [];
+    return this.topics.filter(topic => topic.isDeleted === false).map(topic => topic._id);
+}
+
 function addComment(user, content, file = null) {
-    let now = Date.now;
+    let now = Date.now();
     let comment = {
         _id: now,
         userID: user._id,
@@ -147,89 +205,171 @@ function addComment(user, content, file = null) {
         content: content,
         firstName: user.firstName,
         lastName: user.lastName,
-        file: file ? file.getBasicInfo() : null,
+        file : null,
         profileImageID: user.profileImageID,
         timeUpdate: now,
         isDeleted: false,
     };
+    if (file) {
+        comment.file = {
+            _id: file._id,
+            id: file.id,
+            name: file.name,
+            type: file.type,
+            size: file.size,
+        }
+    }
     this.comments.push(comment);
     this.countComments++;
     return comment;
 }
 function updateComment(id, content, file = null) {
-    let comment = this.comments.find(item => item._id == id);
-    if (comment) {
-        comment.content = content;
-        comment.file = file ? file.getBasicInfo() : null,
-        comment.timeUpdate = Date.now;
-        if (comment.isDeleted) {
-            comment.isDeleted = false;
-            this.countComments++;
+    let comment = this.comments.find(item => item._id === id);
+    if (!comment) {
+        return null;
+    }
+    comment.content = content;
+    if (file) {
+        comment.file = {
+            _id: file._id,
+            id: file.id,
+            name: file.name,
+            type: file.type,
+            size: file.size,
         }
-    };
+    }
+    comment.timeUpdate = Date.now();
+    if (comment.isDeleted) {
+        comment.isDeleted = false;
+        this.countComments++;
+    }
     return comment;
 }
 function deleteComment(id) {
-    let comment = this.comments.find(item => item._id == id);
+    let comment = this.comments.find(item => item._id === id);
     if (comment && !comment.isDeleted) {
         comment.isDeleted = true;
         this.countComments--;
-    };
+    }
     return comment;
 }
-function addTopic(topic_name) {
-    let topic = this.topics.find(t => t._id == topic_name);
-    if (!topic) {
-        topic = {_id: topic_name, isDeleted: false};
-    } else if (topic.isDeleted) {
-        topic.isDeleted = false;
-    }
-    return topic;
-}
+
 function getFiles() {
     return this.files.filter(file => file.isDeleted === false);
 }
-function removeTopic(topic_name) {
-    let topic = this.topics.find(t => t._id == topic_name);
-    if (topic && !topic.isDeleted) {
-        topic.isDeleted = true;
-    }
-    return topic;
-}
 function addFile(new_fileItem) {
-    let fileItem = this.files.find(item => item._id = new_fileItem._id);
+    if (!this.files) this.files = [];
+    let fileItem = this.files.find(item => item._id === new_fileItem._id);
     if (!fileItem) {
         fileItem = {
             _id: new_fileItem._id,
             type: new_fileItem.type,
             size: new_fileItem.size,
+            name: new_item.name,
             isDeleted : false,
         };
         this.files.push(fileItem);
     } else if(file.isDeleted) {
-        file.isDeleted = false;
+        fileItem.isDeleted = false;
     }
     return fileItem;
 }
-function removeFile(remove_file) {
-    let fileItem = this.files.find(item => item._id = new_fileItem._id);
+function addFiles(files) {
+    if (!this.files) this.files = [];
+    if (!files) return null;
+    files.forEach(file => {
+        let exited = this.files.find(t => t._id === file._id) ;
+        if (!exited) {
+            this.files.push({
+                _id: file._id,
+                type: file.type,
+                size: file.size,
+                name: file.name,
+                isDeleted : false,
+            });
+        } else if (exited.isDeleted) {
+            exited.isDeleted = false;
+        }
+    });
+    return files;
+}
+function removeFile(file) {
+    let fileItem = this.files.find(item => item._id = file._id);
     if (fileItem && !fileItem.isDeleted) {
         fileItem.isDeleted = true;
     }
     return fileItem;
 }
+
 function setBlockComment(isBlockComment) {
+    if (!this.options) this.options = {};
     this.options.isBlockComment = isBlockComment;
 }
 
+function createNewPost(user, group, title, content, topic, files = null) {
+    if (!user || !group) return null;
+    let now = Date.now();
+    let post =  new Post ({
+        _id: now,
+        title: title,
+        content: content,
+        userCreate: {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImageID: user.profileImageID,
+            timeUpdate: now,
+        },
+        group: {
+            _id: group._id,
+            name: group.name,
+            profileImageID: group.profileImageID,
+            timeUpdate: now,
+        },
+        topics: [],
+        comments: [],
+        likes: [],
+        options:{ isBlockComment: false },
+        files: [],
+        countComments: 0,
+        countLikes: 0,
+        isDeleted: false,
+        timeCreate: now,
+        timeUpdate: now,
+    });
+    if (topic) {
+        addTopic.call(post, topic);
+    }
+    if (Array.isArray(files)) {
+        addfiles.call(post, files);
+    } else if(files) {
+        addFile.call(post, files)
+    }
+    return post;
+}
+
 PostSchema.methods.getBasicInfo = getBasicInfo;
-PostSchema.methods.addLike = addLike;
-PostSchema.methods.removeLike = removeLike;
-PostSchema.methods.addComment = addComment;
-PostSchema.methods.setBlockComment = setBlockComment;
-PostSchema.methods.addTopic = addTopic;
-PostSchema.methods.removeTopic = removeTopic;
-PostSchema.methods.getFiles = getFiles;
 PostSchema.statics.getNewID = getNewID;
 
+PostSchema.methods.addLike = addLike;
+PostSchema.methods.addLikes = addLikes;
+PostSchema.methods.removeLike = removeLike;
+PostSchema.methods.getLikes = getLikes;
+
+PostSchema.methods.addTopic = addTopic;
+PostSchema.methods.removeTopic = removeTopic;
+PostSchema.methods.addTopics = addTopics;
+PostSchema.methods.getTopics = getTopics;
+
+PostSchema.methods.addComment = addComment;
+PostSchema.methods.updateComment = updateComment;
+PostSchema.methods.deleteComment = deleteComment;
+
+PostSchema.methods.getFiles = getFiles;
+PostSchema.methods.removeFile = removeFile;
+PostSchema.methods.addFile = addFile;
+PostSchema.methods.addFiles = addFiles;
+PostSchema.methods.setBlockComment = setBlockComment;
+
+// PostSchema.statics.createNewPost = createNewPost;
 module.exports = mongoose.model('Post', PostSchema);

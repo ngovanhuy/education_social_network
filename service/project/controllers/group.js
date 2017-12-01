@@ -1,6 +1,6 @@
 let Group = require('../models/group');
 let UserControllers = require('../controllers/user');
-let Users = require('../models/user')
+let Users = require('../models/user');
 let Files = require('../models/fileitem');
 let Post = require('../models/post');
 let Utils = require('../application/utils');
@@ -19,6 +19,7 @@ async function getGroupByID(id) {
         return null;
     }
 }
+
 async function findGroup(req) {
     if (req.groups.group_request) {
         return req.groups.group_request;
@@ -38,6 +39,7 @@ async function findGroup(req) {
     }
     return null;
 }
+
 async function addMember(req, res) {
     try {
         let group = req.groups.group_request;
@@ -74,6 +76,7 @@ async function addMember(req, res) {
         });
     }
 }
+
 async function removeMember(req, res) {
     try {
         let group = req.groups.group_request;
@@ -107,6 +110,7 @@ async function removeMember(req, res) {
         });
     }
 }
+
 async function updateMember(req, res) {
     try {
         let group = req.groups.group_request;
@@ -144,6 +148,7 @@ async function updateMember(req, res) {
         });
     }
 }
+
 async function getRequesteds(req, res) {
     try {
         //TODO: Check current user.
@@ -163,6 +168,7 @@ async function getRequesteds(req, res) {
         });
     }
 }
+
 async function removeRequested(req, res) {
     try {
         let group = req.groups.group_request;
@@ -199,6 +205,7 @@ async function removeRequested(req, res) {
         });
     }
 }
+
 async function confirmRequested(req, res) {
     try {
         let group = req.groups.group_request;
@@ -234,6 +241,7 @@ async function confirmRequested(req, res) {
         });
     }
 }
+
 function updateGroupInfo(req, group, isCheckValidInput = true) {
     let message = [];
     if (isCheckValidInput) {
@@ -265,6 +273,7 @@ function updateGroupInfo(req, group, isCheckValidInput = true) {
     }
     return message;
 }
+
 async function postGroup(req, res, next) {
     try {
         let userCreate = req.users.user_request;
@@ -305,31 +314,30 @@ async function postGroup(req, res, next) {
         userCreate = await userCreate.save();
         req.users.user_request = userCreate;
         if (req.body.members) {
-            let userIDs =  Utils.getStringArray(req.body.members);
+            let userIDs = Utils.getStringArray(req.body.members);
             let users = await UserControllers.getManyUsers(userIDs);
             if (!users) {
                 return next();
             }
             users.forEach(usermember => {
-               if (usermember.isTeacher()) {
-                   group.addAdminMember(usermember);
-               } else {
-                   group.addNormalMember(usermember);
-               }
+                if (usermember.isTeacher()) {
+                    group.addAdminMember(usermember);
+                } else {
+                    group.addNormalMember(usermember);
+                }
             });
             Promise.all(users.map(user => user.save())).then(async usersaved => {
                 try {
                     group = await group.save();
-                    req.users.users_request = usersaved;
-                    req.users.user_request = userCreate;
                     req.groups.group_request = group;
+                    req.users.users_request = usersaved;
                     next();
-                } catch(error) {
+                } catch (error) {
                     next(error);
                 }
             }).catch(error => next(error));
         } else {
-            req.users.user_request = userCreate;
+            group = await group.save();
             req.groups.group_request = group;
             return next();
         }
@@ -341,7 +349,8 @@ async function postGroup(req, res, next) {
             error: error.message
         });
     }
-};
+}
+
 async function putGroup(req, res, next) {
     try {
         let group = req.groups.group_request;
@@ -378,6 +387,7 @@ async function putGroup(req, res, next) {
         });
     }
 }
+
 async function deleteGroup(req, res, next) {
     try {
         let group = req.groups.group_request;
@@ -401,8 +411,10 @@ async function deleteGroup(req, res, next) {
             data: null,
             error: error.message
         });
-    };
+    }
+    ;
 }
+
 async function getGroup(req, res, next) {
     try {
         let group = req.groups.group_request;
@@ -421,18 +433,20 @@ async function getGroup(req, res, next) {
         });
     }
 }
+
 async function getProfileImageID(req, res, next) {
-    req.files.file_selected_id = req.groups.group_request ? req.groups.group_request.profileImageID : null;
+    req.fileitems.file_selected_id = req.groups.group_request ? req.groups.group_request.profileImageID : null;
     return next();
 }
+
 async function putProfileImage(req, res) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        if (!req.files.file_saved) {
+        if (!req.fileitems.file_saved) {
             throw new Error("Upload file Error");
         }
-        let currentFile = req.files.file_saved;
+        let currentFile = req.fileitems.file_saved;
         group.profileImageID = String(currentFile._id);
         group = await group.save();
         return res.json({
@@ -449,18 +463,20 @@ async function putProfileImage(req, res) {
         });
     }
 }
+
 async function getCoverImageID(req, res, next) {
-    req.files.file_selected_id = req.groups.group_request ? req.groups.group_request.coverImageID : null;
+    req.fileitems.file_selected_id = req.groups.group_request ? req.groups.group_request.coverImageID : null;
     return next();
 }
+
 async function putCoverImage(req, res) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        if (!req.files.file_saved) {
+        if (!req.fileitems.file_saved) {
             throw new Error("Upload file Error");
         }
-        let currentFile = req.files.file_saved;
+        let currentFile = req.fileitems.file_saved;
         group.coverImageID = String(currentFile._id);
         group = await group.save();
         return res.json({
@@ -477,6 +493,7 @@ async function putCoverImage(req, res) {
         });
     }
 }
+
 async function getMembers(req, res) {
     try {
         let group = req.groups.group_request;
@@ -495,6 +512,7 @@ async function getMembers(req, res) {
         });
     }
 }
+
 async function checkGroupRequest(req, res, next) {
     let group = await findGroup(req);
     if (group && !group.isDeleted) {
@@ -509,6 +527,7 @@ async function checkGroupRequest(req, res, next) {
         });
     }
 }
+
 async function getGroups(req, res) {
     try {
         let groups = await Group.find({
@@ -524,6 +543,7 @@ async function getGroups(req, res) {
         return res.status(500).send(error);
     }
 };
+
 async function getFiles(req, res) {
     try {
         let group = req.groups.group_request;
@@ -531,7 +551,7 @@ async function getFiles(req, res) {
         let datas = (await Files.find({
             isDeleted: false,
             'group._id': group._id,
-        }, { _id: 1, name: 1, type: 1, size: 1, createDate: 1 })).map(file => file.getBasicInfo());
+        }, {_id: 1, name: 1, type: 1, size: 1, createDate: 1})).map(file => file.getBasicInfo());
         return res.send({
             code: 200,
             message: 'Success',
@@ -546,42 +566,42 @@ async function getFiles(req, res) {
         });
     }
 }
+
 async function searchGroupByName(req, res) {
     try {
         let key = req.query.groupname;
         if (!key) {
-            return res.status(400).json({ code: 400, message: '', data: [] });
+            return res.status(400).json({code: 400, message: '', data: []});
         }
-        let groups = await Group.find({ name: { $regex: key } });
+        let groups = await Group.find({name: {$regex: key}});
         return res.status(200).json({
             code: 200,
             message: '',
             data: groups.map(group => group.getBasicInfo())
         });
     } catch (error) {
-        return res.status(500).json({ code: 500, message: '', data: [] });
+        return res.status(500).json({code: 500, message: '', data: []});
     }
 }
+
 async function addPost(req, res, next) {
     try {
         let group = req.groups.group_request;
-        if (!group) throw new Error();
         let userID = req.params.userID ? req.params.userID : req.body.userID ? req.body.userID : null;
-        let user = group.getMemberById(userID);
+        let user = group.getMemberById(Number(userID));
         if (!user) {
             return res.status(400).send({
                 code: 400,
-                message: message,
                 data: null,
                 error: 'User not member'
             });
         }
-        let currentFile = req.files.file_saved;
+        let currentFiles = req.fileitems.files_saved;//req.fileitems.file_saved;
         let title = req.body.title;
         let content = req.body.content;
         let topic = req.body.topic;
         if (!title || !content || !topic) {
-            return res.status(500).send({
+            return res.status(400).send({
                 code: 400,
                 message: 'Request Invalid',
                 data: null,
@@ -591,10 +611,9 @@ async function addPost(req, res, next) {
         let isShow = req.body.isShow ? req.body.isShow : false;
         let isSchedule = req.body.isSchedule ? req.body.isSchedule : false;
         let scopeType = req.body.scopeType ? req.body.scopeType : 10;
-        let startTime = req.body.startTime ? Utils.parseDate(req.bodyiinp.startTime) : null;
+        let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
-        let members = req.body.members ? Utils.getStringArray(req.body.members) : [];
-
+        let members = req.body.members ? Utils.getNumberArray(req.body.members) : [];
         let options = {
             isShow: isShow,
             isSchedule: isSchedule,
@@ -605,42 +624,22 @@ async function addPost(req, res, next) {
             },
             members: members,
         };
-        let now = Date.now();
-        let post = new Post({
-            _id: now,
-            title: title,
-            content: content,
-            userCreate: {
-                _id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                profileImageID: user.profileImageID,
-                timeUpdate: now,
-            },
-            group: {
-                _id: group._id,
-                name: group.name,
-                profileImageID: group.profileImageID,
-                timeUpdate: now,
-            },
-        });
-        post.addTopic(topic);
-        if (currentFile) {
-            post.addFile(currentFile);
-        }
+        let post = createNewPost(user, group, title, content, topic, currentFiles);
         group.addPost(post, topic, options);
         group = await group.save();
         post = await post.save();
+        req.groups.group_request = group;
         return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
             data: null,
-            error: error.message
+            error: error
         });
     }
 }
+
 async function getPosts(req, res) {
     try {
         let group = req.groups.group_request;
@@ -660,9 +659,9 @@ async function getPosts(req, res) {
         let postIDs = group.getPostIDs(user);
         let datas = [];
         if (postIDs.length > 0) {
-            posts = await Post.find({ _id: { $in: postIDs } });
+            posts = await Post.find({_id: {$in: postIDs}});
             datas = posts.map(post => post.getBasicInfo());
-        } 
+        }
         return res.status(200).json({
             code: 200,
             message: '',
@@ -728,6 +727,7 @@ async function addTopic(req, res) {
         });
     }
 }
+
 async function addTopics(req, res) {
     try {
         let group = req.groups.group_request;
@@ -755,7 +755,6 @@ async function addTopics(req, res) {
         });
     }
 }
-
 async function removeTopic(req, res) {
     try {
         let group = req.groups.group_request;
@@ -779,6 +778,49 @@ async function removeTopic(req, res) {
         });
     }
 }
+
+function createNewPost(user, group, title, content, topic, files = null) {
+    if (!user || !group) return null;
+    let now = Date.now();
+    let post =  new Post ({
+        _id: now,
+        title: title,
+        content: content,
+        userCreate: {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImageID: user.profileImageID,
+            timeUpdate: now,
+        },
+        group: {
+            _id: group._id,
+            name: group.name,
+            profileImageID: group.profileImageID,
+            timeUpdate: now,
+        },
+        topics: [],
+        comments: [],
+        likes: [],
+        options:{ isBlockComment: false },
+        files: [],
+        countComments: 0,
+        countLikes: 0,
+        isDeleted: false,
+        timeCreate: now,
+        timeUpdate: now,
+    });
+    if (topic) {
+        post.addTopic(topic);
+    }
+    if (Array.isArray(files)) {
+        post.addFiles(files);
+    } else if(files) {
+        post.addFile(files)
+    }
+    return post;
+}
+
 /*----------------EXPORT------------------ */
 exports.postGroup = postGroup;
 exports.putGroup = putGroup;

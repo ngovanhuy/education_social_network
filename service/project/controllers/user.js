@@ -278,22 +278,22 @@ function getUser(req, res, next) {
     }
 }
 function getProfileImageID(req, res, next) {
-    req.files.file_selected_id = req.users.user_request ? req.users.user_request.profileImageID : null;
+    req.fileitems.file_selected_id = req.users.user_request ? req.users.user_request.profileImageID : null;
     return next();
 }
 async function putProfileImage(req, res) {
     try {
-        if (!req.files.file_saved) {
+        if (!req.fileitems.file_saved) {
             throw new Error("Upload file Error");
         }
         let user = req.users.user_request;
-        user.profileImageID = String(req.files.file_saved._id);
+        user.profileImageID = String(req.fileitems.file_saved._id);
         user = await user.save();
         req.users.user_request = user;
         return res.json({
             code: 200,
             message: 'Success',
-            data: req.files.file_saved.getBasicInfo(),
+            data: req.fileitems.file_saved.getBasicInfo(),
         });
     } catch (error) {
         return res.status(500).send({
@@ -305,22 +305,22 @@ async function putProfileImage(req, res) {
     }
 }
 function getCoverImageID(req, res, next) {
-    req.files.file_selected_id = req.users.user_request ? req.users.user_request.coverImageID : null;
+    req.fileitems.file_selected_id = req.users.user_request ? req.users.user_request.coverImageID : null;
     return next();
 }
 async function putCoverImage(req, res) {
     try {
-        if (!req.files.file_saved) {
+        if (!req.fileitems.file_saved) {
             throw new Error("Upload file Error");
         }
         let user = req.users.user_request;
-        user.coverImageID = String(req.files.file_saved._id);
+        user.coverImageID = String(req.fileitems.file_saved._id);
         user = await user.save();
         req.users.user_request = user;
         return res.json({
             code: 200,
             message: 'Success',
-            data: req.files.file_saved.getBasicInfo(),
+            data: req.fileitems.file_saved.getBasicInfo(),
         });
     } catch (error) {
         return res.status(500).send({
@@ -918,7 +918,7 @@ async function getPosts(req, res) {
 async function getManyUsers(userIDs) {
     try {
         if (!userIDs) { return null; }
-        let userNumberIDs = userIDs.map(id => Number(id)).filter(id => !isNaN(id));
+        let userNumberIDs = Utils.getNumbers(userIDs);
         return await User.find({_id: {$in: userNumberIDs}});
     } catch(error) {
         return null;

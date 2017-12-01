@@ -62,6 +62,15 @@ function getStringArray(jsonContent) {
         return null;
     }
 }
+function getNumberArray(jsonContent) {
+    let strings = getStringArray(jsonContent);
+    return strings.map(id => Number(id)).filter(id => !isNaN(id));
+}
+
+function getNumbers(arrays) {
+    if (!arrays) return [];
+    return arrays.map(id => Number(id)).filter(id => !isNaN(id));
+}
 function isNumber(o) {
     if (isNaN(o)) {
         return false;
@@ -87,6 +96,12 @@ function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = 
 function exportDate(date) {
     return date ? date.toLocaleString() : null;
 }
+
+function getShortContent(content) {
+    if (!content) return "";
+    if (content.length > 30) return content.substring(0, 30) + '...';
+    return content;
+}
 exports.nextInt = nextInt;
 exports.randomString = randomString;
 exports.randomStringNumber = randomStringNumber;
@@ -94,6 +109,8 @@ exports.hash = hash;
 exports.hashSync = hashSync;
 exports.parseDate = parseDate;
 exports.getStringArray = getStringArray;
+exports.getNumberArray = getNumberArray;
+exports.getNumbers = getNumbers;
 exports.validateEmail = validateEmail;
 exports.validatePhoneNumber = validatePhoneNumber;
 exports.validateStringLength = validateStringLength;

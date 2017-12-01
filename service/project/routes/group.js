@@ -38,10 +38,13 @@ router.route('/files/:groupID')
     // .post(groupController.checkGroupRequest, fileController.fileUpload, fileController.postFile, fileController.getInfoFile )
     .post(groupController.checkGroupRequest, fileController.arrayFileUpload, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(groupController.searchGroupByName);
-router.route('/post/:groupID').get(groupController.checkGroupRequest, groupController.getPosts);
+router.route('/post/:groupID')
+    .get(groupController.checkGroupRequest, groupController.getPosts)
+    .post(groupController.checkGroupRequest, fileController.arrayFileUpload, fileController.postFilesIfHave, groupController.addPost, groupController.getGroup);
 router.route('/post/:groupID/:userID')
     .get(groupController.checkGroupRequest, groupController.getPosts)
-    .post(groupController.checkGroupRequest, fileController.fileUpload, fileController.postFileIfHave, groupController.addPost, groupController.getGroup);
+    // .post(groupController.checkGroupRequest, fileController.fileUpload, fileController.postFileIfHave, groupController.addPost, groupController.getGroup)
+    .post(groupController.checkGroupRequest, fileController.arrayFileUpload, fileController.postFilesIfHave, groupController.addPost, groupController.getGroup);
 
 router.route('/topic/:groupID')
     .get(groupController.checkGroupRequest, groupController.getTopics)

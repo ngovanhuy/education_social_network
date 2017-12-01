@@ -14,6 +14,7 @@ let userRouter = require('./routes/user');
 let checkRouter = require('./routes/check');
 let testRouter = require('./routes/test');
 let taskRouter = require('./routes/task');
+let postRouter = require('./routes/post');
 
 Application.manager.connectToDB();
 Application.manager.start();
@@ -34,7 +35,9 @@ app.all('/*', function (req, res, next) {
 });
 //Init extends object, log request.
 app.use(function (req, res, next) {
-        req.files = req.files ? req.files : {};
+        req.posts = req.posts ? req.posts : {};
+        req.fileitems = req.fileitems ? req.fileitems : {};
+        // req.files = req.files ? req.files : {};
         req.users = req.users ? req.users : {};
         req.groups = req.groups ? req.groups : {};
         console.log("Request:" + req.path + "[" + req.method + "]");
@@ -55,10 +58,11 @@ app.use(passport.initialize());
 app.use('/apis', apiRouter);
 app.use('/files', fileRouter);
 app.use('/users', userRouter);
-app.use('/groups/', groupRouter);
-app.use('/checks/', checkRouter);
+app.use('/groups', groupRouter);
+app.use('/checks', checkRouter);
 app.use('/tasks', taskRouter);
 app.use('/test', testRouter);
+app.use('/posts', postRouter);
 
 app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));//handing error request path
 app.use(function (err, req, res, next) {

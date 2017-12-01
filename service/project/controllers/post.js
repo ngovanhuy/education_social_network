@@ -1,10 +1,14 @@
-var PostItem = require('../models/post');
-var Groups = require('../controllers/group');
+let PostItem = require('../models/post');
+let Groups = require('../controllers/group');
 
 async function getPostByID(id) {
 
 }
 async function findPost(req) {
+    
+}
+
+async function getPost(req, res) {
 
 }
 
@@ -30,6 +34,8 @@ exports.removePost = removePost;
 exports.modifyPost = modifyPost;
 exports.addComment = addComment;
 exports.getComments = getComments;
+exports.getPost = getPost;
+exports.getPostByID = getPostByID;
 
 
 

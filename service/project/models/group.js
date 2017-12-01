@@ -232,14 +232,9 @@ function getMemberUser(user) {
     return null;
 }
 function getMemberById(id) {
+    if (!this.members) {this.members = []};
     if (!id) return null;
-    for (let index = 0; index < this.members.length; index++) {
-        member = this.members[index];
-        if (member._id === id) {
-            return member;
-        }
-    }
-    return null;
+    return this.members.find(member => member._id === id);
 }
 function isMember(user) {
     return !!getMemberUser.call(this, user);
@@ -414,11 +409,10 @@ function getTopics() {
 }
 
 function addPost(new_post, topic_name, new_options = null) {
-    if (!this.posts) {
-        this.posts = [];
-    }
+    if (!this.posts) { this.posts = []; }
     let post = this.posts.find(item => item._id === new_post.id);
-    let options;
+    let timeUpdate = Date.now();
+    let options = null;
     if (!new_options) {
         options = {
             isShow: true,
@@ -431,7 +425,6 @@ function addPost(new_post, topic_name, new_options = null) {
             members: [],
         }
     } else {
-        // let now = Date.now();
         let isShow = new_options.isShow ? new_options.isShow : false;
         let isSchedule = new_options.isSchedule ? new_options.isSchedule : false;
         let scopeType = new_options.scopeType ? new_options.scopeType : 10;
@@ -450,42 +443,36 @@ function addPost(new_post, topic_name, new_options = null) {
             members: users,
         }
     }
-    if (!post) {
+    if (post) {
+        post.options = options;
+        post.timeCreate = timeUpdate;
+        post.isDeleted = false;
+    } else {
         post = {
             _id: new_post._id,
             title: new_post.title,
             options: options,
-            timeCreate: Date.now(),
+            timeCreate: timeUpdate,
             isDeleted: false,
         };
         this.posts.push(post);
-    } else {
-        post.options = options;
-        post.timeCreate = Date.now();
-        post.isDeleted = false;
     }
-    if (this.addTopic.call(this, topic_name)) {
-        // post.addTopic.call(post, topic_name);
+    if (addTopic.call(this, topic_name)) {
+        // return post.addTopic.call(post, topic_name) ? post : null;
+        // return new_post.addTopic(new_post, topic_name) ? post : null;
+        return post;
     }
-    return post;
+    return null;
 }
 function getPostIDs(user, topics = null, top = -1) {
-    if (!this.posts) {
-        return [];
-    }
-    let postIDs = [];
+    if (!this.posts) { return []; }
     if (!user) {
-        for (let index = this.posts.length - 1; index >= 0; index--) {
-            let post = this.posts[index];
-            if (post.isDeleted) continue;
-            postIDs.push(post._id);
-        }
-        return postIDs;
+        return this.posts.filter(post => post.isDeleted === false).map(post => post._id);
     }
     if (!isMember.call(this, user)) {
         return [];
     }
-
+    let postIDs = [];
     let max = top > 0 ? this.posts.length : top;
     let count = 0;
     for (let index = this.posts.length - 1; index >= 0; index--) {
