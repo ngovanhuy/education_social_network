@@ -827,14 +827,7 @@ async function getUsers(req, res) {
             code: 200,
             message: 'Success',
             count: users.length,
-            data: users.map(user => ({
-                id: user.id,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                coverImageID: user.coverImageID,
-                profileImageID: user.profileImageID,
-            }))
+            data: users.map(user => user.getBasicInfo()),
         });
     } catch (error) {
         return res.status(500).send(error);
@@ -921,6 +914,16 @@ async function getPosts(req, res) {
         });
     }
 }
+
+async function getManyUsers(userIDs) {
+    try {
+        if (!userIDs) { return null; }
+        let userNumberIDs = userIDs.map(id => Number(id)).filter(id => !isNaN(id));
+        return await User.find({_id: {$in: userNumberIDs}});
+    } catch(error) {
+        return null;
+    }
+}
 /*----------------EXPORT------------------ */
 exports.postUser = postUser;
 exports.putUser = putUser;
@@ -960,3 +963,4 @@ exports.login = login;
 exports.getFiles = getFiles;
 exports.searchUserByName = searchUserByName;
 exports.getPosts = getPosts;
+exports.getManyUsers = getManyUsers;

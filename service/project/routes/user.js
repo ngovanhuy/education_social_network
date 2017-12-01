@@ -36,7 +36,6 @@ router.route('/requested/:userID/:friendUserID')
     .delete(userController.checkUserRequest, userController.removeRequested);
 
 router.route('/posts/:userID').get(userController.checkUserRequest, userController.getPosts);
-
 router.route('/classs/:userID/:groupID').delete(userController.checkUserRequest, groupController.checkGroupRequest , userController.removeFromClass);
 // router.route('/classrequest').get(userController.checkUserRequest, userController.getClassRequests);
 router.route('/classrequest/:userID').get(userController.checkUserRequest, userController.getClassRequests);

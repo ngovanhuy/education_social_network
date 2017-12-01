@@ -54,6 +54,9 @@ function parseDate(dateString) {
 }
 function getStringArray(jsonContent) {
     try {
+        if (Array.isArray(jsonContent)) {
+            return jsonContent;
+        }
         return [...items] = JSON.parse(jsonContent);
     } catch (error) {
         return null;
