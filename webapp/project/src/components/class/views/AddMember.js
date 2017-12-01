@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Autosuggest from 'react-autosuggest';
+import {connect} from 'react-redux'
 import {userService} from "../../../services/userService";
 import {classService} from "../../../services/classService";
+import {classActions} from "../../../actions";
 
 const getSuggestionValue = suggestion => suggestion.username;
 
@@ -58,10 +60,13 @@ class AddMember extends Component{
     onSuggestionSelected = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
         const {classId} = this.props
         classService.addMember(classId, suggestion.id)
+            .then(
+                this.props.dispatch(classActions.getById(classId)),
+                this.props.dispatch(classActions.getMembers(classId))
+            )
         this.setState({
             value: '',
             suggestions: [],
-            memberCount: this.state.memberCount++
         });
     };
 
@@ -106,4 +111,4 @@ class AddMember extends Component{
     }
 }
 
-export default AddMember;
+export default connect(null, null)(AddMember);

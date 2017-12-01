@@ -107,7 +107,7 @@ class PostCreateAssignment extends Component {
         console.log(this.state)
         // const {classDetail, user, title, content, topic, members, isSchedule, scopeType, startTime, endTime } = this.state;
         // this.setState({submitted: true});
-        // classActions.insertPost(classDetail.id, user.id, title, content, topic, members, isSchedule, scopeType, startTime, endTime)
+        // classService.insertPost(classDetail.id, user.id, title, content, topic, members, isSchedule, scopeType, startTime, endTime)
         //     .then(
         //         this.props.dispatch(classActions.getPosts(classDetail.id))
         //     );

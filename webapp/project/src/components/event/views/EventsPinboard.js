@@ -2,14 +2,14 @@ import React, {Component} from 'react'
 import EventInfo from "../../commons/views/EventInfo";
 import '../event.css'
 
-class EventsPinboard extends Component{
+class EventsPinboard extends Component {
 
     renderEventDetail = (event, index) => {
         return (
             <div key={index} className="col-sm-3">
                 <div className="event-pinboard clearfix">
                     <div className="event-photo">
-                        <img src={event.source} />
+                        <img src={event.source}/>
                     </div>
                     <div className="event-detail">
                         <div className="event-name">
@@ -41,13 +41,21 @@ class EventsPinboard extends Component{
         )
     }
 
-    render(){
+    render() {
         const {events} = this.props
-        return(
+        return (
             <div className="events-content clearfix">
                 {
-                    events && events.length > 0 &&
-                    events.map((event, index) => this.renderEventDetail(event, index))
+                    (events && events.length > 0) ?
+                        (
+                            events.map((event, index) => this.renderEventDetail(event, index))
+                        )
+                        :
+                        (
+                            <div className="no-event">
+                                No Events
+                            </div>
+                        )
                 }
             </div>
         )

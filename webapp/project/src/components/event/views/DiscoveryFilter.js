@@ -65,18 +65,7 @@ class DiscoveryFilter extends Component {
     };
 
     changeTextSearch = e => {
-        if (e.target.value !== '' && e.target.value !== null) {
-            this.setState({
-                textSearch: e.target.value,
-                filter: true
-            });
-        }
-        else {
-            this.setState({
-                textSearch: '',
-                filter: true
-            });
-        }
+        const textSearch = e.target.value
     };
 
     handleChangeVisibility = (event) => {
@@ -215,7 +204,7 @@ class DiscoveryFilter extends Component {
     };
 
     render() {
-        const {subjects, classes} = this.props
+        const {classes} = this.props
         return (
             <div>
                 <div className="has-bulk-actions">
@@ -238,52 +227,53 @@ class DiscoveryFilter extends Component {
                                                  style={{height: '85px', display: 'block'}}>
                                                 <div className="arrow"></div>
                                                 <div className="filters">
-                                                    <label className="filter-title">Display events
-                                                        by:</label>
+                                                    <label className="filter-title">
+                                                        Display events by:
+                                                    </label>
                                                     <div className="filter-content">
                                                         <select
                                                             className="form-control form-selectboxit"
                                                             id="filter-conditions"
                                                             onChange={this.handleChange}>
                                                             <option value="">Filter by...</option>
-                                                            <option value="visibility">
-                                                                Display
-                                                            </option>
+                                                            {/*<option value="visibility">*/}
+                                                                {/*Display*/}
+                                                            {/*</option>*/}
                                                             <option value="start">
                                                                 Event start time
                                                             </option>
-                                                            <option value="location">
-                                                                Event location
-                                                            </option>
-                                                            <option value="subject">
-                                                                Event of subject
-                                                            </option>
+                                                            {/*<option value="location">*/}
+                                                                {/*Event location*/}
+                                                            {/*</option>*/}
+                                                            {/*<option value="subject">*/}
+                                                                {/*Event of subject*/}
+                                                            {/*</option>*/}
                                                             <option value="class">
                                                                 Event of class
                                                             </option>
-                                                            <option value="tag">
-                                                                Tag with
-                                                            </option>
+                                                            {/*<option value="tag">*/}
+                                                                {/*Tag with*/}
+                                                            {/*</option>*/}
                                                         </select>
                                                         <div className="inline filter-choose">
-                                                            {
-                                                                this.state.valueDropdown === "visibility" &&
-                                                                <div>
-                                                                    <select
-                                                                        className="form-control form-selectboxit filter-select"
-                                                                        onChange={this.handleChangeVisibility}>
-                                                                        <option value="">Select
-                                                                            condition filter...
-                                                                        </option>
-                                                                        <option value="visibility">
-                                                                            Display
-                                                                        </option>
-                                                                        <option value="hidden">
-                                                                            Hidden
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                            }
+                                                            {/*{*/}
+                                                                {/*this.state.valueDropdown === "visibility" &&*/}
+                                                                {/*<div>*/}
+                                                                    {/*<select*/}
+                                                                        {/*className="form-control form-selectboxit filter-select"*/}
+                                                                        {/*onChange={this.handleChangeVisibility}>*/}
+                                                                        {/*<option value="">Select*/}
+                                                                            {/*condition filter...*/}
+                                                                        {/*</option>*/}
+                                                                        {/*<option value="visibility">*/}
+                                                                            {/*Display*/}
+                                                                        {/*</option>*/}
+                                                                        {/*<option value="hidden">*/}
+                                                                            {/*Hidden*/}
+                                                                        {/*</option>*/}
+                                                                    {/*</select>*/}
+                                                                {/*</div>*/}
+                                                            {/*}*/}
                                                             {
                                                                 this.state.valueDropdown === 'start' &&
                                                                 <div className="date inline margin-right">
@@ -305,33 +295,33 @@ class DiscoveryFilter extends Component {
                                                                     }
                                                                 </div>
                                                             }
-                                                            {
-                                                                this.state.valueDropdown === 'location' &&
-                                                                <div>
-                                                                    <input type="text"
-                                                                           className="form-control inline filter-input"
-                                                                           onChange={this.handleChangeLocation}/>
-                                                                </div>
-                                                            }
-                                                            {
-                                                                this.state.valueDropdown === 'subject' &&
-                                                                <div>
-                                                                    <select
-                                                                        className="form-control form-selectboxit filter-select"
-                                                                        onChange={this.handleChangeSubjectValue}>
-                                                                        {
-                                                                            subjects && subjects.length > 0 &&
-                                                                            subjects.map((subject, index) =>
-                                                                                (
-                                                                                    <option key={index}
-                                                                                            value={subject.value}>
-                                                                                        {subject.label}
-                                                                                    </option>
-                                                                                ))
-                                                                        }
-                                                                    </select>
-                                                                </div>
-                                                            }
+                                                            {/*{*/}
+                                                                {/*this.state.valueDropdown === 'location' &&*/}
+                                                                {/*<div>*/}
+                                                                    {/*<input type="text"*/}
+                                                                           {/*className="form-control inline filter-input"*/}
+                                                                           {/*onChange={this.handleChangeLocation}/>*/}
+                                                                {/*</div>*/}
+                                                            {/*}*/}
+                                                            {/*{*/}
+                                                                {/*this.state.valueDropdown === 'subject' &&*/}
+                                                                {/*<div>*/}
+                                                                    {/*<select*/}
+                                                                        {/*className="form-control form-selectboxit filter-select"*/}
+                                                                        {/*onChange={this.handleChangeSubjectValue}>*/}
+                                                                        {/*{*/}
+                                                                            {/*subjects && subjects.length > 0 &&*/}
+                                                                            {/*subjects.map((subject, index) =>*/}
+                                                                                {/*(*/}
+                                                                                    {/*<option key={index}*/}
+                                                                                            {/*value={subject.value}>*/}
+                                                                                        {/*{subject.label}*/}
+                                                                                    {/*</option>*/}
+                                                                                {/*))*/}
+                                                                        {/*}*/}
+                                                                    {/*</select>*/}
+                                                                {/*</div>*/}
+                                                            {/*}*/}
                                                             {
                                                                 this.state.valueDropdown === 'class' &&
                                                                 <div>
@@ -351,14 +341,14 @@ class DiscoveryFilter extends Component {
                                                                     </select>
                                                                 </div>
                                                             }
-                                                            {
-                                                                this.state.valueDropdown === 'tag' &&
-                                                                <div>
-                                                                    <input type="text"
-                                                                           className="form-control inline filter-input"
-                                                                           onChange={this.handleChangeTag}/>
-                                                                </div>
-                                                            }
+                                                            {/*{*/}
+                                                                {/*this.state.valueDropdown === 'tag' &&*/}
+                                                                {/*<div>*/}
+                                                                    {/*<input type="text"*/}
+                                                                           {/*className="form-control inline filter-input"*/}
+                                                                           {/*onChange={this.handleChangeTag}/>*/}
+                                                                {/*</div>*/}
+                                                            {/*}*/}
                                                             {
                                                                 this.state.valueDropdown &&
                                                                 <input type="button"
@@ -391,19 +381,19 @@ class DiscoveryFilter extends Component {
                                 <div className="btn-group btn-group-filter">
                                     <div className="btn-group">
                                         <div className="bootstrap-tagsinput" style={{border: '0'}}>
-                                            {
-                                                (
-                                                    this.state.visibilityValue !== null && this.state.visibilityValue
-                                                ) ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                        {this.state.visibilityValue === "visibility" ? 'Display' : 'Hidden'}
-                                                            <span data-role="remove"
-                                                                  onClick={this.removeSearchVisibility}>
-                                                        </span>
-                                                </span>
-                                                    ) : ''
-                                            }
+                                            {/*{*/}
+                                                {/*(*/}
+                                                    {/*this.state.visibilityValue !== null && this.state.visibilityValue*/}
+                                                {/*) ?*/}
+                                                    {/*(*/}
+                                                        {/*<span className="tag label label-info">*/}
+                                                        {/*{this.state.visibilityValue === "visibility" ? 'Display' : 'Hidden'}*/}
+                                                            {/*<span data-role="remove"*/}
+                                                                  {/*onClick={this.removeSearchVisibility}>*/}
+                                                        {/*</span>*/}
+                                                {/*</span>*/}
+                                                    {/*) : ''*/}
+                                            {/*}*/}
                                             {
                                                 (
                                                     this.state.eventStartAfter && this.state.eventStartAfterValue
@@ -434,34 +424,34 @@ class DiscoveryFilter extends Component {
                                                         </span>
                                                     ) : ''
                                             }
-                                            {
-                                                (
-                                                    this.state.locationValue !== null && this.state.locationValue
-                                                ) ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                        {"Location at \"" + this.state.locationValue + "\""}
-                                                            <span data-role="remove"
-                                                                  onClick={this.removeSearchVisibility}>
-                                                        </span>
-                                                </span>
-                                                    ) : ''
-                                            }
-                                            {
-                                                (
-                                                    this.state.subjectValue !== null && this.state.subjectValue
-                                                ) ?
-                                                    <span className="tag label label-info">
-                                                        {
-                                                            "Event of subject \"" +
-                                                            getByValue(subjects, this.state.subjectValue) + "\""
-                                                        }
-                                                        <span data-role="remove"
-                                                              onClick={this.removeEventSubject}>
-                                                        </span>
-                                                    </span>
-                                                    : ''
-                                            }
+                                            {/*{*/}
+                                                {/*(*/}
+                                                    {/*this.state.locationValue !== null && this.state.locationValue*/}
+                                                {/*) ?*/}
+                                                    {/*(*/}
+                                                        {/*<span className="tag label label-info">*/}
+                                                        {/*{"Location at \"" + this.state.locationValue + "\""}*/}
+                                                            {/*<span data-role="remove"*/}
+                                                                  {/*onClick={this.removeSearchVisibility}>*/}
+                                                        {/*</span>*/}
+                                                {/*</span>*/}
+                                                    {/*) : ''*/}
+                                            {/*}*/}
+                                            {/*{*/}
+                                                {/*(*/}
+                                                    {/*this.state.subjectValue !== null && this.state.subjectValue*/}
+                                                {/*) ?*/}
+                                                    {/*<span className="tag label label-info">*/}
+                                                        {/*{*/}
+                                                            {/*"Event of subject \"" +*/}
+                                                            {/*getByValue(subjects, this.state.subjectValue) + "\""*/}
+                                                        {/*}*/}
+                                                        {/*<span data-role="remove"*/}
+                                                              {/*onClick={this.removeEventSubject}>*/}
+                                                        {/*</span>*/}
+                                                    {/*</span>*/}
+                                                    {/*: ''*/}
+                                            {/*}*/}
                                             {
                                                 (
                                                     this.state.classValue !== null && this.state.classValue
@@ -477,19 +467,19 @@ class DiscoveryFilter extends Component {
                                                     </span>
                                                     : ''
                                             }
-                                            {
-                                                this.state.tagsValue !== null && this.state.tagsValue ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                    {'Tag with ' + this.state.tagsValue}
-                                                            <span
-                                                                data-role="remove"
-                                                                onClick={this.removeSearchTag}>
-                                                    </span>
-                                                </span>
-                                                    ) : ''
+                                            {/*{*/}
+                                                {/*this.state.tagsValue !== null && this.state.tagsValue ?*/}
+                                                    {/*(*/}
+                                                        {/*<span className="tag label label-info">*/}
+                                                    {/*{'Tag with ' + this.state.tagsValue}*/}
+                                                            {/*<span*/}
+                                                                {/*data-role="remove"*/}
+                                                                {/*onClick={this.removeSearchTag}>*/}
+                                                    {/*</span>*/}
+                                                {/*</span>*/}
+                                                    {/*) : ''*/}
 
-                                            }
+                                            {/*}*/}
                                         </div>
                                     </div>
                                 </div> : ''

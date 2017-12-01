@@ -1,6 +1,7 @@
 $main-color: rgba(146, 181, 88, 1);
 .home-page {
   .home-leftmenu {
+    //position: fixed;
     .school-logo {
       img {
         height: 160px;
@@ -35,7 +36,7 @@ $main-color: rgba(146, 181, 88, 1);
     }
     ul.home-leftmenu-list {
       list-style: none;
-      padding-left: 10px;
+      padding-left: 0px;
       li {
         align-items: center;
         display: -ms-flexbox;
@@ -47,13 +48,26 @@ $main-color: rgba(146, 181, 88, 1);
         &:hover{
           background-color: #F6F7F9;
         }
-        i.fa {
-          margin-right: 5px;
+        i{
+          font-size: 18px;
+        }
+        .group-icon{
+          margin-top: 4px;
+          max-height: 20px;
+          max-width: 20px;
+          position: absolute;
+          background-position: 0 -383px;
+        }
+        .group-label{
+          margin-left: 25px;
         }
         a {
           color: #000;
           &:hover {
             text-decoration: none;
+          }
+          span{
+            margin-left: 10px;
           }
         }
       }
@@ -72,21 +86,6 @@ $main-color: rgba(146, 181, 88, 1);
       }
     }
   }
-  .home-notifications{
-    .notification-detail{
-      margin-top: 5px;
-      padding-bottom: 5px;
-      border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
-      &:last-of-type{
-        border-bottom: none;
-      }
-      .notification-time-user{
-        .user-profile-info{
-          display: inline-block;
-        }
-      }
-    }
-  }
   .home-school-about{
     .school-map{
       img{
@@ -98,6 +97,23 @@ $main-color: rgba(146, 181, 88, 1);
       margin: 5px 0;
       i.fa{
         margin-right: 10px;
+      }
+    }
+  }
+  .home-rightmenu{
+    .home-notifications{
+      .notification-detail{
+        margin-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
+        &:last-of-type{
+          border-bottom: none;
+        }
+        .notification-time-user{
+          .user-profile-info{
+            display: inline-block;
+          }
+        }
       }
     }
   }

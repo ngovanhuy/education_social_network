@@ -12,6 +12,19 @@ body {
   clear: both;
   height: 0; }
 
+header {
+  position: fixed;
+  top: 0;
+  display: flex;
+  z-index: 301;
+  height: 55px;
+  width: 100%; }
+  header .navbar {
+    width: 100%; }
+
+.page-content {
+  margin-top: 55px; }
+
 ul.nav li i {
   font-size: 18px; }
 ul.nav li span {
@@ -338,5 +351,17 @@ a.black-none-under {
 
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd; }
+
+.group-icon {
+  background-image: url("/images/icons.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 20px;
+  width: 20px; }
+
+.no-event {
+  margin-top: 15px;
+  font-weight: bold; }
 
 /*# sourceMappingURL=common.css.map */

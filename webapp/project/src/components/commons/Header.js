@@ -153,7 +153,6 @@ class Header extends Component {
                                         <Link to={`/events`}>Events</Link>
                                     </li>
                                     <li className="divider"></li>
-                                    <li><a href="javascript:;">Settings</a></li>
                                     <li>
                                         <Link to={`/logout`}>Logout</Link>
                                     </li>

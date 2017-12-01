@@ -1,6 +1,6 @@
 import {classConstants} from '../constants';
 
-export function classes(state = {loading: false, items: [], classDetail: {}, classesByUserId: []}, action) {
+export function classes(state = {loading: false, items: [], classDetail: {}}, action) {
     switch (action.type) {
         case classConstants.CLASSES_GETALL_REQUEST:
             return {
@@ -182,6 +182,46 @@ export function classes(state = {loading: false, items: [], classDetail: {}, cla
                 }
             };
         case classConstants.CLASSES_GETPOSTSBYUSER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_GETEVENTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETEVENTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    events: action.data
+                }
+            };
+        case classConstants.CLASSES_GETEVENTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_GETEVENTSBYUSER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETEVENTSBYUSER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    eventsByUser: action.data
+                }
+            };
+        case classConstants.CLASSES_GETEVENTSBYUSER_FAILURE:
             return {
                 ...state,
                 loading: false,

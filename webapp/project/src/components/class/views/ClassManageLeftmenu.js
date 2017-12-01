@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 class ClassManageLeftmenu extends Component {
     renderClassNameCurrentClassManageView(currentView, currentViewLink) {
-        if (currentView == currentViewLink) {
+        if (currentView === currentViewLink) {
             return "class-manage-leftmenu-content current";
         }
         return "class-manage-leftmenu-content";
@@ -23,6 +23,12 @@ class ClassManageLeftmenu extends Component {
                         <div
                             className={this.renderClassNameCurrentClassManageView("changeClassDetail", currentViewLink)}>
                             <span>Change Info Class</span>
+                        </div>
+                    </Link>
+                    <Link to={`/classes/${classId}/mamageClass?currentViewLink=deleteClass`}>
+                        <div
+                            className={this.renderClassNameCurrentClassManageView("deleteClass", currentViewLink)}>
+                            <span>Delete This Class</span>
                         </div>
                     </Link>
                 </div>

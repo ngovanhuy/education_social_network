@@ -5,21 +5,30 @@ import {withRouter} from 'react-router-dom'
 import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import ClassCalendar from "../../components/class/ClassCalendar";
+import {classActions} from "../../actions";
 
 class ClassFilePage extends Component {
-    static propTypes = {
-        classDetail: PropTypes.object,
-        classId: PropTypes.string,
-        topics: PropTypes.array,
+    componentWillMount() {
+        const {classId, user} = this.props;
+        this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getEvents(classId));
+        if(user){
+            this.props.dispatch(classActions.getEventsByUser(classId, user.id));
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.classId !== this.props.classId) {
+            const {classId, user} = nextProps;
+            this.props.dispatch(classActions.getById(classId));
+            this.props.dispatch(classActions.getEvents(classId));
+            if(user){
+                this.props.dispatch(classActions.getEventsByUser(classId, user.id));
+            }
+        }
     }
 
     static defaultProps = {
-        classDetail: {
-            coverPhotoUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },
         topics: [{
             fullName: 'Task 1',
             topicName: 'task_1',
@@ -162,8 +171,12 @@ class ClassFilePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
+    const {classDetail} = state.classes
+    const {user} = state.authentication
     return {
-        classId
+        classId,
+        classDetail,
+        user
     }
 }
 

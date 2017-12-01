@@ -39,7 +39,9 @@ class App extends Component {
                 {
                     (loggedIn) ? <Header/> : ''
                 }
-                {children}
+                <div className="page-content">
+                    {children}
+                </div>
             </div>
         )
     }

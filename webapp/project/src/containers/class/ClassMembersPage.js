@@ -10,6 +10,7 @@ import {classActions} from "../../actions";
 import {classConstants} from "../../constants";
 import {userUtils} from "../../utils/userUtils";
 import {classService, userService} from "../../services";
+import {history} from "../../helpers/history";
 
 class ClassMembersPage extends Component {
     constructor(props) {
@@ -47,7 +48,7 @@ class ClassMembersPage extends Component {
     handleDeleteMember(classId, memberId){
         classService.deleteMember(classId, memberId)
             .then(
-                this.props.dispatch(classActions.getMembers(classId))
+                history.push('/classes')
             )
     }
 

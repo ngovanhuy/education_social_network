@@ -42,7 +42,8 @@ class HomeLeftmenu extends Component {
         return (
             <li key={index}>
                 <Link to={linkTo}>
-                    <span>{linkLabel}</span>
+                    <i className="group-icon"></i>
+                    <span className="group-label">{linkLabel}</span>
                 </Link>
             </li>
         )
@@ -94,7 +95,7 @@ class HomeLeftmenu extends Component {
                                 classes && classes.length > 0 ?
                                     (
                                         classes.map((classDetail, index) =>
-                                            this.renderListItem(index, `/classes/${classDetail._id}`, classDetail.name))
+                                            this.renderListItem(index, `/classes/${classDetail.id}`, classDetail.name))
                                     ) : ''
                             }
                         </ul>

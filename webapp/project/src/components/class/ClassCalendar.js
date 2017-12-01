@@ -38,7 +38,7 @@ class ClassCalendar extends Component {
         return (
             <div className="class-calendar">
                 <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
-                <ClassEventsCalendarHeadline classId={classId} currentPage="calendar" openModal={this.openModal}/>
+                <ClassEventsCalendarHeadline classDetail={classDetail} currentPage="calendar" openModal={this.openModal}/>
                 <BigCalendar
                     selectable
                     {...this.props}

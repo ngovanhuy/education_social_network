@@ -13,7 +13,7 @@ class ClassRightMenu extends Component{
             <div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <ClassEventsUpcomming events={events}/>
+                        <ClassEventsUpcomming events={events} classId={classDetail.id}/>
                     </div>
                 </div>
                 <div className="row">

@@ -22,16 +22,16 @@ class ClassTimelinePage extends Component {
             fullName: 'Task 3',
             topicName: 'task_3',
         }],
-        events: [{
-            start: new Date(),
-            title: 'Event name 1'
-        }, {
-            start: new Date(),
-            title: 'Event name 2'
-        }, {
-            start: new Date(),
-            title: 'Event name 3'
-        }],
+        // events: [{
+        //     start: new Date(),
+        //     title: 'Event name 1'
+        // }, {
+        //     start: new Date(),
+        //     title: 'Event name 2'
+        // }, {
+        //     start: new Date(),
+        //     title: 'Event name 3'
+        // }],
         // feed:[{
         //     post:{
         //         id: "123",
@@ -188,8 +188,10 @@ class ClassTimelinePage extends Component {
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getFiles(classId));
         this.props.dispatch(classActions.getPosts(classId));
+        this.props.dispatch(classActions.getEvents(classId));
         if(user){
             this.props.dispatch(classActions.getPostsByUser(classId, user.id));
+            this.props.dispatch(classActions.getEventsByUser(classId, user.id));
         }
     }
 
@@ -199,21 +201,26 @@ class ClassTimelinePage extends Component {
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getFiles(classId));
             this.props.dispatch(classActions.getPosts(classId));
+            this.props.dispatch(classActions.getEvents(classId));
             if(user){
                 this.props.dispatch(classActions.getPostsByUser(classId, user.id));
+                this.props.dispatch(classActions.getEventsByUser(classId, user.id));
             }
         }
     }
 
     render() {
-        const {classDetail, classId, user, topics, events} = this.props
+        const {classDetail, classId, user, topics} = this.props
         const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
         const isTeacher = userUtils.checkIsTeacher(user)
         var posts = []
+        var eventsUpcomming = []
         if(isTeacher){
             posts = (classDetail && classDetail.posts) ? classDetail.posts : []
+            eventsUpcomming = (classDetail && classDetail.events) ? classDetail.events.slice(0, 3) : []
         } else {
-            posts = (classDetail && classDetail.postsByUser) ? classDetail.postsByUser : []
+            posts = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser : []
+            eventsUpcomming = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser.slice(0, 3) : []
         }
         return (
             <div>
@@ -236,7 +243,7 @@ class ClassTimelinePage extends Component {
                     </div>
                     <div className="col-sm-3">
                         <div className="row">
-                            <ClassRightMenu classDetail={classDetail} events={events}
+                            <ClassRightMenu classDetail={classDetail} events={eventsUpcomming}
                                             recentFiles={recentFiles}/>
                         </div>
                     </div>

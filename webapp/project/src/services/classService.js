@@ -11,6 +11,8 @@ export const classService = {
     getFiles,
     getPosts,
     getPostsByUser,
+    getEvents,
+    getEventsByUser,
     insert,
     insertPost,
     update,
@@ -19,7 +21,8 @@ export const classService = {
     deleteFile,
     searchByClassname,
     addMember,
-    deleteMember
+    deleteMember,
+    deleteClass,
 };
 
 function getAll() {
@@ -91,6 +94,24 @@ function getPostsByUser(classId, userId) {
         headers: authHeader()
     };
     const url = DOMAIN_SERVICE + '/groups/post/' + classId + "/" + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getEvents(classId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/event/' + classId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getEventsByUser(classId, userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/event/' + classId + "/" + userId;
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -174,6 +195,15 @@ function deleteMember(classId, userId) {
         headers: authHeader()
     };
     const url = DOMAIN_SERVICE + '/groups/members/' + classId + "/" + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function deleteClass(classId, userId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/action/' + classId + "/" + userId;
     return fetch(url, requestOptions).then(handleResponse);
 }
 
