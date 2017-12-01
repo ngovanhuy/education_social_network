@@ -55,11 +55,11 @@ async function getAllFiles() {
 }
 async function findFile(req) {
     if (!req) { return null; }
-    if (req.files.file_selected) {
-        return req.files.file_selected;
+    if (req.fileitems.file_selected) {
+        return req.fileitems.file_selected;
     }
-    if (req.files.file_selected_id) {
-        return await FileItem.findById(req.files.file_selected_id);
+    if (req.fileitems.file_selected_id) {
+        return await FileItem.findById(req.fileitems.file_selected_id);
     }
     if (req.params.fileID) {
         return await FileItem.findById(req.params.fileID);
@@ -71,10 +71,10 @@ async function findFile(req) {
 }
 async function postFiles(req, res, next) {
     try {
-        req.files.file_saved = null;
-        req.files.file_selected_id = null;
-        req.files.files_saved = null;
-        if (!req.files || !Array.isArray(req.files)) {
+        req.fileitems.file_saved = null;
+        req.fileitems.file_selected_id = null;
+        req.fileitems.files_saved = null;
+        if (!req.files) {
             throw new Error("Input files null");
         }
         let current_user = null;
@@ -110,7 +110,7 @@ async function postFiles(req, res, next) {
             files.push(fileSave);
         });
         Promise.all(files.map(file => file.save())).then(filesaveds => {
-            req.files.files_saved = filesaveds;
+            req.fileitems.files_saved = filesaveds;
             next();
         }).catch(error => next(error));
     } catch (error) {
@@ -124,10 +124,10 @@ async function postFiles(req, res, next) {
 }
 async function postFilesIfHave(req, res, next) {
     try {
-        req.files.file_saved = null;
-        req.files.file_selected_id = null;
-        req.files.files_saved = null;
-        if (!req.files || !Array.isArray(req.files)) {
+        req.fileitems.file_saved = null;
+        req.fileitems.file_selected_id = null;
+        req.fileitems.files_saved = null;
+        if (!req.files) {
             return next();
         }
         let current_user = null;
@@ -149,7 +149,6 @@ async function postFilesIfHave(req, res, next) {
         }
         let files = [];
         let now = Date.now();
-        console.log(req.files);
         req.files.forEach(file => {
             let fileSave = new FileItem({
                 id: file.filename,
@@ -164,7 +163,7 @@ async function postFilesIfHave(req, res, next) {
             files.push(fileSave);
         });
         Promise.all(files.map(file => file.save())).then(filesaveds => {
-            req.files.files_saved = filesaveds;
+            req.fileitems.files_saved = filesaveds;
             next();
         }).catch(error => next(error));
     } catch (error) {
@@ -178,8 +177,8 @@ async function postFilesIfHave(req, res, next) {
 }
 async function postFile(req, res, next) {
     try {
-        req.files.file_saved = null;
-        req.files.file_selected_id = null;
+        req.fileitems.file_saved = null;
+        req.fileitems.file_selected_id = null;
         if (!req.file) {
             throw new Error("Input file null");
         }
@@ -211,8 +210,8 @@ async function postFile(req, res, next) {
             file.group = null;
         }
         file = await file.save();
-        req.files.file_saved = file;
-        req.files.file_selected_id = file ? file._id : null;
+        req.fileitems.file_saved = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
         return next();
     } catch (error) {
         return res.status(500).send({
@@ -225,8 +224,8 @@ async function postFile(req, res, next) {
 }
 async function postFileIfHave(req, res, next) {
     try {
-        req.files.file_saved = null;
-        req.files.file_selected_id = null;
+        req.fileitems.file_saved = null;
+        req.fileitems.file_selected_id = null;
         if (!req.file) {
             return next();
         }
@@ -258,8 +257,8 @@ async function postFileIfHave(req, res, next) {
             file.group = null;
         }
         file = await file.save();
-        req.files.file_saved = file;
-        req.files.file_selected_id = file ? file._id : null;
+        req.fileitems.file_saved = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
         return next();
     } catch (error) {
         return res.status(500).send({
@@ -273,8 +272,8 @@ async function postFileIfHave(req, res, next) {
 async function deleteFile(req, res) {
     try {
         let file = await findFile(req);
-        req.files.file_selected = file;
-        req.files.file_selected_id = file ? file._id : null;
+        req.fileitems.file_selected = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
         if (!file || file.isDeleted) {
             return res.status(400).send({
                 code: 400,
@@ -285,8 +284,8 @@ async function deleteFile(req, res) {
         }
         file.isDeleted = true;
         file = await file.save();
-        req.files.file_selected = file;
-        req.files.file_selected_id = file ? file._id : null;
+        req.fileitems.file_selected = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
         return res.send({
             code: 200,
             message: 'Success',
@@ -304,8 +303,8 @@ async function deleteFile(req, res) {
 async function getInfoFile(req, res) {
     try {
         let  file = await findFile(req);
-        req.files.file_selected = file;
-        req.files.file_selected_id = file ? file._id : null;
+        req.fileitems.file_selected = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
         if (!file) {
             return res.status(400).json({
                 code: 400,
@@ -336,7 +335,7 @@ async function getInfoFile(req, res) {
 }
 async function getInfoFiles(req, res) {
     try {
-        let files = req.files.files_saved;
+        let files = req.fileitems.files_saved;
         if (!files) {
             return res.status(400).json({
                 code: 400,
@@ -362,8 +361,8 @@ async function getInfoFiles(req, res) {
 async function getOrAttachFile(req, res, isAttach) {
     try {
         let file = await findFile(req);
-        req.files.file_selected = file;
-        req.files.file_selected_id = file ? file._id : null;
+        req.fileitems.file_selected = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
         if (!file || file.isDeleted) {
             return res.status(400).send({
                 code: 400,

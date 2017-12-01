@@ -1,6 +1,6 @@
 let Group = require('../models/group');
 let UserControllers = require('../controllers/user');
-let Users = require('../models/user')
+let Users = require('../models/user');
 let Files = require('../models/fileitem');
 let Post = require('../models/post');
 let Utils = require('../application/utils');
@@ -329,16 +329,15 @@ async function postGroup(req, res, next) {
             Promise.all(users.map(user => user.save())).then(async usersaved => {
                 try {
                     group = await group.save();
-                    req.users.users_request = usersaved;
-                    req.users.user_request = userCreate;
                     req.groups.group_request = group;
+                    req.users.users_request = usersaved;
                     next();
                 } catch (error) {
                     next(error);
                 }
             }).catch(error => next(error));
         } else {
-            req.users.user_request = userCreate;
+            group = await group.save();
             req.groups.group_request = group;
             return next();
         }
@@ -350,7 +349,7 @@ async function postGroup(req, res, next) {
             error: error.message
         });
     }
-};
+}
 
 async function putGroup(req, res, next) {
     try {
@@ -436,7 +435,7 @@ async function getGroup(req, res, next) {
 }
 
 async function getProfileImageID(req, res, next) {
-    req.files.file_selected_id = req.groups.group_request ? req.groups.group_request.profileImageID : null;
+    req.fileitems.file_selected_id = req.groups.group_request ? req.groups.group_request.profileImageID : null;
     return next();
 }
 
@@ -444,10 +443,10 @@ async function putProfileImage(req, res) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        if (!req.files.file_saved) {
+        if (!req.fileitems.file_saved) {
             throw new Error("Upload file Error");
         }
-        let currentFile = req.files.file_saved;
+        let currentFile = req.fileitems.file_saved;
         group.profileImageID = String(currentFile._id);
         group = await group.save();
         return res.json({
@@ -466,7 +465,7 @@ async function putProfileImage(req, res) {
 }
 
 async function getCoverImageID(req, res, next) {
-    req.files.file_selected_id = req.groups.group_request ? req.groups.group_request.coverImageID : null;
+    req.fileitems.file_selected_id = req.groups.group_request ? req.groups.group_request.coverImageID : null;
     return next();
 }
 
@@ -474,10 +473,10 @@ async function putCoverImage(req, res) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        if (!req.files.file_saved) {
+        if (!req.fileitems.file_saved) {
             throw new Error("Upload file Error");
         }
-        let currentFile = req.files.file_saved;
+        let currentFile = req.fileitems.file_saved;
         group.coverImageID = String(currentFile._id);
         group = await group.save();
         return res.json({
@@ -597,7 +596,7 @@ async function addPost(req, res, next) {
                 error: 'User not member'
             });
         }
-        let currentFiles = req.files.files_saved;//req.files.file_saved;
+        let currentFiles = req.fileitems.files_saved;//req.fileitems.file_saved;
         let title = req.body.title;
         let content = req.body.content;
         let topic = req.body.topic;
