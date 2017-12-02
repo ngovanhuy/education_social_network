@@ -283,7 +283,7 @@ function confirmRequested(user) {
 }
 function getClassRequests() {
     return this.classrequests.filter(request => request.isRemoved === false).map(request => ({
-        _id: request.id,
+        id: request.id,
         name: request.name,
         profileImageID: null,
     }));
