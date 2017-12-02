@@ -15,6 +15,7 @@ let checkRouter = require('./routes/check');
 let testRouter = require('./routes/test');
 let taskRouter = require('./routes/task');
 let postRouter = require('./routes/post');
+let eventRouter = require('./routes/event');
 
 Application.manager.connectToDB();
 Application.manager.start();
@@ -39,6 +40,8 @@ app.use(function (req, res, next) {
         req.fileitems = req.fileitems ? req.fileitems : {};
         req.users = req.users ? req.users : {};
         req.groups = req.groups ? req.groups : {};
+        req.events = req.events ? req.events : {};
+        req.comments = req.comments ? req.comments : {};
         console.log("Request:" + req.path + "[" + req.method + "]");
         next();
 });
@@ -62,6 +65,7 @@ app.use('/checks', checkRouter);
 app.use('/tasks', taskRouter);
 app.use('/test', testRouter);
 app.use('/posts', postRouter);
+app.use('/events', eventRouter);
 
 app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));//handing error request path
 app.use(function (err, req, res, next) {

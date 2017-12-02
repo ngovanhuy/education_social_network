@@ -4,7 +4,9 @@ let Utils = require('../application/utils');
 
 async function getPostByID(id) {
     try {
-        return await PostItem.findOne({_id: id});
+        let postID = Number(id);
+        if (isNaN(postID)) return null;
+        return await PostItem.findOne({_id: postID});
     } catch (error) {
         return null;
     }
@@ -27,6 +29,7 @@ async function findPost(req) {
     }
     return null;
 }
+
 async function checkPostRequest(req, res, next) {
     let post = await findPost(req);
     if (post && !post.isDeleted) {
@@ -41,6 +44,7 @@ async function checkPostRequest(req, res, next) {
         });
     }
 }
+
 function getPost(req, res) {
     try {
         let post = req.posts.post_requested;
@@ -49,7 +53,7 @@ function getPost(req, res) {
             message: 'Success',
             data: post.getBasicInfo(),
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -193,7 +197,7 @@ async function updatePost(req, res) {
             message: 'Success',
             data: post.getBasicInfo(),
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -204,7 +208,49 @@ async function updatePost(req, res) {
 }
 
 async function addComment(req, res) {
-
+    try {
+        let post = req.posts.post_requested;
+        let user = req.users.user_request;
+        let file = req.fileitems.file_saved;
+        let content = req.body.content;
+        if (!content) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                error: 'Content not found'
+            });
+        }
+        let comment = post.addComment(user, content, file);
+        let data = null;
+        if (comment) {
+            post = await post.save();
+            req.posts.post_requested = post;
+            data = {
+                id: comment._id,
+                userID: comment.userID,
+                content: comment.content,
+                firstName: comment.firstName,
+                lastName: comment.lastName,
+                file: comment.file,
+                profileImageID: comment.profileImageID,
+                timeUpdate: Utils.exportDate(comment.timeUpdate),
+            }
+        } else {
+            throw new Error("Add Comment error");
+        }
+        return res.send({
+            code: 200,
+            message: 'Success',
+            data: data,
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
 }
 
 async function getComments(req, res) {//bulk comments with index.
@@ -215,7 +261,7 @@ async function getComments(req, res) {//bulk comments with index.
             message: 'Success',
             data: post.getComments(),
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -226,11 +272,112 @@ async function getComments(req, res) {//bulk comments with index.
 }
 
 async function deleteComment(req, res) {
-
+    try {
+        let post = req.posts.post_requested;
+        let commentID = null;
+        if (req.query.commentID) {
+            commentID = req.query.commentID;
+        } else if (req.params.commentID) {
+            commentID = req.params.commentID;
+        } else if (req.body.commentID) {
+            commentID = req.body.commentID;
+        }
+        if (!commentID) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                error: 'CommentID not found'
+            });
+        }
+        let comment = post.deleteComment(Number(commentID));
+        let data = null;
+        if (comment) {
+            post = await post.save();
+            req.posts.post_requested = post;
+            data = {
+                id: comment._id,
+                userID: comment.userID,
+                content: comment.content,
+                firstName: comment.firstName,
+                lastName: comment.lastName,
+                file: comment.file,
+                profileImageID: comment.profileImageID,
+                timeUpdate: Utils.exportDate(comment.timeUpdate),
+            }
+        } else {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                error: 'CommentID not exited'
+            });
+        }
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: data,
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
 }
 
 async function updateComment(req, res) {
-
+    try {
+        let post = req.posts.post_requested;
+        let user = req.users.user_request;
+        let file = req.fileitems.file_saved;
+        let content = req.body.content;
+        let commentID = null;
+        if (req.query.commentID) {
+            commentID = req.query.commentID;
+        } else if (req.params.commentID) {
+            commentID = req.params.commentID;
+        } else if (req.body.commentID) {
+            commentID = req.body.commentID;
+        }
+        if (!commentID) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                error: 'CommentID not found'
+            });
+        }
+        let comment = post.updateComment(Number(commentID), content, file);
+        let data = null;
+        if (comment) {
+            post = await post.save();
+            req.posts.post_requested = post;
+            data = {
+                id: comment._id,
+                userID: comment.userID,
+                content: comment.content,
+                firstName: comment.firstName,
+                lastName: comment.lastName,
+                file: comment.file,
+                profileImageID: comment.profileImageID,
+                timeUpdate: Utils.exportDate(comment.timeUpdate),
+            }
+        } else {
+            throw new Error("Update Comment error");
+        }
+        return res.send({
+            code: 200,
+            message: 'Success',
+            data: data,
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
 }
 
 async function getPostsInTopic(req, res) {
@@ -241,7 +388,11 @@ async function getPostsInTopic(req, res) {
         if (!topicName) {
             datas = group.getTopics();
         } else {
-            let posts = await PostItem.find({isDeleted: false, "group._id": group._id, topics: {$elemMatch:{_id: topicName}}});
+            let posts = await PostItem.find({
+                isDeleted: false,
+                "group._id": group._id,
+                topics: {$elemMatch: {_id: topicName}}
+            });
             datas = posts.map(post => post.getBasicInfo());
         }
         res.json({
@@ -249,11 +400,11 @@ async function getPostsInTopic(req, res) {
             message: 'Success',
             data: datas
         });
-    } catch(error) {
+    } catch (error) {
         res.status(500).json({
-           code: 500,
-           message: 'Server Error',
-           error: error.message,
+            code: 500,
+            message: 'Server Error',
+            error: error.message,
         });
     }
 }
@@ -266,7 +417,7 @@ async function getLikes(req, res) {
             message: 'Success',
             data: post.getLikes(),
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -287,7 +438,7 @@ async function addLike(req, res, next) {
         } else {
             throw new Error("Can't add like to post");
         }
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -308,7 +459,7 @@ async function removeLike(req, res, next) {
         } else {
             throw new Error("Can't add like to post");
         }
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -321,7 +472,7 @@ async function removeLike(req, res, next) {
 function createNewPost(user, group, title, content, topic, files = null) {
     if (!user || !group) return null;
     let now = Date.now();
-    let post =  new PostItem ({
+    let post = new PostItem({
         _id: now,
         title: title,
         content: content,
@@ -341,7 +492,7 @@ function createNewPost(user, group, title, content, topic, files = null) {
         topics: [],
         comments: [],
         likes: [],
-        options:{ isBlockComment: false },
+        options: {isBlockComment: false},
         files: [],
         countComments: 0,
         countLikes: 0,
@@ -354,7 +505,7 @@ function createNewPost(user, group, title, content, topic, files = null) {
     }
     if (Array.isArray(files)) {
         post.addFiles(files);
-    } else if(files) {
+    } else if (files) {
         post.addFile(files)
     }
     return post;

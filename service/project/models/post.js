@@ -42,11 +42,10 @@ let PostSchema = new mongoose.Schema({
             lastName: String,
             profileImageID: String,
             file: {
-                type: {_id: String, name: String, type: String, size: Number},
+                type: {},
                 required: false,
-                default: {},
             },
-            timeUpdate: { type: Date, default: Date.now, required: true },
+            timeUpdate: { type: Date, default: Date.now(), required: true },
             isDeleted: { type: Boolean, default: false }
         }],
         required: false,
@@ -85,7 +84,6 @@ let PostSchema = new mongoose.Schema({
     isDeleted: { type: Boolean, required: true, default: false, },
     timeCreate: { type: Date, required: false, default: Date.now(), },
     timeUpdate: { type: Date, required: false, default: Date.now(), },
-    //permantlink
 });
 
 PostSchema.pre('save', function (callback) {
@@ -199,12 +197,21 @@ function getTopics() {
 
 function getComments(top = -1) {
     if (!this.comments) this.commands = [];
-    return this.comments.filter(comment => comment.isDeleted === false).map(comment => comment);
+    return this.comments.filter(comment => comment.isDeleted === false).map(comment => ({
+            id: comment._id,
+            userID: comment.userID,
+            content: comment.content,
+            firstName: comment.firstName,
+            lastName: comment.lastName,
+            file : comment.file,
+            profileImageID: comment.profileImageID,
+            timeUpdate: Utils.exportDate(comment.timeUpdate),
+        }));
 }
 function addComment(user, content, file = null) {
-    let now = Date.now();
+    let now = new Date();
     let comment = {
-        _id: now,
+        _id: Date.now(),
         userID: user._id,
         index: this.countComments,
         content: content,
@@ -216,13 +223,14 @@ function addComment(user, content, file = null) {
         isDeleted: false,
     };
     if (file) {
-        comment.file = {
-            _id: file._id,
-            id: file.id,
-            name: file.name,
+        let fileItem = {
+            // _id: file._id,
+            id: file._id,
             type: file.type,
             size: file.size,
-        }
+            name: file.name,
+        };
+        comment.file = fileItem;
     }
     this.comments.push(comment);
     this.countComments++;
@@ -235,15 +243,16 @@ function updateComment(id, content, file = null) {
     }
     comment.content = content;
     if (file) {
-        comment.file = {
-            _id: file._id,
-            id: file.id,
-            name: file.name,
+        let fileItem = {
+            // _id: file._id,
+            id: file._id,
             type: file.type,
             size: file.size,
-        }
+            name: file.name,
+        };
+        comment.file = fileItem;
     }
-    comment.timeUpdate = Date.now();
+    comment.timeUpdate = new Date();
     if (comment.isDeleted) {
         comment.isDeleted = false;
         this.countComments++;

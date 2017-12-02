@@ -17,8 +17,8 @@ router.route('/like/:postID')
     .delete(userController.checkUserRequest, postController.checkPostRequest, postController.removeLike, postController.getLikes);
 router.route('/comment/:postID')
     .get(postController.checkPostRequest, postController.getComments)
-    .post(userController.checkUserRequest, postController.checkPostRequest, postController.addComment)
-    .put(userController.checkUserRequest, postController.checkPostRequest, postController.updateComment)
+    .post(fileController.fileUpload, userController.checkUserRequest, fileController.postFileIfHave,postController.checkPostRequest, postController.addComment)
+    .put(fileController.fileUpload, userController.checkUserRequest, fileController.postFileIfHave, postController.checkPostRequest, postController.updateComment)
     .delete(userController.checkUserRequest, postController.checkPostRequest, postController.deleteComment);
 
 router.route('/:postID')//TODO check user, group, member before run

@@ -1,10 +1,12 @@
 //Action with trigger(type, data) for user/group have scheduleID.
-var mongoose = require('mongoose');
-var ContextEnum = {
+let mongoose = require('mongoose');
+let Utils = require('../application/utils');
+let ContextEnum = {
     1: 'User',
     10: 'Group',
-}
-var EventSchema = new mongoose.Schema({
+    100: 'System',
+};
+let EventSchema = new mongoose.Schema({
     _id: { type: Number, default: getNewID},
     // index: {type: Number},
     title: { type: String, required: true, default: 'No Title' },
@@ -15,13 +17,14 @@ var EventSchema = new mongoose.Schema({
             firstName: String,
             lastName: String,
             profileImageID: String,
-            timeCreate: Date,
+            // timeCreate: Date,
             timeUpdate: Date,
         }, 
         required: true, 
         default: null 
     },
-    contextID: {type: Number, default: null},
+    //eventImage.
+    contextID: {type: Number, default: null},//groupID || userID || null (system)
     context: {type: Number, default: 1},
     isAllDay: {type: Boolean, default: false},
     startTime: { type: Date, default: null },
@@ -49,13 +52,13 @@ var EventSchema = new mongoose.Schema({
     //     required: true,
     //     default: null,
     // },
-    timeCreate: { type: Date, required: false, default: Date.now, },
-    timeUpdate: { type: Date, required: false, default: Date.now, },
+    timeCreate: { type: Date, required: false, default: Date.now(), },
+    timeUpdate: { type: Date, required: false, default: Date.now(), },
     isDeleted: { type: Boolean, required: true, default: false, },
 });
 
-ScheduleSchema.pre('save', function (callback) {
-    var _this = this;
+EventSchema.pre('save', function (callback) {
+    let _this = this;
     _this.timeUpdate = Date.now();
     return callback();
 });
@@ -66,26 +69,32 @@ function getBasicInfo() {
         title: this.title,
         content: this.content,
         usercreate: this.usercreate,
-        context: this.content,
-        isGroupContext: this.ContextEnum[this.context] == 'Group',
+        context: this.context,
+        contextID: this.contextID,
+        isGroupContext: ContextEnum[this.context] === 'Group',
         isAllDay: this.isAllDay,
-        startTime: this.startTime ? this.startTime.toLocaleString() : null,
-        endTime: this.endTime ? this.endTime.toLocaleString() : null,
-        timeCreate: this.timeCreate.toLocaleString()
+        startTime: Utils.exportDate(this.startTime),
+        endTime: Utils.exportDate(this.endTime),
+        timeCreate: Utils.exportDate(this.timeCreate),
     }
 }
 function isGroupContext() {
-    return this.ContextEnum[this.context] == 'Group';
+    return ContextEnum[this.context] === 'Group';
 }
 function isUserContext() {
-    return this.ContextEnum[this.context] == 'User';
+    return ContextEnum[this.context] === 'User';
+}
+function isSystemContext() {
+    return ContextEnum[this.context] === 'System';
 }
 function getNewID() {
-    return new Date().getTime();
+    return Date.now();
 }
 
 EventSchema.methods.getBasicInfo = getBasicInfo;
+EventSchema.methods.isGroupContext = isGroupContext;
+EventSchema.methods.isUserContext = isUserContext;
+EventSchema.methods.isSystemContext = isSystemContext;
+
 EventSchema.statics.getNewID = getNewID;
-EventSchema.isGroupContext = isGroupContext;
-EventSchema.isUserContext = isUserContext;
 module.exports = mongoose.model('Event', EventSchema);
