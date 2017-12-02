@@ -23,7 +23,7 @@ let EventSchema = new mongoose.Schema({
         required: true, 
         default: null 
     },
-    eventImageID: {type: String, required: true, default: null},
+    eventImageID: {type: String, required: false, default: null},
     location: {type: String, required: false, default: ''},
     contextID: {type: Number, default: null},//groupID || userID || null (system)
     context: {type: Number, default: 1},
@@ -69,6 +69,7 @@ function getBasicInfo() {
         id:  this._id,
         title: this.title,
         content: this.content,
+        eventImageID: this.eventImageID,
         usercreate: this.usercreate,
         context: this.context,
         contextID: this.contextID,
@@ -99,21 +100,23 @@ function setGroupContext(contextID) {
     return this;
 }
 function setContext(context, contextID) {
-    let contextType = ContextEnum[context];
-    if (!contextType) {
-        return null;
-    }
-    this.context = context;
-    if (contextID) {
-        let numberContextID = Number(contextID);
-        if (isNaN(numberContextID)) {
-            return null;
+    if (isInvalidContext(context)) {
+        this.context = context;
+        if (contextID) {
+            if (isInvalidContextID(contextID)) {
+                this.contextID = contextID;
+                return this;
+            }
         }
-        this.contextID = contextID;
         return this;
     }
-    this.contextID = null;
-    return this;
+    return null;
+}
+function isInvalidContext(context) {
+    return !!ContextEnum[context];
+}
+function isInvalidContextID(contextID) {
+    return !isNaN(Number(contextID));
 }
 function getNewID() {
     return Date.now();
@@ -124,6 +127,8 @@ EventSchema.methods.isGroupContext = isGroupContext;
 EventSchema.methods.isUserContext = isUserContext;
 EventSchema.methods.isSystemContext = isSystemContext;
 EventSchema.methods.setContext = setContext;
+EventSchema.statics.isInvalidContext = isInvalidContext;
+EventSchema.statics.isInvalidContextID = isInvalidContextID;
 
 EventSchema.statics.getNewID = getNewID;
 module.exports = mongoose.model('Event', EventSchema);
