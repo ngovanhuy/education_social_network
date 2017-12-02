@@ -413,7 +413,6 @@ async function deleteGroup(req, res, next) {
             error: error.message
         });
     }
-    ;
 }
 
 async function getGroup(req, res, next) {
@@ -584,8 +583,6 @@ async function searchGroupByName(req, res) {
         return res.status(500).json({code: 500, message: '', data: []});
     }
 }
-
-
 
 async function getPosts(req, res) {
     try {

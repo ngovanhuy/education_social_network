@@ -62,7 +62,8 @@ async function getSystemEvents(req, res) {
         let events = await EventItem.find({context: 100});
         return res.json({
             code: 200,
-            message
+            message: 'Success',
+            data: events.map(event => event.getBasicInfo()),
         });
     } catch(error) {
         return res.status(500).send({
@@ -73,9 +74,46 @@ async function getSystemEvents(req, res) {
         });
     }
 }
+async function getGroupEvents(req, res) {
+    try {
+        let group = req.groups.group_request;
+        let events = await EventItem.find({context: 10, contextID: group._id});
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: events.map(event => event.getBasicInfo()),
+        });
+    } catch(error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error
+        });
+    }
+}
+async function getUserEvents(req, res) {
+    try {
+        let user = req.users.user_request;
+        let events = await EventItem.find({context: 1, contextID:user._id});
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: events.map(event => event.getBasicInfo()),
+        });
+    } catch(error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error
+        });
+    }
+}
+
 async function getEvents(req, res) {
     try {
-
+        let event = req.events.event_requested
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -85,9 +123,14 @@ async function getEvents(req, res) {
         });
     }
 }
-async function getEvent(req, res) {
+function getEvent(req, res) {
     try {
-
+        let event = req.events.event_requested;
+        return res.status(200).json({
+            code: 200,
+            message: 'Success',
+            data: event.getBasicInfo(),
+        });
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -97,9 +140,41 @@ async function getEvent(req, res) {
         });
     }
 }
-async function addEvent(req, res) {
+async function addEvent(req, res, next) {
     try {
+        let user = req.users.user_request;
+        let title = req.body.title;
+        let content = req.body.content;
+        let imageFile = req.fileitems.file_saved;
+        let location = req.body.location ? req.body.location : '';
+        let context = req.body.context ? req.body.context : 1;//user_context
+        let contextID = req.body.contextID ? req.body.contextID : user._id;//default user_context.
+        let isAllDay = req.body.isAllDay ? req.body.isAllDay === 'true' : false;
+        let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
+        let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
 
+        if (!title || !content || !location) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                data: null,
+                error: error.message
+            });
+        }
+
+        let event = new EventItem({
+            _id: Date.now(),
+            title: title,
+            content: content,
+            imageFileID: imageFile ? imageFile._id : null,
+            location: location,
+            isAllDay: isAllDay,
+            startTime: startTime,
+            endTime: endTime,
+        });
+
+
+        return next();
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -110,22 +185,45 @@ async function addEvent(req, res) {
     }
 }
 
-async function removeEvent(req, res) {
+async function removeEvent(req, res, next) {
     try {
-
-    } catch(error) {
+        let event = await findUser(req);
+        req.events.event_requested = event;
+        if (!event) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Event Existed',
+                data: null
+            });
+        }
+        if (event.isDeleted) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Event deleted.',
+                data: null
+            });
+        } else {
+            event.isDeleted = true;
+            event = await event.save();
+            req.events.event_requested = event;
+        }
+        return next();
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
             data: null,
-            error: error
+            error: error.message
         });
     }
 }
 
-async function updateEvent(req, res) {
+async function updateEvent(req, res, next) {
     try {
+        let event = req.events.event_requested;
 
+
+        return next();
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -135,6 +233,7 @@ async function updateEvent(req, res) {
         });
     }
 }
+
 exports.getEvent = getEvent;
 exports.getSystemEvents = getSystemEvents;
 exports.getEvents = getEvents;
@@ -143,6 +242,8 @@ exports.removeEvent = removeEvent;
 exports.updateEvent = updateEvent;
 exports.checkEventRequest = checkEventRequest;
 exports.importEvent = importEvent;
+exports.getGroupEvents = getGroupEvents;
+exports.getUserEvents = getUserEvents;
 
 
 

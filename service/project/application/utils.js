@@ -115,3 +115,4 @@ exports.validateEmail = validateEmail;
 exports.validatePhoneNumber = validatePhoneNumber;
 exports.validateStringLength = validateStringLength;
 exports.exportDate = exportDate;
+exports.isNumber = isNumber;

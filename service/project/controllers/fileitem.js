@@ -55,8 +55,8 @@ async function getAllFiles() {
 }
 async function findFile(req) {
     if (!req) { return null; }
-    if (req.fileitems.file_selected) {
-        return req.fileitems.file_selected;
+    if (req.fileitems.file_saved) {
+        return req.fileitems.file_saved;
     }
     if (req.fileitems.file_selected_id) {
         return await FileItem.findById(req.fileitems.file_selected_id);
@@ -73,7 +73,6 @@ async function postFiles(req, res, next) {
     try {
         req.fileitems.file_saved = null;
         req.fileitems.file_selected_id = null;
-        req.fileitems.files_saved = null;
         if (!req.files) {
             throw new Error("Input files null");
         }
@@ -272,7 +271,7 @@ async function postFileIfHave(req, res, next) {
 async function deleteFile(req, res) {
     try {
         let file = await findFile(req);
-        req.fileitems.file_selected = file;
+        req.fileitems.file_saved= file;
         req.fileitems.file_selected_id = file ? file._id : null;
         if (!file || file.isDeleted) {
             return res.status(400).send({
@@ -284,7 +283,7 @@ async function deleteFile(req, res) {
         }
         file.isDeleted = true;
         file = await file.save();
-        req.fileitems.file_selected = file;
+        req.fileitems.file_saved= file;
         req.fileitems.file_selected_id = file ? file._id : null;
         return res.send({
             code: 200,
@@ -303,7 +302,7 @@ async function deleteFile(req, res) {
 async function getInfoFile(req, res) {
     try {
         let  file = await findFile(req);
-        req.fileitems.file_selected = file;
+        req.fileitems.file_saved= file;
         req.fileitems.file_selected_id = file ? file._id : null;
         if (!file) {
             return res.status(400).json({
@@ -361,7 +360,7 @@ async function getInfoFiles(req, res) {
 async function getOrAttachFile(req, res, isAttach) {
     try {
         let file = await findFile(req);
-        req.fileitems.file_selected = file;
+        req.fileitems.file_saved= file;
         req.fileitems.file_selected_id = file ? file._id : null;
         if (!file || file.isDeleted) {
             return res.status(400).send({
