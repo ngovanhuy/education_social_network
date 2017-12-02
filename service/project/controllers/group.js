@@ -584,78 +584,16 @@ async function searchGroupByName(req, res) {
     }
 }
 
-async function addPost(req, res, next) {
-    try {
-        let group = req.groups.group_request;
-        let userID = req.params.userID ? req.params.userID : req.body.userID ? req.body.userID : null;
-        let user = group.getMemberById(Number(userID));
-        if (!user) {
-            return res.status(400).send({
-                code: 400,
-                data: null,
-                error: 'User not member'
-            });
-        }
-        let currentFiles = req.fileitems.files_saved;//req.fileitems.file_saved;
-        let title = req.body.title;
-        let content = req.body.content;
-        let topic = req.body.topic;
-        if (!title || !content || !topic) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: error.message
-            });
-        }
-        let isShow = req.body.isShow ? req.body.isShow : false;
-        let isSchedule = req.body.isSchedule ? req.body.isSchedule : false;
-        let scopeType = req.body.scopeType ? req.body.scopeType : 10;
-        let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
-        let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
-        let members = req.body.members ? Utils.getNumberArray(req.body.members) : [];
-        let options = {
-            isShow: isShow,
-            isSchedule: isSchedule,
-            scopeType: scopeType,
-            scheduleOptions: {
-                startTime: startTime,
-                endTime: endTime,
-            },
-            members: members,
-        };
-        let post = createNewPost(user, group, title, content, topic, currentFiles);
-        group.addPost(post, topic, options);
-        group = await group.save();
-        post = await post.save();
-        req.groups.group_request = group;
-        return next();
-    } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
-    }
-}
+
 
 async function getPosts(req, res) {
     try {
+        //TODO page paging : top, start...
         let group = req.groups.group_request;
         if (!group) throw new Error();
         let userID = req.params.userID ? req.params.userID : req.body.userID ? req.body.userID : null;
         let user = group.getMemberById(userID);
-        // if (!user) {
-        //     return res.status(400).send({
-        //         code: 400,
-        //         message: message,
-        //         data: null,
-        //         error: 'User not member'
-        //     });
-        // }
         let posts = group.posts;
-        let top = req.query.top ? isNaN(req.query.top) ? -1 : Number(req.query.top) : -1;
         let postIDs = group.getPostIDs(user);
         let datas = [];
         if (postIDs.length > 0) {
@@ -779,48 +717,6 @@ async function removeTopic(req, res) {
     }
 }
 
-function createNewPost(user, group, title, content, topic, files = null) {
-    if (!user || !group) return null;
-    let now = Date.now();
-    let post =  new Post ({
-        _id: now,
-        title: title,
-        content: content,
-        userCreate: {
-            _id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            profileImageID: user.profileImageID,
-            timeUpdate: now,
-        },
-        group: {
-            _id: group._id,
-            name: group.name,
-            profileImageID: group.profileImageID,
-            timeUpdate: now,
-        },
-        topics: [],
-        comments: [],
-        likes: [],
-        options:{ isBlockComment: false },
-        files: [],
-        countComments: 0,
-        countLikes: 0,
-        isDeleted: false,
-        timeCreate: now,
-        timeUpdate: now,
-    });
-    if (topic) {
-        post.addTopic(topic);
-    }
-    if (Array.isArray(files)) {
-        post.addFiles(files);
-    } else if(files) {
-        post.addFile(files)
-    }
-    return post;
-}
-
 /*----------------EXPORT------------------ */
 exports.postGroup = postGroup;
 exports.putGroup = putGroup;
@@ -843,7 +739,6 @@ exports.findGroup = findGroup;
 exports.getGroupByID = getGroupByID;
 exports.getFiles = getFiles;
 exports.searchGroupByName = searchGroupByName;
-exports.addPost = addPost;
 exports.getPosts = getPosts;
 exports.getTopics = getTopics;
 exports.addTopic = addTopic;

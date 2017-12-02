@@ -740,6 +740,52 @@ Thông tin tạo **Post** có các option sau [Thêm khi tạo], cùng với cá
     + Failed:
         - {code: 500, ...} : Server Error.
 
+### `30/11/2017` (Các API chưa có mô tả xem trên POSTMAN (luôn cập nhật mới nhất) - link share ở đầu file)
+
+#### Bổ sung, sửa post, event
+
+Thông tin **Post_Basic** cơ bản trả về bao gồm:
+
+        _id: Number, -> id bài post
+        title: String, -> Tiêu đề post
+        content: String -> nội dung post.
+        timeCreate: Date, -> thời gian tạo bài đăng.
+        files: Danh sách file, [_id, type, name]
+
+##### Lấy về tất cả Post của người dùng `:userID`
+
+    + Method: GET
+    + URL: http://domain:port/users/posts/:userID
+    + Success: `data` là mảng thông tin post.
+        - {code: 200, message: "...", data: [<post_basic>]}
+    + Failed:
+        - {code: 500, ...} : Server Error: Không thể lấy thông tin.
+
+##### Sửa các lỗi: tạo nhóm, thêm/sửa/xóa thành viên, cập nhật lại link url một số API (cập nhật trên POSTMAN)
+
+##### Lấy về tất cả topic của nhóm
+
+##### Xóa topic của nhóm
+
+##### Upload nhiều file
+
+##### Upload nhiều file cho người/nhóm
+
+##### Tạo nhóm và thêm thành viên
+
+##### Hỗ trợ upload nhiều file khi tạo post
+
+##### Like, unlike post
+
+##### Xóa, chỉnh sửa post
+
+##### Thêm/Sửa/Xóa comment của post
+
+##### Lấy tất cả post trong Group có `topicname`
+
+##### Thêm, Xóa Topic vào nhóm
+
+
 #### TEST API
 
 ##### `[TEST_API]` Lấy về tất cả User
@@ -768,3 +814,5 @@ Thông tin tạo **Post** có các option sau [Thêm khi tạo], cùng với cá
         - {code: 200, message: "...", data: [...files]}
     + Failed:
         - {code: 500, ...} : Server Error: Không thể lấy thông tin.
+
+##### `[TEST_API]` Lấy thông tin một vài người dùng theo mảng ID
