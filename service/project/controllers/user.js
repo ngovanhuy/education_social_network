@@ -506,7 +506,7 @@ async function addClassRequest(req, res) {
             req.users.user_request = user;
             req.groups.group_request = group;
         } else {
-            throw new Error();
+            throw new Error('Add class request error');
         }
         return res.status(200).send({
             code: 200,

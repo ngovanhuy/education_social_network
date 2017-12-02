@@ -212,13 +212,13 @@ function getBasicInfo() {
 
 function getMembersInfo() {
     return this.members.filter(member => member.isRemoved === false).map(member => ({
-        _id: member._id,
+        id: member._id,
         firstName: member.firstName,
         lastName: member.lastName,
         profileImageID: member.profileImageID,
         isAdmin: TypeMemberEnum[member.typemember] === 'Admin',
         typeuser: member.typeuser,
-        dateJoin: member.dateJoin.toLocaleString(),
+        dateJoin: Utils.exportDate(member.dateJoin),
     }));
 }
 function getMemberUser(user) {
@@ -275,7 +275,7 @@ function addUserInArray(new_user, arrays) {
         firstName: new_user.firstName,
         lastName: new_user.lastName,
         profileImageID: new_user.profileImageID,
-        typeuser: user.typeuser,
+        typeuser: new_user.typeuser,
         isRemoved: false,
         timeCreate: timeUpdate,
         timeUpdate: timeUpdate,

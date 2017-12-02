@@ -23,7 +23,8 @@ let EventSchema = new mongoose.Schema({
         required: true, 
         default: null 
     },
-    //eventImage.
+    eventImage: {type: String, required: true, default: null},
+    location: {type: String, required: false, default: ''},
     contextID: {type: Number, default: null},//groupID || userID || null (system)
     context: {type: Number, default: 1},
     isAllDay: {type: Boolean, default: false},

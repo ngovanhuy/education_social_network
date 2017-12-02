@@ -403,6 +403,7 @@ async function deleteGroup(req, res, next) {
         }
         group.isDeleted = true;
         group = await group.save();
+        req.groups.group_request = group;
         return next();
     } catch (error) {
         return res.status(500).send({
