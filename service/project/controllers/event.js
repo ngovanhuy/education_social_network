@@ -121,12 +121,21 @@ async function getEvents(req, res) {
 
 
         let findObject = {};
-        if (userID) findObject.userID = userID;
+        if (userID) findObject['\"usercreate.id\"'] = Number(userID);
         if (groupID) {
-            findObject.contextID = 10,
-            findObject.groupID = groupID;
+            findObject.contextID = 10;
+            findObject.groupID = Number(groupID);
         }
-
+        if (startTime) {
+            findObject.startTime = {$gt: startTime};
+        }
+        if (endTime) {
+            findObject.endTime = {$lt: endTime};
+        }
+        if (title) {
+            findObject.title = {$regex: title};
+        }
+        console.log(findObject);
         let events = await EventItem.find(findObject);
         return res.json({
             code: 200,

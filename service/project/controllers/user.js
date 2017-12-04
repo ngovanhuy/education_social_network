@@ -852,10 +852,11 @@ async function getFiles(req, res) {
                 data: null
             });
         }
-        let datas = (await Files.find({
+        let files = await Files.find({
             isDeleted: false,
             'user.id': userID,
-        })).map(file => file.getBasicInfo());
+        });
+        let datas = files.map(file => file.getBasicInfo());
         return res.send({
             code: 200,
             message: 'Success',

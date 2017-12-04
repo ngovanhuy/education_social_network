@@ -557,10 +557,12 @@ async function getFiles(req, res) {
     try {
         let group = req.groups.group_request;
         if (!group) throw new Error();
-        let datas = (await Files.find({
+        let files = await Files.find({
             isDeleted: false,
             'group.id': group._id,
-        }, {_id: 1, name: 1, type: 1, size: 1, createDate: 1})).map(file => file.getBasicInfo());
+        });
+        let datas = files.map(file => file.getBasicInfo());
+        // console.log(datas);
         return res.send({
             code: 200,
             message: 'Success',
