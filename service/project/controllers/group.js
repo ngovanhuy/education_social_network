@@ -297,7 +297,7 @@ async function postGroup(req, res, next) {
         let group = new Group({
             name: req.body.name,
             isDeleted: false,
-            dateCreated: Date.now(),
+            dateCreated: new Date(),
         });
         message = updateGroupInfo(req, group, false);
         if (!message || message.length > 0) {
@@ -527,6 +527,15 @@ async function checkGroupRequest(req, res, next) {
         });
     }
 }
+async function checkGroupRequestIfHave(req, res, next) {
+    let group = await findGroup(req);
+    if (group && !group.isDeleted) {
+        req.groups.group_request = group;
+    } else {
+        req.groups.group_request = null;
+    }
+    return next();
+}
 
 async function getGroups(req, res) {
     try {
@@ -550,7 +559,7 @@ async function getFiles(req, res) {
         if (!group) throw new Error();
         let datas = (await Files.find({
             isDeleted: false,
-            'group._id': group._id,
+            'group.id': group._id,
         }, {_id: 1, name: 1, type: 1, size: 1, createDate: 1})).map(file => file.getBasicInfo());
         return res.send({
             code: 200,
@@ -722,6 +731,7 @@ exports.getGroup = getGroup;
 exports.deleteGroup = deleteGroup;
 exports.getMembers = getMembers;
 exports.checkGroupRequest = checkGroupRequest;
+exports.checkGroupRequestIfHave = checkGroupRequestIfHave;
 exports.putProfileImage = putProfileImage;
 exports.putCoverImage = putCoverImage;
 exports.getProfileImageID = getProfileImageID;

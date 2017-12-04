@@ -12,12 +12,12 @@ router.route('/')
     .post(userController.postUser, userController.getUser);
 router.route('/profileImage/:userID')
     .get(userController.checkUserRequest, userController.getProfileImageID, fileController.getFile)
-    .put(userController.checkUserRequest, fileController.profileUpload, fileController.postFile, userController.putProfileImage)
-    .post(userController.checkUserRequest, fileController.profileUpload, fileController.postFile, userController.putProfileImage);
+    .put(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage)
+    .post(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage);
 router.route('/coverImage/:userID')
     .get(userController.checkUserRequest, userController.getCoverImageID, fileController.getFile)
-    .put(userController.checkUserRequest, fileController.coverUpload, fileController.postFile, userController.putProfileImage)
-    .post(userController.checkUserRequest, fileController.coverUpload, fileController.postFile, userController.putCoverImage);
+    .put(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage)
+    .post(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putCoverImage);
 
 router.route('/friends/:userID').get(userController.checkUserRequest, userController.getFriends);
 router.route('/friends/:userID/:friendUserID')
@@ -47,7 +47,7 @@ router.route('/login/').post(userController.login);
 router.route('/info/:userID').get(userController.checkUserRequest, userController.getUserInfo);
 router.route('/files/:userID')
     .get(userController.checkUserRequest, userController.getFiles)
-    .post(userController.checkUserRequest, fileController.arrayFileUpload, fileController.postFiles, fileController.getInfoFiles);
+    .post(fileController.arrayFileUpload, userController.checkUserRequest, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(userController.searchUserByName);
 router.route('/:userID')
     .get(userController.checkUserRequest, userController.getUser)

@@ -29,7 +29,7 @@ let CommentSchema = new mongoose.Schema({
 });
 CommentSchema.pre('save', function (callback) {
     let _this = this;
-    _this.timeUpdate = Date.now();
+    _this.timeUpdate = new Date();
     return callback();
 });
 
@@ -65,9 +65,9 @@ function createNewComment(user, post, content, file) {
     if (!user || !post || !content) {
         return null;
     }
-    let now = Date.now();
+    let now = new Date();
     let comment = {
-        _id: now,
+        _id: now.getTime(),
         content: content,
         user: {
             _id: user._id,

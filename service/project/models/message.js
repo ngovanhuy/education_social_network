@@ -34,7 +34,7 @@ var MessageSchema = new mongoose.Schema({
 
 MessageSchema.pre('save', function (callback) {
     var _this = this;
-    _this.timeUpdate = Date.now();
+    _this.timeUpdate = new Date();
     return callback();
 });
 

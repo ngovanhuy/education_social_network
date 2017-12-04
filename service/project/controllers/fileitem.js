@@ -18,9 +18,6 @@ let image_upload = multer({
         if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
             return cb(new Error('Only image files are allowed!'), false);
         }
-        // if (file.length > MAX_IMAGE_SIZE) { //8M
-        //     return cb(new Error('File Large. Only support Image < 8M'), false);
-        // }
         cb(null, true);
     },
 });
@@ -81,7 +78,7 @@ async function postFiles(req, res, next) {
         if (req.users.user_request) {
             let user = req.users.user_request;
             current_user = {
-                _id: user._id,
+                id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
             }
@@ -89,12 +86,12 @@ async function postFiles(req, res, next) {
         if (req.groups.group_request) {
             let group = req.groups.group_request;
             current_group = {
-                _id: group._id,
+                id: group._id,
                 name: group.name,
             }
         }
         let files = [];
-        let now = Date.now();
+        let now = new Date();
         req.files.forEach(file => {
             let fileSave = new FileItem({
                 id: file.filename,
@@ -134,7 +131,7 @@ async function postFilesIfHave(req, res, next) {
         if (req.users.user_request) {
             let user = req.users.user_request;
             current_user = {
-                _id: user._id,
+                id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
             }
@@ -142,12 +139,12 @@ async function postFilesIfHave(req, res, next) {
         if (req.groups.group_request) {
             let group = req.groups.group_request;
             current_group = {
-                _id: group._id,
+                id: group._id,
                 name: group.name,
             }
         }
         let files = [];
-        let now = Date.now();
+        let now = new Date();
         req.files.forEach(file => {
             let fileSave = new FileItem({
                 id: file.filename,
@@ -186,13 +183,13 @@ async function postFile(req, res, next) {
             name: req.file.originalname,
             type: req.file.mimetype,
             size: req.file.size,
-            createDate: Date.now(),
+            createDate: new Date(),
             isDeleted: false,
         });
         if (req.users.user_request) {
             user = req.users.user_request;
             file.user = {
-                _id: user._id,
+                id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
             }
@@ -202,7 +199,7 @@ async function postFile(req, res, next) {
         if (req.groups.group_request) {
             let group = req.groups.group_request;
             file.group = {
-                _id: group._id,
+                id: group._id,
                 name: group.name,
             }
         } else {
@@ -233,13 +230,13 @@ async function postFileIfHave(req, res, next) {
             name: req.file.originalname,
             type: req.file.mimetype,
             size: req.file.size,
-            createDate: Date.now(),
+            createDate: new Date(),
             isDeleted: false,
         });
         if (req.users.user_request) {
             user = req.users.user_request;
             file.user = {
-                _id: user._id,
+                id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
             }
@@ -249,7 +246,7 @@ async function postFileIfHave(req, res, next) {
         if (req.groups.group_request) {
             let group = req.groups.group_request;
             file.group = {
-                _id: group._id,
+                id: group._id,
                 name: group.name,
             }
         } else {

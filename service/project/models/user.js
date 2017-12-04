@@ -82,8 +82,8 @@ let UserSchema = new mongoose.Schema(
                 name: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now() },
-                timeUpdate: { type: Date, default: Date.now() },
+                timeCreate: { type: Date, default: new Date() },
+                timeUpdate: { type: Date, default: new Date() },
             }],
             required: false,
             default: [],
@@ -95,8 +95,8 @@ let UserSchema = new mongoose.Schema(
                 lastName: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now() },
-                timeUpdate: { type: Date, default: Date.now() },
+                timeCreate: { type: Date, default: new Date() },
+                timeUpdate: { type: Date, default: new Date() },
             }],
             required: false,
             default: [],
@@ -111,8 +111,8 @@ let UserSchema = new mongoose.Schema(
                 lastName: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now() },
-                timeUpdate: { type: Date, default: Date.now() },
+                timeCreate: { type: Date, default: new Date() },
+                timeUpdate: { type: Date, default: new Date() },
             }],
             require: true,
             default: [],
@@ -124,8 +124,8 @@ let UserSchema = new mongoose.Schema(
                 lastName: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now() },
-                timeUpdate: { type: Date, default: Date.now() },
+                timeCreate: { type: Date, default: new Date() },
+                timeUpdate: { type: Date, default: new Date() },
             }],
             require: true,
             default: [],
@@ -136,8 +136,8 @@ let UserSchema = new mongoose.Schema(
                 name: String,
                 profileImageID: String,
                 isRemoved: { type: Boolean, default: false, },
-                timeCreate: { type: Date, default: Date.now() },
-                timeUpdate: { type: Date, default: Date.now() },
+                timeCreate: { type: Date, default: new Date() },
+                timeUpdate: { type: Date, default: new Date() },
             }],
             require: true,
             default: [],
@@ -154,7 +154,7 @@ let UserSchema = new mongoose.Schema(
 );
 UserSchema.pre('save', function (callback) {
     let user = this;
-    user.timeUpdate = Date.now();
+    user.timeUpdate = new Date();
     if (!user.isModified('password')) return callback();
     bcrypt.genSalt(5, (err, salt) => {
         if (err) return callback(err);
@@ -175,7 +175,7 @@ function comparePassword(candidatePassword, callback) {
 function addUserInArray(new_user, arrays) {
     if (!new_user) return null;
     let user = arrays.find(u => u._id === new_user._id);
-    let timeUpdate = Date.now();
+    let timeUpdate = new Date();
     if (!user) {
         user = {_id: new_user._id};
         user.timeUpdate = timeUpdate;
@@ -204,7 +204,7 @@ function removeUserFromArray(remove_user, arrays) {
 }
 function addGroupInArray(new_group, arrays) {
     if (!new_group) return null;
-    let timeUpdate = Date.now();
+    let timeUpdate = new Date();
     let group = arrays.find(g => g._id === new_group._id);
     if (!group) {
         group = {_id: new_group._id};

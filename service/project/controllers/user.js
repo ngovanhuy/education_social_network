@@ -745,6 +745,15 @@ async function checkUserRequest(req, res, next) {
         });
     }
 }
+async function checkUserRequestIfHave(req, res, next) {
+    let user = await findUser(req);
+    if (user && !user.isDeleted) {
+        req.users.user_request = user;
+    } else {
+        req.users.user_request = null;
+    }
+    return next();
+}
 async function checkUserName(req, res) {
     try {
         let username = req.query.username ? req.query.username : 
@@ -845,7 +854,7 @@ async function getFiles(req, res) {
         }
         let datas = (await Files.find({
             isDeleted: false,
-            'user._id': userID,
+            'user.id': userID,
         })).map(file => file.getBasicInfo());
         return res.send({
             code: 200,
@@ -890,7 +899,7 @@ async function getPosts(req, res) {
         }
         let datas = (await Posts.find({
             isDeleted: false,
-            'userCreate._id': userID,
+            'userCreate.id': userID,
         })).map(post => ({
             id: post._id,
             title: post.title,
@@ -943,6 +952,7 @@ exports.removeRequest = removeRequest;
 
 exports.checkUserName = checkUserName;
 exports.checkUserRequest = checkUserRequest;
+exports.checkUserRequestIfHave = checkUserRequestIfHave;
 exports.checkEmail = checkEmail;
 exports.checkPhoneNumber = checkPhoneNumber;
 exports.putProfileImage = putProfileImage;

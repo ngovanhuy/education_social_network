@@ -101,20 +101,20 @@ let GroupSchema = new mongoose.Schema(
                     },
                 },
                 // index: {type: Number, default: 0},
-                timeCreate: { type: Date, default: Date.now() },
+                timeCreate: { type: Date, default: new Date() },
                 isDeleted: { type: Boolean, default: false },
             }],
             required: false,
             default: []
         },
-        timeCreate: { type: Date, default: Date.now(), },
-        timeUpdate: { type: Date, default: Date.now(), },
+        timeCreate: { type: Date, default: new Date(), },
+        timeUpdate: { type: Date, default: new Date(), },
     }
 );
 
 GroupSchema.pre('save', function (callback) {
     let group = this;
-    group.timeUpdate = Date.now();
+    group.timeUpdate = new Date();
     return callback();
 });
 
@@ -255,7 +255,7 @@ function addUserInArray(new_user, arrays) {
         return null;
     }
     let user = null;
-    let timeUpdate = Date.now();
+    let timeUpdate = new Date();
     for (let index = 0; index < arrays.length; index++) {
         user = arrays[index];
         if (user._id === new_user._id) {
@@ -313,7 +313,7 @@ function confirmRequested(user) {
 
 function addMember(user, typemember = 1) {//TODO: check owner.
     if (!user) { return null; }
-    let timeUpdate = Date.now();
+    let timeUpdate = new Date();
     let member = this.members.find(member => member._id === user._id);
     if (!member) {
         member = {_id : user._id};
@@ -352,7 +352,7 @@ function updateMember(user, typemember) {//TODO: check 1 owner.
     if (!user) { return null; }
     let member = this.members.find(member => member._id === user._id);
     if (!member || member.isRemoved) { return null; }
-    let timeUpdate = Date.now();
+    let timeUpdate = new Date();
     member.typemember = TypeMemberEnum[typemember] ? typemember : member.typemember;
     member.timeUpdate = timeUpdate;
     member.firstName = user.firstName;
@@ -411,7 +411,7 @@ function getTopics() {
 function addPost(new_post, topic_name, new_options = null) {
     if (!this.posts) { this.posts = []; }
     let post = this.posts.find(item => item._id === new_post.id);
-    let timeUpdate = Date.now();
+    let timeUpdate = new Date();
     let options = null;
     if (!new_options) {
         options = {
