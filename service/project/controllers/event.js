@@ -59,7 +59,7 @@ async function checkEventRequest(req, res, next) {
 
 async function getSystemEvents(req, res) {
     try {
-        let events = await EventItem.find({context: 100});
+        let events = await EventItem.find({isDeleted: false, context: 100});
         return res.json({
             code: 200,
             message: 'Success',
@@ -77,7 +77,7 @@ async function getSystemEvents(req, res) {
 async function getGroupEvents(req, res) {
     try {
         let group = req.groups.group_request;
-        let events = await EventItem.find({context: 10, contextID: group._id});
+        let events = await EventItem.find({isDeleted: false, context: 10, contextID: group._id});
         return res.json({
             code: 200,
             message: 'Success',
@@ -95,7 +95,7 @@ async function getGroupEvents(req, res) {
 async function getUserEvents(req, res) {
     try {
         let user = req.users.user_request;
-        let events = await EventItem.find({context: 1, contextID:user._id});
+        let events = await EventItem.find({isDeleted: false, context: 1, contextID:user._id});
         return res.json({
             code: 200,
             message: 'Success',
@@ -113,7 +113,10 @@ async function getUserEvents(req, res) {
 
 async function getEvents(req, res) {
     try {
-        let event = req.events.event_requested
+        let userID = req.query.userID;
+        let groupID = req.query.groupID;
+        let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
+        let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -145,10 +148,10 @@ async function addEvent(req, res, next) {
         let user = req.users.user_request;
         let title = req.body.title;
         let content = req.body.content;
-        let imageFile = req.fileitems.file_saved;
+        let eventImageID = req.fileitems.file_selected_id ? String(req.fileitems.file_selected_id) : null;
         let location = req.body.location ? req.body.location : '';
-        let context = req.body.context ? req.body.context : 1;//user_context
-        let contextID = req.body.contextID ? req.body.contextID : user._id;//default user_context.
+        let context = req.body.context ? req.body.context : 100;//system_context
+        let contextID = req.body.contextID ? req.body.contextID : null;
         let isAllDay = req.body.isAllDay ? req.body.isAllDay === 'true' : false;
         let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
@@ -158,7 +161,7 @@ async function addEvent(req, res, next) {
                 code: 400,
                 message: 'Request Invalid',
                 data: null,
-                error: error.message
+                error: 'Data not exited'
             });
         }
 
@@ -166,14 +169,29 @@ async function addEvent(req, res, next) {
             _id: Date.now(),
             title: title,
             content: content,
-            imageFileID: imageFile ? imageFile._id : null,
+            eventImageID: eventImageID,
             location: location,
             isAllDay: isAllDay,
             startTime: startTime,
             endTime: endTime,
         });
-
-
+        event.usercreate = {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImageID: user.profileImageID,
+            timeUpdate: new Date(),
+        };
+        if (!event.setContext(context, contextID)){
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                data: null,
+                error: 'context, contextID invalid'
+            });
+        }
+        event = await event.save();
+        req.events.event_requested = event;
         return next();
     } catch(error) {
         return res.status(500).send({
@@ -184,10 +202,9 @@ async function addEvent(req, res, next) {
         });
     }
 }
-
 async function removeEvent(req, res, next) {
     try {
-        let event = await findUser(req);
+        let event = await findEvent(req);
         req.events.event_requested = event;
         if (!event) {
             return res.status(400).send({
@@ -217,12 +234,34 @@ async function removeEvent(req, res, next) {
         });
     }
 }
-
 async function updateEvent(req, res, next) {
     try {
         let event = req.events.event_requested;
+        let title = req.body.title;
+        let content = req.body.content;
+        let eventImageID = req.fileitems.file_selected_id ? String(req.fileitems.file_selected_id) : null;
+        let location = req.body.location ? req.body.location : null;
+        let context = req.body.context;
+        let contextID = req.body.contextID;
+        let isAllDay = req.body.isAllDay;
+        let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
+        let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
 
-
+        if (title) event.title = title;
+        if (content) event.content = content;
+        if (eventImageID) event.eventImageID = eventImageID;
+        if (location) event.location = location;
+        if (isAllDay) event.isAllDay = isAllDay === 'true';
+        if (startTime) event.startTime = startTime;
+        if (endTime) event.endTime = endTime;
+        if (context && EventItem.isInvalidContext(context)) {
+            event.context = context;
+        }
+        if (contextID && EventItem.isInvalidContextID(contextID)) {
+            event.contextID = contextID;
+        }
+        event = await event.save();
+        req.events.event_requested = event;
         return next();
     } catch(error) {
         return res.status(500).send({
