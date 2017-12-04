@@ -419,10 +419,19 @@ async function getPostsInTopic(req, res) {
 async function getLikes(req, res) {
     try {
         let post = req.posts.post_requested;
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: 'Success',
-            data: post.getLikes(),
+            data: {
+                post: {
+                    postID: post._id,
+                    groupID: post.group.id,
+                    userCreateID: post.userCreate.id,
+                },
+                likes: post.getLikes(),
+                isUserLiked: post.isUserLiked(user),
+            },
         });
     } catch (error) {
         return res.status(500).send({

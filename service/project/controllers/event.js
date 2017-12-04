@@ -1,5 +1,6 @@
 let Users = require('../controllers/user');
-let Groups = require('../controllers/group');
+let GroupControllers = require('../controllers/group');
+let Groups = require('../models/group');
 let EventItem = require('../models/event');
 let Utils = require('../application/utils');
 
@@ -57,14 +58,41 @@ async function checkEventRequest(req, res, next) {
     }
 }
 
-async function getSystemEvents(req, res) {
+async function getEventsInfo(req, res) {
+    let events = req.events.events_requested;
+    return res.json({
+        code: 200,
+        message: 'Success',
+        data: events.map(event => event.getBasicInfo()),
+    });
+}
+async function getEventInfo(req, res) {
+    let event = req.events.event_requested;
+    return res.json({
+        code: 200,
+        message: 'Success',
+        data: event.getBasicInfo(),
+    });
+}
+async function getAllEvents(req, res, next) {
+    try {
+        let events = await EventItem.find({isDeleted: false});
+        req.events.events_requested = events ? events : [];
+        return next();
+    } catch(error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error
+        });
+    }
+}
+async function getSystemEvents(req, res, next) {
     try {
         let events = await EventItem.find({isDeleted: false, context: 100});
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: events.map(event => event.getBasicInfo()),
-        });
+        req.events.events_requested = events ? events : [];
+        return next();
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -74,15 +102,12 @@ async function getSystemEvents(req, res) {
         });
     }
 }
-async function getGroupEvents(req, res) {
+async function getGroupEvents(req, res, next) {
     try {
         let group = req.groups.group_request;
-        let events = await EventItem.find({isDeleted: false, context: 10, contextID: group._id});
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: events.map(event => event.getBasicInfo()),
-        });
+        let events = await EventItem.find({isDeleted: false, context: 10, 'contextData.id': group._id});
+        req.events.events_requested = events ? events : [];
+        return next();
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -92,15 +117,12 @@ async function getGroupEvents(req, res) {
         });
     }
 }
-async function getUserEvents(req, res) {
+async function getUserEvents(req, res, next) {
     try {
         let user = req.users.user_request;
-        let events = await EventItem.find({isDeleted: false, context: 1, contextID:user._id});
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: events.map(event => event.getBasicInfo()),
-        });
+        let events = await EventItem.find({isDeleted: false, 'userCreate.id': user._id});
+        req.events.events_requested = events ? events : [];
+        return next();
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -111,18 +133,18 @@ async function getUserEvents(req, res) {
     }
 }
 
-async function getEvents(req, res) {
+async function getEvents(req, res, next) {
     try {
         let userID = req.query.userID;
         let groupID = req.query.groupID;
         let startTime = req.query.startTime ? Utils.parseDate(req.query.startTime) : null;
         let endTime = req.query.endTime ? Utils.parseDate(req.query.endTime) : null;
         let title = req.query.title;
-        let findObject = {};
+        let findObject = {isDeleted: false};
         if (userID) findObject['userCreate.id'] = Number(userID);
         if (groupID) {
             findObject.context = 10;
-            findObject.contextID = Number(groupID);
+            findObject['contextData.id'] = Number(groupID);
         }
         if (startTime) {
             findObject.startTime = {$gte: startTime};
@@ -134,28 +156,8 @@ async function getEvents(req, res) {
             findObject.title = {$regex: title};
         }
         let events = await EventItem.find(findObject);
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: events.map(event => event.getBasicInfo()),
-        });
-    } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
-    }
-}
-function getEvent(req, res) {
-    try {
-        let event = req.events.event_requested;
-        return res.status(200).json({
-            code: 200,
-            message: 'Success',
-            data: event.getBasicInfo(),
-        });
+        req.events.events_requested = events ? events : [];
+        return next();
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -168,12 +170,13 @@ function getEvent(req, res) {
 async function addEvent(req, res, next) {
     try {
         let user = req.users.user_request;
+        let group = req.groups.group_request;
         let title = req.body.title;
         let content = req.body.content;
         let eventImageID = req.fileitems.file_selected_id ? String(req.fileitems.file_selected_id) : null;
         let location = req.body.location ? req.body.location : '';
         let context = req.body.context ? req.body.context : 100;//system_context
-        let contextID = req.body.contextID ? req.body.contextID : null;
+        // let contextID = req.body.contextID ? req.body.contextID : null;
         let isAllDay = req.body.isAllDay ? req.body.isAllDay === 'true' : false;
         let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
@@ -204,7 +207,23 @@ async function addEvent(req, res, next) {
             profileImageID: user.profileImageID,
             timeUpdate: now,
         };
-        if (!event.setContext(context, contextID)){
+        if (event.setContext(context)) {//, contextID)){
+            if (event.isGroupContext()) {
+                event.contextData = group ? {
+                    profileImageID : group.profileImageID,
+                    memberCount : group.memberCount,
+                    location : group.location,
+                    about : group.about,
+                    name : group.name,
+                    id : group._id,
+                } : null;
+            } else if (event.isUserContext()) {
+                 // event.contextData = user ? user.getBasicInfo() : null;
+            } else {
+                event.contextData = null;
+            }
+        }
+        else {
             return res.status(400).send({
                 code: 400,
                 message: 'Request Invalid',
@@ -259,12 +278,13 @@ async function removeEvent(req, res, next) {
 async function updateEvent(req, res, next) {
     try {
         let event = req.events.event_requested;
+        let group = req.groups.group_request;
         let title = req.body.title;
         let content = req.body.content;
         let eventImageID = req.fileitems.file_selected_id ? String(req.fileitems.file_selected_id) : null;
         let location = req.body.location ? req.body.location : null;
         let context = req.body.context;
-        let contextID = req.body.contextID;
+        // let contextID = req.body.contextID;
         let isAllDay = req.body.isAllDay;
         let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
@@ -276,11 +296,21 @@ async function updateEvent(req, res, next) {
         if (isAllDay) event.isAllDay = isAllDay === 'true';
         if (startTime) event.startTime = startTime;
         if (endTime) event.endTime = endTime;
-        if (context && EventItem.isInvalidContext(context)) {
-            event.context = context;
-        }
-        if (contextID && EventItem.isInvalidContextID(contextID)) {
-            event.contextID = contextID;
+        if (event.setContext(context)) {//, contextID)){
+            if (event.isGroupContext()) {
+                event.contextData = group ? {
+                    profileImageID : group.profileImageID,
+                    memberCount : group.memberCount,
+                    location : group.location,
+                    about : group.about,
+                    name : group.name,
+                    id : group._id,
+                } : null;
+            } else if (event.isUserContext()) {
+                // event.contextData = user ? user.getBasicInfo() : null;
+            } else {
+                event.contextData = null;
+            }
         }
         event = await event.save();
         req.events.event_requested = event;
@@ -295,7 +325,7 @@ async function updateEvent(req, res, next) {
     }
 }
 
-exports.getEvent = getEvent;
+// exports.getEvent = getEvent;
 exports.getSystemEvents = getSystemEvents;
 exports.getEvents = getEvents;
 exports.addEvent = addEvent;
@@ -305,6 +335,8 @@ exports.checkEventRequest = checkEventRequest;
 exports.importEvent = importEvent;
 exports.getGroupEvents = getGroupEvents;
 exports.getUserEvents = getUserEvents;
-
+exports.getEventsInfo = getEventsInfo;
+exports.getEventInfo = getEventInfo;
+exports.getAllEvents = getAllEvents;
 
 
