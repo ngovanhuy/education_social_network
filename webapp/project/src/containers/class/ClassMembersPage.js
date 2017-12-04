@@ -18,22 +18,10 @@ class ClassMembersPage extends Component {
         this.handleDeleteMember = this.handleDeleteMember.bind(this);
     }
 
-    static defaultProps = {
-        topics: [{
-            fullName: 'Task 1',
-            topicName: 'task_1',
-        }, {
-            fullName: 'Task 2',
-            topicName: 'task_2',
-        }, {
-            fullName: 'Task 3',
-            topicName: 'task_3',
-        }]
-    }
-
     componentWillMount() {
         const {classId} = this.props;
         this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(classActions.getMembers(classId));
     }
 
@@ -41,6 +29,7 @@ class ClassMembersPage extends Component {
         if (nextProps.classId !== this.props.classId) {
             const {classId} = nextProps;
             this.props.dispatch(classActions.getById(classId));
+            this.props.dispatch(classActions.getTopics(classId));
             this.props.dispatch(classActions.getMembers(classId));
         }
     }
@@ -48,12 +37,14 @@ class ClassMembersPage extends Component {
     handleDeleteMember(classId, memberId){
         classService.deleteMember(classId, memberId)
             .then(
-                history.push('/classes')
+                this.props.dispatch(classActions.getById(classId)),
+                this.props.dispatch(classActions.getMembers(classId))
             )
     }
 
     render() {
-        const {user, classId, classDetail, topics} = this.props
+        const {user, classId, classDetail} = this.props
+        const topics = classDetail.topics
         const isTeacher = userUtils.checkIsTeacher(user)
         const members = (classDetail.members && classDetail.members.length > 0) ?
             classDetail.members.filter(function (member) {

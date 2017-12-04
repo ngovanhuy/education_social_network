@@ -137,7 +137,7 @@ function approveRequestJoinClass(userId, classId) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({userId, classId})
     };
-    const url = DOMAIN_SERVICE + '/requested/' + classId + "/" + userId;
+    const url = DOMAIN_SERVICE + '/groups/requested/' + classId + "/" + userId;
     return fetch(url, requestOptions)
         .then(handleResponse);
 }

@@ -75,8 +75,7 @@ class HomeLeftmenu extends Component {
                                     <a href={`/users/${user.id}`}>
                                         <span className="imgWrap">
                                             <img
-                                                src={(typeof(user.profileImageID) !== "undefined" && user.profileImageID) ?
-                                                    fileUtils.renderFileSource(user.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                                                src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
                                         </span>
                                     </a>
                                     <UserProfileInfo user={user}/>

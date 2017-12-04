@@ -148,7 +148,11 @@ class UserProfilePage extends Component {
     }
 
     render() {
-        const {user, feed} = this.props
+        const {user} = this.props
+        var {feed} = this.props
+        feed = feed.sort(function(a,b){
+            return new Date(b.timeCreate) - new Date(a.timeCreate);
+        });
         return (
             <div>
                 <div className="container">

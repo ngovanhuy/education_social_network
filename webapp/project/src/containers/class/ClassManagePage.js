@@ -16,21 +16,23 @@ class ClassManagePage extends Component {
         }
     }
 
-    static defaultProps = {
-        topics: [{
-            fullName: 'Task 1',
-            topicName: 'task_1',
-        }, {
-            fullName: 'Task 2',
-            topicName: 'task_2',
-        }, {
-            fullName: 'Task 3',
-            topicName: 'task_3',
-        }]
+    componentWillMount() {
+        const {classId} = this.props;
+        this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getTopics(classId));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.classId !== this.props.classId) {
+            const {classId} = nextProps;
+            this.props.dispatch(classActions.getById(classId));
+            this.props.dispatch(classActions.getTopics(classId));
+        }
     }
 
     render() {
-        const {classDetail, topics, classId} = this.props
+        const {classDetail, classId} = this.props
+        const topics = classDetail.topics
         const queryStringParsed = queryString.parse(this.props.location.search)
         const currentViewLink = (queryStringParsed && queryStringParsed.currentViewLink) ? queryStringParsed.currentViewLink : 'memberRequests'
         return (

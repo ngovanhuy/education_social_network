@@ -270,6 +270,8 @@
     margin: auto; }
 .class-members .class-members-content .panel-member .panel-member-col {
   float: left; }
+  .class-members .class-members-content .panel-member .panel-member-col img {
+    width: 70px; }
 
 .create-class-modal .react-tagsinput .react-tagsinput-input {
   width: 150px; }

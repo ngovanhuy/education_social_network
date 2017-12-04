@@ -55,12 +55,12 @@ class Classes extends Component {
                                     (
                                         <Link to={`/classes/${classDetail.id}`}>
                                             <img
-                                                src={classDetail.profileImageID ? fileUtils.renderFileSource(classDetail.profileImageID) : defaultConstants.CLASS_PROFILE_PICTURE_URL}/>
+                                                src={classDetail && fileUtils.renderFileSource(classDetail.profileImageID, defaultConstants.CLASS_PROFILE_PICTURE_URL)}/>
                                         </Link>
                                     ) :
                                     (
                                         <img
-                                            src={classDetail.profileImageID ? fileUtils.renderFileSource(classDetail.profileImageID) : defaultConstants.CLASS_PROFILE_PICTURE_URL}/>
+                                            src={classDetail && fileUtils.renderFileSource(classDetail.profileImageID, defaultConstants.CLASS_PROFILE_PICTURE_URL)}/>
                                     )
                             }
                         </div>

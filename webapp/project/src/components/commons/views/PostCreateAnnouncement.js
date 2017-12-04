@@ -5,6 +5,8 @@ import NewPostFooter from "./NewPostFooter";
 import {defaultConstants} from "../../../constants/defaultConstant";
 import {fileUtils} from "../../../utils/fileUtils";
 import {classActions} from "../../../actions/classActions";
+import {postConstants} from "../../../constants";
+import {postActions} from "../../../actions";
 
 class PostCreateAnnouncement extends Component {
     constructor(props) {
@@ -15,10 +17,8 @@ class PostCreateAnnouncement extends Component {
             classDetail: {},
             title: '',
             content: '',
-            topic: '',
-            scopeType: '10',
-            isSchedule: false,
-            files: []
+            topic: classActions.DEFAULT_ALL_TOPIC,
+            fileUpload: []
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -52,8 +52,8 @@ class PostCreateAnnouncement extends Component {
     handleUploadFile(file) {
         this.setState({
             ...this.state,
-            files: [
-                ...this.state.files,
+            fileUpload: [
+                ...this.state.fileUpload,
                 file
             ]
         })
@@ -62,23 +62,32 @@ class PostCreateAnnouncement extends Component {
     handleRemoveUploadFile(index) {
         this.setState({
             ...this.state,
-            files: this.state.files.filter((_, i) => i !== index)
+            fileUpload: this.state.fileUpload.filter((_, i) => i !== index)
         })
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state)
 
-        // const {classDetail, user, title, content, topic, isSchedule, scopeType} = this.state;
-        // this.setState({submitted: true});
-        // classActions.insertPost(classDetail.id, user.id, title, content, topic, null, isSchedule, scopeType)
-        //     .then(
-        //         this.props.dispatch(classActions.getPosts(classDetail.id))
-        //     );
-        //
-        // const { history } = this.props
-        // history.push(`/classes/${classDetail.id}`);
+        const {classDetail, user, title, content, topic, fileUpload} = this.state;
+        this.setState({submitted: true});
+
+        this.props.dispatch(
+            postActions.insert(
+                classDetail.id, user.id, title, content,
+                fileUpload, postConstants.SCOPETYPE.IS_PROTECTED,
+                topic, false, []
+            )
+        )
+        this.props.dispatch(postActions.getPostsByClassId(classDetail.id))
+        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, user.id))
+
+        this.setState({
+            ...this.state,
+            title: '',
+            content: '',
+            fileUpload: []
+        })
     }
 
     render() {
@@ -88,17 +97,19 @@ class PostCreateAnnouncement extends Component {
                 <div className="new-post-content clearfix">
                     <div className="user-create-post">
                         <img
-                            src={(user && user.profileImageID) ? fileUtils.renderFileSource(user.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}/>
+                            src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
                     </div>
                     <div className="new-post-message controls">
                         <textarea className="form-control" rows="1" placeholder="Title" name="title"
+                                  value={this.state.title}
                                   onChange={this.handleChange}></textarea>
                         <textarea className="form-control announcement" rows="4" name="content"
                                   placeholder="Write something"
+                                  value={this.state.content}
                                   onChange={this.handleChange}></textarea>
                     </div>
                 </div>
-                <PostAddAttachment files={this.state.files} onUploadFile={this.handleUploadFile}
+                <PostAddAttachment files={this.state.fileUpload} onUploadFile={this.handleUploadFile}
                                    onRemoveUploadFile={this.handleRemoveUploadFile}/>
                 <NewPostFooter className={classDetail.name} onSubmit={this.handleSubmit}/>
             </form>

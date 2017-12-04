@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 
 import '../../commons/common.css'
 import {Link} from 'react-router-dom'
+import {fileUtils} from "../../../utils";
 
 class ClassRecentFiles extends Component{
     renderFile = (file, index) => {
@@ -10,9 +11,9 @@ class ClassRecentFiles extends Component{
             <div key={index} className="file clearfix">
                 <div className="preview-file clearfix">
                     {
-                        file.type == "image" ?
+                        (file.type && file.type.indexOf("image") !== -1) ?
                             <div className="preview-image">
-                                <img src={file.source}/>
+                                <img src={fileUtils.renderFileSource(file.id)}/>
                             </div> :
                             <div className="document">
                                 <img src={defaultImageDocument}/>
@@ -20,7 +21,7 @@ class ClassRecentFiles extends Component{
                     }
                 </div>
                 <div className="file-content">
-                    <div className="file-file-name">{file.fileName}</div>
+                    <div className="file-file-name">{file.name}</div>
                     <div className="file-type">{file.type}</div>
                 </div>
                 <div className="dropdown pull-right action-with-file">
@@ -29,7 +30,7 @@ class ClassRecentFiles extends Component{
                         <span className="sr-only">Toggle Dropdown</span>
                     </a>
                     <ul role="menu" className="dropdown-menu">
-                        <li><a href="javascript:;">Download</a></li>
+                        <li><a href={file && fileUtils.renderFileSource(file.id)} target="_blank" download="proposed_file_name">Download</a></li>
                     </ul>
                 </div>
             </div>

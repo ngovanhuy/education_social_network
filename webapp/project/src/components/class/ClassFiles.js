@@ -12,9 +12,9 @@ class ClassFiles extends Component{
             <div key={index} className="file clearfix">
                 <div className="preview-file clearfix">
                     {
-                        (file.type && file.type.startsWith("image/")) ?
+                        (file.type && file.type.indexOf("image") !== -1) ?
                             <div className="preview-image">
-                                <img src={file.source}/>
+                                <img src={fileUtils.renderFileSource(file.id)}/>
                             </div> :
                             <div className="document">
                                 <img src={defaultImageDocument}/>
@@ -29,10 +29,10 @@ class ClassFiles extends Component{
                 </div>
                 <div className="file-content">
                     {
-                        (file.from && file.from.user) ?
+                        (file.userCreate) ?
                             (
                                 <div className="file-user-full-name">
-                                    <UserProfileInfo user={file.from.user}/>
+                                    <UserProfileInfo user={file.userCreate}/>
                                 </div>
                             ) : ''
                     }
@@ -46,7 +46,7 @@ class ClassFiles extends Component{
                         <span className="sr-only">Toggle Dropdown</span>
                     </a>
                     <ul role="menu" className="dropdown-menu">
-                        <li><a href={fileUtils.renderFileSource(file.id)} target="_blank" download="proposed_file_name">Download</a></li>
+                        <li><a href={file && fileUtils.renderFileSource(file.id)} target="_blank" download="proposed_file_name">Download</a></li>
                         <li><a href="#" onClick={() => onDeleteFile(file.id)}>Delete This File</a></li>
                     </ul>
                 </div>

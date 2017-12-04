@@ -7,191 +7,24 @@ import ClassRightMenu from "../../components/class/ClassRightMenu";
 import '../../components/class/class.css'
 import NewPost from "../../components/commons/views/NewPost";
 import Feed from "../../components/commons/Feed";
-import {classActions} from "../../actions";
+import {classActions, postActions} from "../../actions";
 import {userUtils} from "../../utils";
 
 class ClassTimelinePage extends Component {
-    static defaultProps = {
-        topics: [{
-            fullName: 'Task 1',
-            topicName: 'task_1',
-        }, {
-            fullName: 'Task 2',
-            topicName: 'task_2',
-        }, {
-            fullName: 'Task 3',
-            topicName: 'task_3',
-        }],
-        // events: [{
-        //     start: new Date(),
-        //     title: 'Event name 1'
-        // }, {
-        //     start: new Date(),
-        //     title: 'Event name 2'
-        // }, {
-        //     start: new Date(),
-        //     title: 'Event name 3'
-        // }],
-        // feed:[{
-        //     post:{
-        //         id: "123",
-        //         classId: "1",
-        //         createTime: new Date(),
-        //         message: "[SINH VIÊN 5 TỐT]\n" +
-        //         "\"Hành trình tìm kiếm Sinh viên 5 tốt 2016-2017: TÔI TỎA SÁNG\" đã chính thức được khởi động.\n" +
-        //         "Bạn đã hoàn thành các tiêu chí về Đạo đức - Học tập - Thể lực - Tình nguyện - Hội nhập trong năm học 2016-2017?\n" +
-        //         "Bạn đã sẵn sàng nhận được danh hiệu cao quý \"Sinh viên 5 tốt\"",
-        //         pictureLink: "/images/cover_photo.jpg",
-        //         attachments:[{
-        //             type: "image",
-        //             typeFile: "jpg",
-        //             fileName: "cover_photo.jpg",
-        //             source: "/images/cover_photo.jpg",
-        //         },{
-        //             type: "text",
-        //             typeFile: "txt",
-        //             fileName: "kinhnghiem.txt",
-        //             source: "/uploads/kinhnghiem.txt",
-        //         },{
-        //             type: "pdf",
-        //             typeFile: "pdf",
-        //             fileName: "ZenHabitsbook.pdf",
-        //             source: "/uploads/ZenHabitsbook.pdf",
-        //         }],
-        //         favourites: {
-        //             favouriteCount: 1,
-        //             usersFavourite:[{
-        //                 id: "1"
-        //             }]
-        //         },
-        //         comments: [
-        //             {
-        //                 message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-        //                 pictureLink: "/images/cover_photo.jpg",
-        //                 createTime: new Date(),
-        //                 favourites: {
-        //                     favouriteCount: 1,
-        //                     usersFavourite:[{
-        //                         id: "1"
-        //                     }]
-        //                 },
-        //                 replies: [
-        //                     {
-        //                         message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-        //                         pictureLink: "/images/cover_photo.jpg",
-        //                         favourites: {
-        //                             favouriteCount: 0
-        //                         },
-        //                     }
-        //                 ],
-        //                 from: {
-        //                     user:{
-        //                         id: "1",
-        //                         coverPhotoUrl: "/images/cover_photo.jpg",
-        //                         profilePictureUrl: "/images/profile_picture.png",
-        //                         fullName: "NgoVan Huy",
-        //                         userName: "ngovanhuy0241"
-        //                     },
-        //                 }
-        //             }
-        //         ],
-        //         from: {
-        //             user:{
-        //                 id: "1",
-        //                 coverPhotoUrl: "/images/cover_photo.jpg",
-        //                 profilePictureUrl: "/images/profile_picture.png",
-        //                 fullName: "NgoVan Huy",
-        //                 userName: "ngovanhuy0241"
-        //             },
-        //         }
-        //
-        //     }
-        // },{
-        //     post:{
-        //         id: "123",
-        //         classId: "huynv",
-        //         createTime: new Date(),
-        //         message: "[SINH VIÊN 5 TỐT]\n" +
-        //         "\"Hành trình tìm kiếm Sinh viên 5 tốt 2016-2017: TÔI TỎA SÁNG\" đã chính thức được khởi động.\n" +
-        //         "Bạn đã hoàn thành các tiêu chí về Đạo đức - Học tập - Thể lực - Tình nguyện - Hội nhập trong năm học 2016-2017?\n" +
-        //         "Bạn đã sẵn sàng nhận được danh hiệu cao quý \"Sinh viên 5 tốt\"",
-        //         pictureLink: "/images/cover_photo.jpg",
-        //         attachments:[{
-        //             type: "image",
-        //             typeFile: "jpg",
-        //             fileName: "cover_photo.jpg",
-        //             source: "/images/cover_photo.jpg",
-        //         },{
-        //             type: "text",
-        //             typeFile: "txt",
-        //             fileName: "kinhnghiem.txt",
-        //             source: "/uploads/kinhnghiem.txt",
-        //         },{
-        //             type: "pdf",
-        //             typeFile: "pdf",
-        //             fileName: "ZenHabitsbook.pdf",
-        //             source: "/uploads/ZenHabitsbook.pdf",
-        //         }],
-        //         favourites: {
-        //             favouriteCount: 1,
-        //             usersFavourite:[{
-        //                 id: "1"
-        //             }]
-        //         },
-        //         comments: [
-        //             {
-        //                 message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-        //                 pictureLink: "/images/cover_photo.jpg",
-        //                 createTime: new Date(),
-        //                 favourites: {
-        //                     favouriteCount: 1,
-        //                     usersFavourite:[{
-        //                         id: "1"
-        //                     }]
-        //                 },
-        //                 replies: [
-        //                     {
-        //                         message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-        //                         pictureLink: "/images/cover_photo.jpg",
-        //                         favourites: {
-        //                             favouriteCount: 0
-        //                         },
-        //                     }
-        //                 ],
-        //                 from: {
-        //                     user:{
-        //                         id: "1",
-        //                         coverPhotoUrl: "/images/cover_photo.jpg",
-        //                         profilePictureUrl: "/images/profile_picture.png",
-        //                         fullName: "NgoVan Huy",
-        //                         userName: "ngovanhuy0241"
-        //                     },
-        //                 }
-        //             }
-        //         ],
-        //         from: {
-        //             user:{
-        //                 id: "1",
-        //                 coverPhotoUrl: "/images/cover_photo.jpg",
-        //                 profilePictureUrl: "/images/profile_picture.png",
-        //                 fullName: "NgoVan Huy",
-        //                 userName: "ngovanhuy0241"
-        //             },
-        //         }
-        //
-        //     }
-        // }]
+    constructor(props) {
+        super(props)
     }
 
     componentWillMount() {
         const {classId, user} = this.props;
         this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(classActions.getFiles(classId));
-        this.props.dispatch(classActions.getPosts(classId));
-        this.props.dispatch(classActions.getEvents(classId));
-        if(user){
-            this.props.dispatch(classActions.getPostsByUser(classId, user.id));
-            this.props.dispatch(classActions.getEventsByUser(classId, user.id));
+        // this.props.dispatch(postActions.getPostsByClassId(classId));
+        // this.props.dispatch(classActions.getEvents(classId));
+        if (user) {
+            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, user.id));
+            // this.props.dispatch(classActions.getEventsByUser(classId, user.id));
         }
     }
 
@@ -199,29 +32,33 @@ class ClassTimelinePage extends Component {
         if (nextProps.classId !== this.props.classId) {
             const {classId, user} = nextProps;
             this.props.dispatch(classActions.getById(classId));
+            this.props.dispatch(classActions.getTopics(classId));
             this.props.dispatch(classActions.getFiles(classId));
-            this.props.dispatch(classActions.getPosts(classId));
-            this.props.dispatch(classActions.getEvents(classId));
-            if(user){
-                this.props.dispatch(classActions.getPostsByUser(classId, user.id));
-                this.props.dispatch(classActions.getEventsByUser(classId, user.id));
+            // this.props.dispatch(postActions.getPostsByClassId(classId));
+            if (user) {
+                this.props.dispatch(postActions.getPostsByClassIdUserId(classId, user.id));
+                // this.props.dispatch(classActions.getEventsByUser(classId, user.id));
             }
         }
     }
 
     render() {
-        const {classDetail, classId, user, topics} = this.props
+        const {classDetail, classId, user} = this.props
+        const topics = classDetail.topics
         const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
         const isTeacher = userUtils.checkIsTeacher(user)
         var posts = []
         var eventsUpcomming = []
-        if(isTeacher){
-            posts = (classDetail && classDetail.posts) ? classDetail.posts : []
-            eventsUpcomming = (classDetail && classDetail.events) ? classDetail.events.slice(0, 3) : []
-        } else {
-            posts = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser : []
+        // if (isTeacher) {
+        //     posts = (classDetail && classDetail.posts) ? classDetail.posts : []
+        //     eventsUpcomming = (classDetail && classDetail.events) ? classDetail.events.slice(0, 3) : []
+        // } else {
+            posts = (classDetail && classDetail.postsByUser) ? classDetail.postsByUser : []
             eventsUpcomming = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser.slice(0, 3) : []
-        }
+        // }
+        posts = posts.sort(function (a, b) {
+            return new Date(b.timeCreate) - new Date(a.timeCreate);
+        });
         return (
             <div>
                 <div className="container">
@@ -237,7 +74,7 @@ class ClassTimelinePage extends Component {
                         </div>
                         <div className="row">
                             <div className="class-feed">
-                                <Feed feed={posts}/>
+                                <Feed feed={posts} user={user}/>
                             </div>
                         </div>
                     </div>

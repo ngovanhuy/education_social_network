@@ -7,18 +7,33 @@ import 'react-datetime/css/react-datetime.css'
 import PostAddAttachment from "./PostAddAttachment";
 import NewPostFooter from "./NewPostFooter";
 import {classActions} from "../../../actions/classActions";
+import {postActions} from "../../../actions";
+import {classConstants, defaultConstants} from "../../../constants";
 
-const fillInfoForSelectTag = (members) => {
+const fillMembersInfoForSelectTag = (members) => {
     const newMembers = members.slice()
     var newPostUserFor = []
     newPostUserFor = newMembers.map((member) =>
         ({
-            value: member._id,
+            value: member.id,
             label: member.firstName + " " + member.lastName
         })
     )
-    newPostUserFor.unshift({value: 'all_student', label: 'All student'});
+    newPostUserFor.unshift({value: classConstants.DEFAULT_ALL_STUDENT, label: 'All student'});
     return newPostUserFor;
+}
+
+const fillTopicsInfoForSelectTag = (topics) => {
+    const newTopics = topics.slice()
+    var newTopicFor = []
+    newTopicFor = newTopics.map((topic) =>
+        ({
+            value: topic,
+            label: topic
+        })
+    )
+    newTopicFor.unshift({value: classConstants.DEFAULT_ALL_TOPIC, label: 'All topic'});
+    return newTopicFor;
 }
 
 class PostCreateAssignment extends Component {
@@ -30,11 +45,11 @@ class PostCreateAssignment extends Component {
             classDetail: {},
             title: '',
             content: '',
-            topic: '',
+            topic: classConstants.DEFAULT_ALL_TOPIC,
             members: [],
-            memberSelected: '',
+            memberSelected: classConstants.DEFAULT_ALL_STUDENT,
             isSchedule: true,
-            scopeType: '100',
+            scopeType: classConstants.POST_SCOPE_TYPE.PROTECTED,
             startTime: new Date(),
             endTime: new Date(),
             files: []
@@ -68,9 +83,23 @@ class PostCreateAssignment extends Component {
     }
 
     handleChangePostUserFor = (member) => {
+        if (member.value === classConstants.DEFAULT_ALL_STUDENT) {
+            this.setState({
+                scopeType: classConstants.POST_SCOPE_TYPE.PROTECTED,
+                memberSelected: member.value
+            })
+        } else {
+            this.setState({
+                members: [member.value],
+                memberSelected: member.value,
+                scopeType: classConstants.POST_SCOPE_TYPE.PRIVATE
+            })
+        }
+    }
+
+    handleChangePostTopicFor = (topic) => {
         this.setState({
-            members: [member.value],
-            memberSelected: member.value
+            topic: topic.value
         })
     }
 
@@ -104,16 +133,27 @@ class PostCreateAssignment extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state)
-        // const {classDetail, user, title, content, topic, members, isSchedule, scopeType, startTime, endTime } = this.state;
-        // this.setState({submitted: true});
-        // classService.insertPost(classDetail.id, user.id, title, content, topic, members, isSchedule, scopeType, startTime, endTime)
-        //     .then(
-        //         this.props.dispatch(classActions.getPosts(classDetail.id))
-        //     );
-        //
-        // const { history } = this.props
-        // history.push(`/classes/${classDetail.id}`);
+
+        const {classDetail, user, title, content, topic, members, isSchedule, scopeType, startTime, endTime, files} = this.state;
+        this.setState({submitted: true});
+
+        this.props.dispatch(
+            postActions.insert(classDetail.id, user.id, title, content, files, scopeType, topic, isSchedule, members, startTime, endTime)
+        )
+        this.props.dispatch(postActions.getPostsByClassId(classDetail.id))
+        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, user.id))
+
+        this.setState({
+            title: '',
+            content: '',
+            topic: classConstants.DEFAULT_ALL_TOPIC,
+            members: [],
+            memberSelected: classConstants.DEFAULT_ALL_STUDENT,
+            scopeType: classConstants.POST_SCOPE_TYPE.PROTECTED,
+            startTime: new Date(),
+            endTime: new Date(),
+            files: []
+        });
     }
 
     render() {
@@ -122,13 +162,9 @@ class PostCreateAssignment extends Component {
         //     return member.isAdmin == false
         // }) : []
         const membersOfClass = (classDetail && classDetail.members) ? classDetail.members : []
-        var newPostUserFor = fillInfoForSelectTag(membersOfClass)
-        var newPostTopicFor = [
-            {value: 'no_topic', label: 'No topic'},
-            {value: 'topic_1', label: 'Topic 1'},
-            {value: 'topic_2', label: 'Topic 2'},
-            {value: 'topic_3', label: 'Topic 3'}
-        ];
+        const topicsOfClass = (classDetail && classDetail.topics) ? classDetail.topics : []
+        var newPostUserFor = fillMembersInfoForSelectTag(membersOfClass)
+        var newPostTopicFor = fillTopicsInfoForSelectTag(topicsOfClass)
         return (
             <div>
                 <div className="new-post-content clearfix">
@@ -148,14 +184,16 @@ class PostCreateAssignment extends Component {
                             <div className="form-group controls">
                                 <div className="col-sm-12">
                                     <textarea className="form-control" rows="1" placeholder="Title"
-                                              name="title" onChange={this.handleChange}></textarea>
+                                              name="title" onChange={this.handleChange}
+                                              value={this.state.title}></textarea>
                                 </div>
                             </div>
                             <div className="form-group controls">
                                 <div className="col-sm-12">
                                 <textarea className="form-control" rows="1"
                                           placeholder="Instructions (optional)" name="content"
-                                          onChange={this.handleChange}></textarea>
+                                          onChange={this.handleChange}
+                                          value={this.state.content}></textarea>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -174,8 +212,9 @@ class PostCreateAssignment extends Component {
                                 <div className="col-sm-11">
                                     <Select
                                         name="new-post-topic-for"
-                                        value="no_topic"
+                                        value={this.state.topic}
                                         options={newPostTopicFor}
+                                        onChange={this.handleChangePostTopicFor}
                                     />
                                 </div>
                             </div>

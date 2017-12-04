@@ -54,6 +54,8 @@
 .home-page .school-profile-picture img {
   height: 310px;
   width: 100%; }
+.home-page .home-feed .feed .no-post {
+  margin: 20px 0px; }
 .home-page .home-feed .feed .feed-content {
   margin-top: 20px; }
 .home-page .home-school-about .school-map img {

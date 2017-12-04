@@ -5,16 +5,14 @@ import {history} from "../helpers/history";
 export const classActions = {
     getAll,
     getById,
-    // getByUserId,
     getMembers,
     getRequests,
     getFiles,
-    getPosts,
-    getPostsByUser,
     getEvents,
     getEventsByUser,
     insert,
     update,
+    getTopics,
 };
 
 function getAll() {
@@ -97,38 +95,6 @@ function getFiles(classId) {
     function failure(error) { return { type: classConstants.CLASSES_GETFILES_FAILURE, error } }
 }
 
-function getPosts(classId) {
-    return dispatch => {
-        dispatch(request());
-
-        classService.getPosts(classId)
-            .then(
-                response => dispatch(success(response.data)),
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: classConstants.CLASSES_GETPOSTS_REQUEST } }
-    function success(data) { return { type: classConstants.CLASSES_GETPOSTS_SUCCESS, data } }
-    function failure(error) { return { type: classConstants.CLASSES_GETPOSTS_FAILURE, error } }
-}
-
-function getPostsByUser(classId, userId) {
-    return dispatch => {
-        dispatch(request());
-
-        classService.getPostsByUser(classId, userId)
-            .then(
-                response => dispatch(success(response.data)),
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: classConstants.CLASSES_GETPOSTSBYUSER_REQUEST } }
-    function success(data) { return { type: classConstants.CLASSES_GETPOSTSBYUSER_SUCCESS, data } }
-    function failure(error) { return { type: classConstants.CLASSES_GETPOSTSBYUSER_FAILURE, error } }
-}
-
 function getEvents(classId) {
     return dispatch => {
         dispatch(request());
@@ -159,6 +125,22 @@ function getEventsByUser(classId, userId) {
     function request() { return { type: classConstants.CLASSES_GETEVENTSBYUSER_REQUEST } }
     function success(data) { return { type: classConstants.CLASSES_GETEVENTSBYUSER_SUCCESS, data } }
     function failure(error) { return { type: classConstants.CLASSES_GETEVENTSBYUSER_FAILURE, error } }
+}
+
+function getTopics(classId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.getTopics(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_GETTOPICS_REQUEST } }
+    function success(data) { return { type: classConstants.CLASSES_GETTOPICS_SUCCESS, data } }
+    function failure(error) { return { type: classConstants.CLASSES_GETTOPICS_FAILURE, error } }
 }
 
 function insert(userId, name) {

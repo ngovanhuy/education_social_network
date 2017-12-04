@@ -6,7 +6,7 @@ import '../../components/class/class.css'
 import EventsAgenda from "../../components/event/views/EventsAgenda";
 import EventLeftmenu from "../../components/event/EventLeftmenu";
 import EventsPinboard from "../../components/event/views/EventsPinboard";
-import DiscoveryFilterViewAsTag from "../../components/event/views/DiscoveryFilterViewAsTag";
+import DiscoveryFilter from "../../components/event/views/DiscoveryFilter";
 
 class DiscoveryPage extends Component {
     constructor(props) {

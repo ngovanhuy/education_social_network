@@ -22,7 +22,7 @@ class ClassMembers extends Component {
                         <Link to={`/users/${member._id}`}>
                             <div className="text-center panel-member-col">
                                 <img
-                                    src={member.profileImageID ? fileUtils.renderFileSource(member.profileImageID) : defaultConstants.USER_PROFILE_PICTURE_URL}
+                                    src={member &&  fileUtils.renderFileSource(member.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}
                                     className="img-circle" alt="No Image"/>
 
                                 <h4 className="thin">

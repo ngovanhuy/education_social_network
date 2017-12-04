@@ -10,22 +10,10 @@ import {classService} from "../../services/classService";
 
 class ClassFilePage extends Component{
 
-    static defaultProps = {
-        topics: [{
-            fullName: 'Task 1',
-            topicName: 'task_1',
-        }, {
-            fullName: 'Task 2',
-            topicName: 'task_2',
-        }, {
-            fullName: 'Task 3',
-            topicName: 'task_3',
-        }]
-    }
-
     componentWillMount() {
         const {classId} = this.props;
         this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(classActions.getFiles(classId));
     }
 
@@ -33,6 +21,7 @@ class ClassFilePage extends Component{
         if (nextProps.classId !== this.props.classId) {
             const {classId} = nextProps;
             this.props.dispatch(classActions.getById(classId));
+            this.props.dispatch(classActions.getTopics(classId));
             this.props.dispatch(classActions.getFiles(classId));
         }
     }
@@ -40,7 +29,6 @@ class ClassFilePage extends Component{
     handleUploadFile = (classId, file) => {
         classService.uploadFile(classId, file)
             .then(
-                this.props.dispatch(classActions.getById(classId)),
                 this.props.dispatch(classActions.getFiles(classId))
             )
     }
@@ -49,7 +37,6 @@ class ClassFilePage extends Component{
         const {classId} = this.props;
         classService.deleteFile(fileId)
             .then(
-                this.props.dispatch(classActions.getById(classId)),
                 this.props.dispatch(classActions.getFiles(classId))
             )
     }

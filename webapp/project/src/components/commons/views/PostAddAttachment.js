@@ -14,15 +14,31 @@ class PostAddAttachment extends Component {
         this.handleRemoveFile = this.handleRemoveFile.bind(this);
     }
 
+    componentWillMount() {
+        this.setState({
+            filesInfo: fileUtils.filesToPlainArray(this.props.files),
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.files !== this.props.files) {
+            this.setState({
+                filesInfo: fileUtils.filesToPlainArray(nextProps.files),
+            });
+        }
+    }
+
     handleUploadFile(event) {
         const file = event.target.files[0];
-        this.props.onUploadFile(file)
-        this.setState({
-            filesInfo: [
-                ...this.state.filesInfo,
-                fileUtils.fileToPlainObject(file)
-            ]
-        });
+        if(file){
+            this.props.onUploadFile(file)
+            this.setState({
+                filesInfo: [
+                    ...this.state.filesInfo,
+                    fileUtils.fileToPlainObject(file)
+                ]
+            });
+        }
     }
 
     handleRemoveFile(index) {
@@ -40,10 +56,10 @@ class PostAddAttachment extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <FileInput name="file" onChange={this.handleUploadFile}>
-                                <a href="javascript:;" className="post-add-file">
+                                <div className="post-add-file">
                                     <i className="fa fa-file"></i>
                                     Add file
-                                </a>
+                                </div>
                             </FileInput>
                         </div>
                     </div>

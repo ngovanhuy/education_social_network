@@ -81,6 +81,9 @@ $main-color: rgba(146, 181, 88, 1);
   }
   .home-feed {
     .feed {
+      .no-post{
+        margin: 20px 0px;
+      }
       .feed-content {
         margin-top: 20px;
       }

@@ -12,7 +12,7 @@ class ClassLeftmenu extends Component{
             <div className="class-left-menu">
                 <div className="col-sm-12">
                     <div className="row">
-                        <CoverPhotoClass profilePictureUrl={classDetail.profileImageID ? fileUtils.renderFileSource(classDetail.profileImageID) : defaultConstants.CLASS_PROFILE_PICTURE_URL}
+                        <CoverPhotoClass profilePictureUrl={fileUtils.renderFileSource(classDetail.profileImageID, defaultConstants.CLASS_PROFILE_PICTURE_URL)}
                                          classId={classId}/>
                     </div>
                 </div>

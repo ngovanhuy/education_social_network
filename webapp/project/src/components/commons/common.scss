@@ -79,9 +79,15 @@ ul.nav {
     }
   }
 
-  .post-content {
+  .post-content-info {
     border-bottom: 1px solid #e5e5e5;
     padding: 10px 0;
+    .post-title{
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 2.8rem;
+      color: #333;
+    }
     .post-picture {
       img {
         width: 100%;
@@ -199,17 +205,12 @@ ul.nav {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-
-        &:hover {
-          color: $main-color;
-          text-decoration: underline;
-          cursor: pointer;
-        }
       }
       .file-type {
         color: rgba(0, 0, 0, 0.55);
       }
       .button-actions{
+        margin-top: 5px;
         a.btn{
           line-height: 10px;
         }
@@ -236,10 +237,24 @@ ul.nav {
         height: 30px;
       }
     }
-    .comment-content {
+    .comment-content-info {
       float: left;
       margin-left: 10px;
       width: 90%;
+      .comment-user{
+        a{
+          color: #365899;
+          cursor: pointer;
+          text-decoration: none;
+        }
+        .user-fullname{
+          font-weight: bold;
+          white-space: nowrap;
+        }
+      }
+      .comment-time{
+        color: #90949c;
+      }
       .comment-reacts {
         padding: 5px 0;
         .comment-react {
@@ -276,6 +291,11 @@ ul.nav {
     .user-create-post {
       float: left;
       margin-right: 10px;
+      img{
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+      }
     }
     .new-post-message {
       float: left;

@@ -8,6 +8,7 @@ import Feed from "../../components/commons/Feed";
 import HomeRightmenu from "../../components/home/HomeRightmenu";
 import {classActions} from "../../actions/classActions";
 import {userActions} from "../../actions/userActions";
+import {postActions} from "../../actions";
 
 class HomePage extends Component {
 
@@ -29,181 +30,6 @@ class HomePage extends Component {
             website: 'www.hust.edu.vn',
             schoolMap: '/images/school-map.png',
         },
-        // user: {
-        //     id: "1",
-        //     coverPhotoUrl: "/images/cover_photo.jpg",
-        //     profilePictureUrl: "/images/profile_picture.png",
-        //     fullName: "NgoVan Huy",
-        //     userName: "ngovanhuy0241"
-        // },
-        // classesByUserId: [{
-        //     id: "1",
-        //     profilePictureUrl: '/images/cover_photo.jpg',
-        //     fullName: 'Chung ta la Anh em',
-        //     memberCount: 489,
-        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        // },{
-        //     id: 2,
-        //     profilePictureUrl: '/images/cover_photo.jpg',
-        //     fullName: 'Chung ta la Anh em',
-        //     memberCount: 489,
-        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        // },{
-        //     id: 3,
-        //     profilePictureUrl: '/images/cover_photo.jpg',
-        //     fullName: 'Chung ta la Anh em',
-        //     memberCount: 489,
-        //     description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        // }],
-        feed:[{
-            post:{
-                id: "123",
-                classId: "1",
-                createTime: new Date(),
-                message: "[SINH VIÊN 5 TỐT]\n" +
-                "\"Hành trình tìm kiếm Sinh viên 5 tốt 2016-2017: TÔI TỎA SÁNG\" đã chính thức được khởi động.\n" +
-                "Bạn đã hoàn thành các tiêu chí về Đạo đức - Học tập - Thể lực - Tình nguyện - Hội nhập trong năm học 2016-2017?\n" +
-                "Bạn đã sẵn sàng nhận được danh hiệu cao quý \"Sinh viên 5 tốt\"",
-                pictureLink: "/images/cover_photo.jpg",
-                attachments:[{
-                    type: "image",
-                    typeFile: "jpg",
-                    fileName: "cover_photo.jpg",
-                    source: "/images/cover_photo.jpg",
-                },{
-                    type: "text",
-                    typeFile: "txt",
-                    fileName: "kinhnghiem.txt",
-                    source: "/uploads/kinhnghiem.txt",
-                },{
-                    type: "pdf",
-                    typeFile: "pdf",
-                    fileName: "ZenHabitsbook.pdf",
-                    source: "/uploads/ZenHabitsbook.pdf",
-                }],
-                favourites: {
-                    favouriteCount: 1,
-                    usersFavourite:[{
-                        id: "1"
-                    }]
-                },
-                comments: [
-                    {
-                        message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-                        pictureLink: "/images/cover_photo.jpg",
-                        createTime: new Date(),
-                        favourites: {
-                            favouriteCount: 1,
-                            usersFavourite:[{
-                                id: "1"
-                            }]
-                        },
-                        replies: [
-                            {
-                                message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-                                pictureLink: "/images/cover_photo.jpg",
-                                favourites: {
-                                    favouriteCount: 0
-                                },
-                            }
-                        ],
-                        from: {
-                            user:{
-                                id: "1",
-                                coverPhotoUrl: "/images/cover_photo.jpg",
-                                profilePictureUrl: "/images/profile_picture.png",
-                                fullName: "NgoVan Huy",
-                                userName: "ngovanhuy0241"
-                            },
-                        }
-                    }
-                ],
-                from: {
-                    user:{
-                        id: "1",
-                        coverPhotoUrl: "/images/cover_photo.jpg",
-                        profilePictureUrl: "/images/profile_picture.png",
-                        fullName: "NgoVan Huy",
-                        userName: "ngovanhuy0241"
-                    },
-                }
-
-            }
-        },{
-            post:{
-                id: "123",
-                classId: "huynv",
-                createTime: new Date(),
-                message: "[SINH VIÊN 5 TỐT]\n" +
-                "\"Hành trình tìm kiếm Sinh viên 5 tốt 2016-2017: TÔI TỎA SÁNG\" đã chính thức được khởi động.\n" +
-                "Bạn đã hoàn thành các tiêu chí về Đạo đức - Học tập - Thể lực - Tình nguyện - Hội nhập trong năm học 2016-2017?\n" +
-                "Bạn đã sẵn sàng nhận được danh hiệu cao quý \"Sinh viên 5 tốt\"",
-                pictureLink: "/images/cover_photo.jpg",
-                attachments:[{
-                    type: "image",
-                    typeFile: "jpg",
-                    fileName: "cover_photo.jpg",
-                    source: "/images/cover_photo.jpg",
-                },{
-                    type: "text",
-                    typeFile: "txt",
-                    fileName: "kinhnghiem.txt",
-                    source: "/uploads/kinhnghiem.txt",
-                },{
-                    type: "pdf",
-                    typeFile: "pdf",
-                    fileName: "ZenHabitsbook.pdf",
-                    source: "/uploads/ZenHabitsbook.pdf",
-                }],
-                favourites: {
-                    favouriteCount: 1,
-                    usersFavourite:[{
-                        id: "1"
-                    }]
-                },
-                comments: [
-                    {
-                        message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-                        pictureLink: "/images/cover_photo.jpg",
-                        createTime: new Date(),
-                        favourites: {
-                            favouriteCount: 1,
-                            usersFavourite:[{
-                                id: "1"
-                            }]
-                        },
-                        replies: [
-                            {
-                                message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-                                pictureLink: "/images/cover_photo.jpg",
-                                favourites: {
-                                    favouriteCount: 0
-                                },
-                            }
-                        ],
-                        from: {
-                            user:{
-                                id: "1",
-                                coverPhotoUrl: "/images/cover_photo.jpg",
-                                profilePictureUrl: "/images/profile_picture.png",
-                                fullName: "NgoVan Huy",
-                                userName: "ngovanhuy0241"
-                            },
-                        }
-                    }
-                ],
-                from: {
-                    user:{
-                        id: "1",
-                        coverPhotoUrl: "/images/cover_photo.jpg",
-                        profilePictureUrl: "/images/profile_picture.png",
-                        fullName: "NgoVan Huy",
-                        userName: "ngovanhuy0241"
-                    },
-                }
-
-            }
-        }],
         events: [
             {
                 id:'1',
@@ -350,10 +176,16 @@ class HomePage extends Component {
         }
         this.props.dispatch(userActions.getById(user.id));
         this.props.dispatch(userActions.getClassJoined(user.id));
+        this.props.dispatch(postActions.getPostsByUserId(user.id));
     }
 
     render() {
-        const {schoolDetail, user, classUserJoined, feed, events, notifcationsLatest} = this.props
+        const {schoolDetail, user, classUserJoined, events, notifcationsLatest} = this.props
+        var {posts} = this.props
+        posts = posts ? posts : []
+        posts = posts.sort(function(a,b){
+            return new Date(b.timeCreate) - new Date(a.timeCreate);
+        });
         return (
             <div>
                 <div className="container">
@@ -372,7 +204,7 @@ class HomePage extends Component {
                             <div className="row">
                                 <div className="col-sm-8">
                                     <div className="home-feed">
-                                        <Feed feed={feed}/>
+                                        <Feed feed={posts}/>
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
@@ -389,10 +221,11 @@ class HomePage extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user, classUserJoined} = state.authentication;
+    const {user, classUserJoined, posts} = state.authentication;
     return {
         user,
-        classUserJoined
+        classUserJoined,
+        posts
     };
 }
 

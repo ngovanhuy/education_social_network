@@ -11,6 +11,7 @@ class ClassEventPage extends Component {
     componentWillMount() {
         const {classId, user} = this.props;
         this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(classActions.getEvents(classId));
         if(user){
             this.props.dispatch(classActions.getEventsByUser(classId, user.id));
@@ -21,6 +22,7 @@ class ClassEventPage extends Component {
         if (nextProps.classId !== this.props.classId) {
             const {classId, user} = nextProps;
             this.props.dispatch(classActions.getById(classId));
+            this.props.dispatch(classActions.getTopics(classId));
             this.props.dispatch(classActions.getEvents(classId));
             if(user){
                 this.props.dispatch(classActions.getEventsByUser(classId, user.id));
@@ -29,16 +31,6 @@ class ClassEventPage extends Component {
     }
 
     static defaultProps = {
-        topics: [{
-            fullName: 'Task 1',
-            topicName: 'task_1',
-        }, {
-            fullName: 'Task 2',
-            topicName: 'task_2',
-        }, {
-            fullName: 'Task 3',
-            topicName: 'task_3',
-        }],
         events: [
             {
                 id: "1",
@@ -164,7 +156,8 @@ class ClassEventPage extends Component {
     }
 
     render() {
-        const {classDetail, topics, classId, events} = this.props
+        const {classDetail, classId, events} = this.props
+        const topics = classDetail.topics
         return (
             <div>
                 <div className="container">

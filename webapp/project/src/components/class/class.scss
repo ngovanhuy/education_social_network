@@ -402,6 +402,9 @@ $main-color: rgba(146, 181, 88, 1);
       }
       .panel-member-col {
         float: left;
+        img{
+          width: 70px;
+        }
       }
     }
   }

@@ -8,12 +8,9 @@ export const classService = {
     getMembers,
     getRequests,
     getFiles,
-    getPosts,
-    getPostsByUser,
     getEvents,
     getEventsByUser,
     insert,
-    insertPost,
     update,
     updateProfilePicture,
     uploadFile,
@@ -22,6 +19,8 @@ export const classService = {
     addMember,
     deleteMember,
     deleteClass,
+    insertTopic,
+    getTopics,
 };
 
 function getAll() {
@@ -69,24 +68,6 @@ function getFiles(classId) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function getPosts(classId) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-    const url = DOMAIN_SERVICE + '/groups/post/' + classId;
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-function getPostsByUser(classId, userId) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-    const url = DOMAIN_SERVICE + '/groups/post/' + classId + "/" + userId;
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
 function getEvents(classId) {
     const requestOptions = {
         method: 'GET',
@@ -112,17 +93,6 @@ function insert(userId, name) {
         body: JSON.stringify({name})
     };
     const url = DOMAIN_SERVICE + '/groups/create/' + userId;
-    return fetch(url, requestOptions)
-        .then(handleResponse)
-}
-
-function insertPost(classId, userId, title, content, topic, members, isSchedule, scopeType, startTime, endTime) {
-    const requestOptions = {
-        method: 'POST',
-        headers: authHeader(),
-        body: JSON.stringify({title, content, topic, members, isSchedule, scopeType, startTime, endTime})
-    };
-    const url = DOMAIN_SERVICE + '/groups/post/' + classId + "/" + userId;
     return fetch(url, requestOptions)
         .then(handleResponse)
 }
@@ -194,6 +164,25 @@ function deleteClass(classId, userId) {
         headers: authHeader()
     };
     const url = DOMAIN_SERVICE + '/groups/action/' + classId + "/" + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function insertTopic(classId, topicName) {
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/topic/' + classId + "?topicname=" + topicName;
+    return fetch(url, requestOptions)
+        .then(handleResponse)
+}
+
+function getTopics(classId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/groups/topic/' + classId;
     return fetch(url, requestOptions).then(handleResponse);
 }
 

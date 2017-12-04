@@ -170,6 +170,26 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 error: action.error
             };
+        case classConstants.CLASSES_GETPOSTSBYTOPIC_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETPOSTSBYTOPIC_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    postsByTopic: action.data
+                }
+            };
+        case classConstants.CLASSES_GETPOSTSBYTOPIC_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
         case classConstants.CLASSES_GETEVENTS_REQUEST:
             return {
                 ...state,
@@ -210,6 +230,140 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 error: action.error
             };
+        case classConstants.CLASSES_GETTOPICS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETTOPICS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    topics: action.data
+                }
+            };
+        case classConstants.CLASSES_GETTOPICS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_INSERTPOST_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case classConstants.CLASSES_INSERTPOST_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case classConstants.CLASSES_INSERTPOST_FAILURE:
+            return{
+                ...state,
+                loading: false,
+                error: action.error
+            }
+        case classConstants.CLASSES_GETCOMMENTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETCOMMENTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    postsByUser: state.classDetail.postsByUser.map(post => post.id == action.data.post.postID ?
+                        {
+                            ...post,
+                            comments: action.data.comments
+                        } : post
+                    )
+                }
+            };
+        case classConstants.CLASSES_GETCOMMENTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_INSERTCOMMENT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case classConstants.CLASSES_INSERTCOMMENT_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case classConstants.CLASSES_INSERTCOMMENT_FAILURE:
+            return{
+                ...state,
+                loading: false,
+                error: action.error
+            }
+        case classConstants.CLASSES_GETFAVOURITES_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case classConstants.CLASSES_GETFAVOURITES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    postsByUser: state.classDetail.postsByUser && state.classDetail.postsByUser.map(post => post.id == action.data.post.postID ?
+                        {
+                            ...post,
+                            favourites: action.data
+                        } : post
+                    )
+                }
+            };
+        case classConstants.CLASSES_GETFAVOURITES_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case classConstants.CLASSES_INSERTFAVOURITES_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case classConstants.CLASSES_INSERTFAVOURITES_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case classConstants.CLASSES_INSERTFAVOURITES_FAILURE:
+            return{
+                ...state,
+                loading: false,
+                error: action.error
+            }
+        case classConstants.CLASSES_DELETEFAVOURITE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case classConstants.CLASSES_DELETEFAVOURITE_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case classConstants.CLASSES_DELETEFAVOURITE_FAILURE:
+            return{
+                ...state,
+                loading: false,
+                error: action.error
+            }
         default:
             return state
     }

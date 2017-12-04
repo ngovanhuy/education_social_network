@@ -61,7 +61,6 @@ export function authentication(state = {}, action) {
                 loading: false,
                 error: action.error
             };
-
         case userConstants.USERS_GETCLASSREQUEST_REQUEST:
             return {
                 ...state,
@@ -74,6 +73,23 @@ export function authentication(state = {}, action) {
                 classUserRequest: action.classes
             };
         case userConstants.USERS_GETCLASSREQUEST_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case userConstants.USERS_GETPOSTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case userConstants.USERS_GETPOSTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                posts: action.posts
+            };
+        case userConstants.USERS_GETPOSTS_FAILURE:
             return {
                 ...state,
                 loading: false,

@@ -30,6 +30,7 @@
     "react": "^15.5.0",
     "react-autosuggest": "^9.3.2",
     "react-big-calendar": "^0.17.0",
+    "react-dates": "^15.3.0",
     "react-datetime": "^2.11.0",
     "react-dom": "^15.5.0",
     "react-modal": "^3.1.2",
