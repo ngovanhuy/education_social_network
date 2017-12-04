@@ -259,7 +259,14 @@ async function getComments(req, res) {//bulk comments with index.
         return res.send({
             code: 200,
             message: 'Success',
-            data: post.getComments(),
+            data: {
+                post: {
+                    postID: post._id,
+                    groupID: post.group.id,
+                    userCreateID: post.userCreate.id,
+                },
+                comments: post.getComments(),
+            },
         });
     } catch (error) {
         return res.status(500).send({

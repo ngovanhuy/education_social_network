@@ -200,22 +200,22 @@ function getComments(top = -1) {
     return this.comments.filter(comment => comment.isDeleted === false).map(comment => ({
             id: comment._id,
             userID: comment.userID,
-            post: {
-                id: this._id,
-                group: {
-                    id: this.group.id,
-                    name: this.group.name,
-                    profileImageID: this.group.profileImageID,
-                    timeUpdate: Utils.exportDate(this.group.timeUpdate),
-                },
-                userCreate: {
-                    timeUpdate: Utils.exportDate(this.userCreate.timeUpdate),
-                    profileImageID: this.userCreate.profileImageID,
-                    lastName: this.userCreate.lastName,
-                    firstName: this.userCreate.firstName,
-                    id: 1512368005761
-                },
-            },
+            // post: {
+            //     id: this._id,
+            //     group: {
+            //         id: this.group.id,
+            //         name: this.group.name,
+            //         profileImageID: this.group.profileImageID,
+            //         timeUpdate: Utils.exportDate(this.group.timeUpdate),
+            //     },
+            //     userCreate: {
+            //         timeUpdate: Utils.exportDate(this.userCreate.timeUpdate),
+            //         profileImageID: this.userCreate.profileImageID,
+            //         lastName: this.userCreate.lastName,
+            //         firstName: this.userCreate.firstName,
+            //         id: this.userCreate.id,
+            //     },
+            // },
             content: comment.content,
             firstName: comment.firstName,
             lastName: comment.lastName,
