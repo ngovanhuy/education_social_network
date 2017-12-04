@@ -785,6 +785,8 @@ Thông tin **Post_Basic** cơ bản trả về bao gồm:
 
 ##### Thêm, Xóa Topic vào nhóm
 
+##### Lọc sự kiện với groupID, userID, startTime, endTime, title.
+
 
 #### TEST API
 
