@@ -14,5 +14,8 @@ router.route('/users').get(userController.getUsers)
     }) ;
 router.route('/groups').get(groupController.getGroups);
 
+router.route('/bodys').post(function (req, res) {
+    return res.send(Utils.getStringArray(req.body.members));
+});
 
 module.exports = router;

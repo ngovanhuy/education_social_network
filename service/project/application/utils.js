@@ -49,6 +49,9 @@ function parseDate(dateString) {
     if (!dateString) {
         return null;
     }
+    if (typeof(dateString) === 'number') {
+        return new Date(dateString);
+    }
     let date = new Date(dateString + "Z");
     return isNaN(date.getDate()) ? null : date;
 }
@@ -94,7 +97,11 @@ function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = 
     return obj.length >= minLength && obj.length <= maxLength;
 }
 function exportDate(date) {
-    return date ? date.toLocaleString() : null;
+    let _date = date;
+    if (typeof(date) === 'number') {
+        _date = new Date(date);
+    }
+    return _date ? _date.toLocaleString() : null;
 }
 
 function getShortContent(content) {

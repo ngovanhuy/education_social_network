@@ -12,8 +12,8 @@ router.route('/create/:userID').post(userController.checkUserRequest, groupContr
 router.route('/info/:groupID').get(groupController.checkGroupRequest, groupController.getGroup);
 router.route('/profileImage/:groupID')
     .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileController.getFile)
-    .put(groupController.checkGroupRequest, fileController.profileUpload, fileController.postFile, groupController.putProfileImage)
-    .post(groupController.checkGroupRequest, fileController.profileUpload, fileController.postFile, groupController.putProfileImage, );
+    .put(fileController.profileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, fileController.postFile, groupController.putProfileImage)
+    .post(fileController.profileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, fileController.postFile, groupController.putProfileImage, );
 router.route('/members/:groupID')
     .get(groupController.checkGroupRequest, groupController.getMembers)
     .post(groupController.checkGroupRequest, groupController.addMember)
@@ -37,7 +37,7 @@ router.route('/action/:groupID')
 router.route('/files/:groupID')
     .get(groupController.checkGroupRequest, groupController.getFiles)
     // .post(groupController.checkGroupRequest, fileController.fileUpload, fileController.postFile, fileController.getInfoFile )
-    .post(groupController.checkGroupRequest, fileController.arrayFileUpload, fileController.postFiles, fileController.getInfoFiles);
+    .post(fileController.arrayFileUpload, groupController.checkGroupRequest, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(groupController.searchGroupByName);
 router.route('/post/:groupID')
     .get(groupController.checkGroupRequest, groupController.getPosts);

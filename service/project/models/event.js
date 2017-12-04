@@ -53,14 +53,14 @@ let EventSchema = new mongoose.Schema({
     //     required: true,
     //     default: null,
     // },
-    timeCreate: { type: Date, required: false, default: Date.now(), },
-    timeUpdate: { type: Date, required: false, default: Date.now(), },
+    timeCreate: { type: Date, required: false, default: new Date(), },
+    timeUpdate: { type: Date, required: false, default: new Date(), },
     isDeleted: { type: Boolean, required: true, default: false, },
 });
 
 EventSchema.pre('save', function (callback) {
     let _this = this;
-    _this.timeUpdate = Date.now();
+    _this.timeUpdate = new Date();
     return callback();
 });
 

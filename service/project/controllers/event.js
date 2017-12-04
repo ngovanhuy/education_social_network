@@ -164,9 +164,9 @@ async function addEvent(req, res, next) {
                 error: 'Data not exited'
             });
         }
-
+        let now = new Date();
         let event = new EventItem({
-            _id: Date.now(),
+            _id: now.getTime(),
             title: title,
             content: content,
             eventImageID: eventImageID,
@@ -180,7 +180,7 @@ async function addEvent(req, res, next) {
             firstName: user.firstName,
             lastName: user.lastName,
             profileImageID: user.profileImageID,
-            timeUpdate: new Date(),
+            timeUpdate: now,
         };
         if (!event.setContext(context, contextID)){
             return res.status(400).send({

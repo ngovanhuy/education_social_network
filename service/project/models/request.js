@@ -74,7 +74,7 @@ var ScheduleSchema = new mongoose.Schema({
 
 ScheduleSchema.pre('save', function (callback) {
     var post = this;
-    post.timeUpdate = Date.now();
+    post.timeUpdate = new Date();
     return callback();
 });
 

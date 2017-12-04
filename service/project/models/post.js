@@ -6,21 +6,21 @@ let PostSchema = new mongoose.Schema({
     content: { type: String, required: true, default: 'No Content' },//short_content
     userCreate: {
         type: {
-            _id: Number,
+            id: Number,
             firstName: String,
             lastName: String,
             profileImageID: String,
-            timeUpdate: { type: Date, default: Date.now(), required: true },
+            timeUpdate: { type: Date, default: new Date(), required: true },
         },
         required: true,
         default: null
     },
     group: {
         type: {
-            _id: Number,
+            id: Number,
             name: String,
             profileImageID: String,
-            timeUpdate: { type: Date, default: Date.now(), required: true },
+            timeUpdate: { type: Date, default: new Date(), required: true },
         },
         required: true,
         default: null
@@ -36,7 +36,7 @@ let PostSchema = new mongoose.Schema({
     comments: {
         type: [{
             _id: Number,
-            userID: Number,
+            user: {},
             content: String,
             firstName: String,
             lastName: String,
@@ -45,7 +45,7 @@ let PostSchema = new mongoose.Schema({
                 type: {},
                 required: false,
             },
-            timeUpdate: { type: Date, default: Date.now(), required: true },
+            timeUpdate: { type: Date, default: new Date(), required: true },
             isDeleted: { type: Boolean, default: false }
         }],
         required: false,
@@ -82,13 +82,13 @@ let PostSchema = new mongoose.Schema({
     countComments: { type: Number, required: true, default: 0 },
     countLikes: { type: Number, required: true, default: 0 },
     isDeleted: { type: Boolean, required: true, default: false, },
-    timeCreate: { type: Date, required: false, default: Date.now(), },
-    timeUpdate: { type: Date, required: false, default: Date.now(), },
+    timeCreate: { type: Date, required: false, default: new Date(), },
+    timeUpdate: { type: Date, required: false, default: new Date(), },
 });
 
 PostSchema.pre('save', function (callback) {
     let post = this;
-    post.timeUpdate = Date.now();
+    post.timeUpdate = new Date();
     return callback();
 });
 
@@ -112,7 +112,7 @@ function getBasicInfo() {
     }
 }
 function getNewID() {
-    return new Date().getTime();
+    return Date.now();
 }
 
 function addLike(user) {
@@ -200,6 +200,29 @@ function getComments(top = -1) {
     return this.comments.filter(comment => comment.isDeleted === false).map(comment => ({
             id: comment._id,
             userID: comment.userID,
+            user: {
+                id: comment.user.id,
+                firstName: comment.user.firstName,
+                lastName: comment.user.lastName,
+                profileImageID: null,
+                timeUpdate: Utils.exportDate(comment.user.timeUpdate)
+            },
+            post: {
+                id: this._id,
+                group: {
+                    id: this.group.id,
+                    name: this.group.name,
+                    profileImageID: this.group.profileImageID,
+                    timeUpdate: Utils.exportDate(this.group.timeUpdate),
+                },
+                userCreate: {
+                    timeUpdate: Utils.exportDate(this.userCreate.timeUpdate),
+                    profileImageID: this.userCreate.profileImageID,
+                    lastName: this.userCreate.lastName,
+                    firstName: this.userCreate.firstName,
+                    id: 1512368005761
+                },
+            },
             content: comment.content,
             firstName: comment.firstName,
             lastName: comment.lastName,
@@ -211,8 +234,14 @@ function getComments(top = -1) {
 function addComment(user, content, file = null) {
     let now = new Date();
     let comment = {
-        _id: Date.now(),
-        userID: user._id,
+        _id: now.getTime(),
+        user: {
+            profileImageID : user.profileImageID,
+            lastName : user.lastName,
+            firstName : user.firstName,
+            id : user.id,
+            timeUpdate: now,
+        },
         index: this.countComments,
         content: content,
         firstName: user.firstName,

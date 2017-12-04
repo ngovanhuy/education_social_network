@@ -31,7 +31,7 @@ var LikeSchema = new mongoose.Schema({
 
 LikeSchema.pre('save', function (callback) {
     var _this = this;
-    _this.timeUpdate = Date.now();
+    _this.timeUpdate = new Date();
     return callback();
 });
 

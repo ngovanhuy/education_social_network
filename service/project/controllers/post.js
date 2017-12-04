@@ -390,7 +390,7 @@ async function getPostsInTopic(req, res) {
         } else {
             let posts = await PostItem.find({
                 isDeleted: false,
-                "group._id": group._id,
+                "group.id": group._id,
                 topics: {$elemMatch: {_id: topicName}}
             });
             datas = posts.map(post => post.getBasicInfo());
@@ -471,9 +471,9 @@ async function removeLike(req, res, next) {
 
 function createNewPost(user, group, title, content, topic, files = null) {
     if (!user || !group) return null;
-    let now = Date.now();
+    let now = new Date()
     let post = new PostItem({
-        _id: now,
+        _id: now.getTime(),
         title: title,
         content: content,
         userCreate: {

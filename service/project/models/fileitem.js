@@ -5,11 +5,11 @@ let FileItemSchema = new mongoose.Schema({
     name: { type: String, required: true, default: 'NoName' },
     type: { type: String, required: true, default: 'application/octet-stream', },
     size: { type: Number, required: true, default: 0, },
-    createDate: { type: Date, required: false, default: Date.now(), },
+    createDate: { type: Date, required: false, default: new Date(), },
     isDeleted: { type: Boolean, required: true, default: false, },
     user: {
         type: {
-            _id: Number,
+            id: Number,
             firstName: String,
             lastName: String,
         },
@@ -18,7 +18,7 @@ let FileItemSchema = new mongoose.Schema({
     },
     group: {
         type: {
-            _id: Number,
+            id: Number,
             name: String,
         },
         required: false,
