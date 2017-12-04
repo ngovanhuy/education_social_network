@@ -36,7 +36,7 @@ let PostSchema = new mongoose.Schema({
     comments: {
         type: [{
             _id: Number,
-            user: {},
+            userID: Number,
             content: String,
             firstName: String,
             lastName: String,
@@ -200,13 +200,6 @@ function getComments(top = -1) {
     return this.comments.filter(comment => comment.isDeleted === false).map(comment => ({
             id: comment._id,
             userID: comment.userID,
-            user: {
-                id: comment.user.id,
-                firstName: comment.user.firstName,
-                lastName: comment.user.lastName,
-                profileImageID: null,
-                timeUpdate: Utils.exportDate(comment.user.timeUpdate)
-            },
             post: {
                 id: this._id,
                 group: {
@@ -235,13 +228,7 @@ function addComment(user, content, file = null) {
     let now = new Date();
     let comment = {
         _id: now.getTime(),
-        user: {
-            profileImageID : user.profileImageID,
-            lastName : user.lastName,
-            firstName : user.firstName,
-            id : user.id,
-            timeUpdate: now,
-        },
+        userID: user._id,
         index: this.countComments,
         content: content,
         firstName: user.firstName,
