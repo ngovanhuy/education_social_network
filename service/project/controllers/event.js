@@ -117,6 +117,22 @@ async function getEvents(req, res) {
         let groupID = req.query.groupID;
         let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
+        let title = req.body.title;
+
+
+        let findObject = {};
+        if (userID) findObject.userID = userID;
+        if (groupID) {
+            findObject.contextID = 10,
+            findObject.groupID = groupID;
+        }
+
+        let events = await EventItem.find(findObject);
+        return res.json({
+            code: 200,
+            message: 'Success',
+            data: events.map(event => event.getBasicInfo()),
+        });
     } catch(error) {
         return res.status(500).send({
             code: 500,
