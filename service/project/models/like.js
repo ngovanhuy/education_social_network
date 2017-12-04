@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 
 var LikeSchema = new mongoose.Schema({
-    _id: { type: Number, default: getNewID},
+    _id: { type: Number, default: getNewID()},
     sourceuser: { 
         type: {
             _id: Number,
@@ -18,15 +18,15 @@ var LikeSchema = new mongoose.Schema({
     targetpost: { 
         type: {
             _id: Number,
-            timeCreate: { type: Date, default: Date.now },
-            timeUpdate: { type: Date, default: Date.now },
+            timeCreate: { type: Date, default: Date.now()},
+            timeUpdate: { type: Date, default: Date.now()},
         }, 
         required: true, 
         default: null 
     },
     isDeleted: { type: Boolean, required: true, default: false, },
-    timeCreate: { type: Date, required: false, default: Date.now, },
-    timeUpdate: { type: Date, required: false, default: Date.now, },
+    timeCreate: { type: Date, required: false, default: Date.now(),} },
+    timeUpdate: { type: Date, required: false, default: Date.now(),} },
 });
 
 LikeSchema.pre('save', function (callback) {

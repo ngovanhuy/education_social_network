@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 
 var ScheduleSchema = new mongoose.Schema({
-    _id: { type: Number, default: getNewID},
+    _id: { type: Number, default: getNewID()},
     index: {type: Number},
     title: { type: String, required: true, default: 'No Title' },
     content: { type: String, required: true, default: 'No Content' },//short_content
-    timeCreate: { type: Date, required: false, default: Date.now, },
-    timeUpdate: { type: Date, required: false, default: Date.now, },
+    timeCreate: { type: Date, required: false, default: Date.now(),} },
+    timeUpdate: { type: Date, required: false, default: Date.now(),} },
     userID: { 
         type: {
             _id: Number,
@@ -24,8 +24,8 @@ var ScheduleSchema = new mongoose.Schema({
             _id: Number,
             name: String,
             profileImageID: String,
-            timeCreate: { type: Date, default: Date.now },
-            timeUpdate: { type: Date, default: Date.now },
+            timeCreate: { type: Date, default: Date.now()},
+            timeUpdate: { type: Date, default: Date.now()},
         }, 
         required: true, 
         default: null 

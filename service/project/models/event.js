@@ -7,7 +7,7 @@ let ContextEnum = {
     100: 'System',
 };
 let EventSchema = new mongoose.Schema({
-    _id: { type: Number, default: getNewID},
+    _id: { type: Number, default: getNewID()},
     // index: {type: Number},
     title: { type: String, required: true, default: 'No Title' },
     content: { type: String, required: true, default: 'No Content' },

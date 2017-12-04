@@ -6,6 +6,7 @@ let FileItemSchema = new mongoose.Schema({
     type: { type: String, required: true, default: 'application/octet-stream', },
     size: { type: Number, required: true, default: 0, },
     createDate: { type: Date, required: false, default: new Date(), },
+    versions:{type: [String], default: []},
     isDeleted: { type: Boolean, required: true, default: false, },
     user: {
         type: {
@@ -25,8 +26,27 @@ let FileItemSchema = new mongoose.Schema({
         default: null
     },
 });
-
-FileItemSchema.methods.getBasicInfo = function() {
+function addFiles(files) {
+    if (!this.versions) {this.versions = []};
+    if (!files) return null;
+    let now = new Date();
+    if (Array.isArray(files)) {
+        let maxIndex = files.length - 1;
+        if (maxIndex > 0) {
+            this.id = files[maxIndex];
+            this.createDate = now;
+        }
+        files.forEach(file => {
+            this.versions.push({_id: file, createDate: now});
+        });
+    } else {
+        this.id = files;
+        this.createDate = now;
+        this.versions.push({_id: files, createDate: now});
+    }
+    return this;
+}
+function getBasicInfo() {
     return {
         id:         this._id,
         name:       this.name,
@@ -36,5 +56,8 @@ FileItemSchema.methods.getBasicInfo = function() {
         group:      this.group,
         createDate: Utils.exportDate(this.createDate),
     }
-};
+}
+
+FileItemSchema.methods.getBasicInfo = getBasicInfo;
+FileItemSchema.methods.addFiles = addFiles;
 module.exports = mongoose.model('FileItem', FileItemSchema);

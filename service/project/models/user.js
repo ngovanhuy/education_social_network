@@ -17,7 +17,7 @@ let StatusEnum = {
 };
 let UserSchema = new mongoose.Schema(
     {
-        _id: { type: Number, default: getNewID },// id: { type: Number, unique: true, require: true, index: true, default: Date.now },
+        _id: { type: Number, default: getNewID() },// id: { type: Number, unique: true, require: true, index: true, default: Date.now()},
         username: { type: String, unique: true, required: true, },
         password: { type: String, required: true },
         firstName: { type: String, required: true, },
@@ -34,7 +34,7 @@ let UserSchema = new mongoose.Schema(
         nickname: { type: [String], required: false, },
         skills: {
             type: [{
-                _id: { type: Number, default: getNewID },
+                _id: { type: Number, default: getNewID() },
                 name: String,
                 description: String,
                 isRemoved: {type: Boolean, default: false}
@@ -44,7 +44,7 @@ let UserSchema = new mongoose.Schema(
         },
         worked: {
             type: [{
-                _id: { type: Number, default: getNewID },
+                _id: { type: Number, default: getNewID() },
                 startTime: Date,
                 endTime: { type: Date, default: null },
                 where: String,
@@ -56,7 +56,7 @@ let UserSchema = new mongoose.Schema(
         },
         language: {
             type: [{
-                _id: { type: Number, default: getNewID },
+                _id: { type: Number, default: getNewID() },
                 code: String,
                 text: String,
                 isDefault: {type: Boolean, default: false},
@@ -67,7 +67,7 @@ let UserSchema = new mongoose.Schema(
         },
         lifeEvent: {
             type: [{
-                _id: { type: Number, default: getNewID },
+                _id: { type: Number, default: getNewID() },
                 startTime: Date,
                 endTime: { type: Date, default: null },
                 description: String,
@@ -144,14 +144,14 @@ let UserSchema = new mongoose.Schema(
         },
         timeCreate: {
             type: Date,
-            default: Date.now,
+            default: Date.now(),
         },
-        timeUpdate: {
+        timeUpdate : {
             type: Date,
-            default: Date.now,
+            default: Date.now()
         },
     }
-);
+)
 UserSchema.pre('save', function (callback) {
     let user = this;
     user.timeUpdate = new Date();

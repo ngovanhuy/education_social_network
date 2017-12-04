@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 
 var FollowSchema = new mongoose.Schema({
-    _id: { type: Number, default: getNewID},
+    _id: { type: Number, default: getNewID()},
     sourceuser: { 
         type: {
             _id: Number,
@@ -20,15 +20,15 @@ var FollowSchema = new mongoose.Schema({
             _id: Number,
             name: String,
             profileImageID: String,
-            timeCreate: { type: Date, default: Date.now },
-            timeUpdate: { type: Date, default: Date.now },
+            timeCreate: { type: Date, default: Date.now()},
+            timeUpdate: { type: Date, default: Date.now()},
         }, 
         required: true, 
         default: null 
     },
     isDeleted: { type: Boolean, required: true, default: false, },
-    timeCreate: { type: Date, required: false, default: Date.now, },
-    timeUpdate: { type: Date, required: false, default: Date.now, },
+    timeCreate: { type: Date, required: false, default: Date.now(),} },
+    timeUpdate: { type: Date, required: false, default: Date.now(),} },
 });
 
 FollowSchema.pre('save', function (callback) {

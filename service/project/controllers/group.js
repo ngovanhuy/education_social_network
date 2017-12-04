@@ -435,25 +435,19 @@ async function getGroup(req, res, next) {
 }
 
 async function getProfileImageID(req, res, next) {
-    req.fileitems.file_selected_id = req.groups.group_request ? req.groups.group_request.profileImageID : null;
+    let group = req.groups.group_request;
+    req.fileitems.file_selected_id = group ? group.profileImageID : null;
     return next();
 }
 
-async function putProfileImage(req, res) {
+async function putProfileImage(req, res, next) {
     try {
         let group = req.groups.group_request;
-        if (!group) throw new Error();
-        if (!req.fileitems.file_saved) {
-            throw new Error("Upload file Error");
-        }
         let currentFile = req.fileitems.file_saved;
-        group.profileImageID = String(currentFile._id);
+        group.profileImageID = currentFile._id;
         group = await group.save();
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: currentFile.getBasicInfo(),
-        });
+        req.groups.group_request = group;
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -553,22 +547,15 @@ async function getGroups(req, res) {
     }
 };
 
-async function getFiles(req, res) {
+async function getFiles(req, res, next) {
     try {
         let group = req.groups.group_request;
-        if (!group) throw new Error();
         let files = await Files.find({
             isDeleted: false,
             'group.id': group._id,
         });
-        let datas = files.map(file => file.getBasicInfo());
-        // console.log(datas);
-        return res.send({
-            code: 200,
-            message: 'Success',
-            length: datas.length,
-            data: datas
-        });
+        req.fileitems.files_saved = files.map(file => file.getBasicInfo());
+        return next();
     } catch (error) {
         return res.status(500).json({
             code: 500,

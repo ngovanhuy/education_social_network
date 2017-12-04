@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 
 var ScheduleSchema = new mongoose.Schema({
-    _id: { type: Number, default: getNewID},
+    _id: { type: Number, default: getNewID()},
     title: { type: String, required: true, default: 'Once' },
     usercreate: {
         type: {
@@ -32,8 +32,8 @@ var ScheduleSchema = new mongoose.Schema({
         required: true,
         default: null,
     },
-    timeCreate: { type: Date, required: false, default: Date.now, },
-    timeUpdate: { type: Date, required: false, default: Date.now, },
+    timeCreate: { type: Date, required: false, default: Date.now(),} },
+    timeUpdate: { type: Date, required: false, default: Date.now(),} },
     isDeleted: { type: Boolean, required: true, default: false, },
 });
 
