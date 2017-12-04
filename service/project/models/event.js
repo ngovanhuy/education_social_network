@@ -11,7 +11,7 @@ let EventSchema = new mongoose.Schema({
     // index: {type: Number},
     title: { type: String, required: true, default: 'No Title' },
     content: { type: String, required: true, default: 'No Content' },
-    usercreate: {
+    userCreate: {
         type: {
             _id: Number,
             firstName: String,
@@ -70,7 +70,13 @@ function getBasicInfo() {
         title: this.title,
         content: this.content,
         eventImageID: this.eventImageID,
-        usercreate: this.usercreate,
+        userCreate: {
+            timeUpdate: Utils.exportDate(this.userCreate.timeUpdate),
+            profileImageID: this.userCreate.profileImageID,
+            lastName: this.userCreate.lastName,
+            firstName: this.userCreate.firstName,
+            id: this.userCreate.id,
+        },
         context: this.context,
         contextID: this.contextID,
         isGroupContext: ContextEnum[this.context] === 'Group',

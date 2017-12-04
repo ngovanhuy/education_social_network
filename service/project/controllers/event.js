@@ -115,27 +115,24 @@ async function getEvents(req, res) {
     try {
         let userID = req.query.userID;
         let groupID = req.query.groupID;
-        let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
-        let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
-        let title = req.body.title;
-
-
+        let startTime = req.query.startTime ? Utils.parseDate(req.query.startTime) : null;
+        let endTime = req.query.endTime ? Utils.parseDate(req.query.endTime) : null;
+        let title = req.query.title;
         let findObject = {};
-        if (userID) findObject['\"usercreate.id\"'] = Number(userID);
+        if (userID) findObject['userCreate.id'] = Number(userID);
         if (groupID) {
-            findObject.contextID = 10;
-            findObject.groupID = Number(groupID);
+            findObject.context = 10;
+            findObject.contextID = Number(groupID);
         }
         if (startTime) {
-            findObject.startTime = {$gt: startTime};
+            findObject.startTime = {$gte: startTime};
         }
         if (endTime) {
-            findObject.endTime = {$lt: endTime};
+            findObject.endTime = {$lte: endTime};
         }
         if (title) {
             findObject.title = {$regex: title};
         }
-        console.log(findObject);
         let events = await EventItem.find(findObject);
         return res.json({
             code: 200,
@@ -200,7 +197,7 @@ async function addEvent(req, res, next) {
             startTime: startTime,
             endTime: endTime,
         });
-        event.usercreate = {
+        event.userCreate = {
             id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
