@@ -430,7 +430,7 @@ async function getLikes(req, res) {
                     userCreateID: post.userCreate.id,
                 },
                 likes: post.getLikes(),
-                isUserLiked: post.isUserLiked(user),
+                // isUserLiked: post.isUserLiked(user),//check req.query.user.
             },
         });
     } catch (error) {
