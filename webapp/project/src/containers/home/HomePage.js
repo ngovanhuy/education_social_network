@@ -204,7 +204,7 @@ class HomePage extends Component {
                             <div className="row">
                                 <div className="col-sm-8">
                                     <div className="home-feed">
-                                        <Feed feed={posts}/>
+                                        <Feed feed={posts} user={user}/>
                                     </div>
                                 </div>
                                 <div className="col-sm-4">

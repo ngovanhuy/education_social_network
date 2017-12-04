@@ -7,7 +7,7 @@ import {fileUtils} from "../../utils/fileUtils";
 
 class ClassLeftmenu extends Component{
     render(){
-        const {classDetail, topics, classId, currentPage} = this.props
+        const {classDetail, topics, classId, currentPage, currentTopic} = this.props
         return(
             <div className="class-left-menu">
                 <div className="col-sm-12">
@@ -24,7 +24,7 @@ class ClassLeftmenu extends Component{
                 </div>
                 <div className="col-sm-12">
                     <div className="row">
-                        <ClassTopics topics={topics}/>
+                        <ClassTopics classId={classId} topics={topics} currentTopic={currentTopic}/>
                     </div>
                 </div>
             </div>

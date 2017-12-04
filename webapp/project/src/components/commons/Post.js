@@ -19,27 +19,21 @@ class Post extends Component {
     componentWillMount() {
         const {post} = this.props;
         if(post) {
-            // this.props.dispatch(postActions.getFavourites(post.id));
+            this.props.dispatch(postActions.getFavourites(post.id));
         }
     }
 
     checkUserFavouritePost = (post, user) => {
         var favourited = false;
-        if (post.favourites && post.favourites.usersFavourite && post.favourites.usersFavourite.length > 0) {
-            for (var i = 0; i < post.favourites.usersFavourite.length; i++) {
-                if (post.favourites.usersFavourite[i].id == post.id) {
-                    favourited = true;
-                    break;
-                }
-            }
+        if (post.favourites && post.favourites && post.favourites.length > 0 && post.favourites.indexOf(user.id)) {
+            favourited = true;
         }
-
         return favourited;
     }
 
     render() {
         const {post, user} = this.props
-        var favouritedPost = this.checkUserFavouritePost(post, post.userCreate);
+        var favouritedPost = this.checkUserFavouritePost(post, user);
         return (
             <div className="post-detail">
                 <div className="post-user clearfix">

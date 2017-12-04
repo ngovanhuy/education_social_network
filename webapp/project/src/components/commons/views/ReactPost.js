@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
+import {postActions} from "../../../actions";
 
 class ReactPost extends Component {
     constructor(props){
@@ -11,11 +12,11 @@ class ReactPost extends Component {
     }
 
     handleFavouritePost(post, user){
-
+        this.props.dispatch(postActions.insertFavourite(post, user.id))
     }
 
     handleUnFavouritePost(post, user){
-
+        this.props.dispatch(postActions.deleteFavourite(post, user.id))
     }
 
     render() {
@@ -43,6 +44,7 @@ class ReactPost extends Component {
                         <i className="fa  fa-comment-o"></i>
                         Comment
                     </a>
+                    <span className="badge badge-primary badge-small">{post.countComments}</span>
                 </div>
                 {/*<div className="post-react share dropdown">*/}
                 {/*<a data-toggle="dropdown" className="dropdown-toggle" href="javascript:;">*/}

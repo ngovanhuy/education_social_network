@@ -5,119 +5,15 @@ import {withRouter} from 'react-router-dom'
 import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/commons/Feed";
-import {userActions} from "../../actions";
+import {postActions, userActions} from "../../actions";
 import {userService} from "../../services";
 
 class UserProfilePage extends Component {
-    static propTypes = {
-        feed: PropTypes.array,
-    }
-
-    static defaultProps = {
-        // user:{
-        //     id: 1,
-        //     coverPhotoUrl: "/images/cover_photo.jpg",
-        //     profilePictureUrl: "/images/profile_picture.png",
-        //     fullName: "NgoVan Huy",
-        //     intros:[
-        //         {
-        //             type: "education",
-        //             message: "Studied at class 12A2"
-        //         },
-        //         {
-        //             type: "education",
-        //             message: "Studied at class 11A2"
-        //         },
-        //         {
-        //             type: "education",
-        //             message: "Studied at class 10A2"
-        //         },
-        //         {
-        //             type: "home_place",
-        //             message: "Lives in HaNoi, VietNam"
-        //         }
-        //     ]
-        // },
-        feed: [{
-            post: {
-                id: "123",
-                createTime: new Date(),
-                message: "[SINH VIÊN 5 TỐT]\n" +
-                "\"Hành trình tìm kiếm Sinh viên 5 tốt 2016-2017: TÔI TỎA SÁNG\" đã chính thức được khởi động.\n" +
-                "Bạn đã hoàn thành các tiêu chí về Đạo đức - Học tập - Thể lực - Tình nguyện - Hội nhập trong năm học 2016-2017?\n" +
-                "Bạn đã sẵn sàng nhận được danh hiệu cao quý \"Sinh viên 5 tốt\"",
-                pictureLink: "/images/cover_photo.jpg",
-                attachments: [{
-                    type: "image",
-                    typeFile: "jpg",
-                    fileName: "cover_photo.jpg",
-                    source: "/images/cover_photo.jpg",
-                }, {
-                    type: "text",
-                    typeFile: "txt",
-                    fileName: "kinhnghiem.txt",
-                    source: "/uploads/kinhnghiem.txt",
-                }, {
-                    type: "pdf",
-                    typeFile: "pdf",
-                    fileName: "ZenHabitsbook.pdf",
-                    source: "/uploads/ZenHabitsbook.pdf",
-                }],
-                favourites: {
-                    favouriteCount: 1,
-                    usersFavourite: [{
-                        id: "1"
-                    }]
-                },
-                comments: [
-                    {
-                        message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-                        pictureLink: "/images/cover_photo.jpg",
-                        createTime: new Date(),
-                        favourites: {
-                            favouriteCount: 1,
-                            usersFavourite: [{
-                                id: "1"
-                            }]
-                        },
-                        replies: [
-                            {
-                                message: "Nhìn thích quá, một trải nghiệm tuyệt vời, e cũng muốn thử một lần nhưng ở cự ly 5km thành các tiêu chí về Đạo đức",
-                                pictureLink: "/images/cover_photo.jpg",
-                                favourites: {
-                                    favouriteCount: 0
-                                },
-                            }
-                        ],
-                        from: {
-                            user: {
-                                id: "1",
-                                coverPhotoUrl: "/images/cover_photo.jpg",
-                                profilePictureUrl: "/images/profile_picture.png",
-                                fullName: "NgoVan Huy",
-                                userName: "ngovanhuy0241"
-                            },
-                        }
-                    }
-                ],
-                from: {
-                    user: {
-                        id: "1",
-                        coverPhotoUrl: "/images/cover_photo.jpg",
-                        profilePictureUrl: "/images/profile_picture.png",
-                        fullName: "NgoVan Huy",
-                        userName: "ngovanhuy0241"
-                    },
-                }
-
-            }
-        }]
-    }
-
     componentWillMount() {
         const {userId} = this.props;
         if(userId) {
             this.props.dispatch(userActions.getById(userId));
+            this.props.dispatch(postActions.getPostsByUserId(userId));
         }
     }
 
@@ -126,6 +22,7 @@ class UserProfilePage extends Component {
             const {userId} = nextProps;
             if(userId) {
                 this.props.dispatch(userActions.getById(userId));
+                this.props.dispatch(postActions.getPostsByUserId(userId));
             }
         }
     }
@@ -148,9 +45,10 @@ class UserProfilePage extends Component {
     }
 
     render() {
-        const {user} = this.props
-        var {feed} = this.props
-        feed = feed.sort(function(a,b){
+        const {user } = this.props
+        var {posts} = this.props
+        posts = posts ? posts : []
+        posts = posts.sort(function(a, b){
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
         return (
@@ -170,7 +68,7 @@ class UserProfilePage extends Component {
                             </div>
                             <div className="col-sm-8">
                                 <div className="user-profile-feed">
-                                    <Feed feed={feed}/>
+                                    <Feed feed={posts} user={user}/>
                                 </div>
                             </div>
                         </div>
@@ -183,10 +81,11 @@ class UserProfilePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const userId = ownProps.match.params.userId
-    const {user} = state.authentication
+    const {user, posts} = state.authentication
     return {
         userId,
-        user
+        user,
+        posts
     }
 }
 

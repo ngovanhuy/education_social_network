@@ -9,6 +9,7 @@ import NewPost from "../../components/commons/views/NewPost";
 import Feed from "../../components/commons/Feed";
 import {classActions, postActions} from "../../actions";
 import {userUtils} from "../../utils";
+import queryString from "query-string"
 
 class ClassTimelinePage extends Component {
     constructor(props) {
@@ -16,6 +17,12 @@ class ClassTimelinePage extends Component {
     }
 
     componentWillMount() {
+        const queryStringParsed = queryString.parse(this.props.location.search)
+        const topicName = (queryStringParsed && queryStringParsed.topicName) ? queryStringParsed.topicName : ''
+        if(topicName){
+            this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName))
+        }
+
         const {classId, user} = this.props;
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
@@ -30,6 +37,12 @@ class ClassTimelinePage extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.classId !== this.props.classId) {
+            const queryStringParsed = queryString.parse(this.props.location.search)
+            const topicName = (queryStringParsed && queryStringParsed.topicName) ? queryStringParsed.topicName : ''
+            if(topicName){
+                this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName))
+            }
+
             const {classId, user} = nextProps;
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getTopics(classId));
@@ -47,25 +60,29 @@ class ClassTimelinePage extends Component {
         const topics = classDetail.topics
         const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
         const isTeacher = userUtils.checkIsTeacher(user)
+
         var posts = []
-        var eventsUpcomming = []
-        // if (isTeacher) {
-        //     posts = (classDetail && classDetail.posts) ? classDetail.posts : []
-        //     eventsUpcomming = (classDetail && classDetail.events) ? classDetail.events.slice(0, 3) : []
-        // } else {
-            posts = (classDetail && classDetail.postsByUser) ? classDetail.postsByUser : []
-            eventsUpcomming = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser.slice(0, 3) : []
-        // }
+        posts = (classDetail && classDetail.postsByUser) ? classDetail.postsByUser : []
+
+        const queryStringParsed = queryString.parse(this.props.location.search)
+        const topicName = (queryStringParsed && queryStringParsed.topicName) ? queryStringParsed.topicName : ''
+        if(topicName){
+            posts = (classDetail && classDetail.postsByTopic) ? classDetail.postsByTopic : []
+        }
         posts = posts.sort(function (a, b) {
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
+
+        var eventsUpcomming = []
+        eventsUpcomming = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser.slice(0, 3) : []
         return (
             <div>
                 <div className="container">
                     <div className="col-sm-2">
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           classId={classId} currentPage="discussion"/>
+                                           classId={classId} currentPage="discussion"
+                                            currentTopic={topicName}/>
                         </div>
                     </div>
                     <div className="col-sm-7 class-main-content">

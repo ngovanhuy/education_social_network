@@ -111,14 +111,14 @@ ul.nav {
       i {
         margin-right: 5px;
       }
+      span.badge {
+        vertical-align: unset;
+        margin-left: 5px;
+      }
     }
     .favourite {
       .favourited {
         color: rgb(88, 144, 255);
-      }
-      span.badge {
-        vertical-align: unset;
-        margin-left: 5px;
       }
     }
   }

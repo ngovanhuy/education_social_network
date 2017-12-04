@@ -321,7 +321,7 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                     postsByUser: state.classDetail.postsByUser && state.classDetail.postsByUser.map(post => post.id == action.data.post.postID ?
                         {
                             ...post,
-                            favourites: action.data
+                            favourites: action.data.likes
                         } : post
                     )
                 }

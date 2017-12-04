@@ -148,15 +148,16 @@ function getFavourites(postId) {
     function failure(error) { return { type: classConstants.CLASSES_GETFAVOURITES_FAILURE, error } }
 }
 
-function insertFavourite(postId, userID, content, fileUpload) {
+function insertFavourite(post, userID) {
     return dispatch => {
         dispatch(request());
 
-        postService.insertFavourite(postId, userID)
+        postService.insertFavourite(post.id, userID)
             .then(
                 response => {
                     dispatch(success());
-                    dispatch(getFavourites(postId));
+                    dispatch(getPostsByClassIdUserId(post.group.id, userID))
+                    dispatch(getFavourites(post.id));
                 },
                 error => dispatch(failure(error))
             );
@@ -167,15 +168,16 @@ function insertFavourite(postId, userID, content, fileUpload) {
     function failure(error) { return { type: classConstants.CLASSES_INSERTFAVOURITES_FAILURE, error } }
 }
 
-function deleteFavourite(postId, userID, content, fileUpload) {
+function deleteFavourite(post, userID) {
     return dispatch => {
         dispatch(request());
 
-        postService.deleteFavourite(postId, userID, content, fileUpload)
+        postService.deleteFavourite(post.id, userID)
             .then(
                 response => {
                     dispatch(success());
-                    dispatch(getFavourites(postId));
+                    dispatch(getPostsByClassIdUserId(post.group.id, userID))
+                    dispatch(getFavourites(post.id));
                 },
                 error => dispatch(failure(error))
             );

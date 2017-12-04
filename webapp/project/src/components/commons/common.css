@@ -77,11 +77,11 @@ ul.nav li .user_full_name {
           text-decoration: none; }
       .post-detail .post-reacts .post-react i {
         margin-right: 5px; }
+      .post-detail .post-reacts .post-react span.badge {
+        vertical-align: unset;
+        margin-left: 5px; }
     .post-detail .post-reacts .favourite .favourited {
       color: #5890ff; }
-    .post-detail .post-reacts .favourite span.badge {
-      vertical-align: unset;
-      margin-left: 5px; }
 
 .new-comment img {
   float: left;
