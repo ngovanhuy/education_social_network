@@ -25,7 +25,8 @@ let EventSchema = new mongoose.Schema({
     },
     eventImageID: {type: String, required: false, default: null},
     location: {type: String, required: false, default: ''},
-    contextID: {type: Number, default: null},//groupID || userID || null (system)
+    // contextID: {type: Number, default: null},//groupID || userID || null (system)
+    contextData: {},//user|group|null
     context: {type: Number, default: 1},
     isAllDay: {type: Boolean, default: false},
     startTime: { type: Date, default: null },
@@ -78,7 +79,8 @@ function getBasicInfo() {
             id: this.userCreate.id,
         },
         context: this.context,
-        contextID: this.contextID,
+        // contextID: this.contextID,
+        contextData: this.contextData,
         isGroupContext: ContextEnum[this.context] === 'Group',
         isAllDay: this.isAllDay,
         startTime: Utils.exportDate(this.startTime),
@@ -105,15 +107,22 @@ function setGroupContext(contextID) {
     this.contextID = contextID;
     return this;
 }
-function setContext(context, contextID) {
+// function setContext(context, contextID) {
+//     if (isInvalidContext(context)) {
+//         this.context = context;
+//         if (contextID) {
+//             if (isInvalidContextID(contextID)) {
+//                 this.contextID = contextID;
+//                 return this;
+//             }
+//         }
+//         return this;
+//     }
+//     return null;
+// }
+function setContext(context) {
     if (isInvalidContext(context)) {
         this.context = context;
-        if (contextID) {
-            if (isInvalidContextID(contextID)) {
-                this.contextID = contextID;
-                return this;
-            }
-        }
         return this;
     }
     return null;
@@ -121,9 +130,9 @@ function setContext(context, contextID) {
 function isInvalidContext(context) {
     return !!ContextEnum[context];
 }
-function isInvalidContextID(contextID) {
-    return !isNaN(Number(contextID));
-}
+// function isInvalidContextID(contextID) {
+//     return !isNaN(Number(contextID));
+// }
 function getNewID() {
     return Date.now();
 }
@@ -134,7 +143,7 @@ EventSchema.methods.isUserContext = isUserContext;
 EventSchema.methods.isSystemContext = isSystemContext;
 EventSchema.methods.setContext = setContext;
 EventSchema.statics.isInvalidContext = isInvalidContext;
-EventSchema.statics.isInvalidContextID = isInvalidContextID;
+// EventSchema.statics.isInvalidContextID = isInvalidContextID;
 
 EventSchema.statics.getNewID = getNewID;
 module.exports = mongoose.model('Event', EventSchema);

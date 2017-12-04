@@ -158,6 +158,11 @@ function getLikes() {
 
 }
 
+function isUserLiked(user) {
+    if (!user) return false;
+    return !!this.likes.find(like => like.isDeleted === false && like._id === user._id);
+}
+
 function addTopic(topic_name) {
     if (!this.topics) this.topics = [];
     let topic = this.topics.find(t => t._id === topic_name);
@@ -372,4 +377,5 @@ PostSchema.methods.removeFile = removeFile;
 PostSchema.methods.addFile = addFile;
 PostSchema.methods.addFiles = addFiles;
 PostSchema.methods.setBlockComment = setBlockComment;
+PostSchema.methods.isUserLiked = isUserLiked;
 module.exports = mongoose.model('Post', PostSchema);

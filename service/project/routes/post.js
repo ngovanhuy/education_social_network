@@ -12,7 +12,7 @@ router.route('/').post(fileController.arrayFileUpload, userController.checkUserR
 router.route('/topic/:groupID').get(groupController.checkGroupRequest, postController.getPostsInTopic);
 
 router.route('/like/:postID')
-    .get(postController.checkPostRequest, postController.getLikes)
+    .get(userController.checkUserRequestIfHave, postController.checkPostRequest, postController.getLikes)
     .post(userController.checkUserRequest, postController.checkPostRequest, postController.addLike, postController.getLikes)
     .delete(userController.checkUserRequest, postController.checkPostRequest, postController.removeLike, postController.getLikes);
 router.route('/comment/:postID')
