@@ -17,11 +17,7 @@ let StatusEnum = {
 };
 let UserSchema = new mongoose.Schema(
     {
-<<<<<<< HEAD
-        _id: { type: Number, default: getNewID() },// id: { type: Number, unique: true, require: true, index: true, default: Date.now()},
-=======
         _id: { type: Number, default: getNewID() },// id: { type: Number, unique: true, require: true, index: true, default: Date.now() },
->>>>>>> develop
         username: { type: String, unique: true, required: true, },
         password: { type: String, required: true },
         firstName: { type: String, required: true, },
@@ -148,19 +144,11 @@ let UserSchema = new mongoose.Schema(
         },
         timeCreate: {
             type: Date,
-<<<<<<< HEAD
-            default: Date.now(),
-=======
             default: new Date(),
->>>>>>> develop
         },
         timeUpdate : {
             type: Date,
-<<<<<<< HEAD
-            default: Date.now()
-=======
             default: new Date(),
->>>>>>> develop
         },
     }
 )
