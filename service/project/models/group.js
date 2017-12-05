@@ -24,7 +24,11 @@ let StatusEnum = {
 };
 let GroupSchema = new mongoose.Schema(
     {
+<<<<<<< HEAD
         _id: { type: Number, default: getNewID()},// id: { type: Number, unique: true, require: true, index: true, default: Date.now()},
+=======
+        _id: { type: Number, default: getNewID() },// id: { type: Number, unique: true, require: true, index: true, default: Date.now() },
+>>>>>>> develop
         name: { type: String, required: true },
         typegroup: { type: Number, require: false, default: 0, min: 0, max: 1000 },
         profileImageID: { type: String, required: false, default: null, },
@@ -32,7 +36,11 @@ let GroupSchema = new mongoose.Schema(
         about: { type: String, required: false, default: "", },
         language: {
             type: [{
+<<<<<<< HEAD
                 _id: { type: Number, default: getNewID()},
+=======
+                _id: { type: Number, default: getNewID() },
+>>>>>>> develop
                 code: String,
                 text: String,
                 isDefault: Boolean,
@@ -69,8 +77,13 @@ let GroupSchema = new mongoose.Schema(
                 profileImageID: String,
                 typeuser: Number,
                 isRemoved: { type: Boolean, default: false, },
+<<<<<<< HEAD
                 timeCreate: { type: Date, default: Date.now()},
                 timeUpdate: { type: Date, default: Date.now()},
+=======
+                timeCreate: { type: Date, default: new Date() },
+                timeUpdate: { type: Date, default: new Date() },
+>>>>>>> develop
             }],
             require: true,
             default: [],
@@ -494,8 +507,8 @@ function getRequesteds() {
                 lastName: requested.lastName,
                 profileImageID: requested.profileImageID,
                 coverImageID: requested.coverImageID,
-                timeCreate: requested.timeCreate.toLocaleString(),
-                timeUpdate: requested.timeUpdate.toLocaleString(),
+                timeCreate: Utils.exportDate(requested.timeCreate),
+                timeUpdate: Utils.exportDate(requested.timeUpdate),
             });
         }
     });
