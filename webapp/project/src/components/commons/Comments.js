@@ -1,17 +1,28 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import Comment from "./views/Comment";
-
 import './common.css';
+import {postActions} from "../../actions";
 
 class Comments extends Component {
+    constructor(props){
+        super(props)
+
+        this.loadAllComments = this.loadAllComments.bind(this)
+    }
+
+    loadAllComments(postId){
+        this.props.dispatch(postActions.getComments(postId))
+    }
+
     render(){
         const {comments, post} = this.props
         return(
             <div>
                 <div className="comments">
                     <div>
-                        <a href="javascript:;">
+                        <a href="javascript:;" onClick={() => this.loadAllComments(post.id)}>
                             View all comments
                         </a>
                     </div>
@@ -27,5 +38,5 @@ class Comments extends Component {
     }
 }
 
-export default Comments;
+export default connect(null)(Comments);
 

@@ -17,10 +17,6 @@ class DiscoveryPage extends Component {
         this.changeViewStyle = this.changeViewStyle.bind(this);
     }
 
-    static propTypes = {
-        events: PropTypes.array,
-    }
-
     static defaultProps = {
         events: [
             {
@@ -84,21 +80,21 @@ class DiscoveryPage extends Component {
     }
 
     render() {
-        const {events} = this.props
+        const {classes, events} = this.props
 
-        var subjects = [
-            {value: 'no_subject', label: 'No subject'},
-            {value: 'subject_1', label: 'Subject 1'},
-            {value: 'subject_2', label: 'Subject 2'},
-            {value: 'subject_3', label: 'Subject 3'}
-        ];
+        // var subjects = [
+        //     {value: 'no_subject', label: 'No subject'},
+        //     {value: 'subject_1', label: 'Subject 1'},
+        //     {value: 'subject_2', label: 'Subject 2'},
+        //     {value: 'subject_3', label: 'Subject 3'}
+        // ];
 
-        var classes = [
-            {value: 'all_school', label: 'All school'},
-            {value: 'class_1', label: 'Class 1'},
-            {value: 'class_2', label: 'Class 2'},
-            {value: 'class_3', label: 'Class 3'}
-        ];
+        // var classes = [
+        //     {value: 'all_school', label: 'All school'},
+        //     {value: 'class_1', label: 'Class 1'},
+        //     {value: 'class_2', label: 'Class 2'},
+        //     {value: 'class_3', label: 'Class 3'}
+        // ];
 
         return (
             <div>
@@ -120,7 +116,7 @@ class DiscoveryPage extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <DiscoveryFilter subjects={subjects} classes={classes}/>
+                                <DiscoveryFilter classes={classes}/>
                                 {
                                     this.state.viewStyle == "pinboard" ?
                                         <EventsPinboard events={events}/> :
@@ -135,4 +131,15 @@ class DiscoveryPage extends Component {
     }
 }
 
-export default withRouter(DiscoveryPage);
+const mapStateToProps = (state, ownProps) => {
+    const events = state.events.items
+    const {user} = state.authentication
+    const classes = state.classes.items
+    return {
+        events,
+        user,
+        classes
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(DiscoveryPage));

@@ -7,27 +7,30 @@ import NewComment from "./views/NewComment";
 import Comments from "./Comments";
 
 class Feed extends Component {
-    renderFeedDetail(feedContent, index) {
+    renderFeedDetail(postDetail, index, user) {
         return (
             <div key={index} className="feed-content">
-                <Post post={feedContent.post}/>
+                <Post post={postDetail}/>
                 <div className="post-new-comment">
-                    <NewComment post={feedContent.post}/>
+                    <NewComment post={postDetail} user={user}/>
                 </div>
-                <Comments comments={feedContent.post.comments} post={feedContent.post}/>
+                <Comments comments={postDetail.comments} post={postDetail}/>
             </div>
         )
     }
 
     render() {
-        const {feed} = this.props
+        const {feed, user} = this.props
         return (
             <div className="feed">
                 {
-                    feed && feed.length > 0 &&
-                    feed.map((feedContent, index) =>
-                        this.renderFeedDetail(feedContent, index)
-                    )
+                    (feed && feed.length > 0) ?
+                        (
+                            feed.map((postDetail, index) =>
+                                this.renderFeedDetail(postDetail, index, user)
+                            )
+                        ) :
+                        <div className="no-post">No post</div>
                 }
             </div>
         )

@@ -3,6 +3,11 @@ import {Link} from 'react-router-dom'
 import CreateClassModal from "../class/views/CreateClassModal";
 import CreateEventModal from "../event/views/CreateEventModal";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
+import {defaultConstants} from "../../constants";
+import {classActions} from "../../actions";
+import {connect} from 'react-redux';
+import {fileUtils} from "../../utils/fileUtils";
+import {userUtils} from "../../utils/userUtils";
 
 class HomeLeftmenu extends Component {
     constructor() {
@@ -37,14 +42,21 @@ class HomeLeftmenu extends Component {
         return (
             <li key={index}>
                 <Link to={linkTo}>
-                    <span>{linkLabel}</span>
+                    <i className="group-icon"></i>
+                    <span className="group-label">{linkLabel}</span>
                 </Link>
             </li>
         )
     }
 
+    handleCreateClass = (userId, className, membersInvited) => {
+        this.setState({modalCreateClassIsOpen: false});
+        this.props.dispatch(classActions.insert(userId, className));
+    }
+
     render() {
         const {schoolDetail, user, classes} = this.props
+        const isTeacher = userUtils.checkIsTeacher(user)
         return (
             <div className="home-leftmenu clearfix">
                 <div className="row">
@@ -56,12 +68,20 @@ class HomeLeftmenu extends Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <div className="user-info">
-                            <Link to={`/users/${user.id}`}>
-                                <img src={user.profilePictureUrl}/>
-                            </Link>
-                            <UserProfileInfo user={user}/>
-                        </div>
+                        {
+                            user &&
+                            (
+                                <div className="user-info">
+                                    <a href={`/users/${user.id}`}>
+                                        <span className="imgWrap">
+                                            <img
+                                                src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                                        </span>
+                                    </a>
+                                    <UserProfileInfo user={user}/>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="row">
@@ -74,7 +94,7 @@ class HomeLeftmenu extends Component {
                                 classes && classes.length > 0 ?
                                     (
                                         classes.map((classDetail, index) =>
-                                            this.renderListItem(index, `/classes/${classDetail.id}`, classDetail.fullName))
+                                            this.renderListItem(index, `/classes/${classDetail.id}`, classDetail.name))
                                     ) : ''
                             }
                         </ul>
@@ -112,12 +132,26 @@ class HomeLeftmenu extends Component {
                             </a>
                             <CreateEventModal modalIsOpen={this.state.modalCreateEventIsOpen}
                                               closeModal={this.closeModalCreateEvent}/>
-                            <span role="presentation" aria-hidden="true"> · </span>
-                            <a href="#" onClick={this.openModalCreateClass}>
-                                Class
-                            </a>
-                            <CreateClassModal modalIsOpen={this.state.modalCreateClassIsOpen}
-                                              closeModal={this.closeModalCreateClass}/>
+                            {
+                                isTeacher &&
+                                (
+                                    <span>
+                                        <span role="presentation" aria-hidden="true"> · </span>
+                                        <a href="#" onClick={this.openModalCreateClass}>
+                                            Class
+                                        </a>
+                                        {
+                                            user &&
+                                            (
+                                                <CreateClassModal modalIsOpen={this.state.modalCreateClassIsOpen}
+                                                                  userId={user.id}
+                                                                  closeModal={this.closeModalCreateClass}
+                                                                  onSubmit={this.handleCreateClass}/>
+                                            )
+                                        }
+                                    </span>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -126,4 +160,12 @@ class HomeLeftmenu extends Component {
     }
 }
 
-export default HomeLeftmenu;
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {
+        user,
+    };
+}
+
+
+export default connect(mapStateToProps)(HomeLeftmenu);

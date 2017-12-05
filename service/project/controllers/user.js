@@ -901,15 +901,16 @@ async function getPosts(req, res) {
         let datas = (await Posts.find({
             isDeleted: false,
             'userCreate.id': userID,
-        })).map(post => ({
-            id: post._id,
-            title: post.title,
-            content: post.content,
-            timeCreate: Utils.exportDate(post.timeCreate),
-            countComments: post.countComments,
-            countLikes: post.countLikes,
-            files: post.getFiles(),
-        }));
+        })).map(post => post.getBasicInfo());
+        //     .map(post => ({
+        //     id: post._id,
+        //     title: post.title,
+        //     content: post.content,
+        //     timeCreate: Utils.exportDate(post.timeCreate),
+        //     countComments: post.countComments,
+        //     countLikes: post.countLikes,
+        //     files: post.getFiles(),
+        // }));
         return res.send({
             code: 200,
             message: 'Success',

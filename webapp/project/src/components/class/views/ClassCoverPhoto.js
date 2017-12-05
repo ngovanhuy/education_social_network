@@ -1,11 +1,17 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import FileInput from '@ranyefet/react-file-input'
-import * as fileUtil from '../../../utils/fileUtil'
+import * as fileUtil from '../../../utils/fileUtils'
+import {connect} from 'react-redux'
+import {classService} from "../../../services";
+import {classActions} from "../../../actions";
 
 class CoverPhotoClass extends Component {
-    handleProfilePictureChanged = function (event) {
-        console.log('Selected file:', event.target.files[0]);
+    handleProfilePictureChanged = function (classId, file) {
+        classService.updateProfilePicture(classId, file)
+            .then(
+                this.props.dispatch(classActions.getById(classId))
+            )
     }
     render() {
         const {profilePictureUrl, classId} = this.props
@@ -14,7 +20,8 @@ class CoverPhotoClass extends Component {
                 <div className="class-profile-picture">
                     <img src={profilePictureUrl}></img>
                     <div className="cover-profile-picture">
-                        <FileInput name="profilePicture" onChange={this.handleProfilePictureChanged}>
+                        <FileInput name="profilePicture"
+                                   onChange={(event) => this.handleProfilePictureChanged(classId, event.target.files[0])}>
                             <i className="fa fa-camera"></i>
                             Update profile picture
                         </FileInput>
@@ -55,4 +62,4 @@ class CoverPhotoClass extends Component {
     }
 }
 
-export default CoverPhotoClass
+export default connect(null, null)(CoverPhotoClass);

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 
 class ClassEventsUpcomming extends Component{
     renderEventDetail = (event, index) => {
@@ -11,10 +12,15 @@ class ClassEventsUpcomming extends Component{
     }
 
     render(){
-        const {events} = this.props
+        const {events, classId} = this.props
         return(
             <div className="class-events-upcomming clearfix">
-                <h3>Events upcomming</h3>
+                <h3>
+                    Events upcomming
+                    <Link to={`/classes/${classId}/events`}>
+                        <span className="pull-right">See all</span>
+                    </Link>
+                </h3>
                 {
                     events && events.length > 0 ?
                         (
@@ -22,12 +28,9 @@ class ClassEventsUpcomming extends Component{
                                 this.renderEventDetail(event, index))
                         ) :
                         (
-                            <p>No events</p>
+                            <p>No events upcomming</p>
                         )
                 }
-                <div>
-                    <button className="btn btn-white pull-right">View all</button>
-                </div>
             </div>
         )
     }

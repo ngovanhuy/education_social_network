@@ -1,9 +1,44 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import Classes from "../../components/class/Classes";
 import CreateClassModal from "../../components/class/views/CreateClassModal";
+import {userActions, classActions} from "../../actions";
+import {classConstants} from "../../constants/classConstants";
+import {userUtils} from "../../utils/userUtils";
 
-class ClassesPage extends Component{
+const updateStatusOfClass = (classDetail, classUserJoined, classUserRequest) => {
+    var classNewDetail = {
+        ...classDetail,
+        statusOfCurrentUser: classConstants.STATUS_OF_USER_IN_CLASS.NOT_RELATE
+    }
+
+    var classDetailBelongJoined = (classUserJoined && classUserJoined.length > 0) ?
+        classUserJoined.filter(function (element) {
+            return element.id == classDetail.id
+        }) : [];
+    if (classDetailBelongJoined && classDetailBelongJoined.length > 0) {
+        classNewDetail.statusOfCurrentUser = classConstants.STATUS_OF_USER_IN_CLASS.JOINED
+    }
+
+    var classDetailBelongRequest = (classUserRequest && classUserRequest.length > 0) ?
+        classUserRequest.filter(function (element) {
+            return element._id == classDetail.id
+        }) : [];
+    if (classDetailBelongRequest && classDetailBelongRequest.length > 0) {
+        classNewDetail.statusOfCurrentUser = classConstants.STATUS_OF_USER_IN_CLASS.SEND_REQUEST_JOIN
+    }
+    return classNewDetail
+}
+
+const updateStatusOfClasses = (classes, classUserJoined, classUserRequest) => {
+    var classHasStatus = classes.map((classDetail) =>
+        updateStatusOfClass(classDetail, classUserJoined, classUserRequest)
+    )
+    return classHasStatus;
+}
+
+class ClassesPage extends Component {
     constructor() {
         super()
         this.state = {
@@ -21,47 +56,26 @@ class ClassesPage extends Component{
         this.setState({modalIsOpen: false});
     }
 
-    static propTypes = {
-        classes: PropTypes.array,
+    componentWillMount() {
+        this.props.dispatch(classActions.getAll());
+        const {user} = this.props
+        if (user) {
+            this.props.dispatch(userActions.getClassJoined(user.id));
+            this.props.dispatch(userActions.getClassRequest(user.id));
+        }
     }
 
-    static defaultProps = {
-        classes:[{
-            id: 1,
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },{
-            id: 2,
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },{
-            id: 3,
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },{
-            id: 4,
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },{
-            id: 5,
-            profilePictureUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        }]
+    handleCreateClass = (userId, className, membersInvited) => {
+        this.setState({modalIsOpen: false});
+        this.props.dispatch(classActions.insert(userId, className));
     }
 
-    render(){
-        const {classes} = this.props
-        return(
+
+    render() {
+        const {classes, classUserJoined, classUserRequest, user} = this.props
+        const isTeacher = userUtils.checkIsTeacher(user)
+        var classHasStatus = updateStatusOfClasses(classes, classUserJoined, classUserRequest);
+        return (
             <div>
                 <div className="container">
                     <div className="classes clearfix">
@@ -70,20 +84,38 @@ class ClassesPage extends Component{
                                 <div className="col-sm-12">
                                     <div className="classes-header clearfix">
                                         <span className="current">Classes</span>
-                                        <div className="pull-right">
-                                            <a className="btn btn-primary btn-create-group" href="javascript:;" onClick={this.openModal}>
-                                                <i className="fa fa-plus"></i>
-                                                Create Class
-                                            </a>
-                                            <CreateClassModal modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}/>
-                                        </div>
+                                        {
+                                            isTeacher &&
+                                            (
+                                                <div className="pull-right">
+                                                    <a className="btn btn-primary btn-create-group" href="javascript:;"
+                                                       onClick={this.openModal}>
+                                                        <i className="fa fa-plus"></i>
+                                                        Create Class
+                                                    </a>
+                                                    {
+                                                        (user) && (
+                                                            <CreateClassModal modalIsOpen={this.state.modalIsOpen}
+                                                                              closeModal={this.closeModal}
+                                                                              userId={user.id}
+                                                                              onSubmit={this.handleCreateClass}/>
+                                                        )
+                                                    }
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-sm-12">
-                                <Classes classes={classes}/>
+                                {
+                                    user && user.id &&
+                                    (
+                                        <Classes classes={classHasStatus} userId={user.id}/>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
@@ -93,4 +125,15 @@ class ClassesPage extends Component{
     }
 }
 
-export default ClassesPage;
+const mapStateToProps = (state, ownProps) => {
+    const classes = state.classes.items
+    const {user, classUserJoined, classUserRequest} = state.authentication
+    return {
+        classes,
+        user,
+        classUserJoined,
+        classUserRequest,
+    }
+}
+
+export default withRouter(connect(mapStateToProps, null)(ClassesPage));

@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {userActions} from '../../actions';
+import {alertAuthenActions} from "../../actions/alertAuthenActions";
+import {history} from "../../helpers/history";
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -16,6 +18,12 @@ class LoginPage extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+
+        const {dispatch} = this.props;
+        history.listen((location, action) => {
+            dispatch(alertAuthenActions.clear());
+        });
     }
 
     handleChange(e) {

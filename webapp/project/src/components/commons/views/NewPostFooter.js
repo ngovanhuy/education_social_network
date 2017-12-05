@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 
 class NewPostFooter extends Component{
     render(){
-        const {classFullName} = this.props
+        const {className, onSubmit} = this.props
         return(
             <div className="new-post-footer">
-                <button className="btn btn-primary" type="button">POST</button>
-                <span className="class-full-name">{classFullName}</span>
+                <button className="btn btn-primary" type="button" onClick={onSubmit}>POST</button>
+                <span className="class-full-name">{className}</span>
             </div>
         )
     }

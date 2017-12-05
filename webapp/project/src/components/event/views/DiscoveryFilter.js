@@ -1,502 +1,94 @@
 import React, {Component} from 'react'
-import Datetime from 'react-datetime'
-import 'react-datetime/css/react-datetime.css'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
-
-const getByValue = (array, value) => {
-    var result = array.filter(function (o) {
-        return o.value == value;
-    });
-
-    return result ? result[0].label : null;
-}
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import { DateRangePicker } from 'react-dates';
 
 class DiscoveryFilter extends Component {
     constructor(props) {
-        super(props);
+        super(props)
+
         this.state = {
-            valueDropdown: '',
-            showDropDown: false,
-            showTags: false,
-            visibilityValue: '',
-            tagsValue: '',
-            locationValue: '',
-            textSearch: '',
-            eventStartAfter: false,
-            eventStartAfterValue: '',
-            eventStartBefore: false,
-            eventStartBeforeValue: '',
-            subjectValue: '',
-            classValue: '',
-        };
+            showFilterContent: false,
+            classSelected: '',
+            startDate: null,
+            endDate: null,
+            focusedInput: null,
+        }
+        this.showFilterContent = this.showFilterContent.bind(this);
+        this.hideFilterContent = this.hideFilterContent.bind(this);
+        this.handleChangeSearchByClass = this.handleChangeSearchByClass.bind(this);
     }
 
     componentWillMount() {
-        document.addEventListener('click', this.handleClick, false);
+        // document.addEventListener('click', this.hideFilterContent, false);
     }
 
-    handleChangeSubjectValue = (event) => {
+    showFilterContent(event) {
         this.setState({
-            ...this.state,
-            subjectValue: event.target.value
-        });
-    }
-
-    handleChangeClassValue = (event) => {
-        console.log(event.target.value)
-        this.setState({
-            ...this.state,
-            classValue: event.target.value
-        });
-    }
-
-    showDropDown = () => {
-        this.setState({
-            showDropDown: !this.state.showDropDown
-        });
-    };
-
-    handleChange = (event) => {
-        this.setState({
-            valueDropdown: event.target.value,
-            filter: event.target.value && true
-        });
-    };
-
-    changeTextSearch = e => {
-        if (e.target.value !== '' && e.target.value !== null) {
-            this.setState({
-                textSearch: e.target.value,
-                filter: true
-            });
-        }
-        else {
-            this.setState({
-                textSearch: '',
-                filter: true
-            });
-        }
-    };
-
-    handleChangeVisibility = (event) => {
-        this.setState({
-            visibilityValue: event.target.value,
-            filter: true
-        });
-    };
-
-    search = () => {
-        const {visibilityValue, tagsValue, textSearch} = this.state;
-        this.setState({
-            valueDropdown: '',
-            showTags: true,
-            showDropDown: false
-        });
-        // this.props.loadBwProducts(1, visibilityValue, tagsValue, textSearch, this.props.storeAlias);
-    };
-
-    handChangeEventStart = (event) => {
-        if (event.target.value == "greater_than") {
-            this.setState({
-                eventStartAfter: true,
-                filter: true
-            })
-        } else if (event.target.value == "less_than") {
-            this.setState({
-                eventStartBefore: true,
-                filter: true
-            })
-        }
-    }
-
-    handleChangeStartFilterValue = (value) => {
-        if (this.state.eventStartAfter) {
-            this.setState({
-                ...this.state,
-                eventStartAfterValue: value
-            })
-        }
-        if (this.state.eventStartBefore) {
-            this.setState({
-                ...this.state,
-                eventStartBeforeValue: value
-            })
-        }
-    }
-
-    handleChangeLocation = (event) => {
-        this.setState({
-            locationValue: event.target.value,
-            filter: true
-        });
-    };
-
-    handleChangeTag = (event) => {
-        this.setState({
-            tagsValue: event.target.value,
-            filter: true
-        });
-    };
-
-    removeSearchTag = () => {
-        const {visibilityValue, textSearch} = this.state;
-        this.setState({
-            tagsValue: ''
-        });
-
-        // this.props.loadBwProducts(1, visibilityValue, '', textSearch, this.props.storeAlias);
-    };
-
-    removeSearchVisibility = () => {
-        const {tagsValue, textSearch} = this.state;
-        this.setState({
-            visibilityValue: ''
-        });
-        // this.props.loadBwProducts(1, '', tagsValue, textSearch, this.props.storeAlias);
-    };
-
-    removeEventStartBefore = () => {
-        this.setState({
-            eventStartBefore: false,
-            eventStartBeforeValue: '',
-        });
-        // this.props.loadBwProducts(1, '', tagsValue, textSearch, this.props.storeAlias);
-    };
-
-    removeEventStartAfter = () => {
-        this.setState({
-            eventStartAfter: false,
-            eventStartAfterValue: '',
-        });
-        // this.props.loadBwProducts(1, '', tagsValue, textSearch, this.props.storeAlias);
-    };
-
-    removeEventLocation = () => {
-        this.setState({
-            ...this.state,
-            locationValue: ''
+            showFilterContent: !this.state.showFilterContent
         })
     }
 
-    removeEventSubject = () => {
+    hideFilterContent(event) {
         this.setState({
-            ...this.state,
-            subjectValue: ''
+            showFilterContent: false
         })
     }
 
-    removeEventClass = () => {
+    handleChangeSearchByClass = (classDetail) => {
         this.setState({
-            ...this.state,
-            classValue: ''
+            classSelected: classDetail.value
         })
     }
-
-    handleClick = e => {
-        let buttonDropdown = this.refs.buttonDropdown;
-        let showMenu = this.refs.showMenu;
-
-        if (showMenu !== undefined && showMenu !== null && !showMenu.contains(e.target) && !buttonDropdown.contains(e.target)) {
-            this.setState({
-                showDropDown: false,
-                valueDropdown: ''
-            });
-        }
-    };
-
-    addFilter = text => {
-        const {tagsValue, visibilityValue} = this.state;
-        this.setState({
-            ...this.state,
-            textSearch: text,
-        });
-        // this.props.loadBwProducts(1, visibilityValue, tagsValue, text, this.props.storeAlias);
-    };
 
     render() {
-        const {subjects, classes} = this.props
+        const {classes} = this.props
+        const {showFilterContent} = this.state
         return (
-            <div>
-                <div className="has-bulk-actions">
-                    <div className="filters">
-                        <div className="filter-container">
-                            <div className="btn-group btn-group-filter clearfix">
-                                <div className="btn-group dropdown">
-                                    <a className="btn btn-white dropdown-toggle toggle-filter btn-filter"
-                                       ref="buttonDropdown"
-                                       data-toggle="dropdown"
-                                       onClick={this.showDropDown}>
-                                        Filter
-                                        <span className="caret"></span>
+            <div className="discovery-filter">
+                <form className="discovery-filter-form">
+                        <div className="controls">
+                            <div className="input-group">
+                            <span className="input-group-addon">
+                                <i className="fa fa-search"></i>
+                            </span>
+                                <input type="text" className="form-control"/>
+                                <div className="input-group-btn">
+                                    <a className="show-filter-content-button btn btn-white" href="javascript:;"
+                                       onClick={this.showFilterContent}>
+                                        <b className="caret"></b>
                                     </a>
-                                    {
-                                        this.state.showDropDown
-                                            ?
-                                            <div ref="showMenu"
-                                                 className="dropdown-menu arrow-style dropdown-filter"
-                                                 style={{height: '85px', display: 'block'}}>
-                                                <div className="arrow"></div>
-                                                <div className="filters">
-                                                    <label className="filter-title">Display events
-                                                        by:</label>
-                                                    <div className="filter-content">
-                                                        <select
-                                                            className="form-control form-selectboxit"
-                                                            id="filter-conditions"
-                                                            onChange={this.handleChange}>
-                                                            <option value="">Filter by...</option>
-                                                            <option value="visibility">
-                                                                Display
-                                                            </option>
-                                                            <option value="start">
-                                                                Event start time
-                                                            </option>
-                                                            <option value="location">
-                                                                Event location
-                                                            </option>
-                                                            <option value="subject">
-                                                                Event of subject
-                                                            </option>
-                                                            <option value="class">
-                                                                Event of class
-                                                            </option>
-                                                            <option value="tag">
-                                                                Tag with
-                                                            </option>
-                                                        </select>
-                                                        <div className="inline filter-choose">
-                                                            {
-                                                                this.state.valueDropdown === "visibility" &&
-                                                                <div>
-                                                                    <select
-                                                                        className="form-control form-selectboxit filter-select"
-                                                                        onChange={this.handleChangeVisibility}>
-                                                                        <option value="">Select
-                                                                            condition filter...
-                                                                        </option>
-                                                                        <option value="visibility">
-                                                                            Display
-                                                                        </option>
-                                                                        <option value="hidden">
-                                                                            Hidden
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                            }
-                                                            {
-                                                                this.state.valueDropdown === 'start' &&
-                                                                <div className="date inline margin-right">
-                                                                    <select
-                                                                        className="form-control form-selectboxit filter-select"
-                                                                        onChange={this.handChangeEventStart}>
-                                                                        <option value="">Select condition filter...
-                                                                        </option>
-                                                                        <option value="greater_than">After</option>
-                                                                        <option value="less_than">
-                                                                            Before
-                                                                        </option>
-                                                                    </select>
-                                                                    {
-                                                                        (this.state.eventStartAfter || this.state.eventStartBefore) &&
-                                                                        <Datetime timeFormat={false}
-                                                                                  onChange={this.handleChangeStartFilterValue}
-                                                                                  inputFormat="DD/MM/YYYY"/>
-                                                                    }
-                                                                </div>
-                                                            }
-                                                            {
-                                                                this.state.valueDropdown === 'location' &&
-                                                                <div>
-                                                                    <input type="text"
-                                                                           className="form-control inline filter-input"
-                                                                           onChange={this.handleChangeLocation}/>
-                                                                </div>
-                                                            }
-                                                            {
-                                                                this.state.valueDropdown === 'subject' &&
-                                                                <div>
-                                                                    <select
-                                                                        className="form-control form-selectboxit filter-select"
-                                                                        onChange={this.handleChangeSubjectValue}>
-                                                                        {
-                                                                            subjects && subjects.length > 0 &&
-                                                                            subjects.map((subject, index) =>
-                                                                                (
-                                                                                    <option key={index}
-                                                                                            value={subject.value}>
-                                                                                        {subject.label}
-                                                                                    </option>
-                                                                                ))
-                                                                        }
-                                                                    </select>
-                                                                </div>
-                                                            }
-                                                            {
-                                                                this.state.valueDropdown === 'class' &&
-                                                                <div>
-                                                                    <select
-                                                                        className="form-control form-selectboxit filter-select"
-                                                                        onChange={this.handleChangeClassValue}>
-                                                                        {
-                                                                            classes && classes.length > 0 &&
-                                                                            classes.map((classDetail, index) =>
-                                                                                (
-                                                                                    <option key={index}
-                                                                                            value={classDetail.value}>
-                                                                                        {classDetail.label}
-                                                                                    </option>
-                                                                                ))
-                                                                        }
-                                                                    </select>
-                                                                </div>
-                                                            }
-                                                            {
-                                                                this.state.valueDropdown === 'tag' &&
-                                                                <div>
-                                                                    <input type="text"
-                                                                           className="form-control inline filter-input"
-                                                                           onChange={this.handleChangeTag}/>
-                                                                </div>
-                                                            }
-                                                            {
-                                                                this.state.valueDropdown &&
-                                                                <input type="button"
-                                                                       className="btn btn-white add-filter filtering-complete"
-                                                                       value="Lọc"
-                                                                       onClick={this.search}/>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            : ''
-                                    }
-                                </div>
-                                <div className="search-container">
-                                    <input type="text"
-                                           className="form-control form-large search-input"
-                                           placeholder="Nhập từ khóa tìm kiếm ..."
-                                           onChange={this.changeTextSearch}
-                                           onKeyDown={e => {
-                                               if (e.keyCode !== 13)
-                                                   return;
-                                               e.preventDefault();
-                                               this.addFilter(e.target.value)
-                                           }}
-                                           name="query" id="search-product-mpage"/>
                                 </div>
                             </div>
-                            {this.state.showTags ?
-                                <div className="btn-group btn-group-filter">
-                                    <div className="btn-group">
-                                        <div className="bootstrap-tagsinput" style={{border: '0'}}>
-                                            {
-                                                (
-                                                    this.state.visibilityValue !== null && this.state.visibilityValue
-                                                ) ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                        {this.state.visibilityValue === "visibility" ? 'Display' : 'Hidden'}
-                                                            <span data-role="remove"
-                                                                  onClick={this.removeSearchVisibility}>
-                                                        </span>
-                                                </span>
-                                                    ) : ''
-                                            }
-                                            {
-                                                (
-                                                    this.state.eventStartAfter && this.state.eventStartAfterValue
-                                                ) ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                            {
-                                                                'Start after ' + this.state.eventStartAfterValue.format("MM/DD/YYYY")
-                                                            }
-                                                            <span data-role="remove"
-                                                                  onClick={this.removeEventStartAfter}>
-                                                                </span>
-                                                        </span>
-                                                    ) : ''
-                                            }
-                                            {
-                                                (
-                                                    this.state.eventStartBefore && this.state.eventStartBeforeValue
-                                                ) ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                            {
-                                                                'Start before ' + this.state.eventStartBeforeValue.format("MM/DD/YYYY")
-                                                            }
-                                                            <span data-role="remove"
-                                                                  onClick={this.removeEventStartBefore}>
-                                                                </span>
-                                                        </span>
-                                                    ) : ''
-                                            }
-                                            {
-                                                (
-                                                    this.state.locationValue !== null && this.state.locationValue
-                                                ) ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                        {"Location at \"" + this.state.locationValue + "\""}
-                                                            <span data-role="remove"
-                                                                  onClick={this.removeSearchVisibility}>
-                                                        </span>
-                                                </span>
-                                                    ) : ''
-                                            }
-                                            {
-                                                (
-                                                    this.state.subjectValue !== null && this.state.subjectValue
-                                                ) ?
-                                                    <span className="tag label label-info">
-                                                        {
-                                                            "Event of subject \"" +
-                                                            getByValue(subjects, this.state.subjectValue) + "\""
-                                                        }
-                                                        <span data-role="remove"
-                                                              onClick={this.removeEventSubject}>
-                                                        </span>
-                                                    </span>
-                                                    : ''
-                                            }
-                                            {
-                                                (
-                                                    this.state.classValue !== null && this.state.classValue
-                                                ) ?
-                                                    <span className="tag label label-info">
-                                                        {
-                                                            "Event in class \"" +
-                                                            getByValue(classes, this.state.classValue) + "\""
-                                                        }
-                                                        <span data-role="remove"
-                                                              onClick={this.removeEventClass}>
-                                                        </span>
-                                                    </span>
-                                                    : ''
-                                            }
-                                            {
-                                                this.state.tagsValue !== null && this.state.tagsValue ?
-                                                    (
-                                                        <span className="tag label label-info">
-                                                    {'Tag with ' + this.state.tagsValue}
-                                                            <span
-                                                                data-role="remove"
-                                                                onClick={this.removeSearchTag}>
-                                                    </span>
-                                                </span>
-                                                    ) : ''
-
-                                            }
-                                        </div>
-                                    </div>
-                                </div> : ''
-                            }
+                        </div>
+                    <div className={'discovery-filter-content' + (!showFilterContent ? ' hide-filter-content ' : '')}>
+                        <div className="clearfix form-group filter-content-detail">
+                            <label className="col-sm-3 control-label">Search in class</label>
+                            <div className="col-sm-7">
+                                <Select
+                                    name="classes"
+                                    value={this.state.classSelected}
+                                    options={classes}
+                                    onChange={this.handleChangeSearchByClass}
+                                />
+                            </div>
+                        </div>
+                        <div className="clearfix form-group filter-content-detail">
+                            <label className="col-sm-3 control-label">Date</label>
+                            <div className='col-sm-7'>
+                                <DateRangePicker
+                                    startDate={this.state.startDate}
+                                    endDate={this.state.endDate}
+                                    onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate })}}
+                                    focusedInput={this.state.focusedInput}
+                                    onFocusChange={(focusedInput) => { this.setState({ focusedInput })}}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         )
     }

@@ -2,42 +2,19 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
-import * as FileUtil from '../../utils/fileUtil'
+import {fileUtils} from "../../utils";
 
 class ClassFiles extends Component{
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         files: []
-    //     };
-    // }
 
-    // componentWillReceiveProps(newProps){
-    //     if(newProps.files != this.props.files){
-    //         this.setState({files: newProps.files })
-    //     }
-    // }
-
-    handleUploadFile = (event)=> {
-        console.log(event.target.files[0]);
-        // const file = event.target.files[0];
-        // this.setState({
-        //     files: [
-        //         ...this.state.files,
-        //         FileUtil.fileToPlainObject(file)
-        //     ]
-        // })
-    }
-
-    renderFile = (file, index) => {
+    renderFile = (file, index, onDeleteFile) => {
         const defaultImageDocument = "/images/basic-document.png"
         return(
             <div key={index} className="file clearfix">
                 <div className="preview-file clearfix">
                     {
-                        file.type == "image" ?
+                        (file.type && file.type.indexOf("image") !== -1) ?
                             <div className="preview-image">
-                                <img src={file.source}/>
+                                <img src={fileUtils.renderFileSource(file.id)}/>
                             </div> :
                             <div className="document">
                                 <img src={defaultImageDocument}/>
@@ -45,16 +22,21 @@ class ClassFiles extends Component{
                     }
                 </div>
                 <div className="file-content">
-                    <div className="file-file-name">{file.fileName}</div>
+                    <div className="file-file-name">{file.name}</div>
                 </div>
                 <div className="file-content">
                     <div className="file-type">{file.type}</div>
                 </div>
                 <div className="file-content">
-                    <div className="file-user-full-name">
-                        <UserProfileInfo user={file.from.user}/>
-                    </div>
-                    <div className="file-create-time">{file.createTime.toLocaleString()}</div>
+                    {
+                        (file.userCreate) ?
+                            (
+                                <div className="file-user-full-name">
+                                    <UserProfileInfo user={file.userCreate}/>
+                                </div>
+                            ) : ''
+                    }
+                    <div className="file-create-time">{file.createDate}</div>
                 </div>
                 <div className="dropdown pull-right action-with-file">
                     <a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">
@@ -64,7 +46,8 @@ class ClassFiles extends Component{
                         <span className="sr-only">Toggle Dropdown</span>
                     </a>
                     <ul role="menu" className="dropdown-menu">
-                        <li><a href={file.source} target="_blank" download="proposed_file_name">Download</a></li>
+                        <li><a href={file && fileUtils.renderFileSource(file.id)} target="_blank" download="proposed_file_name">Download</a></li>
+                        <li><a href="#" onClick={() => onDeleteFile(file.id)}>Delete This File</a></li>
                     </ul>
                 </div>
             </div>
@@ -72,14 +55,14 @@ class ClassFiles extends Component{
     }
 
     render(){
-        const {files} = this.props
+        const {classId, files, onUploadFile, onDeleteFile} = this.props
         return(
             <div className="class-files files">
                 <div className="class-files-headline clearfix">
                     <h2 className="clearfix">
                         <span>Files</span>
 
-                        <FileInput name="classFile" onChange={this.handleUploadFile}>
+                        <FileInput name="classFile" onChange={(event) => onUploadFile(classId, event.target.files[0])}>
                             <button className="btn btn-white pull-right">
                                 <i className="fa fa-upload"></i>
                                 Upload file
@@ -90,7 +73,7 @@ class ClassFiles extends Component{
                 {
                     files && files.length > 0 ?
                         (
-                            files.map((file, index) => this.renderFile(file, index))
+                            files.map((file, index) => this.renderFile(file, index, onDeleteFile))
                         ) :
                         (
                             <p>No files upload</p>
@@ -100,9 +83,5 @@ class ClassFiles extends Component{
         )
     }
 }
-//
-// const mapStateToProps = state => ({
-//     files : state.files,
-// });
 
-export default (ClassFiles);
+export default ClassFiles;

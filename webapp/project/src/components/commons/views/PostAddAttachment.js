@@ -1,47 +1,65 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import FileInput from '@ranyefet/react-file-input'
-import * as FileUtil from '../../../utils/fileUtil'
+import {fileUtils} from '../../../utils'
 import PostAttachmentsPreviewer from "./PostAttachmentsPreviewer";
 
 class PostAddAttachment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            files: []
+            filesInfo: []
         };
         this.handleUploadFile = this.handleUploadFile.bind(this);
         this.handleRemoveFile = this.handleRemoveFile.bind(this);
     }
 
-    handleUploadFile(event) {
-        const file = event.target.files[0];
+    componentWillMount() {
         this.setState({
-            files: [
-                ...this.state.files,
-                FileUtil.fileToPlainObject(file)
-            ]
+            filesInfo: fileUtils.filesToPlainArray(this.props.files),
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.files !== this.props.files) {
+            this.setState({
+                filesInfo: fileUtils.filesToPlainArray(nextProps.files),
+            });
+        }
+    }
+
+    handleUploadFile(event) {
+        const file = event.target.files[0];
+        if(file){
+            this.props.onUploadFile(file)
+            this.setState({
+                filesInfo: [
+                    ...this.state.filesInfo,
+                    fileUtils.fileToPlainObject(file)
+                ]
+            });
+        }
+    }
+
     handleRemoveFile(index) {
+        this.props.onRemoveUploadFile(index)
         this.setState({
-            files: this.state.files.filter((_, i) => i !== index)
+            filesInfo: this.state.filesInfo.filter((_, i) => i !== index)
         })
     }
 
     render() {
         return (
             <div>
-                <PostAttachmentsPreviewer files={this.state.files} onRemoveFile={this.handleRemoveFile}/>
+                <PostAttachmentsPreviewer filesInfo={this.state.filesInfo} onRemoveFile={this.handleRemoveFile}/>
                 <div className="post-add-attachment">
                     <div className="row">
                         <div className="col-sm-12">
                             <FileInput name="file" onChange={this.handleUploadFile}>
-                                <a href="javascript:;" className="post-add-file">
+                                <div className="post-add-file">
                                     <i className="fa fa-file"></i>
                                     Add file
-                                </a>
+                                </div>
                             </FileInput>
                         </div>
                     </div>
