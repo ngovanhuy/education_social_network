@@ -32,13 +32,13 @@ var ScheduleSchema = new mongoose.Schema({
         required: true,
         default: null,
     },
-    timeCreate: { type: Date, required: false, default: Date.now(),} },
-    timeUpdate: { type: Date, required: false, default: Date.now(),} },
+    timeCreate: { type: Date, required: false, default: Date.now() },
+    timeUpdate: { type: Date, required: false, default: Date.now() },
     isDeleted: { type: Boolean, required: true, default: false, },
 });
 
 ScheduleSchema.pre('save', function (callback) {
-    var _this = this;
+    let _this = this;
     _this.timeUpdate = new Date();
     return callback();
 });

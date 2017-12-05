@@ -25,8 +25,8 @@ var LikeSchema = new mongoose.Schema({
         default: null 
     },
     isDeleted: { type: Boolean, required: true, default: false, },
-    timeCreate: { type: Date, required: false, default: Date.now(),} },
-    timeUpdate: { type: Date, required: false, default: Date.now(),} },
+    timeCreate: { type: Date, required: false, default: Date.now() },
+    timeUpdate: { type: Date, required: false, default: Date.now() },
 });
 
 LikeSchema.pre('save', function (callback) {
