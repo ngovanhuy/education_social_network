@@ -150,8 +150,7 @@ let UserSchema = new mongoose.Schema(
             type: Date,
             default: Date.now()
         },
-    }
-)
+    });
 UserSchema.pre('save', function (callback) {
     let user = this;
     user.timeUpdate = new Date();

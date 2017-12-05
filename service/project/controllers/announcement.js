@@ -163,7 +163,7 @@ async function removeAnnouncement(req, res, next) {
         } else {
             announcement.isDeleted = true;
             announcement = await announcement.save();
-            req.events.event_requested = announcement;
+            req.announcements.announcement_requested = announcement;
         }
         return next();
     } catch (error) {
