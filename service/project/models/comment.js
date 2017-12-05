@@ -23,8 +23,8 @@ let CommentSchema = new mongoose.Schema({
         type: {_id: String, name: String, type: String, size: Number},
         default:null,
     },
-    timeCreate: {type: Date, required: true, default: Date.now},
-    timeUpdate: {type: Date, required: true, default: Date.now},
+    timeCreate: {type: Date, required: true, default: new Date()},
+    timeUpdate: {type: Date, required: true, default: new Date()},
     isDeleted: {type: Boolean, required: true, default: false}
 });
 CommentSchema.pre('save', function (callback) {

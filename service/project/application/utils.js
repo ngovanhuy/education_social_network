@@ -52,8 +52,16 @@ function parseDate(dateString) {
     if (typeof(dateString) === 'number') {
         return new Date(dateString);
     }
-    let date = new Date(dateString + "Z");
+    let _dateString = dateString.endsWith("Z") ? dateString : dateString + "Z";
+    let date = new Date(_dateString);
     return isNaN(date.getDate()) ? null : date;
+}
+function exportDate(date) {
+    let _date = date;
+    if (typeof(date) === 'number') {
+        _date = new Date(date);
+    }
+    return _date ? _date.toISOString() : null;
 }
 function getStringArray(jsonContent) {
     try {
@@ -95,13 +103,6 @@ function validateStringLength(obj, minLength = 1, maxLength = 100, isRequired = 
         return !isRequired;
     }
     return obj.length >= minLength && obj.length <= maxLength;
-}
-function exportDate(date) {
-    let _date = date;
-    if (typeof(date) === 'number') {
-        _date = new Date(date);
-    }
-    return _date ? _date.toLocaleString() : null;
 }
 
 function getShortContent(content) {

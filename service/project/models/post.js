@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 let Utils = require('../application/utils');
 let PostSchema = new mongoose.Schema({
-    _id: { type: Number, default: getNewID },
+    _id: { type: Number, default: getNewID() },
     title: { type: String, required: true, default: 'No Title' },
     content: { type: String, required: true, default: 'No Content' },//short_content
     userCreate: {
