@@ -68,7 +68,7 @@ app.use('/tasks', taskRouter);
 app.use('/test', testRouter);
 app.use('/posts', postRouter);
 app.use('/events', eventRouter);
-app.use('/announcement', announcementRouter);
+app.use('/announcements', announcementRouter);
 
 app.use('/', (req, res) => res.end('Education Social NetWork Service. Not support path'));//handing error request path
 app.use(function (err, req, res, next) {
