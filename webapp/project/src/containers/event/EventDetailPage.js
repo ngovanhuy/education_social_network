@@ -63,7 +63,7 @@ class EventDetailPage extends Component {
                                 (
                                     <div className="ui-box event-about-user clearfix">
                                         <div className="ui-box-title">
-                                            <span>About {eventDetail.from.user.fullName}</span>
+                                            <span>About {eventDetail.from.user.firstName} {eventDetail.from.user.lastName}</span>
                                         </div>
                                         <div className="ui-box-content clearfix">
                                             <div className="user-profile-picture">

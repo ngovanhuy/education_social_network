@@ -26,7 +26,7 @@ class ClassEvents extends Component {
         return (
             <div className="class-events clearfix">
                 <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
-                <ClassEventsCalendarHeadline className={className} currentPage="events" openModal={this.openModal}/>
+                <ClassEventsCalendarHeadline classDetail={classDetail} className={className} currentPage="events" openModal={this.openModal}/>
                 <EventsAgenda events={events}/>
             </div>
         )

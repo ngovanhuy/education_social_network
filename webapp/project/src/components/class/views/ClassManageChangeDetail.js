@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
+import {classActions} from "../../../actions";
 
-class ClassManageChangeDetail extends Component{
+class ClassManageChangeDetail extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            classFullName: '',
-            classAbout: '',
-            classLocation: '',
+            userId: '',
+            classId: '',
+            name: '',
+            about: '',
+            location: '',
             submitted: false
         };
 
@@ -16,20 +19,24 @@ class ClassManageChangeDetail extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({
-            classFullName: this.props.classDetail.fullName,
-            classAbout: this.props.classDetail.about,
-            classLocation: this.props.classDetail.location,
+            userId: this.props.user.id,
+            classId: this.props.classDetail.id,
+            name: this.props.classDetail.name,
+            about: this.props.classDetail.about,
+            location: this.props.classDetail.location,
         });
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.classDetail !== this.props.classDetail) {
             this.setState({
-                classFullName: nextProps.classDetail.fullName,
-                classAbout: nextProps.classDetail.about,
-                classLocation: nextProps.classDetail.location,
+                userId: nextProps.user.id,
+                classId: nextProps.classDetail.id,
+                name: nextProps.classDetail.name,
+                about: nextProps.classDetail.about,
+                location: nextProps.classDetail.location,
             });
         }
     }
@@ -42,44 +49,56 @@ class ClassManageChangeDetail extends Component{
     handleSubmit(e) {
         e.preventDefault();
 
+        const {userId, classId, name, about, location} = this.state;
         this.setState({submitted: true});
-        const {classFullName, classAbout, classLocation} = this.state;
+        this.props.dispatch(classActions.update(userId, classId, name, about, location));
     }
 
-    render(){
-        const {classFullName, classAbout, classLocation, submitted} = this.state;
-        return(
+    render() {
+        const {name, about, location, submitted} = this.state;
+        return (
             <div className="ui-box">
                 <div className="ui-box-title">
                     <span>Class Info</span>
                 </div>
-               <div className="ui-box-content">
-                   <form name="form" onSubmit={this.handleSubmit}>
-                       <div className={'form-group' + (submitted && !classFullName ? ' has-error' : '')}>
-                           <label htmlFor="classFullName">Class Full Name</label>
-                           <input type="text" className="form-control" name="classFullName" value={classFullName}
-                                  onChange={this.handleChange}/>
-                           {submitted && !classFullName &&
-                           <div className="help-block">Class Full Name is required</div>
-                           }
-                       </div>
-                       <div className={'form-group'}>
-                           <label htmlFor="classAbout">Class About</label>
-                           <input type="password" className="form-control" name="classAbout" value={classAbout}
-                                  onChange={this.handleChange}/>
-                       </div>
-                       <div className={'form-group'}>
-                           <label htmlFor="classLocation">Class Location</label>
-                           <input type="password" className="form-control" name="classLocation" value={classLocation}
-                                  onChange={this.handleChange}/>
-                       </div>
-                       <div className="form-group">
-                           <button className="btn btn-primary">Update</button>
-                       </div>
-                   </form>
-               </div>
+                <div className="ui-box-content">
+                    <form role="form">
+                        <div className={'form-group' + (submitted && !name ? ' has-error' : '')}>
+                            <label htmlFor="name">Class Full Name</label>
+                            <input type="text" className="form-control" name="name" value={name}
+                                   onChange={this.handleChange}/>
+                            {submitted && !name &&
+                            <div className="help-block">Class Full Name is required</div>
+                            }
+                        </div>
+                        <div className={'form-group'}>
+                            <label htmlFor="about">Class About</label>
+                            <input type="text" className="form-control" name="about" value={about}
+                                   onChange={this.handleChange}/>
+                        </div>
+                        <div className={'form-group'}>
+                            <label htmlFor="classLocation">Class Location</label>
+                            <input type="text" className="form-control" name="location" value={location}
+                                   onChange={this.handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-primary" onClick={this.handleSubmit}>Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         )
     }
 }
- export default ClassManageChangeDetail;
+
+const mapStateToProps = (state, ownProps) => {
+    const {classDetail} = state.classes
+    const {user} = state.authentication
+    return {
+        classDetail,
+        user
+    }
+}
+
+export default connect(mapStateToProps, null)(ClassManageChangeDetail);

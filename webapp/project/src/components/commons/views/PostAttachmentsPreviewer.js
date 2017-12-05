@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import * as FileUtil from '../../../utils/fileUtil'
+import * as FileUtil from '../../../utils/fileUtils'
 
 class PostAttachmentsPreviewer extends Component{
     constructor(props) {
@@ -9,7 +9,7 @@ class PostAttachmentsPreviewer extends Component{
     }
 
     static propTypes = {
-        files: PropTypes.array,
+        filesInfo: PropTypes.array,
     }
 
     renderFile(file, index) {
@@ -27,11 +27,12 @@ class PostAttachmentsPreviewer extends Component{
     }
 
     render(){
-        if (!this.props.files.length) return <div></div>;
+        const {filesInfo} = this.props
+        if (!filesInfo.length) return <div></div>;
         return(
             <table className="pure-table post-attachments-previewer table table-hover">
                 <tbody>
-                {this.props.files.map((file, index) => this.renderFile(file, index))}
+                {filesInfo.map((file, index) => this.renderFile(file, index))}
                 </tbody>
             </table>
         )

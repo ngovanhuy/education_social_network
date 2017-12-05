@@ -58,6 +58,8 @@
     .timeline-headline ul li a:hover {
       background: #f6f7f9;
       text-decoration: none; }
+  .timeline-headline ul .current a {
+    background: #f6f7f9; }
 
 .intros {
   background-color: #fff;

@@ -1,9 +1,14 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
 import './common.css';
 import CreateClassModal from "../class/views/CreateClassModal";
+import {defaultConstants} from "../../constants";
+import {classActions} from "../../actions/classActions";
+import {fileUtils} from "../../utils/fileUtils";
+import {userUtils} from "../../utils/userUtils";
 
 class Header extends Component {
     constructor() {
@@ -27,8 +32,14 @@ class Header extends Component {
         this.setState({modalIsOpen: false});
     }
 
+    handleCreateClass = (userId, className, membersInvited) => {
+        this.setState({modalIsOpen: false});
+        this.props.dispatch(classActions.insert(userId, className));
+    }
+
     render() {
         const {user} = this.props
+        const isTeacher = userUtils.checkIsTeacher(user)
         return (
             <header>
                 <nav className="navbar navbar-default navbar-static-top no-margin" role="navigation">
@@ -111,8 +122,9 @@ class Header extends Component {
                         <ul className="nav navbar-nav navbar-nav-expanded pull-right margin-md-right">
                             <li className="dropdown">
                                 <a data-toggle="dropdown" className="dropdown-toggle navbar-user" href="javascript:;">
-                                    <img className="img-circle" src={user.profilePictureUrl}/>
-                                    <span className="hidden-xs user_full_name">{user.fullName}</span>
+                                    <img className="img-circle"
+                                         src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                                    <span className="hidden-xs user_full_name">{user.firstName} {user.lastName}</span>
                                     <b className="caret"></b>
                                 </a>
                                 <ul className="dropdown-menu pull-right-xs">
@@ -125,14 +137,22 @@ class Header extends Component {
                                     <li>
                                         <Link to={`/classes`}>Classes</Link>
                                     </li>
-                                    <li><a href="javascript:;" onClick={this.openModal}>Create class</a></li>
-                                    <CreateClassModal modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}/>
+                                    {
+                                        isTeacher &&
+                                        (
+                                            <li>
+                                                <a href="javascript:;" onClick={this.openModal}>Create class</a>
+                                                <CreateClassModal modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}
+                                                                  userId={user.id}
+                                                                  onSubmit={this.handleCreateClass}/>
+                                            </li>
+                                        )
+                                    }
                                     <li className="divider"></li>
                                     <li>
                                         <Link to={`/events`}>Events</Link>
                                     </li>
                                     <li className="divider"></li>
-                                    <li><a href="javascript:;">Settings</a></li>
                                     <li>
                                         <Link to={`/logout`}>Logout</Link>
                                     </li>
@@ -146,4 +166,12 @@ class Header extends Component {
     }
 }
 
-export default Header
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {
+        user,
+    };
+}
+
+
+export default connect(mapStateToProps)(Header);

@@ -2,23 +2,18 @@ import React, {Component} from 'react'
 import CoverPhotoClass from "./views/ClassCoverPhoto";
 import ClassHeadline from "./views/ClassHeadline";
 import ClassTopics from "./views/ClassTopics";
-
-const defaultProfilePictureUrl = '/images/cover_photo.jpg'
+import {defaultConstants} from "../../constants/defaultConstant";
+import {fileUtils} from "../../utils/fileUtils";
 
 class ClassLeftmenu extends Component{
     render(){
-        var {classDetail, topics, classId, currentPage} = this.props
-        if (classDetail && classDetail.coverPhotoUrl){
-            classDetail = {
-                ...classDetail,
-                profilePictureUrl: defaultProfilePictureUrl
-            };
-        }
+        const {classDetail, topics, classId, currentPage, currentTopic} = this.props
         return(
             <div className="class-left-menu">
                 <div className="col-sm-12">
                     <div className="row">
-                        <CoverPhotoClass profilePictureUrl={classDetail.profilePictureUrl} classId={classId}/>
+                        <CoverPhotoClass profilePictureUrl={fileUtils.renderFileSource(classDetail.profileImageID, defaultConstants.CLASS_PROFILE_PICTURE_URL)}
+                                         classId={classId}/>
                     </div>
                 </div>
                 <div className="col-sm-12">
@@ -29,7 +24,7 @@ class ClassLeftmenu extends Component{
                 </div>
                 <div className="col-sm-12">
                     <div className="row">
-                        <ClassTopics topics={topics}/>
+                        <ClassTopics classId={classId} topics={topics} currentTopic={currentTopic}/>
                     </div>
                 </div>
             </div>

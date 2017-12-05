@@ -3,22 +3,21 @@ import {Link} from 'react-router-dom'
 
 class ClassEventsCalendarHeadline extends Component {
     render() {
-        const {id: classId, currentPage} = this.props
+        const {classDetail, currentPage} = this.props
 
         return (
             <div className="class-events-calendar-headline clearfix">
                 <ul className="clearfix">
                     <li>
-                        <Link to={`/classes/${classId}/events`}>
-                            <span className={currentPage=="events"&&"current"}>Events</span>
+                        <Link to={`/classes/${classDetail.id}/events`}>
+                            <span className={currentPage === "events" && "current"}>Events</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to={`/classes/${classId}/calendar`}>
-                            <span className={currentPage=="calendar"&&"current"}>Calendar</span>
+                        <Link to={`/classes/${classDetail.id}/calendar`}>
+                            <span className={currentPage === "calendar" && "current"}>Calendar</span>
                         </Link>
                     </li>
-
                     <li className="pull-right">
                         <button className="btn btn-white">
                             <i className="fa fa-plus"></i>

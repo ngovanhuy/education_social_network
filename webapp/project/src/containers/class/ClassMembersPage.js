@@ -6,79 +6,55 @@ import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import ClassMembers from "../../components/class/ClassMembers";
 import AddMember from "../../components/class/views/AddMember";
+import {classActions} from "../../actions";
+import {classConstants} from "../../constants";
+import {userUtils} from "../../utils/userUtils";
+import {classService, userService} from "../../services";
+import {history} from "../../helpers/history";
 
-class ClassMembersPage extends Component{
-    static propTypes = {
-        classDetail: PropTypes.object,
-        classId: PropTypes.string,
-        members: PropTypes.array,
-        topics: PropTypes.array,
+class ClassMembersPage extends Component {
+    constructor(props) {
+        super(props)
+        this.handleDeleteMember = this.handleDeleteMember.bind(this);
     }
 
-    static defaultProps = {
-        classDetail: {
-            coverPhotoUrl: '/images/cover_photo.jpg',
-            fullName: 'Chung ta la Anh em',
-            memberCount: 489,
-            description: 'Mục tiêu của group: Tập hợp sinh viên theo học CNTT của ĐHBKHN K60 và các Khóa trên để cùng nhau chia sẻ kinh nghiệm học tập, giải đáp các thắc mắc, bài tập liên quan, chia sẻ tài liệu, giáo trình, tìm nhóm bài tập lớn, tim môn dễ kiếm điểm,... và chém gió ngoài lề cho cuộc đời sinh viên thêm thú vị',
-        },
-        topics: [{
-            fullName: 'Task 1',
-            topicName: 'task_1',
-        }, {
-            fullName: 'Task 2',
-            topicName: 'task_2',
-        }, {
-            fullName: 'Task 3',
-            topicName: 'task_3',
-        }],
-        teacher: [
-            {
-                id: "1",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: "ngovanhuy0241"
-            }
-        ],
-        members: [
-            {
-                id: "1",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: "ngovanhuy0241"
-            },{
-                id: "1",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: "ngovanhuy0241"
-            },{
-                id: "1",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: "ngovanhuy0241"
-            },{
-                id: "1",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: "ngovanhuy0241"
-            },{
-                id: "1",
-                coverPhotoUrl: "/images/cover_photo.jpg",
-                profilePictureUrl: "/images/profile_picture.png",
-                fullName: "NgoVan Huy",
-                userName: "ngovanhuy0241"
-            }
-        ]
+    componentWillMount() {
+        const {classId} = this.props;
+        this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getTopics(classId));
+        this.props.dispatch(classActions.getMembers(classId));
     }
 
-    render(){
-        const {classDetail, topics, classId, teacher, members} = this.props
-        return(
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.classId !== this.props.classId) {
+            const {classId} = nextProps;
+            this.props.dispatch(classActions.getById(classId));
+            this.props.dispatch(classActions.getTopics(classId));
+            this.props.dispatch(classActions.getMembers(classId));
+        }
+    }
+
+    handleDeleteMember(classId, memberId){
+        classService.deleteMember(classId, memberId)
+            .then(
+                this.props.dispatch(classActions.getById(classId)),
+                this.props.dispatch(classActions.getMembers(classId))
+            )
+    }
+
+    render() {
+        const {user, classId, classDetail} = this.props
+        const topics = classDetail.topics
+        const isTeacher = userUtils.checkIsTeacher(user)
+        const members = (classDetail.members && classDetail.members.length > 0) ?
+            classDetail.members.filter(function (member) {
+                return member.isAdmin == false
+            }) : [];
+        const teachers = (classDetail.members && classDetail.members.length > 0) ?
+            classDetail.members.filter(function (member) {
+                return member.isAdmin == true
+            }) : [];
+        return (
             <div>
                 <div className="container">
                     <div className="col-sm-2">
@@ -91,19 +67,26 @@ class ClassMembersPage extends Component{
                         <div className="row">
                             <div className="col-sm-9">
                                 <div className="row">
-                                    <ClassMembers members={teacher} classId={classId} classMemberTitle="Teachers"/>
+                                    <ClassMembers members={teachers} classId={classId} classMemberTitle="Teachers"
+                                                  isTeacher={isTeacher} onDeleteMember={this.handleDeleteMember}/>
                                 </div>
                             </div>
-                            <div className="col-sm-3 add-member-and-description">
-                               <div className="row">
-                                   <div className="container-fluid-md">
-                                       <AddMember memberCount={classDetail.memberCount}/>
-                                   </div>
-                               </div>
-                            </div>
+                            {
+                                isTeacher &&
+                                (
+                                    <div className="col-sm-3 add-member-and-description">
+                                        <div className="row">
+                                            <div className="container-fluid-md">
+                                                <AddMember memberCount={classDetail.memberCount} classId={classId}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
                         </div>
                         <div className="row">
-                            <ClassMembers members={members} classId={classId} classMemberTitle="Members"/>
+                            <ClassMembers members={members} classId={classId} classMemberTitle="Members"
+                                          isTeacher={isTeacher} onDeleteMember={this.handleDeleteMember}/>
                         </div>
                     </div>
                 </div>
@@ -114,8 +97,12 @@ class ClassMembersPage extends Component{
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
+    const {classDetail} = state.classes
+    const {user} = state.authentication
     return {
-        classId
+        classId,
+        classDetail,
+        user
     }
 }
 

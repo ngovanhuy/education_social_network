@@ -1,21 +1,24 @@
 import React, {Component} from 'react'
 import ClassManageMemberRequest from "./ClassManageMemberRequest";
 import ClassManageChangeDetail from "./ClassManageChangeDetail";
+import DeleteClass from "./DeleteClass";
 
 class ClassManageMainContent extends Component{
-    renderMainContent = (currentViewLink, classId, classDetail, memberRequests) => {
-        if(currentViewLink == "memberRequests"){
-            return <ClassManageMemberRequest memberRequests={memberRequests} classId={classId}/>
-        } else if(currentViewLink == "changeClassDetail"){
-            return <ClassManageChangeDetail classDetail={classDetail} classId={classId}/>;
+    renderMainContent = (currentViewLink) => {
+        if(currentViewLink === "memberRequests"){
+            return <ClassManageMemberRequest/>
+        } else if(currentViewLink === "changeClassDetail"){
+            return <ClassManageChangeDetail/>;
+        } else if(currentViewLink === "deleteClass"){
+            return <DeleteClass/>;
         }
     }
     render(){
-        const{currentViewLink, classDetail, classId, memberRequests} = this.props
+        const{currentViewLink} = this.props
         return(
             <div className="class-manage-main-content">
                 {
-                    this.renderMainContent(currentViewLink, classId, classDetail, memberRequests)
+                    this.renderMainContent(currentViewLink)
                 }
             </div>
         )

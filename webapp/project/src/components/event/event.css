@@ -130,6 +130,34 @@
     margin: 10px 0;
     border: 0.1rem solid rgba(0, 0, 0, 0.12);
     border-radius: 5px; }
+  .events .discovery-filter {
+    margin-top: 20px; }
+    .events .discovery-filter .discovery-filter-form {
+      width: 720px;
+      margin-right: 100px; }
+      .events .discovery-filter .discovery-filter-form .show-filter-content-button {
+        height: 34px; }
+      .events .discovery-filter .discovery-filter-form .discovery-filter-content {
+        background-color: #fff;
+        color: #212121;
+        font-size: 14px;
+        font-family: inherit;
+        line-height: 16px;
+        -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        outline: 0;
+        position: absolute;
+        margin-top: 3px;
+        width: 720px;
+        z-index: 1003; }
+        .events .discovery-filter .discovery-filter-form .discovery-filter-content .filter-content-detail {
+          padding: 4px 16px; }
+        .events .discovery-filter .discovery-filter-form .discovery-filter-content .filter-content-detail:first-of-type {
+          margin-top: 10px; }
+      .events .discovery-filter .discovery-filter-form .hide-filter-content {
+        display: none; }
 
 .calendar {
   margin-left: 20px;
@@ -270,8 +298,7 @@
   background-color: #4b4f56;
   width: 386px;
   height: 202px;
-  display: flex;
-  margin: 0 15px; }
+  display: flex; }
   .create-event-modal .event-photo-upload div {
     margin: auto; }
   .create-event-modal .event-photo-upload .upload-content {
@@ -286,6 +313,12 @@
       margin-right: 6px;
       padding-bottom: 2px;
       vertical-align: middle; }
+.create-event-modal .event-photo-preview img {
+  width: 386px;
+  height: 202px; }
+.create-event-modal .event-photo-preview .btn-remove-event-photo {
+  top: 10px;
+  right: 95px; }
 .create-event-modal textarea {
   max-width: 454px;
   max-height: 100px; }

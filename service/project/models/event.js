@@ -83,6 +83,7 @@ function getBasicInfo() {
         contextData: this.contextData,
         isGroupContext: ContextEnum[this.context] === 'Group',
         isAllDay: this.isAllDay,
+        location: this.location,
         startTime: Utils.exportDate(this.startTime),
         endTime: Utils.exportDate(this.endTime),
         timeCreate: Utils.exportDate(this.timeCreate),

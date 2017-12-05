@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {userActions} from '../../actions';
+import {userConstants} from "../../constants/userConstants";
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -14,12 +15,15 @@ class RegisterPage extends React.Component {
                 lastName: '',
                 username: '',
                 password: '',
-                email: ''
+                email: '',
+                typeuser: userConstants.TYPE_USER_IS_NORMAL,
             },
+            isTeacher: false,
             submitted: false
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeIsTeacher = this.handleChangeIsTeacher.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -33,6 +37,24 @@ class RegisterPage extends React.Component {
             }
         });
     }
+    handleChangeIsTeacher(event){
+        const {user} = this.state;
+        if(event.target.checked){
+            this.setState({
+                user: {
+                    ...user,
+                    typeuser: userConstants.TYPE_USER_IS_TEACHER
+                }
+            });
+        } else {
+            this.setState({
+                user: {
+                    ...user,
+                    typeuser: userConstants.TYPE_USER_IS_NORMAL
+                }
+            });
+        }
+    }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -40,14 +62,14 @@ class RegisterPage extends React.Component {
         this.setState({submitted: true});
         const {user} = this.state;
         const {dispatch} = this.props;
-        if (user.firstName && user.lastName && user.username && user.password) {
+        if (user.firstName && user.lastName && user.username && user.password && user.email) {
             dispatch(userActions.register(user));
         }
     }
 
     render() {
         const {registering, alertAuthen} = this.props;
-        const {user, submitted} = this.state;
+        const {user, isTeacher, submitted} = this.state;
         return (
             <div className="jumbotron">
                 <div className="container">
@@ -98,6 +120,16 @@ class RegisterPage extends React.Component {
                                     {submitted && !user.password &&
                                     <div className="help-block">Password is required</div>
                                     }
+                                </div>
+                                <div className="form-group">
+                                    <div className="controls">
+                                        <label className="checkbox-inline">
+                                            <input type="checkbox" name="isTeacher"
+                                                   value={isTeacher} onChange={this.handleChangeIsTeacher}/>
+                                            Is Teacher
+                                        </label>
+
+                                    </div>
                                 </div>
                                 <div className="form-group">
                                     <button className="btn btn-primary">Register</button>

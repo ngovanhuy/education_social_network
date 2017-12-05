@@ -43,8 +43,15 @@ class EventsAgenda extends Component{
         return(
             <div>
                 {
-                    events && events.length > 0 &&
-                    events.map((event, index) => this.renderEventDetail(event, index))
+                    (events && events.length > 0) ?
+                        (
+                            events.map((event, index) => this.renderEventDetail(event, index))
+                        ) :
+                        (
+                            <div className="no-event">
+                                No Events
+                            </div>
+                        )
                 }
             </div>
         )
