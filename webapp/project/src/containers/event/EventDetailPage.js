@@ -8,35 +8,6 @@ import EventTopContent from "../../components/event/EventTopContent";
 import UserProfileInfo from "../../components/commons/views/UserProfileInfo";
 
 class EventDetailPage extends Component {
-    static propTypes = {
-        eventDetail: PropTypes.object,
-        eventId: PropTypes.string,
-    }
-
-    static defaultProps = {
-        eventDetail: {
-            id: 1,
-            title: 'All Day Event very long title',
-            allDay: true,
-            start: new Date(2015, 3, 0),
-            end: new Date(2015, 3, 1),
-            location: ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            source: '/images/cover_photo.jpg',
-            description: '250 gian hàng các đặc sản vùng miền nổi tiếng của Việt Nam được giới thiệu. Lần đầu tiên không gian thưởng trà, không gian bánh dân gian Nam Bộ... được giới thiệu vô cùng đặc sắc',
-            from: {
-                user: {
-                    id: "1",
-                    coverPhotoUrl: "/images/cover_photo.jpg",
-                    profilePictureUrl: "/images/profile_picture.png",
-                    fullName: "NgoVan Huy",
-                    userName: "ngovanhuy0241"
-                },
-            },
-            forClass:{
-
-            }
-        }
-    }
 
     render() {
         const {eventDetail, eventId} = this.props
@@ -86,6 +57,7 @@ class EventDetailPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const eventId = ownProps.match.params.id
+    
     return {
         eventId
     }

@@ -119,8 +119,13 @@ $main-color: rgba(146, 181, 88, 1);
   .event-detail {
     float: left;
     margin-left: 10px;
+    .event-name{
+      font-weight: bold;
+      font-size: 16px;
+    }
     .event-location {
       margin: 5px 0;
+      color: rgba(0, 0, 0, 0.55);
     }
     .action-with-event {
       .share-text {

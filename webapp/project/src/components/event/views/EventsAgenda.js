@@ -9,14 +9,14 @@ class EventsAgenda extends Component{
             <div key={index} className="col-sm-12">
                 <div className="event-agenda clearfix">
                     <div className="event-create-time">
-                        <b>{event.start.toLocaleDateString()}</b>
+                        <b>{event.start}</b>
                     </div>
                     <div className="event-detail">
                         <div className="event-name">
                             <EventInfo event={event}/>
                         </div>
                         <div className="event-location">
-                            {event.start.toLocaleTimeString()}
+                            {event.start}
                             <span role="presentation" aria-hidden="true"> · </span>
                             {event.location}
                         </div>

@@ -1,13 +1,17 @@
 import {authHeader} from '../helpers';
-import {DOMAIN_SERVICE} from '../constants'
+import {DOMAIN_SERVICE, eventConstants} from '../constants'
 import axios from 'axios';
 
 export const eventService = {
     getAll,
+    getEventsByUserId,
+    getEventsByClassId,
+    getEventsNotBelongClass,
     filter,
     getById,
     insert,
     update,
+    delete: _delete,
 };
 
 function getAll() {
@@ -15,7 +19,34 @@ function getAll() {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/events/all';
+    const url = DOMAIN_SERVICE + '/events';
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getEventsByUserId(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/events/user/' + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getEventsByClassId(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/events/group/' + userId;
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getEventsNotBelongClass() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/events/system';
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -23,9 +54,8 @@ function filter(textSearch, userId, classId, startDate, endDate) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader(),
-        body: JSON.stringify({textSearch, userId, classId, startDate, endDate})
     };
-    const url = DOMAIN_SERVICE + '/groups/search';
+    const url = DOMAIN_SERVICE + '/groups/filter?' + `title=${textSearch}&userID=${userId}&groupID=${classId}&startDate=${startDate}&endDate=${endDate}&`;
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -34,30 +64,57 @@ function getById(id) {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/events/info/' + id;
+    const url = DOMAIN_SERVICE + '/events/' + id;
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function insert(userId, classId, title, location, start, end, description) {
-    const requestOptions = {
-        method: 'POST',
-        headers: authHeader(),
-        body: JSON.stringify({userId, classId, title, location, start, end, description})
-    };
-    const url = DOMAIN_SERVICE + '/events/create/' + userId;
-    return fetch(url, requestOptions)
-        .then(handleResponse)
+function insert(classId, userId, imageUpload, title, location, content, startTime, endTime) {
+    const url = DOMAIN_SERVICE + '/events'
+    const data = new FormData();
+    if (imageUpload) {
+        data.append('imageUpload', imageUpload);
+    }
+    data.append("userID", userId)
+    var context = eventConstants.EVENT_CONTEXT.SYSTEM
+    if(classId && classId > 0){
+        data.append("groupID", classId)
+        context = eventConstants.EVENT_CONTEXT.GROUP
+    }
+    data.append("title", title)
+    data.append("content", content)
+    data.append("location", location)
+    data.append("context", context)
+    data.append("startTime", startTime)
+    data.append("endTime", endTime)
+    return axios.post(url, data);
 }
 
-function update(userId, eventId, title, location, start, end, description) {
+function update(userId, classId, imageUpload, title, content, location, context, isAllDay, startTime, endTime) {
+    const url = DOMAIN_SERVICE + '/events'
+    const data = new FormData();
+    if (imageUpload) {
+        data.append('imageUpload', imageUpload);
+    }
+    data.append("userID", userId)
+    data.append("groupID", classId)
+    data.append("title", title)
+    data.append("content", content)
+    data.append("location", location)
+    data.append("context", context)
+    data.append("isAllDay", isAllDay)
+    data.append("startTime", startTime)
+    data.append("endTime", endTime)
+    return axios.put(url, data);
+}
+
+// prefixed function name with underscore because delete is a reserved word in javascript
+function _delete(id) {
     const requestOptions = {
-        method: 'PUT',
-        headers: authHeader(),
-        body: JSON.stringify({title, location, start, end, description})
+        method: 'DELETE',
+        headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/events/action/' + eventId + "/" + userId;
-    return fetch(url, requestOptions)
-        .then(handleResponse)
+
+    return fetch('/events/' + id, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

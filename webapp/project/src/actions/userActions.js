@@ -146,23 +146,3 @@ function getClassRequest(userId) {
     function success(classes) { return { type: userConstants.USERS_GETCLASSREQUEST_SUCCESS, classes } }
     function failure(error) { return { type: userConstants.USERS_GETCLASSREQUEST_FAILURE, error } }
 }
-
-function updateupdateStatusOfClass(userId) {
-    return dispatch => {
-        dispatch(request());
-
-        userService.getAllClassesSentRequest(userId)
-            .then(
-                response => {
-                    dispatch(getAllClassesSentRequest(response.data));
-                    history.push('/classes/'+ response.data.id );
-                },
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_REQUEST } }
-    function getAllClassesSentRequest(classDetail) { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_SENTREQUEST_SUCCESS, classDetail } }
-    function getAllClassesJoined(classDetail) { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_JOINED_SUCCESS, classDetail } }
-    function failure(error) { return { type: userConstants.CLASSES_UPDATESTATUSOFUSER_FAILURE, error } }
-}

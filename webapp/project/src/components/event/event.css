@@ -85,8 +85,12 @@
   .event-agenda .event-detail {
     float: left;
     margin-left: 10px; }
+    .event-agenda .event-detail .event-name {
+      font-weight: bold;
+      font-size: 16px; }
     .event-agenda .event-detail .event-location {
-      margin: 5px 0; }
+      margin: 5px 0;
+      color: rgba(0, 0, 0, 0.55); }
     .event-agenda .event-detail .action-with-event .share-text {
       margin: 0 10px; }
 

@@ -4,7 +4,7 @@ import CreateClassModal from "../class/views/CreateClassModal";
 import CreateEventModal from "../event/views/CreateEventModal";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import {defaultConstants} from "../../constants";
-import {classActions} from "../../actions";
+import {classActions, eventActions} from "../../actions";
 import {connect} from 'react-redux';
 import {fileUtils} from "../../utils/fileUtils";
 import {userUtils} from "../../utils/userUtils";
@@ -20,6 +20,8 @@ class HomeLeftmenu extends Component {
         this.closeModalCreateClass = this.closeModalCreateClass.bind(this);
         this.openModalCreateEvent = this.openModalCreateEvent.bind(this);
         this.closeModalCreateEvent = this.closeModalCreateEvent.bind(this);
+        this.handleCreateClass = this.handleCreateClass.bind(this);
+        this.handleCreateEvent = this.handleCreateEvent.bind(this);
     }
 
     openModalCreateClass() {
@@ -52,6 +54,12 @@ class HomeLeftmenu extends Component {
     handleCreateClass = (userId, className, membersInvited) => {
         this.setState({modalCreateClassIsOpen: false});
         this.props.dispatch(classActions.insert(userId, className));
+    }
+
+    handleCreateEvent = (imageUpload, title, location, content, start, end) => {
+        this.setState({modalCreateEventIsOpen: false});
+        const {user} = this.props
+        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location, content, start, end));
     }
 
     render() {
@@ -131,7 +139,8 @@ class HomeLeftmenu extends Component {
                                 Event
                             </a>
                             <CreateEventModal modalIsOpen={this.state.modalCreateEventIsOpen}
-                                              closeModal={this.closeModalCreateEvent}/>
+                                              closeModal={this.closeModalCreateEvent}
+                                              onSubmit={this.handleCreateEvent}/>
                             {
                                 isTeacher &&
                                 (

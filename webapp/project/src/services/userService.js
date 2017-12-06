@@ -188,7 +188,6 @@ function _delete(id) {
     };
 
     return fetch('/users/' + id, requestOptions).then(handleResponse);
-    ;
 }
 
 function handleResponse(response) {

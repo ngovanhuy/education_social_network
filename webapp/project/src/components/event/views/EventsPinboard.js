@@ -17,7 +17,7 @@ class EventsPinboard extends Component {
                         </div>
                         <div className="event-create-time">
                             <i className="fa fa-calendar"></i>
-                            <b>{event.start.toLocaleString()}</b>
+                            <b>{event.start}</b>
                         </div>
                         <div className="event-location">
                             <i className="fa fa-map-marker"></i>

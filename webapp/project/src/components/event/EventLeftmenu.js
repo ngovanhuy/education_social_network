@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import CreateEventModal from "./views/CreateEventModal";
+import {eventActions} from "../../actions";
+import {connect} from "react-redux";
 
 class EventLeftmenu extends Component{
     constructor(props) {
@@ -8,6 +10,7 @@ class EventLeftmenu extends Component{
         this.state = {modalIsOpen: false}
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleCreateEvent = this.handleCreateEvent.bind(this);
     }
 
     openModal() {
@@ -25,12 +28,19 @@ class EventLeftmenu extends Component{
         return "events-headline-content";
     }
 
+    handleCreateEvent = (imageUpload, title, location, content, start, end) => {
+        this.setState({modalCreateEventIsOpen: false});
+        const {user} = this.props
+        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location, content, start, end));
+    }
+
     render(){
         const {currentPage, eventDetailTitle} = this.props
 
         return(
             <div className="events-left-menu">
-                <CreateEventModal closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
+                <CreateEventModal closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}
+                                  onSubmit={this.handleCreateEvent}/>
                 <div className="col-sm-12">
                     <div className="row">
                         <h1>
@@ -83,4 +93,12 @@ class EventLeftmenu extends Component{
     }
 }
 
-export default EventLeftmenu;
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {
+        user,
+    };
+}
+
+
+export default connect(mapStateToProps)(EventLeftmenu);

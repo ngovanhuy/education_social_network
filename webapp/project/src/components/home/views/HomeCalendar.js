@@ -15,6 +15,7 @@ class HomeCalendar extends Component {
 
     render() {
         const {events} = this.props
+
         return (
             <div className="home-calendar">
                 <div className="ui-box">
@@ -23,21 +24,24 @@ class HomeCalendar extends Component {
                         <Link to={`/events/calendar`} className="pull-right">See all</Link>
                     </div>
                     <div className="ui-box-content">
-                        <BigCalendar
-                            selectable
-                            popup
-                            {...this.props}
-                            events={events}
-                            views={['month']}
-                            step={60}
-                            defaultDate={new Date(2015, 3, 1)}
-                            onSelectEvent={event => this.handleClickEvent(event)}
-                            onSelectSlot={(slotInfo) => alert(
-                                `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-                                `\nend: ${slotInfo.end.toLocaleString()}` +
-                                `\naction: ${slotInfo.action}`
-                            )}
-                        />
+                        {
+                            events && events.length > 0 &&
+                            <BigCalendar
+                                selectable
+                                popup
+                                {...this.props}
+                                events={events}
+                                views={['month']}
+                                step={60}
+                                defaultDate={new Date()}
+                                onSelectEvent={event => this.handleClickEvent(event)}
+                                onSelectSlot={(slotInfo) => alert(
+                                    `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+                                    `\nend: ${slotInfo.end.toLocaleString()}` +
+                                    `\naction: ${slotInfo.action}`
+                                )}
+                            />
+                        }
                     </div>
                 </div>
             </div>

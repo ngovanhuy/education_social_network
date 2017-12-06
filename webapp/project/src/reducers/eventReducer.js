@@ -1,6 +1,6 @@
 import {classConstants, eventConstants} from '../constants';
 
-export function events(state = {loading: false, items: [], eventDetail: {}}, action) {
+export function events(state = {loading: false, items: [], eventsByUser: [], eventsByClass: [], eventsNotBelongClass: [],  eventDetail: {}}, action) {
     switch (action.type) {
         case eventConstants.EVENTS_GETALL_REQUEST:
             return {
@@ -14,6 +14,57 @@ export function events(state = {loading: false, items: [], eventDetail: {}}, act
                 items: action.events
             };
         case eventConstants.EVENTS_GETALL_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case eventConstants.EVENTS_GETBYUSER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case eventConstants.EVENTS_GETBYUSER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                eventsByUser: action.events
+            };
+        case eventConstants.EVENTS_GETBYUSER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case eventConstants.EVENTS_GETBYCLASS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case eventConstants.EVENTS_GETBYCLASS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                eventsByClass: action.events
+            };
+        case eventConstants.EVENTS_GETBYCLASS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case eventConstants.EVENTS_GETNOTBELONGCLASS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case eventConstants.EVENTS_GETNOTBELONGCLASS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                eventsNotBelongClass: action.events
+            };
+        case eventConstants.EVENTS_GETNOTBELONGCLASS_FAILURE:
             return {
                 ...state,
                 loading: false,
@@ -46,7 +97,7 @@ export function events(state = {loading: false, items: [], eventDetail: {}}, act
             return {
                 ...state,
                 loading: false,
-                eventDetail: action.classDetail
+                eventDetail: action.eventDetail
             };
         case eventConstants.EVENTS_GETBYID_FAILURE:
             return {

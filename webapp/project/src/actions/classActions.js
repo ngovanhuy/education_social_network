@@ -8,8 +8,6 @@ export const classActions = {
     getMembers,
     getRequests,
     getFiles,
-    getEvents,
-    getEventsByUser,
     insert,
     update,
     getTopics,
@@ -93,38 +91,6 @@ function getFiles(classId) {
     function request() { return { type: classConstants.CLASSES_GETFILES_REQUEST } }
     function success(data) { return { type: classConstants.CLASSES_GETFILES_SUCCESS, data } }
     function failure(error) { return { type: classConstants.CLASSES_GETFILES_FAILURE, error } }
-}
-
-function getEvents(classId) {
-    return dispatch => {
-        dispatch(request());
-
-        classService.getEvents(classId)
-            .then(
-                response => dispatch(success(response.data)),
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: classConstants.CLASSES_GETEVENTS_REQUEST } }
-    function success(data) { return { type: classConstants.CLASSES_GETEVENTS_SUCCESS, data } }
-    function failure(error) { return { type: classConstants.CLASSES_GETEVENTS_FAILURE, error } }
-}
-
-function getEventsByUser(classId, userId) {
-    return dispatch => {
-        dispatch(request());
-
-        classService.getEventsByUser(classId, userId)
-            .then(
-                response => dispatch(success(response.data)),
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: classConstants.CLASSES_GETEVENTSBYUSER_REQUEST } }
-    function success(data) { return { type: classConstants.CLASSES_GETEVENTSBYUSER_SUCCESS, data } }
-    function failure(error) { return { type: classConstants.CLASSES_GETEVENTSBYUSER_FAILURE, error } }
 }
 
 function getTopics(classId) {
