@@ -6,11 +6,11 @@ const UserProfileInfo = ({user}) => {
     if(user){
         var {id, firstName, lastName} = user
         return(
-            <div className="user-profile-info">
-                <Link to={`/users/${id}`} className="black-none-under">
+            <span className="user-profile-info">
+                <Link to={`/users/${id}`}>
                     <span className="user-fullname">{firstName} {lastName}</span>
                 </Link>
-            </div>
+            </span>
         )
     }
     return <div></div>;

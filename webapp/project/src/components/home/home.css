@@ -1,24 +1,11 @@
 .home-page .home-leftmenu .school-logo img {
   height: 160px; }
 .home-page .home-leftmenu .user-info {
-  margin: 20px 0; }
-  .home-page .home-leftmenu .user-info .imgWrap {
-    height: 20px;
-    margin: 4px 6px 0 -24px;
-    position: relative;
-    width: 20px; }
+  margin-top: 10px; }
   .home-page .home-leftmenu .user-info img {
     height: 30px;
     width: 30px;
     border-radius: 50%; }
-  .home-page .home-leftmenu .user-info .user-profile-info {
-    display: inline-block;
-    margin-left: 10px;
-    max-width: 126px;
-    overflow: hidden;
-    padding-left: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap; }
 .home-page .home-leftmenu .home-leftmenu-title {
   font-weight: bold;
   margin-bottom: 5px; }
@@ -29,7 +16,7 @@
     align-items: center;
     display: -ms-flexbox;
     display: flex;
-    padding: 0 5px;
+    padding: 5px;
     line-height: 28px;
     position: relative;
     z-index: 0; }
@@ -51,6 +38,8 @@
         text-decoration: none; }
       .home-page .home-leftmenu ul.home-leftmenu-list li a span {
         margin-left: 10px; }
+    .home-page .home-leftmenu ul.home-leftmenu-list li .user-profile-info .user-fullname {
+      margin-left: 5px; }
 .home-page .school-profile-picture img {
   height: 310px;
   width: 100%; }

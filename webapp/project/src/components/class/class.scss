@@ -5,7 +5,6 @@ $main-color: rgba(146, 181, 88, 1);
       height: 135px;
       width: 100%;
     }
-
     .cover-profile-picture {
       display: none;
       background-color: #CCCCCC;
@@ -17,7 +16,6 @@ $main-color: rgba(146, 181, 88, 1);
       width: 135px;
       padding-left: 35px;
       padding-top: 4px;
-
       i {
         display: inline-block;
         position: absolute;
@@ -58,14 +56,14 @@ $main-color: rgba(146, 181, 88, 1);
 }
 
 .class-headline {
-  padding: 10px;
+  padding: 5px;
   background-color: #fff;
   margin-top: 20px;
   h1 {
     font-size: 20px;
     word-break: break-all;
+    margin-left: 10px;
   }
-
   .navbar-search {
     margin: 10px 0;
 
@@ -77,13 +75,11 @@ $main-color: rgba(146, 181, 88, 1);
       left: 0;
     }
   }
-
   a {
     &:hover {
       text-decoration: none;
     }
   }
-
   .class-headline-content {
     align-items: center;
     display: flex;
@@ -91,7 +87,7 @@ $main-color: rgba(146, 181, 88, 1);
     line-height: 28px;
     position: relative;
     z-index: 0;
-
+    padding: 0 10px;
     &:hover {
       background-color: #e6ecf0;
     }
@@ -102,16 +98,21 @@ $main-color: rgba(146, 181, 88, 1);
 }
 
 .class-topics {
-  padding: 10px;
+  padding: 5px;
   background-color: #fff;
   margin-top: 20px;
   h3 {
     font-size: 16px;
+    margin-left: 10px;
   }
   .topic {
+    padding: 0 10px;
     &:hover {
       background-color: #e6ecf0;
     }
+  }
+  .topic.current{
+    background-color: #e6ecf0;
   }
   .topic-full-name {
     max-width: 120px;
@@ -127,7 +128,6 @@ $main-color: rgba(146, 181, 88, 1);
       text-decoration: none;
     }
   }
-
   .dropdown {
     float: left;
   }

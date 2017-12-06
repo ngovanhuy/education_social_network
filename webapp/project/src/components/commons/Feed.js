@@ -7,10 +7,10 @@ import NewComment from "./views/NewComment";
 import Comments from "./Comments";
 
 class Feed extends Component {
-    renderFeedDetail(postDetail, index, user) {
+    renderFeedDetail(postDetail, index, user, context) {
         return (
-            <div key={index} className="feed-content">
-                <Post post={postDetail}/>
+            <div key={index} className="feed-content has-border-radius">
+                <Post post={postDetail} context={context}/>
                 <div className="post-new-comment">
                     <NewComment post={postDetail} user={user}/>
                 </div>
@@ -20,14 +20,14 @@ class Feed extends Component {
     }
 
     render() {
-        const {feed, user} = this.props
+        const {feed, user, context} = this.props
         return (
             <div className="feed">
                 {
                     (feed && feed.length > 0) ?
                         (
                             feed.map((postDetail, index) =>
-                                this.renderFeedDetail(postDetail, index, user)
+                                this.renderFeedDetail(postDetail, index, user, context)
                             )
                         ) :
                         <div className="no-post">No post</div>

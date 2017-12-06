@@ -7,6 +7,7 @@ import NewPostFooter from "./NewPostFooter";
 import CreateEventModal from "../../event/views/CreateEventModal";
 import {eventActions} from "../../../actions";
 import {connect} from "react-redux";
+import {dateUtils} from "../../../utils";
 
 class NewPost extends Component {
     constructor() {
@@ -29,13 +30,14 @@ class NewPost extends Component {
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {
         this.setState({modalCreateEventIsOpen: false});
         const {user, classDetail} = this.props
-        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location, content, start, end));
+        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
     render() {
         const {classDetail, isTeacher} = this.props
         return (
-            <div className="new-post">
+            <div className="new-post has-border-radius">
                 <div className="new-post-headline">
                     <Tabs>
                         <TabList>

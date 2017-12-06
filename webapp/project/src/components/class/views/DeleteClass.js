@@ -19,7 +19,7 @@ class DeleteClass extends Component{
     render(){
         const {classDetail, user} = this.props
         return(
-            <div className="ui-box">
+            <div className="ui-box has-border-radius">
                 <div className="ui-box-title">
                     <span>Delete This Class</span>
                 </div>

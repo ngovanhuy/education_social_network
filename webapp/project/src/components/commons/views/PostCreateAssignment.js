@@ -9,8 +9,12 @@ import NewPostFooter from "./NewPostFooter";
 import {classActions} from "../../../actions/classActions";
 import {postActions} from "../../../actions";
 import {classConstants, defaultConstants} from "../../../constants";
+import {dateUtils} from "../../../utils";
 
 const fillMembersInfoForSelectTag = (members) => {
+    if(!members || members.length <= 0){
+        return []
+    }
     const newMembers = members.slice()
     var newPostUserFor = []
     newPostUserFor = newMembers.map((member) =>
@@ -24,6 +28,9 @@ const fillMembersInfoForSelectTag = (members) => {
 }
 
 const fillTopicsInfoForSelectTag = (topics) => {
+    if(!topics || topics.length <= 0){
+        return []
+    }
     const newTopics = topics.slice()
     var newTopicFor = []
     newTopicFor = newTopics.map((topic) =>
@@ -32,7 +39,9 @@ const fillTopicsInfoForSelectTag = (topics) => {
             label: topic
         })
     )
-    newTopicFor.unshift({value: classConstants.DEFAULT_ALL_TOPIC, label: 'All topic'});
+    if(topics.indexOf(classConstants.DEFAULT_ALL_TOPIC) < 0){
+        newTopicFor.unshift({value: classConstants.DEFAULT_ALL_TOPIC, label: 'All topic'});
+    }
     return newTopicFor;
 }
 
@@ -83,10 +92,10 @@ class PostCreateAssignment extends Component {
     }
 
     handleChangePostUserFor = (member) => {
-        if (member.value === classConstants.DEFAULT_ALL_STUDENT) {
+        if (!member || member.value === classConstants.DEFAULT_ALL_STUDENT) {
             this.setState({
                 scopeType: classConstants.POST_SCOPE_TYPE.PROTECTED,
-                memberSelected: member.value
+                memberSelected: classConstants.DEFAULT_ALL_STUDENT
             })
         } else {
             this.setState({
@@ -99,7 +108,7 @@ class PostCreateAssignment extends Component {
 
     handleChangePostTopicFor = (topic) => {
         this.setState({
-            topic: topic.value
+            topic: topic ? topic.value : classConstants.DEFAULT_ALL_TOPIC
         })
     }
 
@@ -138,7 +147,8 @@ class PostCreateAssignment extends Component {
         this.setState({submitted: true});
 
         this.props.dispatch(
-            postActions.insert(classDetail.id, user.id, title, content, files, scopeType, topic, isSchedule, members, startTime, endTime)
+            postActions.insert(classDetail.id, user.id, title, content, files, scopeType,
+                topic, isSchedule, members, dateUtils.convertDateTimeToISO(startTime), dateUtils.convertDateTimeToISO(endTime))
         )
         this.props.dispatch(postActions.getPostsByClassId(classDetail.id))
         this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, user.id))

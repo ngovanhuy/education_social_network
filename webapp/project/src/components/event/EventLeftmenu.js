@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import CreateEventModal from "./views/CreateEventModal";
 import {eventActions} from "../../actions";
 import {connect} from "react-redux";
+import {dateUtils} from "../../utils";
 
 class EventLeftmenu extends Component{
     constructor(props) {
@@ -31,7 +32,8 @@ class EventLeftmenu extends Component{
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {
         this.setState({modalCreateEventIsOpen: false});
         const {user} = this.props
-        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location, content, start, end));
+        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
     render(){
@@ -78,7 +80,7 @@ class EventLeftmenu extends Component{
                         </div>
                     </div>
                 </div>
-                <div className="btn-group">
+                <div className="buttons">
                     <a href="#" className="btn btn-white" onClick={this.openModal}>
                         <i className="fa fa-plus"></i>
                         Create event

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import UserProfileInfo from "./UserProfileInfo";
 import ReactComment from "./ReactComment";
 import NewComment from "./NewComment";
-import {fileUtils} from "../../../utils";
+import {dateUtils, fileUtils} from "../../../utils";
 import {defaultConstants} from "../../../constants";
 
 class Comment extends Component {
@@ -30,7 +30,7 @@ class Comment extends Component {
                         <span>{comment.content}</span>
                     </div>
                     <div className="comment-time">
-                        <span>{comment.timeUpdate}</span>
+                        <span>{dateUtils.convertISOToLocaleString(comment.timeUpdate)}</span>
                     </div>
                     {
                         showReactComment &&

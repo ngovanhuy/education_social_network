@@ -70,7 +70,7 @@ class ClassManageMemberRequest extends Component {
             <div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <div className="ui-box">
+                        <div className="ui-box has-border-radius">
                             <div className="ui-box-title">
                                 <span>Member Request</span>
                             </div>

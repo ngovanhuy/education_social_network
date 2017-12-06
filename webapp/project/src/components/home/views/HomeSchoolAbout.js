@@ -6,7 +6,7 @@ class HomeSchoolAbout extends Component{
         const {schoolDetail} = this.props
         return(
             <div className="home-school-about">
-                <div className="ui-box">
+                <div className="ui-box has-border-radius">
                     <div className="ui-box-title">
                         <span>About School</span>
                     </div>

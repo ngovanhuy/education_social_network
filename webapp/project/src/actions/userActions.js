@@ -70,7 +70,7 @@ function getAll() {
 
         userService.getAll()
             .then(
-                users => dispatch(success(users)),
+                response => dispatch(success(response.data)),
                 error => dispatch(failure(error))
             );
     };

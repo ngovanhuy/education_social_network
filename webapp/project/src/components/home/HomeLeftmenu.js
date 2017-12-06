@@ -8,6 +8,7 @@ import {classActions, eventActions} from "../../actions";
 import {connect} from 'react-redux';
 import {fileUtils} from "../../utils/fileUtils";
 import {userUtils} from "../../utils/userUtils";
+import {dateUtils} from "../../utils";
 
 class HomeLeftmenu extends Component {
     constructor() {
@@ -59,7 +60,8 @@ class HomeLeftmenu extends Component {
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {
         this.setState({modalCreateEventIsOpen: false});
         const {user} = this.props
-        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location, content, start, end));
+        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
     render() {
@@ -76,20 +78,22 @@ class HomeLeftmenu extends Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        {
-                            user &&
-                            (
-                                <div className="user-info">
-                                    <a href={`/users/${user.id}`}>
-                                        <span className="imgWrap">
-                                            <img
-                                                src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
-                                        </span>
-                                    </a>
-                                    <UserProfileInfo user={user}/>
-                                </div>
-                            )
-                        }
+                        <div className="user-info clearfix">
+                            <ul className="home-leftmenu-list">
+                                <li>
+                                    {
+                                        user &&
+                                        (
+                                            <Link to={`/users/${user.id}`}>
+                                                <img src={user &&
+                                                fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                                                <UserProfileInfo user={user}/>
+                                            </Link>
+                                        )
+                                    }
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div className="row">

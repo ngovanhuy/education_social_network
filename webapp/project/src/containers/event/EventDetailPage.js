@@ -6,8 +6,22 @@ import '../../components/class/class.css'
 import EventLeftmenu from "../../components/event/EventLeftmenu";
 import EventTopContent from "../../components/event/EventTopContent";
 import UserProfileInfo from "../../components/commons/views/UserProfileInfo";
+import {classActions, eventActions} from "../../actions";
+import {fileUtils, userUtils} from "../../utils";
+import {defaultConstants} from "../../constants";
 
 class EventDetailPage extends Component {
+    componentWillMount() {
+        const {eventId} = this.props;
+        this.props.dispatch(eventActions.getById(eventId));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.eventId !== this.props.eventId) {
+            const {eventId} = nextProps;
+            this.props.dispatch(eventActions.getById(eventId));
+        }
+    }
 
     render() {
         const {eventDetail, eventId} = this.props
@@ -21,27 +35,27 @@ class EventDetailPage extends Component {
                     </div>
                     <div className="col-sm-7 event-main-content">
                         <EventTopContent eventDetail={eventDetail}/>
-                        <div className="ui-box event-description clearfix">
+                        <div className="ui-box has-border-radius event-description clearfix">
                             <div className="ui-box-title">
                                 <span>Details</span>
                             </div>
                             <div className="ui-box-content">
-                                {eventDetail.description}
+                                {eventDetail.content}
                             </div>
                         </div>
                         {
-                            eventDetail.from.user ?
+                            eventDetail.userCreate ?
                                 (
-                                    <div className="ui-box event-about-user clearfix">
+                                    <div className="ui-box has-border-radius event-about-user clearfix">
                                         <div className="ui-box-title">
-                                            <span>About {eventDetail.from.user.firstName} {eventDetail.from.user.lastName}</span>
+                                            <span>About {userUtils.renderFullName(eventDetail.userCreate.firstName, eventDetail.userCreate.lastName)}</span>
                                         </div>
                                         <div className="ui-box-content clearfix">
                                             <div className="user-profile-picture">
-                                                <img src={eventDetail.from.user.profilePictureUrl}/>
+                                                <img src={eventDetail.userCreate && fileUtils.renderFileSource(eventDetail.userCreate.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
                                             </div>
                                             <div className="user-detail">
-                                                <UserProfileInfo user={eventDetail.from.user}/>
+                                                <UserProfileInfo user={eventDetail.userCreate}/>
                                             </div>
                                         </div>
                                     </div>
@@ -56,10 +70,11 @@ class EventDetailPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const eventId = ownProps.match.params.id
-    
+    const eventId = ownProps.match.params.eventId
+    const {eventDetail} = state.events
     return {
-        eventId
+        eventId,
+        eventDetail
     }
 }
 

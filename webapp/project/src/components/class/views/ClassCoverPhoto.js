@@ -16,7 +16,7 @@ class CoverPhotoClass extends Component {
     render() {
         const {profilePictureUrl, classId} = this.props
         return (
-            <div>
+            <div className="has-border-radius">
                 <div className="class-profile-picture">
                     <img src={profilePictureUrl}></img>
                     <div className="cover-profile-picture">

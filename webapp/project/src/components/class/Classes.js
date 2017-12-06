@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import ClassInfo from "../commons/views/ClassInfo";
+import ClassInfo from "../commons/views/ClassProfileInfo";
 import {defaultConstants} from "../../constants/defaultConstant";
 import {fileUtils} from "../../utils/fileUtils";
 import {classConstants} from "../../constants/classConstants";
@@ -47,7 +47,7 @@ class Classes extends Component {
     renderClassDetail = (classDetail, userId, index) => {
         return (
             <div key={index} className="col-sm-6">
-                <div className="class-detail clearfix">
+                <div className="class-detail has-border-radius clearfix">
                     <div className="class-detail-left">
                         <div className="class-profile-picture">
                             {

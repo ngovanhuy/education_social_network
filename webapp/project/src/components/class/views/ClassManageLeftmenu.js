@@ -13,7 +13,7 @@ class ClassManageLeftmenu extends Component {
         const {currentViewLink, classId} = this.props
         return (
             <div>
-                <div className="ui-box class-manage-leftmenu">
+                <div className="ui-box class-manage-leftmenu has-border-radius">
                     <Link to={`/classes/${classId}/mamageClass?currentViewLink=memberRequests`}>
                         <div className={this.renderClassNameCurrentClassManageView("memberRequests", currentViewLink)}>
                             <span>Member Requests</span>

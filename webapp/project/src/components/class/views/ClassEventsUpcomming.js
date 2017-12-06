@@ -14,7 +14,7 @@ class ClassEventsUpcomming extends Component{
     render(){
         const {events, classId} = this.props
         return(
-            <div className="class-events-upcomming clearfix">
+            <div className="class-events-upcomming has-border-radius clearfix">
                 <h3>
                     Events upcomming
                     <Link to={`/classes/${classId}/events`}>

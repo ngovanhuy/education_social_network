@@ -3,14 +3,12 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
 import './event.css'
-import ClassInfo from "../commons/views/ClassInfo";
+import ClassInfo from "../commons/views/ClassProfileInfo";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
+import {dateUtils, fileUtils} from "../../utils";
+import {defaultConstants, eventConstants} from "../../constants";
 
-class TopContent extends Component {
-    static propTypes = {
-        eventDetail: PropTypes.object
-    }
-
+class EventTopContent extends Component {
     render() {
         const {eventDetail} = this.props;
         return (
@@ -19,16 +17,16 @@ class TopContent extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="cover-photo clearfix">
-                                <img src={eventDetail.source}/>
+                                <img src={fileUtils.renderFileSource(eventDetail.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
                             </div>
                         </div>
                     </div>
-                    <div className="event-detail-info clearfix">
+                    <div className="event-detail-info has-border-radius clearfix">
                         <div className="event-detail-info-row row">
                             <div className="col-sm-12">
                                 <div className="event-detail-info-content">
                                     <div className="event-start">
-                                        {eventDetail.start.toLocaleDateString()}
+                                        {/*{dateUtils.convertISOToLocaleString(eventDetail.startTime)}*/}
                                     </div>
                                 </div>
                                 <div className="event-detail-info-content">
@@ -36,19 +34,23 @@ class TopContent extends Component {
                                         {eventDetail.title}
                                     </div>
                                     {
-                                        eventDetail.forClass ?
+                                        eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP ?
                                             (
                                                 <span className="event-for-class">
-                                        Event for <ClassInfo classDetail={eventDetail.forClass}/>
-                                    </span>
+                                                    Event for <ClassInfo classDetail={eventDetail.contextData}/>
+                                                </span>
                                             ) : ''
                                     }
                                     {
-                                        eventDetail.from ?
+                                        (eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP && eventDetail.userCreate) &&
+                                            <span role="presentation" aria-hidden="true"> · </span>
+                                    }
+                                    {
+                                        eventDetail.userCreate ?
                                             (
                                                 <span className="event-from-user">
-                                        Hosted by  <UserProfileInfo user={eventDetail.from.user}/>
-                                    </span>
+                                                    Hosted by  <UserProfileInfo user={eventDetail.userCreate}/>
+                                                </span>
                                             ) : ''
                                     }
                                 </div>
@@ -94,7 +96,11 @@ class TopContent extends Component {
                             <div className="col-sm-12">
                                 <div className="event-detail-extra event-start">
                                     <i className="fa fa-clock-o"></i>
-                                    {eventDetail.start.toLocaleString()}
+                                    {dateUtils.convertISOToLocaleString(eventDetail.startTime)}
+                                    <b>
+                                        <span role="presentation" aria-hidden="true"> - </span>
+                                    </b>
+                                    {dateUtils.convertISOToLocaleString(eventDetail.endTime)}
                                 </div>
                                 <div className="event-detail-extra event-location">
                                     <i className="fa fa-map-marker"></i>
@@ -109,4 +115,4 @@ class TopContent extends Component {
     }
 }
 
-export default TopContent
+export default EventTopContent

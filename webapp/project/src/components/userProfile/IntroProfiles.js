@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
+import {dateUtils} from "../../utils";
 
 // const renderIntro = (intro, index) => {
 //     var iconName = "";
@@ -46,7 +47,7 @@ const IntroProfiles = ({user}) => {
                         renderInfo("Location", user.location)
                     }
                     {
-                        renderInfo("Birthday", user.birthday)
+                        renderInfo("Birthday", dateUtils.convertISOToLocaleString(user.birthday))
                     }
                 </ul>
             </div>

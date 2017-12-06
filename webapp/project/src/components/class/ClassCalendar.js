@@ -8,6 +8,7 @@ import ClassEventsCalendarHeadline from "./views/ClassEventsCalendarHeadline";
 import {history} from "../../helpers/history";
 import {eventActions} from "../../actions";
 import {connect} from "react-redux";
+import {dateUtils} from "../../utils";
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
@@ -39,7 +40,8 @@ class ClassCalendar extends Component {
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {
         this.setState({modalCreateEventIsOpen: false});
         const {user, classDetail} = this.props
-        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location, content, start, end));
+        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
     render() {

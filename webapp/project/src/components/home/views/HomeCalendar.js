@@ -18,7 +18,7 @@ class HomeCalendar extends Component {
 
         return (
             <div className="home-calendar">
-                <div className="ui-box">
+                <div className="ui-box has-border-radius">
                     <div className="ui-box-title">
                         <span>Calendar</span>
                         <Link to={`/events/calendar`} className="pull-right">See all</Link>

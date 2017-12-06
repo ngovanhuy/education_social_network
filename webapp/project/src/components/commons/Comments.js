@@ -21,11 +21,14 @@ class Comments extends Component {
         return(
             <div>
                 <div className="comments">
-                    <div>
-                        <a href="javascript:;" onClick={() => this.loadAllComments(post.id)}>
-                            View all comments
-                        </a>
-                    </div>
+                    {
+                        post.countComments > 0 &&
+                        <div>
+                            <a href="javascript:;" onClick={() => this.loadAllComments(post.id)}>
+                                View all comments
+                            </a>
+                        </div>
+                    }
                     {
                         comments && comments.length > 0 &&
                         comments.map((comment, index) =>

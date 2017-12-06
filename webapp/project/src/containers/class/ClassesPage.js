@@ -82,7 +82,7 @@ class ClassesPage extends Component {
                         <div className="row">
                             <div className="col-sm-12">
                                 <div className="col-sm-12">
-                                    <div className="classes-header clearfix">
+                                    <div className="classes-header has-border-radius clearfix">
                                         <span className="current">Classes</span>
                                         {
                                             isTeacher &&

@@ -57,7 +57,7 @@ class ClassManageChangeDetail extends Component {
     render() {
         const {name, about, location, submitted} = this.state;
         return (
-            <div className="ui-box">
+            <div className="ui-box has-border-radius">
                 <div className="ui-box-title">
                     <span>Class Info</span>
                 </div>

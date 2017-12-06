@@ -23,6 +23,7 @@ import {PrivateRoute} from "../components/commons/PrivateRoute";
 import {history} from "../helpers/history";
 import LogoutPage from "./authen/LogoutPage";
 import ClassManagePage from "./class/ClassManagePage";
+import ClassTopicPage from "./class/ClassTopicPage";
 
 const Root = ({store}) => (
     <Provider store={store}>
@@ -39,6 +40,7 @@ const Root = ({store}) => (
                         <PrivateRoute exact path="/users/:userId" component={UserProfilePage}/>
                         <PrivateRoute exact path="/classes" component={ClassesPage}/>
                         <PrivateRoute exact path="/classes/:classId" component={ClassTimelinePage}/>
+                        <PrivateRoute exact path="/classes/:classId/topics/:topicName" component={ClassTopicPage}/>
                         <PrivateRoute exact path="/classes/:classId/files" component={ClassFilePage}/>
                         <PrivateRoute exact path="/classes/:classId/calendar" component={ClassCalendarPage}/>
                         <PrivateRoute exact path="/classes/:classId/events" component={ClassEventPage}/>

@@ -1,7 +1,8 @@
 import {userConstants} from "../constants/userConstants";
 
 export const userUtils = {
-    checkIsTeacher
+    checkIsTeacher,
+    renderFullName,
 }
 
 function checkIsTeacher(user) {
@@ -9,4 +10,8 @@ function checkIsTeacher(user) {
         return true;
     }
     return false;
+}
+
+function renderFullName(firstName, lastName) {
+    return firstName + " " + lastName;
 }

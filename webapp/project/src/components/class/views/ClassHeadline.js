@@ -8,7 +8,7 @@ class ClassHeadline extends Component {
         const {user, classDetail, classId, currentPage} = this.props
         const isTeacher = userUtils.checkIsTeacher(user)
         return (
-            <div className="class-headline">
+            <div className="class-headline has-border-radius">
                 <h1>{classDetail.name}</h1>
                 {/*<form>*/}
                 {/*<div className="navbar-search">*/}

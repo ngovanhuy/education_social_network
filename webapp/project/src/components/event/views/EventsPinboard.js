@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import EventInfo from "../../commons/views/EventInfo";
+import EventInfo from "../../commons/views/EventProfileInfo";
 import '../event.css'
+import {dateUtils, fileUtils} from "../../../utils";
+import {defaultConstants} from "../../../constants";
 
 class EventsPinboard extends Component {
 
@@ -9,19 +11,24 @@ class EventsPinboard extends Component {
             <div key={index} className="col-sm-3">
                 <div className="event-pinboard clearfix">
                     <div className="event-photo">
-                        <img src={event.source}/>
+                        <img
+                            src={fileUtils.renderFileSource(event.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
                     </div>
                     <div className="event-detail">
                         <div className="event-name">
                             <EventInfo event={event}/>
                         </div>
-                        <div className="event-create-time">
-                            <i className="fa fa-calendar"></i>
-                            <b>{event.start}</b>
-                        </div>
                         <div className="event-location">
                             <i className="fa fa-map-marker"></i>
                             {event.location}
+                        </div>
+                        <div className="event-start">
+                            <i className="fa fa-calendar"></i>
+                            <b>
+                                {dateUtils.convertISOToLocaleString(event.startTime)}
+                                <span role="presentation" aria-hidden="true"> - </span>
+                                {dateUtils.convertISOToLocaleString(event.endTime)}
+                            </b>
                         </div>
                     </div>
                     <div className="action-with-event dropdown">

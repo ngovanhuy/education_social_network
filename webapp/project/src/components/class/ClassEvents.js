@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import EventInfo from "../commons/views/EventInfo";
+import EventInfo from "../commons/views/EventProfileInfo";
 import CreateEventModal from "../event/views/CreateEventModal";
 import EventsAgenda from "../event/views/EventsAgenda";
 import ClassEventsCalendarHeadline from "./views/ClassEventsCalendarHeadline";

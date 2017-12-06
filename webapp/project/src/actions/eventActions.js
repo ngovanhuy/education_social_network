@@ -7,6 +7,7 @@ export const eventActions = {
     getEventsByUserId,
     getEventsByClassId,
     getEventsNotBelongClass,
+    getEventsUpcomming,
     filter,
     getById,
     insert,
@@ -106,6 +107,54 @@ function getEventsNotBelongClass() {
 
     function failure(error) {
         return {type: eventConstants.EVENTS_GETNOTBELONGCLASS_FAILURE, error}
+    }
+}
+
+function getEventsUpcomming() {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.getEventsUpcomming()
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_FAILURE, error}
+    }
+}
+
+function getEventsUpcommingOfClass(classId) {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.getEventsUpcommingOfClass(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_FAILURE, error}
     }
 }
 

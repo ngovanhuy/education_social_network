@@ -9,6 +9,8 @@ import HomeRightmenu from "../../components/home/HomeRightmenu";
 import {classActions} from "../../actions/classActions";
 import {userActions} from "../../actions/userActions";
 import {eventActions, postActions} from "../../actions";
+import {eventUtils} from "../../utils";
+import {postConstants} from "../../constants";
 
 class HomePage extends Component {
     static defaultProps = {
@@ -71,12 +73,15 @@ class HomePage extends Component {
     }
 
     render() {
-        const {schoolDetail, user, classUserJoined, eventsByUser, notifcationsLatest} = this.props
+        const {schoolDetail, user, classUserJoined, notifcationsLatest} = this.props
         var {posts} = this.props
         posts = posts ? posts : []
         posts = posts.sort(function(a,b){
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
+
+        var {eventsByUser} = this.props
+        var eventsByUserAfterUpdateInfo = eventUtils.updateInfoEvents(eventsByUser)
         return (
             <div>
                 <div className="container">
@@ -95,11 +100,12 @@ class HomePage extends Component {
                             <div className="row">
                                 <div className="col-sm-8">
                                     <div className="home-feed">
-                                        <Feed feed={posts} user={user}/>
+                                        <Feed feed={posts} user={user}
+                                              context={postConstants.CONTEXT_VIEW.IN_HOME_PAGE}/>
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <HomeRightmenu events={eventsByUser} notifcationsLatest={notifcationsLatest}
+                                    <HomeRightmenu events={eventsByUserAfterUpdateInfo} notifcationsLatest={notifcationsLatest}
                                                    schoolDetail={schoolDetail}/>
                                 </div>
                             </div>

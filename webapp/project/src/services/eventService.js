@@ -1,12 +1,14 @@
 import {authHeader} from '../helpers';
 import {DOMAIN_SERVICE, eventConstants} from '../constants'
 import axios from 'axios';
+import {dateUtils} from "../utils";
 
 export const eventService = {
     getAll,
     getEventsByUserId,
     getEventsByClassId,
     getEventsNotBelongClass,
+    getEventsUpcomming,
     filter,
     getById,
     insert,
@@ -50,12 +52,32 @@ function getEventsNotBelongClass() {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
+function getEventsUpcomming() {
+    const dateNow = new Date().setHours(0,0,0,0)
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/events/filter?startTime='+dateUtils.convertDateTimeToISO(dateNow);
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
+function getEventsUpcommingOfClass(classId) {
+    const dateNow = new Date().setHours(0,0,0,0)
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/events/filter?groupID='+classId+'&startTime='+dateUtils.convertDateTimeToISO(dateNow);
+    return fetch(url, requestOptions).then(handleResponse);
+}
+
 function filter(textSearch, userId, classId, startDate, endDate) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader(),
     };
-    const url = DOMAIN_SERVICE + '/groups/filter?' + `title=${textSearch}&userID=${userId}&groupID=${classId}&startDate=${startDate}&endDate=${endDate}&`;
+    const url = DOMAIN_SERVICE + '/events/filter?' + `title=${textSearch}&userID=${userId}&groupID=${classId}&startTime=${startDate}&endTime=${endDate}&`;
     return fetch(url, requestOptions).then(handleResponse);
 }
 

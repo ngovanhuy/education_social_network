@@ -2,16 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
-const ClassInfo = ({classDetail}) => {
+const ClassProfileInfo = ({classDetail}) => {
     const {id, name, profilePictureUrl} = classDetail
 
     return(
-        <div>
-            <Link to={`/classes/${id}`} className="black-none-under">
+        <span className="class-profile-info">
+            <Link to={`/classes/${id}`}>
                 <span className="class-full-name">{name}</span>
             </Link>
-        </div>
+        </span>
     )
 }
 
-export default ClassInfo
+export default ClassProfileInfo

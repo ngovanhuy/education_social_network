@@ -12,7 +12,7 @@ class UserAbout extends Component {
             id: '',
             firstName: '',
             lastName: '',
-            birthday: '',
+            birthday: {},
             phone: '',
             about: '',
             quote: '',
@@ -25,30 +25,36 @@ class UserAbout extends Component {
     }
 
     componentWillMount() {
-        this.setState({
-            id: this.props.user.id,
-            firstName: this.props.user.firstName,
-            lastName: this.props.user.lastName,
-            birthday: this.props.user.birthday,
-            phone: this.props.user.phone,
-            quote: this.props.user.quote,
-            about: this.props.user.about,
-            location: this.props.user.location,
-        });
+        const {user} = this.props
+        if(user){
+            this.setState({
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                birthday: user.birthday,
+                phone: user.phone,
+                quote: user.quote,
+                about: user.about,
+                location: user.location,
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user !== this.props.user) {
-            this.setState({
-                id: this.props.user.id,
-                firstName: this.props.user.firstName,
-                lastName: this.props.user.lastName,
-                birthday: this.props.user.birthday,
-                phone: this.props.user.phone,
-                quote: this.props.user.quote,
-                about: this.props.user.about,
-                location: this.props.user.location
-            });
+            const {user} = nextProps
+            if(user){
+                this.setState({
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    birthday: user.birthday,
+                    phone: user.phone,
+                    quote: user.quote,
+                    about: user.about,
+                    location: user.location
+                });
+            }
         }
     }
 
@@ -67,7 +73,7 @@ class UserAbout extends Component {
 
     render() {
         return (
-            <div className="ui-box">
+            <div className="ui-box has-border-radius">
                 <div className="ui-box-title">
                     <span>Edit About</span>
                 </div>
@@ -96,7 +102,6 @@ class UserAbout extends Component {
                                 <div className="form-group">
                                     <label htmlFor="birthday">Birthday</label>
                                     <Datetime timeFormat={false} inputFormat="DD/MM/YYYY"
-                                              defaultValue={new Date(this.state.birthday)}
                                               onChange={(data) => this.setState({birthday: Datetime.moment(data).format("YYYY-MM-DD HH:MM:SS")})}/>
                                 </div>
                             </div>

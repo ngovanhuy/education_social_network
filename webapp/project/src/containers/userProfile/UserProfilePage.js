@@ -7,6 +7,7 @@ import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/commons/Feed";
 import {postActions, userActions} from "../../actions";
 import {userService} from "../../services";
+import {postConstants} from "../../constants";
 
 class UserProfilePage extends Component {
     componentWillMount() {
@@ -68,7 +69,8 @@ class UserProfilePage extends Component {
                             </div>
                             <div className="col-sm-8">
                                 <div className="user-profile-feed">
-                                    <Feed feed={posts} user={user}/>
+                                    <Feed feed={posts} user={user}
+                                          context={postConstants.CONTEXT_VIEW.IN_USER_PAGE}/>
                                 </div>
                             </div>
                         </div>

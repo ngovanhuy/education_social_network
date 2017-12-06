@@ -1,6 +1,6 @@
 import {classConstants, eventConstants} from '../constants';
 
-export function events(state = {loading: false, items: [], eventsByUser: [], eventsByClass: [], eventsNotBelongClass: [],  eventDetail: {}}, action) {
+export function events(state = {loading: false, filters:{}, items: [], eventsUpcomming: [], eventsByUser: [], eventsByClass: [], eventsNotBelongClass: [],  eventDetail: {}}, action) {
     switch (action.type) {
         case eventConstants.EVENTS_GETALL_REQUEST:
             return {
@@ -70,11 +70,28 @@ export function events(state = {loading: false, items: [], eventsByUser: [], eve
                 loading: false,
                 error: action.error
             };
+        case eventConstants.EVENTS_GETUPCOMMING_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case eventConstants.EVENTS_GETUPCOMMING_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                eventsUpcomming: action.events
+            };
+        case eventConstants.EVENTS_GETUPCOMMING_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
         case eventConstants.EVENTS_FILTER_REQUEST:
             return {
                 ...state,
                 loading: true,
-                filters: action.filters
+                // filters: action.filters
             };
         case eventConstants.EVENTS_FILTER_SUCCESS:
             return {

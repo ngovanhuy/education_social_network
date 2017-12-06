@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import EventInfo from "../../commons/views/EventInfo";
+import EventInfo from "../../commons/views/EventProfileInfo";
 import '../event.css'
+import {dateUtils, fileUtils} from "../../../utils";
+import {defaultConstants} from "../../../constants";
 
 class EventsAgenda extends Component{
 
@@ -8,17 +10,23 @@ class EventsAgenda extends Component{
         return (
             <div key={index} className="col-sm-12">
                 <div className="event-agenda clearfix">
-                    <div className="event-create-time">
-                        <b>{event.start}</b>
+                    <div className="event-photo">
+                        <img src={fileUtils.renderFileSource(event.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
                     </div>
                     <div className="event-detail">
                         <div className="event-name">
                             <EventInfo event={event}/>
                         </div>
                         <div className="event-location">
-                            {event.start}
-                            <span role="presentation" aria-hidden="true"> · </span>
                             {event.location}
+                        </div>
+                        <div className="event-start">
+                            {dateUtils.convertISOToLocaleString(event.startTime)}
+                            <b>
+                                <span role="presentation" aria-hidden="true"> - </span>
+                            </b>
+                            {dateUtils.convertISOToLocaleString(event.endTime)}
+                            <span role="presentation" aria-hidden="true"> · </span>
                         </div>
                         <div className="action-with-event dropdown">
                             <button type="button" data-toggle="dropdown" className="btn btn-white dropdown-toggle">

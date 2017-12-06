@@ -36,12 +36,13 @@
       padding-right: 5px; }
 
 .class-headline {
-  padding: 10px;
+  padding: 5px;
   background-color: #fff;
   margin-top: 20px; }
   .class-headline h1 {
     font-size: 20px;
-    word-break: break-all; }
+    word-break: break-all;
+    margin-left: 10px; }
   .class-headline .navbar-search {
     margin: 10px 0; }
     .class-headline .navbar-search .form-control {
@@ -56,19 +57,25 @@
     height: 28px;
     line-height: 28px;
     position: relative;
-    z-index: 0; }
+    z-index: 0;
+    padding: 0 10px; }
     .class-headline .class-headline-content:hover {
       background-color: #e6ecf0; }
   .class-headline .class-headline-content.current {
     background-color: #e6ecf0; }
 
 .class-topics {
-  padding: 10px;
+  padding: 5px;
   background-color: #fff;
   margin-top: 20px; }
   .class-topics h3 {
-    font-size: 16px; }
-  .class-topics .topic:hover {
+    font-size: 16px;
+    margin-left: 10px; }
+  .class-topics .topic {
+    padding: 0 10px; }
+    .class-topics .topic:hover {
+      background-color: #e6ecf0; }
+  .class-topics .topic.current {
     background-color: #e6ecf0; }
   .class-topics .topic-full-name {
     max-width: 120px;

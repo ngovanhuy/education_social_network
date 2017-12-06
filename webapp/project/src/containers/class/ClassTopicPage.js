@@ -10,52 +10,42 @@ import Feed from "../../components/commons/Feed";
 import {classActions, postActions} from "../../actions";
 import {userUtils} from "../../utils";
 import queryString from "query-string"
+import {postConstants} from "../../constants";
 
-class ClassTimelinePage extends Component {
+class ClassTopicPage extends Component {
     constructor(props) {
         super(props)
     }
 
     componentWillMount() {
-        const {classId, user} = this.props;
+        const {classId, topicName} = this.props;
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
-        this.props.dispatch(classActions.getFiles(classId));
-        // this.props.dispatch(classActions.getEvents(classId));
-        if (user) {
-            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, user.id));
-        }
+        this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.classId !== this.props.classId) {
-            const {classId, user} = nextProps;
+        if (nextProps.classId !== this.props.classId ||
+            nextProps.topicName !== this.props.topicName) {
+            const {classId, topicName} = nextProps;
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getTopics(classId));
-            this.props.dispatch(classActions.getFiles(classId));
-            if (user) {
-                this.props.dispatch(postActions.getPostsByClassIdUserId(classId, user.id));
-            }
+            this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
         }
     }
 
     render() {
-        const {classDetail, classId, user} = this.props
+        const {classDetail, classId, user, topicName} = this.props
         const topics = classDetail.topics
-        const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
         const isTeacher = userUtils.checkIsTeacher(user)
 
-        var posts = []
-        posts = (classDetail && classDetail.postsByUser) ? classDetail.postsByUser : []
+        var posts = (classDetail && classDetail.postsByTopic) ? classDetail.postsByTopic : []
         posts = posts.sort(function (a, b) {
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
 
         var eventsUpcomming = []
         eventsUpcomming = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser.slice(0, 3) : []
-
-        var topicName = ""
-
         return (
             <div>
                 <div className="container">
@@ -63,7 +53,7 @@ class ClassTimelinePage extends Component {
                         <div className="row">
                             <ClassLeftmenu classDetail={classDetail} topics={topics}
                                            classId={classId} currentPage="discussion"
-                                            currentTopic={topicName}/>
+                                           currentTopic={topicName}/>
                         </div>
                     </div>
                     <div className="col-sm-7 class-main-content">
@@ -72,14 +62,8 @@ class ClassTimelinePage extends Component {
                         </div>
                         <div className="row">
                             <div className="class-feed">
-                                <Feed feed={posts} user={user}/>
+                                <Feed feed={posts} user={user} context={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
                             </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-3">
-                        <div className="row">
-                            <ClassRightMenu classDetail={classDetail} events={eventsUpcomming}
-                                            recentFiles={recentFiles}/>
                         </div>
                     </div>
                 </div>
@@ -90,13 +74,15 @@ class ClassTimelinePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
+    const topicName = ownProps.match.params.topicName
     const {classDetail} = state.classes
     const {user} = state.authentication
     return {
         classId,
+        topicName,
         classDetail,
         user
     }
 }
 
-export default withRouter(connect(mapStateToProps, null)(ClassTimelinePage));
+export default withRouter(connect(mapStateToProps, null)(ClassTopicPage));

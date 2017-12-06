@@ -38,7 +38,7 @@ function getPostsByTopicName(classId, topicName) {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/groups/post/' + classId + "?topicname=" + topicName;
+    const url = DOMAIN_SERVICE + '/groups/topic/' + classId + "?topicname=" + topicName;
     return fetch(url, requestOptions).then(handleResponse);
 }
 

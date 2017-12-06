@@ -2,16 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
-const EventInfo = ({event}) => {
+const EventProfileInfo = ({event}) => {
     const {id, title, coverPhotoUrl, start, location} = event
 
     return(
-        <div>
+        <span className="event-profile-info">
             <Link to={`/events/${id}`} className="black-none-under">
                 <span className="event-name">{title}</span>
             </Link>
-        </div>
+        </span>
     )
 }
 
-export default EventInfo
+export default EventProfileInfo
