@@ -49,6 +49,7 @@ router.route('/files/:userID')
     .get(userController.checkUserRequest, userController.getFiles, fileController.getInfoFiles)
     .post(fileController.arrayFileUpload, userController.checkUserRequest, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(userController.searchUserByName);
+router.route('/all').get(userController.getUsers);
 router.route('/:userID')
     .get(userController.checkUserRequest, userController.getUser)
     .put(userController.checkUserRequest, userController.putUser, userController.getUser)
