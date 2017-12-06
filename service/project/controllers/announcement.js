@@ -109,7 +109,14 @@ async function addAnnouncement(req, res, next) {
         let user = req.users.user_request;
         let title = req.body.title;
         let content = req.body.content;
-
+        if (!user.isTeacher()) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                data: null,
+                error: 'Only teacher can create/modify/delete announcement.'
+            });
+        }
         if (!title || !content) {
             return res.status(400).send({
                 code: 400,
@@ -145,6 +152,15 @@ async function addAnnouncement(req, res, next) {
 }
 async function removeAnnouncement(req, res, next) {
     try {
+        let user = req.users.user_request;
+        if (!user.isTeacher()) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                data: null,
+                error: 'Only teacher can create/modify/delete announcement.'
+            });
+        }
         let announcement = await findAnnouncement(req);
         req.announcements.announcement_requested = announcement;
         if (!announcement) {
@@ -177,6 +193,15 @@ async function removeAnnouncement(req, res, next) {
 }
 async function updateAnnouncement(req, res, next) {
     try {
+        let user = req.users.user_request;
+        if (!user.isTeacher()) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                data: null,
+                error: 'Only teacher can create/modify/delete announcement.'
+            });
+        }
         let announcement = req.announcements.announcement_requested;
         let title = req.body.title;
         let content = req.body.content;

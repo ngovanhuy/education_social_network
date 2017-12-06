@@ -11,7 +11,7 @@ router.route('/')
 router.route('/filter').get(AnnouncementController.getAnnouncements, AnnouncementController.getAnnouncementsInfo);
 router.route('/:announcementID')
     .get(AnnouncementController.checkAnnouncementRequest, AnnouncementController.getAnnouncementInfo)
-    .put(AnnouncementController.checkAnnouncementRequest, AnnouncementController.updateAnnouncement, AnnouncementController.getAnnouncementInfo)
-    .delete(AnnouncementController.checkAnnouncementRequest, AnnouncementController.removeAnnouncement, AnnouncementController.getAnnouncementInfo);
+    .put(UserController.checkUserRequest, AnnouncementController.checkAnnouncementRequest, AnnouncementController.updateAnnouncement, AnnouncementController.getAnnouncementInfo)
+    .delete(UserController.checkUserRequest, AnnouncementController.removeAnnouncement, AnnouncementController.getAnnouncementInfo);
 
 module.exports = router;
