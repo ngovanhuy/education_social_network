@@ -6,6 +6,12 @@ let ContextEnum = {
     10: 'Group',
     100: 'System',
 };
+let RecurrentEnum = {
+    1: 'Daily',
+    2: 'Weekly',
+    3: 'Monthly',
+    4: 'Custom',
+};
 let EventSchema = new mongoose.Schema({
     _id: { type: Number, default: getNewID()},
     // index: {type: Number},
