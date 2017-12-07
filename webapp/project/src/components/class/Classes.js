@@ -8,8 +8,28 @@ import {userService} from "../../services/userService";
 import {connect} from 'react-redux'
 import {userActions} from "../../actions/userActions";
 import {classActions} from "../../actions/classActions";
+import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
+import {classService} from "../../services";
+import {history} from "../../helpers/history";
 
 class Classes extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            modalLeaveClassWarningIsOpen: false,
+        }
+        this.openModalLeaveClass = this.openModalLeaveClass.bind(this);
+        this.closeModalLeaveClass = this.closeModalLeaveClass.bind(this);
+    }
+
+    openModalLeaveClass() {
+        this.setState({modalLeaveClassWarningIsOpen: true});
+    }
+
+    closeModalLeaveClass() {
+        this.setState({modalLeaveClassWarningIsOpen: false});
+    }
+
     renderButtonOfUserWithClass(classDetail, userId) {
         if (classDetail.statusOfCurrentUser == classConstants.STATUS_OF_USER_IN_CLASS.NOT_RELATE) {
             return (
@@ -34,10 +54,14 @@ class Classes extends Component {
         } else if (classDetail.statusOfCurrentUser == classConstants.STATUS_OF_USER_IN_CLASS.JOINED) {
             return (
                 <div className="button-cancel-request">
-                    <a className="btn btn-white" onClick={() => this.handleLeaveClass(userId, classDetail.id)}>
+                    <a className="btn btn-white" onClick={this.openModalLeaveClass}>
                         <i className="fa fa-times"></i>
-                        Leave class
+                        Leave Class
                     </a>
+                    <LeaveClassWarningModal modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
+                                            closeModal={this.closeModalLeaveClass}
+                                            onSubmit={this.handleLeaveClass}
+                                            classDetail={classDetail} userId={userId}/>
                 </div>
             )
         }
@@ -88,27 +112,25 @@ class Classes extends Component {
     }
 
     handleCreateRequestJoinClass = (userId, classId) => {
-        userService.createRequestJoinClass(userId, classId)
-            .then(
-                this.props.dispatch(userActions.getClassRequest(userId)),
-                this.props.dispatch(classActions.getRequests(classId))
-            )
+        this.props.dispatch(userActions.createClassRequest(userId, classId))
+        // this.props.dispatch(userActions.getClassRequest(userId))
+        // this.props.dispatch(classActions.getRequests(classId))
     }
 
     handleDeleteRequestJoinClass = (userId, classId) => {
-        userService.deleteRequestJoinClass(userId, classId)
-            .then(
-                this.props.dispatch(userActions.getClassRequest(userId)),
-                this.props.dispatch(classActions.getRequests(classId))
-            )
+        this.props.dispatch(userActions.deleteClassRequest(userId, classId))
+        // this.props.dispatch(userActions.getClassRequest(userId))
+        // this.props.dispatch(classActions.getRequests(classId))
     }
 
-    handleLeaveClass = (userId, classId) => {
-        userService.leaveClass(userId, classId)
-            .then(
-                this.props.dispatch(userActions.getClassJoined(userId)),
-                this.props.dispatch(classActions.getMembers(classId))
-            )
+    handleLeaveClass = (userId, classDetail) => {
+        this.props.dispatch(classActions.deleteMember(classDetail.id, userId))
+        this.props.dispatch(userActions.getClassJoined(userId))
+        if (classDetail.memberCount > 1) {
+            this.props.dispatch(classActions.getMembers(classDetail.id))
+        } else {
+            this.props.dispatch(classActions.deleteClass(classDetail.id, userId))
+        }
     }
 
     render() {

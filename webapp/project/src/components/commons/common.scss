@@ -73,6 +73,7 @@ ul.nav {
       height: 50px;
       float: left;
       margin-right: 10px;
+      border: 1px rgba(0, 0, 0, 0.3);
     }
     .post-context-content {
       float: left;
@@ -442,7 +443,7 @@ ul.nav {
   .modal-bottom{
     padding-top: 15px;
     border-top: .1rem solid rgba(0, 0, 0, 0.12);
-    button{
+    .btn{
       &:first-of-type{
         margin-right: 15px;
       }
@@ -454,11 +455,22 @@ ul.nav {
   margin-top: 20px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
   .ui-box-title{
     font-weight: bold;
     padding-bottom: 10px;
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     padding: 10px;
+    .warning-icon{
+      width: 16px;
+      height: 16px;
+      background-position: -17px -72px;
+      background-image: url('/images/icons-3.png');
+      background-size: auto;
+      background-repeat: no-repeat;
+      display: inline-block;
+      margin-right: 10px;
+    }
   }
   .ui-box-content{
     padding: 10px;

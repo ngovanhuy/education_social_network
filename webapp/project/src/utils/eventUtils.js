@@ -12,9 +12,10 @@ function updateInfoEvents(events) {
 function _updateInfoEvent(event) {
     var eventAfterUpdate = {
         ...event,
+        // title: event.title,
         allDay: event.isAllDay,
-        start: event.startTime,
-        end: event.startTime,
+        start: new Date(event.startTime),
+        end: new Date(event.startTime)
     };
     return eventAfterUpdate;
 }

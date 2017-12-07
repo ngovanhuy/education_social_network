@@ -9,6 +9,7 @@ export const eventService = {
     getEventsByClassId,
     getEventsNotBelongClass,
     getEventsUpcomming,
+    getEventsUpcommingOfClass,
     filter,
     getById,
     insert,

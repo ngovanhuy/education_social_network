@@ -22,7 +22,7 @@ class ClassRightMenu extends Component{
                             {
                                 isTeacher &&
                                 (
-                                    <AddMember memberCount={classDetail.memberCount} classId={classDetail.id}/>
+                                    <AddMember classDetail={classDetail}/>
                                 )
                             }
                             <div className="description">

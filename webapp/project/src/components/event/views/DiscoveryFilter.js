@@ -10,7 +10,7 @@ import {classConstants} from "../../../constants";
 import {dateUtils} from "../../../utils";
 
 const fillUsersInfoForSelectTag = (users) => {
-    if(!users || users.length <= 0){
+    if (!users || users.length <= 0) {
         return []
     }
     const newUsers = users.slice()
@@ -26,7 +26,7 @@ const fillUsersInfoForSelectTag = (users) => {
 }
 
 const fillClassesInfoForSelectTag = (classes) => {
-    if(!classes || classes.length <= 0){
+    if (!classes || classes.length <= 0) {
         return []
     }
     const newClasses = classes.slice()
@@ -65,7 +65,8 @@ class DiscoveryFilter extends Component {
 
     componentWillMount() {
         const {textSearch, classSelected, userSelected, startDate, endDate} = this.state
-        this.props.dispatch(eventActions.filter(textSearch, userSelected, classSelected, startDate, endDate))
+        this.props.dispatch(eventActions.filter(textSearch, userSelected, classSelected,
+            dateUtils.convertDateTimeToISO(startDate), dateUtils.convertDateTimeToISO(endDate)))
         this.props.dispatch(classActions.getAll())
         this.props.dispatch(userActions.getAll())
     }
@@ -99,10 +100,13 @@ class DiscoveryFilter extends Component {
         })
     }
 
-    handleReset = ()=>{
+    handleReset = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
         this.setState({
             textSearch: '',
-            showFilterContent: false,
+            // showFilterContent: false,
             classSelected: '',
             userSelected: '',
             startDate: null,
@@ -111,7 +115,7 @@ class DiscoveryFilter extends Component {
         })
     }
 
-    handleSearch = (e)=>{
+    handleSearch = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -120,10 +124,10 @@ class DiscoveryFilter extends Component {
         })
 
         var {textSearch, classSelected, userSelected, startDate, endDate} = this.state
-        if(classSelected === "all_class"){
+        if (classSelected === "all_class") {
             classSelected = ''
         }
-        if(userSelected === "all_user"){
+        if (userSelected === "all_user") {
             userSelected = ''
         }
         this.props.dispatch(eventActions.filter(textSearch, userSelected, classSelected,
@@ -143,7 +147,8 @@ class DiscoveryFilter extends Component {
                             <span className="input-group-addon">
                                 <i className="fa fa-search"></i>
                             </span>
-                            <input type="text" className="form-control" value={textSearch} name="textSearch" onChange={this.handleChange}/>
+                            <input type="text" className="form-control" value={textSearch} name="textSearch"
+                                   onChange={this.handleChange}/>
                             <div className="input-group-btn">
                                 <a className="show-filter-content-button btn btn-white" href="javascript:;"
                                    onClick={this.showFilterContent}>
@@ -154,8 +159,8 @@ class DiscoveryFilter extends Component {
                     </div>
                     <div className={'discovery-filter-content' + (!showFilterContent ? ' hide-filter-content ' : '')}>
                         <div className="clearfix form-group filter-content-detail">
-                            <label className="col-sm-2 control-label">Search in Class</label>
-                            <div className="col-sm-5">
+                            <label className="col-sm-4 control-label">Search in Class</label>
+                            <div className="col-sm-8">
                                 <Select
                                     name="classes"
                                     value={classSelected}
@@ -165,8 +170,8 @@ class DiscoveryFilter extends Component {
                             </div>
                         </div>
                         <div className="clearfix form-group filter-content-detail">
-                            <label className="col-sm-2 control-label">Search of User</label>
-                            <div className="col-sm-5">
+                            <label className="col-sm-4 control-label">Search of User</label>
+                            <div className="col-sm-8">
                                 <Select
                                     name="users"
                                     value={userSelected}
@@ -176,8 +181,8 @@ class DiscoveryFilter extends Component {
                             </div>
                         </div>
                         <div className="clearfix form-group filter-content-detail">
-                            <label className="col-sm-2 control-label">Date</label>
-                            <div className='col-sm-5'>
+                            <label className="col-sm-4 control-label">Date</label>
+                            <div className='col-sm-8'>
                                 <DateRangePicker
                                     startDate={startDate}
                                     endDate={endDate}
@@ -191,11 +196,9 @@ class DiscoveryFilter extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="form-bottom">
-                            <div className="btn-group pull-right">
-                                <button className="btn btn-white" onClick={this.handleReset}>Reset</button>
-                                <button className="btn btn-primary" onClick={this.handleSearch}>Search</button>
-                            </div>
+                        <div className="form-bottom pull-right clearfix">
+                            <button className="btn btn-white" onClick={this.handleReset}>Reset</button>
+                            <button className="btn btn-primary" onClick={this.handleSearch}>Search</button>
                         </div>
                     </div>
                 </form>

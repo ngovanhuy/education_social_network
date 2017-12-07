@@ -119,9 +119,10 @@ class HomePage extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user, classUserJoined, posts} = state.authentication;
+    const {user, classUserJoined, posts, loggedIn} = state.authentication;
     const {eventsByUser} = state.events
     return {
+        loggedIn,
         user,
         classUserJoined,
         posts,

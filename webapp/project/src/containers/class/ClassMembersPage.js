@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import {Redirect} from 'react-router'
 import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import ClassMembers from "../../components/class/ClassMembers";
@@ -15,6 +16,10 @@ import {history} from "../../helpers/history";
 class ClassMembersPage extends Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            fireRedirect: false
+        }
         this.handleDeleteMember = this.handleDeleteMember.bind(this);
     }
 
@@ -34,12 +39,22 @@ class ClassMembersPage extends Component {
         }
     }
 
-    handleDeleteMember(classId, memberId){
-        classService.deleteMember(classId, memberId)
-            .then(
-                this.props.dispatch(classActions.getById(classId)),
-                this.props.dispatch(classActions.getMembers(classId))
-            )
+    handleDeleteMember(classDetail, memberId) {
+        const {user} = this.props
+        var linkRedirect = '/classes'
+        if (classDetail.memberCount == 1 || memberId == user.id) {
+            this.setState({
+                fireRedirect: true,
+                linkRedirect: linkRedirect
+            })
+        }
+        this.props.dispatch(classActions.deleteMember(classDetail.id, memberId))
+        this.props.dispatch(classActions.getById(classDetail.id))
+        if (classDetail.memberCount > 1) {
+            this.props.dispatch(classActions.getMembers(classDetail.id))
+        } else {
+            this.props.dispatch(classActions.deleteClass(classDetail.id, user.id))
+        }
     }
 
     render() {
@@ -67,7 +82,8 @@ class ClassMembersPage extends Component {
                         <div className="row">
                             <div className="col-sm-9">
                                 <div className="row">
-                                    <ClassMembers members={teachers} classId={classId} classMemberTitle="Teachers"
+                                    <ClassMembers members={teachers} classDetail={classDetail} user={user}
+                                                  classMemberTitle="Teachers"
                                                   isTeacher={isTeacher} onDeleteMember={this.handleDeleteMember}/>
                                 </div>
                             </div>
@@ -85,9 +101,13 @@ class ClassMembersPage extends Component {
                             }
                         </div>
                         <div className="row">
-                            <ClassMembers members={members} classId={classId} classMemberTitle="Members"
+                            <ClassMembers members={members} classDetail={classDetail} user={user}
+                                          classMemberTitle="Members"
                                           isTeacher={isTeacher} onDeleteMember={this.handleDeleteMember}/>
                         </div>
+                        {this.state.fireRedirect && (
+                            <Redirect to={this.state.linkRedirect}/>
+                        )}
                     </div>
                 </div>
             </div>

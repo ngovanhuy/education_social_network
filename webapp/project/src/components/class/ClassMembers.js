@@ -8,14 +8,32 @@ import ClassMembersHeadline from "./views/ClassMembersHeadline";
 import {defaultConstants} from "../../constants/defaultConstant";
 import {fileUtils} from "../../utils/fileUtils";
 import {userUtils} from "../../utils";
+import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
 
 class ClassMembers extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            modalLeaveClassWarningIsOpen: false,
+        }
+        this.openModalLeaveClass = this.openModalLeaveClass.bind(this);
+        this.closeModalLeaveClass = this.closeModalLeaveClass.bind(this);
         this.renderMember = this.renderMember.bind(this);
     }
 
-    renderMember = (member, index, isTeacher) => {
+    openModalLeaveClass() {
+        this.setState({modalLeaveClassWarningIsOpen: true});
+    }
+
+    closeModalLeaveClass() {
+        this.setState({modalLeaveClassWarningIsOpen: false});
+    }
+
+    renderMember = (member, index, isTeacher, classDetail, user) => {
+        var userFullNameLeave = userUtils.renderFullName(member.firstName, member.lastName);
+        if (member.id == user.id) {
+            userFullNameLeave = ""
+        }
         return (
             <div key={index} className="col-sm-6 col-md-4 col-lg-3">
                 <div className="panel panel-default panel-member">
@@ -23,16 +41,16 @@ class ClassMembers extends Component {
                         <Link to={`/users/${member._id}`}>
                             <div className="text-center panel-member-col">
                                 <img
-                                    src={member &&  fileUtils.renderFileSource(member.profileImageID, userUtils.renderSourceProfilePictureDefault(member.gender))}
+                                    src={member && fileUtils.renderFileSource(member.profileImageID, userUtils.renderSourceProfilePictureDefault(member.gender))}
                                     className="img-circle" alt="No Image"/>
 
                                 <h4 className="thin">
-                                    {member.firstName} {member.lastName}
+                                    {userUtils.renderFullName(member.firstName, member.lastName)}
                                 </h4>
                             </div>
                         </Link>
                         {
-                            isTeacher &&
+                            (isTeacher || member.id == user.id) &&
                             (
                                 <div className="dropdown panel-member-col">
                                     <button data-toggle="dropdown" className="btn btn-white dropdown-toggle"
@@ -42,10 +60,19 @@ class ClassMembers extends Component {
                                     </button>
                                     <ul role="menu" className="dropdown-menu pull-right-xs">
                                         <li>
-                                            <a href="javascript:;"
-                                               onClick={() => this.props.onDeleteMember(this.props.classId, member._id)}>
-                                                Remove from Class
+                                            <a href="javascript:;" onClick={this.openModalLeaveClass}>
+                                                {
+                                                    (member.id == user.id) ? "Leave This Class" : "Remove from Class"
+                                                }
                                             </a>
+                                            <LeaveClassWarningModal
+                                                modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
+                                                closeModal={this.closeModalLeaveClass}
+                                                onSubmit={
+                                                    () => this.props.onDeleteMember(classDetail, member.id)
+                                                }
+                                                classDetail={classDetail} user={user}
+                                                userFullNameLeave={userFullNameLeave}/>
                                         </li>
                                     </ul>
                                 </div>
@@ -58,7 +85,7 @@ class ClassMembers extends Component {
     }
 
     render() {
-        const {isTeacher, members, classId, classMemberTitle} = this.props
+        const {isTeacher, members, classDetail, user, classMemberTitle} = this.props
         return (
             <div className="class-members">
                 {/*<ClassMembersHeadline currentHeadline="members" className={className}/>*/}
@@ -75,7 +102,7 @@ class ClassMembers extends Component {
                     {
                         members && members.length > 0 ?
                             (
-                                members.map((member, index) => this.renderMember(member, index, isTeacher))
+                                members.map((member, index) => this.renderMember(member, index, isTeacher, classDetail, user))
                             ) :
                             (
                                 <div className="col-sm-6 col-md-4 col-lg-3">

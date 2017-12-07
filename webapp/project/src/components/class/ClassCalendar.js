@@ -11,7 +11,6 @@ import {connect} from "react-redux";
 import {dateUtils} from "../../utils";
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
-
 let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
 class ClassCalendar extends Component {
@@ -32,7 +31,6 @@ class ClassCalendar extends Component {
     }
 
     handleClickEvent = (event) => {
-        // alertAuthen(event.title)
         var url = `/events/${event.id}`
         history.push(url)
     }
@@ -48,7 +46,8 @@ class ClassCalendar extends Component {
         const {events, classId, classDetail} = this.props
         return (
             <div className="class-calendar">
-                <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
+                <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}
+                                  onSubmit={this.handleCreateEvent}/>
                 <ClassEventsCalendarHeadline classDetail={classDetail} currentPage="calendar" openModal={this.openModal}
                                              onSubmit={this.handleCreateEvent}/>
                 <BigCalendar
@@ -70,11 +69,4 @@ class ClassCalendar extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    const {user} = state.authentication;
-    return {
-        user,
-    };
-}
-
-export default connect(mapStateToProps)(ClassCalendar);
+export default connect(null)(ClassCalendar);

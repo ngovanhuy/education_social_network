@@ -6,11 +6,16 @@ export const classActions = {
     getAll,
     getById,
     getMembers,
+    addMember,
+    deleteMember,
     getRequests,
     getFiles,
+    deleteFile,
+    uploadFile,
     insert,
     update,
     getTopics,
+    deleteClass,
 };
 
 function getAll() {
@@ -109,7 +114,7 @@ function getTopics(classId) {
     function failure(error) { return { type: classConstants.CLASSES_GETTOPICS_FAILURE, error } }
 }
 
-function insert(userId, name) {
+function insert(userId, name, membersInvited) {
     return dispatch => {
         dispatch(request());
 
@@ -117,7 +122,7 @@ function insert(userId, name) {
             .then(
                 response => {
                     dispatch(success(response.data));
-                    history.push('/classes');
+                    history.push(`/classes/${response.data.id}`);
                 },
                 error => dispatch(failure(error))
             );
@@ -145,4 +150,99 @@ function update(userId, classId, name, about, location) {
     function request() { return { type: classConstants.CLASSES_UPDATE_REQUEST } }
     function success(classDetail) { return { type: classConstants.CLASSES_UPDATE_SUCCESS, classDetail } }
     function failure(error) { return { type: classConstants.CLASSES_UPDATE_FAILURE, error } }
+}
+
+function addMember(classId, memberId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.addMember(classId, memberId)
+            .then(
+                response => {
+                    dispatch(success());
+                    dispatch(getById(classId))
+                    dispatch(getMembers(classId))
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_ADDMEMBER_REQUEST } }
+    function success() { return { type: classConstants.CLASSES_ADDMEMBER_SUCCESS } }
+    function failure(error) { return { type: classConstants.CLASSES_ADDMEMBER_FAILURE, error } }
+}
+
+function deleteMember(classId, memberId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.deleteMember(classId, memberId)
+            .then(
+                response => {
+                    dispatch(success());
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_DELETEMEMBER_REQUEST } }
+    function success() { return { type: classConstants.CLASSES_DELETEMEMBER_SUCCESS } }
+    function failure(error) { return { type: classConstants.CLASSES_DELETEMEMBER_FAILURE, error } }
+}
+
+function deleteClass(classId, userId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.deleteClass(classId, userId)
+            .then(
+                response => {
+                    dispatch(success());
+                    dispatch(getAll());
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_DELETECLASS_REQUEST } }
+    function success() { return { type: classConstants.CLASSES_DELETECLASS_SUCCESS } }
+    function failure(error) { return { type: classConstants.CLASSES_DELETECLASS_FAILURE, error } }
+}
+
+function deleteFile(classId, fileId) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.deleteFile(fileId)
+            .then(
+                response => {
+                    dispatch(success());
+                    dispatch(getFiles(classId));
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_DELETEFILE_REQUEST } }
+    function success() { return { type: classConstants.CLASSES_DELETEFILE_SUCCESS } }
+    function failure(error) { return { type: classConstants.CLASSES_DELETEFILE_FAILURE, error } }
+}
+
+function uploadFile(classId, file) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.uploadFile(classId, file)
+            .then(
+                response => {
+                    dispatch(success());
+                    dispatch(getFiles(classId));
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_UPLOADFILE_REQUEST } }
+    function success() { return { type: classConstants.CLASSES_UPLOADFILE_SUCCESS } }
+    function failure(error) { return { type: classConstants.CLASSES_UPLOADFILE_FAILURE, error } }
 }

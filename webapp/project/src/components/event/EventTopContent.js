@@ -66,19 +66,19 @@ class EventTopContent extends Component {
                                         {/*<span>Going</span>*/}
                                         {/*</a>*/}
                                         {/*</div>*/}
-                                        <div className="btn-group">
-                                            <a data-toggle="dropdown" className="btn btn-white dropdown-toggle"
-                                               href="#">
-                                                <i className="fa fa-share"></i>
-                                                <span className="share-text">Share</span>
-                                                <i className="fa fa-caret-down"></i>
-                                            </a>
-                                            <ul role="menu" className="dropdown-menu">
-                                                <li><a href="javascript:;">Invite Friends</a></li>
-                                                <li><a href="javascript:;">Share in message</a></li>
-                                                <li><a href="javascript:;">Share in new feed</a></li>
-                                            </ul>
-                                        </div>
+                                        {/*<div className="btn-group">*/}
+                                            {/*<a data-toggle="dropdown" className="btn btn-white dropdown-toggle"*/}
+                                               {/*href="#">*/}
+                                                {/*<i className="fa fa-share"></i>*/}
+                                                {/*<span className="share-text">Share</span>*/}
+                                                {/*<i className="fa fa-caret-down"></i>*/}
+                                            {/*</a>*/}
+                                            {/*<ul role="menu" className="dropdown-menu">*/}
+                                                {/*<li><a href="javascript:;">Invite Friends</a></li>*/}
+                                                {/*<li><a href="javascript:;">Share in message</a></li>*/}
+                                                {/*<li><a href="javascript:;">Share in new feed</a></li>*/}
+                                            {/*</ul>*/}
+                                        {/*</div>*/}
                                         <div className="btn-group">
                                             <a data-toggle="dropdown" className="btn btn-white dropdown-toggle"
                                                href="#">

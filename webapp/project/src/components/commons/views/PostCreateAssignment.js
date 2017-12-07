@@ -12,7 +12,7 @@ import {classConstants, defaultConstants} from "../../../constants";
 import {dateUtils} from "../../../utils";
 
 const fillMembersInfoForSelectTag = (members) => {
-    if(!members || members.length <= 0){
+    if (!members || members.length <= 0) {
         return []
     }
     const newMembers = members.slice()
@@ -28,7 +28,7 @@ const fillMembersInfoForSelectTag = (members) => {
 }
 
 const fillTopicsInfoForSelectTag = (topics) => {
-    if(!topics || topics.length <= 0){
+    if (!topics || topics.length <= 0) {
         return []
     }
     const newTopics = topics.slice()
@@ -39,7 +39,7 @@ const fillTopicsInfoForSelectTag = (topics) => {
             label: topic
         })
     )
-    if(topics.indexOf(classConstants.DEFAULT_ALL_TOPIC) < 0){
+    if (topics.indexOf(classConstants.DEFAULT_ALL_TOPIC) < 0) {
         newTopicFor.unshift({value: classConstants.DEFAULT_ALL_TOPIC, label: 'All topic'});
     }
     return newTopicFor;
@@ -150,7 +150,7 @@ class PostCreateAssignment extends Component {
             postActions.insert(classDetail.id, user.id, title, content, files, scopeType,
                 topic, isSchedule, members, dateUtils.convertDateTimeToISO(startTime), dateUtils.convertDateTimeToISO(endTime))
         )
-        this.props.dispatch(postActions.getPostsByClassId(classDetail.id))
+        this.props.dispatch(postActions.getPostsByUserId(user.id))
         this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, user.id))
 
         this.setState({
@@ -176,9 +176,9 @@ class PostCreateAssignment extends Component {
         var newPostUserFor = fillMembersInfoForSelectTag(membersOfClass)
         var newPostTopicFor = fillTopicsInfoForSelectTag(topicsOfClass)
         return (
-            <div>
-                <div className="new-post-content clearfix">
-                    <form className="form-horizontal">
+            <form className="form-horizontal">
+                <div>
+                    <div className="new-post-content clearfix">
                         <div className="new-post-message">
                             <div className="form-group">
                                 <label className="col-sm-1 control-label">For</label>
@@ -229,12 +229,16 @@ class PostCreateAssignment extends Component {
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <PostAddAttachment files={this.state.files} onUploadFile={this.handleUploadFile}
+                                       onRemoveUploadFile={this.handleRemoveUploadFile}/>
+                    {/*<div className="new-post-footer">*/}
+                        {/*<a href="#" className="btn btn-primary" onClick={() => this.handleSubmit}>POST</a>*/}
+                        {/*<span className="class-full-name">{classDetail.name}</span>*/}
+                    {/*</div>*/}
+                    <NewPostFooter className={classDetail.name} onSubmit={this.handleSubmit}/>
                 </div>
-                <PostAddAttachment files={this.state.files} onUploadFile={this.handleUploadFile}
-                                   onRemoveUploadFile={this.handleRemoveUploadFile}/>
-                <NewPostFooter className={classDetail.name} onSubmit={this.handleSubmit}/>
-            </div>
+            </form>
         )
     }
 }

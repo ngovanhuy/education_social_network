@@ -14,7 +14,6 @@
     display: block; }
 .top-content-user-profile .profile-picture {
   z-index: 4;
-  position: absolute;
   top: 175px;
   left: 25px;
   background: rgba(0, 0, 0, 0.3);
@@ -87,6 +86,8 @@
       margin-left: 5px; }
 
 .user-profile-feed .feed .feed-content {
+  margin: 20px 0px; }
+.user-profile-feed .feed .no-post {
   margin: 20px 0px; }
 
 /*# sourceMappingURL=userProfile.css.map */

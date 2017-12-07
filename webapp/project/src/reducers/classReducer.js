@@ -5,7 +5,8 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
         case classConstants.CLASSES_GETALL_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETALL_SUCCESS:
             return {
@@ -17,28 +18,35 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                items: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETBYID_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETBYID_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                classDetail: action.classDetail
+                classDetail: {
+                    ...state.classDetail,
+                    ...action.classDetail
+                }
             };
         case classConstants.CLASSES_GETBYID_FAILURE:
             return {
                 ...state,
                 loading: false,
+                classDetail: {},
                 error: action.error
             };
         case classConstants.CLASSES_INSERT_REQUEST:
             return {
                 ...state,
+                error: ''
             };
         case classConstants.CLASSES_INSERT_SUCCESS:
             return {
@@ -56,24 +64,30 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
         case classConstants.CLASSES_UPDATE_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_UPDATE_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                classDetail: action.classDetail
+                classDetail: {
+                    ...state.classDetail,
+                    ...action.classDetail
+                }
             };
         case classConstants.CLASSES_UPDATE_FAILURE:
             return {
                 ...state,
                 loading: false,
+                classDetail: {},
                 error: action.error
             };
         case classConstants.CLASSES_GETMEMBERS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETMEMBERS_SUCCESS:
             return {
@@ -88,12 +102,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    members: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETREQUESTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETREQUESTS_SUCCESS:
             return {
@@ -108,12 +127,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    requests: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETFILES_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETFILES_SUCCESS:
             return {
@@ -128,12 +152,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    files: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETPOSTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETPOSTS_SUCCESS:
             return {
@@ -148,12 +177,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    posts: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETPOSTSBYUSER_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETPOSTSBYUSER_SUCCESS:
             return {
@@ -168,12 +202,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    postsByUser: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETPOSTSBYTOPIC_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETPOSTSBYTOPIC_SUCCESS:
             return {
@@ -188,12 +227,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    postsByTopic: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETEVENTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETEVENTS_SUCCESS:
             return {
@@ -208,12 +252,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    events: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETEVENTSBYUSER_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETEVENTSBYUSER_SUCCESS:
             return {
@@ -228,12 +277,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    eventsByUser: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_GETTOPICS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETTOPICS_SUCCESS:
             return {
@@ -248,12 +302,17 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
+                classDetail: {
+                    ...state.classDetail,
+                    topics: []
+                },
                 error: action.error
             };
         case classConstants.CLASSES_INSERTPOST_REQUEST:
             return {
                 ...state,
                 loading: true,
+                error: ''
             };
         case classConstants.CLASSES_INSERTPOST_SUCCESS:
             return {
@@ -269,7 +328,8 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
         case classConstants.CLASSES_GETCOMMENTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETCOMMENTS_SUCCESS:
             return {
@@ -306,7 +366,8 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
         case classConstants.CLASSES_GETFAVOURITES_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case classConstants.CLASSES_GETFAVOURITES_SUCCESS:
             return {
@@ -332,6 +393,7 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: true,
+                error: ''
             };
         case classConstants.CLASSES_DELETEFAVOURITE_SUCCESS:
             return {
@@ -368,6 +430,76 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                             )
                         )
                 }
+            };
+        case classConstants.CLASSES_DELETEMEMBER_REQUEST:
+            return {
+                ...state,
+                error: ''
+            };
+        case classConstants.CLASSES_DELETEMEMBER_SUCCESS:
+            return {
+                ...state
+            };
+        case classConstants.CLASSES_DELETEMEMBER_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            };
+        case classConstants.CLASSES_ADDMEMBER_REQUEST:
+            return {
+                ...state,
+                error: ''
+            };
+        case classConstants.CLASSES_ADDMEMBER_SUCCESS:
+            return {
+                ...state
+            };
+        case classConstants.CLASSES_ADDMEMBER_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            };
+        case classConstants.CLASSES_DELETECLASS_REQUEST:
+            return {
+                ...state,
+                error: ''
+            };
+        case classConstants.CLASSES_DELETECLASS_SUCCESS:
+            return {
+                ...state
+            };
+        case classConstants.CLASSES_DELETECLASS_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            };
+        case classConstants.CLASSES_DELETEFILE_REQUEST:
+            return {
+                ...state,
+                error: ''
+            };
+        case classConstants.CLASSES_DELETEFILE_SUCCESS:
+            return {
+                ...state
+            };
+        case classConstants.CLASSES_DELETEFILE_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            };
+        case classConstants.CLASSES_UPLOADFILE_REQUEST:
+            return {
+                ...state,
+                error: ''
+            };
+        case classConstants.CLASSES_UPLOADFILE_SUCCESS:
+            return {
+                ...state
+            };
+        case classConstants.CLASSES_UPLOADFILE_FAILURE:
+            return {
+                ...state,
+                error: action.error
             };
         default:
             return state

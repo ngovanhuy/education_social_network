@@ -24,7 +24,6 @@
 
   .profile-picture {
     z-index: 4;
-    position: absolute;
     top: 175px;
     left: 25px;
     background: rgba(0, 0, 0, .3);
@@ -132,6 +131,9 @@
 .user-profile-feed {
   .feed {
     .feed-content {
+      margin: 20px 0px;
+    }
+    .no-post{
       margin: 20px 0px;
     }
   }

@@ -14,32 +14,23 @@ const renderSuggestion = suggestion => (
     </div>
 );
 
-class AddMember extends Component{
+class AddMember extends Component {
     constructor() {
         super();
 
         this.state = {
-            classId: '',
             value: '',
             suggestions: [],
-            memberCount: 0
         };
     }
 
-    componentWillMount() {
-        this.setState({
-            classId: this.props.classId,
-            memberCount: this.props.memberCount
-        });
-    }
-
-    onChange = (event, { newValue }) => {
+    onChange = (event, {newValue}) => {
         this.setState({
             value: newValue
         });
     };
 
-    onSuggestionsFetchRequested = ({ value }) => {
+    onSuggestionsFetchRequested = ({value}) => {
         userService.searchByUsername(value)
             .then(
                 response => {
@@ -57,58 +48,66 @@ class AddMember extends Component{
         });
     };
 
-    onSuggestionSelected = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
-        const {classId} = this.props
-        classService.addMember(classId, suggestion.id)
-            .then(
-                this.props.dispatch(classActions.getById(classId)),
-                this.props.dispatch(classActions.getMembers(classId))
-            )
+    onSuggestionSelected = (event, {suggestion, suggestionValue, suggestionIndex, sectionIndex, method}) => {
+        const {classDetail, user} = this.props
+        this.props.dispatch(classActions.addMember(classDetail.id, suggestion.id))
         this.setState({
             value: '',
             suggestions: [],
         });
     };
 
-    render(){
-        const { classId, memberCount, value, suggestions } = this.state;
+    render() {
+        const {value, suggestions} = this.state;
+        const {classDetail} = this.props
 
         const inputProps = {
             placeholder: 'Enter username',
             value,
             onChange: this.onChange
         };
-        return(
+        return (
             <div>
-                <div className="add-member">
-                    <h3>
-                        Add members
-                        <Link to={`/classes/${classId}/members`}>
-                            <span className="pull-right">{memberCount} members</span>
-                        </Link>
-                    </h3>
+                {
+                    classDetail &&
+                    <div className="add-member">
+                        <h3>
+                            Add members
+                            <Link to={`/classes/${classDetail.id}/members`}>
+                                <span className="pull-right">{classDetail.memberCount} members</span>
+                            </Link>
+                        </h3>
 
-                    <div className="controls">
-                        <div className="input-group">
+                        <div className="controls">
+                            <div className="input-group">
                             <span className="input-group-addon">
                                 <i className="fa fa-plus"></i>
                             </span>
-                            {/*<input type="text" className="form-control" placeholder="Enter name or email"/>*/}
-                            <Autosuggest
-                                suggestions={suggestions}
-                                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                                onSuggestionSelected={this.onSuggestionSelected}
-                                getSuggestionValue={getSuggestionValue}
-                                renderSuggestion={renderSuggestion}
-                                inputProps={inputProps}
-                            />
+                                {/*<input type="text" className="form-control" placeholder="Enter name or email"/>*/}
+                                <Autosuggest
+                                    suggestions={suggestions}
+                                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                                    onSuggestionSelected={this.onSuggestionSelected}
+                                    getSuggestionValue={getSuggestionValue}
+                                    renderSuggestion={renderSuggestion}
+                                    inputProps={inputProps}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         )
     }
 }
 
-export default connect(null, null)(AddMember);
+const mapStateToProps = (state, ownProps) => {
+    const {user} = state.authentication
+    return {
+        user
+    }
+}
+
+
+export default connect(mapStateToProps, null)(AddMember);

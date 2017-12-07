@@ -27,7 +27,8 @@ class ClassFilePage extends Component{
     }
 
     handleUploadFile = (classId, file) => {
-        classService.uploadFile(classId, file)
+        const {user} = this.props
+        classService.uploadFile(classId, file, user.id)
             .then(
                 this.props.dispatch(classActions.getFiles(classId))
             )
@@ -67,7 +68,9 @@ class ClassFilePage extends Component{
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
     const {classDetail} = state.classes
+    const {user} = state.authentication
     return {
+        user,
         classId,
         classDetail
     }

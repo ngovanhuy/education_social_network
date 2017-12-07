@@ -5,7 +5,8 @@ export function users(state = {loading: false, items: []}, action) {
         case userConstants.USERS_GETALL_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case userConstants.USERS_GETALL_SUCCESS:
             return {

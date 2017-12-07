@@ -5,7 +5,8 @@ export function authentication(state = {}, action) {
         case userConstants.LOGIN_REQUEST:
             return {
                 loggingIn: true,
-                user: action.user
+                user: action.user,
+                error: ''
             };
         case userConstants.LOGIN_SUCCESS:
             return {
@@ -18,7 +19,8 @@ export function authentication(state = {}, action) {
             return {};
         case userConstants.USERS_GETBYID_REQUEST:
             return {
-                ...state
+                ...state,
+                error: ''
             };
         case userConstants.USERS_GETBYID_SUCCESS:
             return {
@@ -27,12 +29,11 @@ export function authentication(state = {}, action) {
                 user: action.user
             };
         case userConstants.USERS_GETBYID_FAILURE:
-            return {
-                ...state
-            };
+            return {};
         case userConstants.USERS_UPDATE_REQUEST:
             return {
-                ...state
+                ...state,
+                error: ''
             };
         case userConstants.USERS_UPDATE_SUCCESS:
             return {
@@ -40,13 +41,12 @@ export function authentication(state = {}, action) {
                 user: action.user
             };
         case userConstants.USERS_UPDATE_FAILURE:
-            return {
-                ...state
-            };
+            return {};
         case userConstants.USERS_GETCLASSJOINED_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case userConstants.USERS_GETCLASSJOINED_SUCCESS:
             return {
@@ -63,7 +63,8 @@ export function authentication(state = {}, action) {
         case userConstants.USERS_GETCLASSREQUEST_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case userConstants.USERS_GETCLASSREQUEST_SUCCESS:
             return {
@@ -75,12 +76,14 @@ export function authentication(state = {}, action) {
             return {
                 ...state,
                 loading: false,
+                classUserRequest: [],
                 error: action.error
             };
         case userConstants.USERS_GETPOSTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case userConstants.USERS_GETPOSTS_SUCCESS:
             return {
@@ -92,12 +95,14 @@ export function authentication(state = {}, action) {
             return {
                 ...state,
                 loading: false,
+                posts: [],
                 error: action.error
             };
         case userConstants.USERS_GETCOMMENTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case userConstants.USERS_GETCOMMENTS_SUCCESS:
             return {
@@ -122,7 +127,8 @@ export function authentication(state = {}, action) {
         case userConstants.USERS_GETFAVOURITES_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case userConstants.USERS_GETFAVOURITES_SUCCESS:
             return {
@@ -149,14 +155,65 @@ export function authentication(state = {}, action) {
             return {
                 ...state,
                 posts: (state.posts && state.posts.length > 0) &&
-                    (
-                        state.posts.map(post => post.id == action.postDetail.id ?
-                            {
-                                ...post,
-                                ...action.postDetail,
-                            } : post
-                        )
+                (
+                    state.posts.map(post => post.id == action.postDetail.id ?
+                        {
+                            ...post,
+                            ...action.postDetail,
+                        } : post
                     )
+                )
+            };
+        case userConstants.USERS_DELETECLASSREQUEST_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: ''
+            };
+        case userConstants.USERS_DELETECLASSREQUEST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case userConstants.USERS_DELETECLASSREQUEST_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case userConstants.USERS_CREATECLASSREQUEST_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: ''
+            };
+        case userConstants.USERS_CREATECLASSREQUEST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case userConstants.USERS_CREATECLASSREQUEST_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case userConstants.USERS_APPROVECLASSREQUEST_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: ''
+            };
+        case userConstants.USERS_APPROVECLASSREQUEST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case userConstants.USERS_APPROVECLASSREQUEST_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
             };
         default:
             return state

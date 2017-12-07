@@ -112,6 +112,10 @@ class PostCreateAnnouncement extends Component {
                 </div>
                 <PostAddAttachment files={this.state.fileUpload} onUploadFile={this.handleUploadFile}
                                    onRemoveUploadFile={this.handleRemoveUploadFile}/>
+                {/*<div className="new-post-footer">*/}
+                    {/*<a href="#" className="btn btn-primary" onClick={() => this.handleSubmit}>POST</a>*/}
+                    {/*<span className="class-full-name">{classDetail.name}</span>*/}
+                {/*</div>*/}
                 <NewPostFooter className={classDetail.name} onSubmit={this.handleSubmit}/>
             </form>
         )

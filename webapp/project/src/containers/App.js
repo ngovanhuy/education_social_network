@@ -25,9 +25,7 @@ class App extends Component {
                 history.push('/')
             } else {
                 this.props.dispatch(userActions.logout());
-                const { history } = this.props
-                // history.pushState(null, '/login')
-                history.replace('/login', null)
+                history.push('/login')
             }
         }
     }

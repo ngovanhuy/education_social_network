@@ -8,7 +8,7 @@ import ClassCalendar from "../../components/class/ClassCalendar";
 import {classActions, eventActions} from "../../actions";
 import {eventUtils} from '../../utils'
 
-class ClassFilePage extends Component {
+class ClassCalendarPage extends Component {
     componentWillMount() {
         const {classId, user} = this.props;
         this.props.dispatch(classActions.getById(classId));
@@ -26,7 +26,8 @@ class ClassFilePage extends Component {
     }
 
     render() {
-        const {classDetail, topics, classId} = this.props
+        const {classDetail, classId, user} = this.props
+        const topics = classDetail.topics
         var {eventsByClass} = this.props
         var eventsByClassAfterUpdateInfo = eventUtils.updateInfoEvents(eventsByClass)
         return (
@@ -41,7 +42,7 @@ class ClassFilePage extends Component {
                     <div className="col-sm-10">
                         <div className="row">
                             <ClassCalendar events={eventsByClassAfterUpdateInfo} classDetail={classDetail}
-                                           classId={classId}/>
+                                           classId={classId} user={user}/>
                         </div>
                     </div>
                 </div>
@@ -63,4 +64,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps, null)(ClassFilePage));
+export default withRouter(connect(mapStateToProps, null)(ClassCalendarPage));

@@ -71,8 +71,17 @@ function insert(classId, userId, title, content, fileUpload, scopeType, topic, i
     if (isSchedule) {
         data.append("isSchedule", isSchedule)
     }
-    if (members) {
-        data.append("member", members)
+    if (members && members.length > 0) {
+        var memberReqquest = "["
+        for (var i = 0; i < members.length; i++) {
+            if(i == members.length - 1){
+                memberReqquest += members[i]
+            } else {
+                memberReqquest += members[i] + ","
+            }
+        }
+        memberReqquest += "]"
+        data.append("members", memberReqquest)
     }
     if (startTime) {
         data.append("startTime", startTime)

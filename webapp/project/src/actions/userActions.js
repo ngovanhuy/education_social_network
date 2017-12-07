@@ -2,6 +2,7 @@ import { userConstants } from '../constants';
 import { userService } from '../services';
 import {history} from "../helpers/history";
 import { alertAuthenActions } from './';
+import {classActions} from "./classActions";
 
 export const userActions = {
     login,
@@ -12,6 +13,9 @@ export const userActions = {
     update,
     getClassJoined,
     getClassRequest,
+    createClassRequest,
+    deleteClassRequest,
+    approveRequestJoinClass,
 };
 
 function login(username, password) {
@@ -25,8 +29,8 @@ function login(username, password) {
                     history.push('/');
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertAuthenActions.error(error));
+                    dispatch(failure("Username or password not exist"));
+                    dispatch(alertAuthenActions.error("Username or password not exist"));
                 }
             );
     };
@@ -53,8 +57,8 @@ function register(user) {
                     dispatch(alertAuthenActions.success('Registration successful'));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertAuthenActions.error(error));
+                    dispatch(failure("Register fail"));
+                    dispatch(alertAuthenActions.error("Register fail"));
                 }
             );
     };
@@ -142,7 +146,68 @@ function getClassRequest(userId) {
             );
     };
 
-    function request() { return { type: userConstants.USERS_GETCLASSREQUEST_FAILURE } }
+    function request() { return { type: userConstants.USERS_GETCLASSREQUEST_REQUEST } }
     function success(classes) { return { type: userConstants.USERS_GETCLASSREQUEST_SUCCESS, classes } }
     function failure(error) { return { type: userConstants.USERS_GETCLASSREQUEST_FAILURE, error } }
+}
+
+function createClassRequest(userId, classId) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.createClassRequest(userId, classId)
+            .then(
+                response => {
+                    dispatch(success())
+                    dispatch(getClassRequest(userId))
+                    dispatch(classActions.getRequests(classId))
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_CREATECLASSREQUEST_REQUEST } }
+    function success() { return { type: userConstants.USERS_CREATECLASSREQUEST_SUCCESS } }
+    function failure(error) { return { type: userConstants.USERS_CREATECLASSREQUEST_FAILURE, error } }
+}
+
+function deleteClassRequest(userId, classId) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.deleteClassRequest(userId, classId)
+            .then(
+                response => {
+                    dispatch(success())
+                    dispatch(getClassRequest(userId))
+                    dispatch(classActions.getRequests(classId))
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_DELETECLASSREQUEST_REQUEST } }
+    function success() { return { type: userConstants.USERS_DELETECLASSREQUEST_SUCCESS } }
+    function failure(error) { return { type: userConstants.USERS_DELETECLASSREQUEST_FAILURE, error } }
+}
+
+function approveRequestJoinClass(userId, classId) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.approveRequestJoinClass(userId, classId)
+            .then(
+                response => {
+                    dispatch(success())
+                    dispatch(getClassJoined(userId))
+                    dispatch(classActions.getMembers(classId))
+                    dispatch(classActions.getRequests(classId))
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_APPROVECLASSREQUEST_REQUEST } }
+    function success() { return { type: userConstants.USERS_APPROVECLASSREQUEST_SUCCESS } }
+    function failure(error) { return { type: userConstants.USERS_APPROVECLASSREQUEST_FAILURE, error } }
 }

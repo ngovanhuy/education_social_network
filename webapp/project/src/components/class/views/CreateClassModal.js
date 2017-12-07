@@ -3,6 +3,8 @@ import Modal from 'react-modal';
 import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
 import '../class.css'
+import Autosuggest from 'react-autosuggest';
+import {userService} from "../../../services/userService";
 
 const customStylesModal = {
     overlay: {
@@ -31,16 +33,26 @@ const customStylesModal = {
 
 const customTagsInput = {
     inputProps: {
-        placeholder: 'Enter name or email'
+        placeholder: 'Enter name'
     }
 }
+
+const getSuggestionValue = suggestion => suggestion.username;
+
+const renderSuggestion = suggestion => (
+    <div>
+        {suggestion.username}
+    </div>
+);
+
 
 class CreateClassModal extends Component{
     constructor() {
         super()
         this.state = {
             className: '',
-            membersInvited: []
+            membersInvited: [],
+            suggestions: [],
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleChangeName = this.handleChangeName.bind(this);
@@ -58,9 +70,55 @@ class CreateClassModal extends Component{
         })
     }
 
+    onSuggestionsFetchRequested = ({ value }) => {
+        userService.searchByUsername(value)
+            .then(
+                response => {
+                    this.setState({
+                        suggestions: response.data
+                    });
+                }
+            )
+
+    };
+
+    onSuggestionsClearRequested = () => {
+        this.setState({
+            suggestions: []
+        });
+    };
+
     render(){
-        const {userId, modalIsOpen, onSubmit} = this.props
+        const {userId, modalIsOpen, onSubmit, suggestions} = this.props
         var modalTitle = 'Create New Group';
+        function autocompleteRenderInput ({addTag, ...props}) {
+            const handleOnChange = (e, {newValue, method}) => {
+                if (method === 'enter') {
+                    e.preventDefault()
+                } else {
+                    props.onChange(e)
+                }
+            }
+
+            const inputValue = (props.value && props.value.trim().toLowerCase()) || ''
+            const inputLength = inputValue.length
+
+            return (
+                <Autosuggest
+                    ref={props.ref}
+                    suggestions={suggestions}
+                    shouldRenderSuggestions={(value) => value && value.trim().length > 0}
+                    getSuggestionValue={getSuggestionValue}
+                    renderSuggestion={renderSuggestion}
+                    inputProps={{...props, onChange: handleOnChange}}
+                    onSuggestionSelected={(e, {suggestion}) => {
+                        addTag(suggestion.name)
+                    }}
+                    onSuggestionsFetchRequested={props.onSuggestionsFetchRequested}
+                    onSuggestionsClearRequested={props.onSuggestionsClearRequested}
+                />
+            )
+        }
         return(
             <Modal
                 isOpen={modalIsOpen}
@@ -70,9 +128,9 @@ class CreateClassModal extends Component{
 
             >
                 <h2>{modalTitle}</h2>
-                <button className="mm-popup__close"
+                <a href='#' className="mm-popup__close"
                         data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
-                        onClick={this.props.closeModal}>×</button>
+                        onClick={this.props.closeModal}>×</a>
                 <form className="create-class-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Name your class</label>
@@ -82,16 +140,17 @@ class CreateClassModal extends Component{
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-sm-3 control-label">Class Name</label>
+                        <label className="col-sm-3 control-label">Invite members</label>
                         <div className="col-sm-9">
                             <TagsInput value={this.state.membersInvited} onChange={this.handleChange}
+                                       // renderInput={autocompleteRenderInput}
                                        inputProps={customTagsInput.inputProps}/>
                         </div>
                     </div>
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
-                            <button className="btn btn-white" onClick={this.props.closeModal}>Cancel</button>
-                            <button className="btn btn-primary" onClick={() => onSubmit(userId, this.state.className, this.state.membersInvited)}>Create</button>
+                            <a href='#' className="btn btn-white" onClick={this.props.closeModal}>Cancel</a>
+                            <a href='#' className="btn btn-primary" onClick={() => onSubmit(userId, this.state.className, this.state.membersInvited)}>Create</a>
                         </div>
                     </div>
                 </form>

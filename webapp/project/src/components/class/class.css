@@ -29,8 +29,6 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0; }
     .action-with-class .dropdown .btn-manage-class {
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 0px;
       margin-left: -1px;
       padding-left: 5px;
       padding-right: 5px; }
@@ -354,6 +352,9 @@
     border-bottom: none; }
   .class-manage .class-manage-main-content .member-request .member-info {
     display: inline-block; }
+    .class-manage .class-manage-main-content .member-request .member-info img {
+      width: 30px;
+      height: 30px; }
     .class-manage .class-manage-main-content .member-request .member-info .member-info-content {
       display: inline-block;
       vertical-align: middle;

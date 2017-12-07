@@ -17,70 +17,11 @@ function normalizePost(posts, state) {
 
 export function post(state = {loading: false, items: [], postDetail: {}}, action) {
     switch (action.type){
-        // case postConstants.POSTS_USERS_GETPOSTS_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     };
-        // case postConstants.POSTS_USERS_GETPOSTS_SUCCESS:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         items: {
-        //             ...state.items,
-        //             ...normalizePost(action.posts, state)
-        //         }
-        //     };
-        // case postConstants.POSTS_USERS_GETPOSTS_FAILURE:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error: action.error
-        //     };
-        // case postConstants.POSTS_CLASSES_GETPOSTSBYUSER_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     };
-        // case postConstants.POSTS_CLASSES_GETPOSTSBYUSER_SUCCESS:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         items: {
-        //             ...state.items,
-        //             ...normalizePost(action.posts, state)
-        //         }
-        //     };
-        // case postConstants.POSTS_CLASSES_GETPOSTSBYUSER_FAILURE:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error: action.error
-        //     };
-        // case postConstants.POSTS_CLASSES_GETPOSTSBYTOPIC_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     };
-        // case postConstants.POSTS_CLASSES_GETPOSTSBYTOPIC_SUCCESS:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         items: {
-        //             ...state.items,
-        //             ...normalizePost(action.posts, state)
-        //         }
-        //     };
-        // case postConstants.POSTS_CLASSES_GETPOSTSBYTOPIC_FAILURE:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error: action.error
-        //     };
         case postConstants.POSTS_INSERTCOMMENT_REQUEST:
             return {
                 ...state,
                 loading: true,
+                error: ''
             };
         case postConstants.POSTS_INSERTCOMMENT_SUCCESS:
             return {
@@ -97,6 +38,7 @@ export function post(state = {loading: false, items: [], postDetail: {}}, action
             return {
                 ...state,
                 loading: true,
+                error: '',
             };
         case postConstants.POSTS_INSERTFAVOURITE_SUCCESS:
             return {

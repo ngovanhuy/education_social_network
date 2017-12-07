@@ -11,8 +11,8 @@ class HomeRightmenu extends Component {
         const {events, notifcationsLatest, schoolDetail} = this.props
         return (
             <div className="home-rightmenu">
-                <HomeCalendar events={events}/>
                 <HomeNotificationsLatest notifcationsLatest={notifcationsLatest}/>
+                <HomeCalendar events={events}/>
                 <HomeSchoolAbout schoolDetail={schoolDetail}/>
             </div>
         )

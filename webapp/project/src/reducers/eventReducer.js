@@ -5,7 +5,8 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
         case eventConstants.EVENTS_GETALL_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case eventConstants.EVENTS_GETALL_SUCCESS:
             return {
@@ -17,12 +18,14 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                items: [],
                 error: action.error
             };
         case eventConstants.EVENTS_GETBYUSER_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case eventConstants.EVENTS_GETBYUSER_SUCCESS:
             return {
@@ -34,12 +37,14 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                eventsByUser: [],
                 error: action.error
             };
         case eventConstants.EVENTS_GETBYCLASS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case eventConstants.EVENTS_GETBYCLASS_SUCCESS:
             return {
@@ -51,12 +56,14 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                eventsByClass: [],
                 error: action.error
             };
         case eventConstants.EVENTS_GETNOTBELONGCLASS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case eventConstants.EVENTS_GETNOTBELONGCLASS_SUCCESS:
             return {
@@ -68,12 +75,14 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                eventsNotBelongClass: [],
                 error: action.error
             };
         case eventConstants.EVENTS_GETUPCOMMING_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case eventConstants.EVENTS_GETUPCOMMING_SUCCESS:
             return {
@@ -85,13 +94,33 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                eventsUpcomming: [],
+                error: action.error
+            };
+        case eventConstants.EVENTS_GETUPCOMMINGOFCLASS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: ''
+            };
+        case eventConstants.EVENTS_GETUPCOMMINGOFCLASS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                eventsUpcommingOfClass: action.events
+            };
+        case eventConstants.EVENTS_GETUPCOMMINGOFCLASS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                eventsUpcomming: [],
                 error: action.error
             };
         case eventConstants.EVENTS_FILTER_REQUEST:
             return {
                 ...state,
                 loading: true,
-                // filters: action.filters
+                error: ''
             };
         case eventConstants.EVENTS_FILTER_SUCCESS:
             return {
@@ -103,12 +132,14 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                items: [],
                 error: action.error
             };
         case eventConstants.EVENTS_GETBYID_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case eventConstants.EVENTS_GETBYID_SUCCESS:
             return {
@@ -120,6 +151,7 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                eventDetail: {},
                 error: action.error
             };
         case eventConstants.EVENTS_INSERT_REQUEST:
@@ -142,7 +174,8 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
         case eventConstants.EVENTS_UPDATE_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case eventConstants.EVENTS_UPDATE_SUCCESS:
             return {
@@ -154,6 +187,7 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
             return {
                 ...state,
                 loading: false,
+                eventDetail: {},
                 error: action.error
             };
         default:

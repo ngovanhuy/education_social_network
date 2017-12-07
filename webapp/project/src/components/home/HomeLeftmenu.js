@@ -54,7 +54,7 @@ class HomeLeftmenu extends Component {
 
     handleCreateClass = (userId, className, membersInvited) => {
         this.setState({modalCreateClassIsOpen: false});
-        this.props.dispatch(classActions.insert(userId, className));
+        this.props.dispatch(classActions.insert(userId, className, membersInvited));
     }
 
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {

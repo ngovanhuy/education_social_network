@@ -53,20 +53,11 @@ class ClassManageMemberRequest extends Component {
     }
 
     handleDeleteRequestJoinClass = (userId, classId) => {
-        userService.deleteRequestJoinClass(userId, classId)
-            .then(
-                this.props.dispatch(userActions.getClassRequest(userId)),
-                this.props.dispatch(classActions.getRequests(classId))
-            )
+        this.props.dispatch(userActions.deleteClassRequest(userId, classId))
     }
 
     handleApproveRequestJoinClass = (userId, classId) => {
-        userService.approveRequestJoinClass(userId, classId)
-            .then(
-                this.props.dispatch(userActions.getClassJoined(userId)),
-                this.props.dispatch(classActions.getRequests(classId)),
-                this.props.dispatch(classActions.getMembers(classId))
-            )
+        this.props.dispatch(userActions.approveRequestJoinClass(userId, classId))
     }
 
     render() {

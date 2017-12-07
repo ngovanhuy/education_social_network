@@ -29,7 +29,6 @@ class ClassEventPage extends Component {
         const {classDetail, classId} = this.props
         const topics = classDetail.topics
         var {eventsByClass} = this.props
-        var eventsByClassAfterUpdateInfo = eventUtils.updateInfoEvents(eventsByClass)
         return (
             <div>
                 <div className="container">
@@ -41,7 +40,7 @@ class ClassEventPage extends Component {
                     </div>
                     <div className="col-sm-10">
                         <div className="row">
-                            <ClassEvents events={eventsByClassAfterUpdateInfo} classId={classId} classDetail={classDetail}/>
+                            <ClassEvents events={eventsByClass} classId={classId} classDetail={classDetail}/>
                         </div>
                     </div>
                 </div>

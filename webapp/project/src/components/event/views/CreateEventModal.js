@@ -145,10 +145,10 @@ class CreateEventModal extends Component {
                 style={customStyles}
                 contentLabel="Create Event Modal">
                 <h2>{renderModalTitle(classDetail)}</h2>
-                <button className="mm-popup__close"
+                <a href='#' className="mm-popup__close"
                         data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
                         onClick={this.props.closeModal}>×
-                </button>
+                </a>
                 <form className="create-event-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Event Photo</label>
@@ -255,9 +255,9 @@ class CreateEventModal extends Component {
                     </div>
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
-                            <button className="btn btn-white" onClick={this.props.closeModal}>Cancel</button>
-                            <button className="btn btn-primary"
-                                    onClick={() => onSubmit(eventPhoto, title, location, content, start, end)}>Create</button>
+                            <a href='#' className="btn btn-white" onClick={this.props.closeModal}>Cancel</a>
+                            <a href='#' className="btn btn-primary"
+                                    onClick={() => onSubmit(eventPhoto, title, location, content, start, end)}>Create</a>
                         </div>
                     </div>
                 </form>

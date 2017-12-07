@@ -33,9 +33,9 @@ class EventsPage extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-3">
-                        <EventRightmenu/>
-                    </div>
+                    {/*<div className="col-sm-3">*/}
+                        {/*<EventRightmenu/>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         )

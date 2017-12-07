@@ -55,14 +55,14 @@ class ClassFiles extends Component{
     }
 
     render(){
-        const {classId, files, onUploadFile, onDeleteFile} = this.props
+        const {classId, userId, files, onUploadFile, onDeleteFile} = this.props
         return(
             <div className="class-files files">
                 <div className="class-files-headline clearfix">
                     <h2 className="clearfix">
                         <span>Files</span>
 
-                        <FileInput name="classFile" onChange={(event) => onUploadFile(classId, event.target.files[0])}>
+                        <FileInput name="classFile" onChange={(event) => onUploadFile(classId, event.target.files[0], userId)}>
                             <button className="btn btn-white pull-right">
                                 <i className="fa fa-upload"></i>
                                 Upload file

@@ -8,6 +8,7 @@ export const eventActions = {
     getEventsByClassId,
     getEventsNotBelongClass,
     getEventsUpcomming,
+    getEventsUpcommingOfClass,
     filter,
     getById,
     insert,
@@ -146,15 +147,15 @@ function getEventsUpcommingOfClass(classId) {
     };
 
     function request() {
-        return {type: eventConstants.EVENTS_GETUPCOMMING_REQUEST}
+        return {type: eventConstants.EVENTS_GETUPCOMMINGOFCLASS_REQUEST}
     }
 
     function success(events) {
-        return {type: eventConstants.EVENTS_GETUPCOMMING_SUCCESS, events}
+        return {type: eventConstants.EVENTS_GETUPCOMMINGOFCLASS_SUCCESS, events}
     }
 
     function failure(error) {
-        return {type: eventConstants.EVENTS_GETUPCOMMING_FAILURE, error}
+        return {type: eventConstants.EVENTS_GETUPCOMMINGOFCLASS_FAILURE, error}
     }
 }
 
