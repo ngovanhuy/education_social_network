@@ -260,7 +260,7 @@ async function deleteUser(req, res, next) {
         });
     }
 }
-function getUser(req, res, next) {
+function getUser(req, res) {
     try {
         let user = req.users.user_request;
         return res.send({
@@ -278,23 +278,23 @@ function getUser(req, res, next) {
     }
 }
 function getProfileImageID(req, res, next) {
-    req.fileitems.file_selected_id = req.users.user_request ? req.users.user_request.profileImageID : null;
+    let user = req.users.user_request;
+    req.fileitems.file_selected_id = user ? user.profileImageID : null;
     return next();
 }
-async function putProfileImage(req, res) {
+async function putProfileImage(req, res, next) {
     try {
-        if (!req.fileitems.file_saved) {
-            throw new Error("Upload file Error");
-        }
         let user = req.users.user_request;
-        user.profileImageID = String(req.fileitems.file_saved._id);
+        let file = req.fileitems.file_saved;
+        user.profileImageID = req.fileitems.file_saved._id;
         user = await user.save();
         req.users.user_request = user;
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: req.fileitems.file_saved.getBasicInfo(),
-        });
+        return next();
+        // return res.json({
+        //     code: 200,
+        //     message: 'Success',
+        //     data: file.getBasicInfo(),
+        // });
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -305,23 +305,18 @@ async function putProfileImage(req, res) {
     }
 }
 function getCoverImageID(req, res, next) {
-    req.fileitems.file_selected_id = req.users.user_request ? req.users.user_request.coverImageID : null;
+    let user = req.users.user_request;
+    req.fileitems.file_selected_id = user ? user.coverImageID : null;
     return next();
 }
-async function putCoverImage(req, res) {
+async function putCoverImage(req, res, next) {
     try {
-        if (!req.fileitems.file_saved) {
-            throw new Error("Upload file Error");
-        }
         let user = req.users.user_request;
-        user.coverImageID = String(req.fileitems.file_saved._id);
+        let file = req.fileitems.file_saved;
+        user.coverImageID = req.fileitems.file_saved._id;
         user = await user.save();
         req.users.user_request = user;
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: req.fileitems.file_saved.getBasicInfo(),
-        });
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -331,7 +326,7 @@ async function putCoverImage(req, res) {
         });
     }
 }
-function getUserInfo(req, res, next) {
+function getUserInfo(req, res) {
     try {
         let user = req.users.user_request;
         return res.send({
@@ -842,27 +837,15 @@ async function getUsers(req, res) {
         return res.status(500).send(error);
     }
 }
-async function getFiles(req, res) {
+async function getFiles(req, res, next) {
     try {
-        let userID = Number(req.params.userID);
-        if (!userID) {
-            return res.status(400).json({
-                code: 400,
-                message: 'userID invalid',
-                data: null
-            });
-        }
+        let user = req.users.user_request;
         let files = await Files.find({
             isDeleted: false,
-            'user.id': userID,
+            'user.id': user._id,
         });
         let datas = files.map(file => file.getBasicInfo());
-        return res.send({
-            code: 200,
-            message: 'Success',
-            length: datas.length,
-            data: datas
-        });
+        return next();
     } catch (error) {
         return res.status(500).json({
             code: 500,
