@@ -7,8 +7,7 @@ let groupController = require('../controllers/group');
 //-------------------------POST_API---------------------//
 
 router.route('/').post(fileController.arrayFileUpload, userController.checkUserRequest, groupController.checkGroupRequest,
-    fileController.postFilesIfHave,
-    postController.addPost, postController.getPost);
+    fileController.postFilesIfHave, postController.addPost, postController.getPost);
 router.route('/topic/:groupID').get(groupController.checkGroupRequest, postController.getPostsInTopic);
 
 router.route('/like/:postID')
@@ -17,7 +16,7 @@ router.route('/like/:postID')
     .delete(userController.checkUserRequest, postController.checkPostRequest, postController.removeLike, postController.getLikes);
 router.route('/comment/:postID')
     .get(postController.checkPostRequest, postController.getComments)
-    .post(fileController.fileUpload, userController.checkUserRequest, fileController.postFileIfHave,postController.checkPostRequest, postController.addComment)
+    .post(fileController.fileUpload, userController.checkUserRequest, fileController.postFileIfHave, postController.checkPostRequest, postController.addComment)
     .put(fileController.fileUpload, userController.checkUserRequest, fileController.postFileIfHave, postController.checkPostRequest, postController.updateComment)
     .delete(userController.checkUserRequest, postController.checkPostRequest, postController.deleteComment);
 

@@ -45,6 +45,31 @@ async function checkFilesExisted(files) {
         });
     });
 }
+async function checkFileRequest(req, res, next) {
+    let file = await findFile(req);
+    if (file && !file.isDeleted) {
+        req.fileitems.file_saved = file;
+        req.fileitems.file_selected_id = file._id;
+        return next();
+    } else {
+        req.fileitems.file_saved = null;
+        req.fileitems.file_selected_id = null;
+        return res.status(400).send({
+            status: 400,
+            message: 'File not exited or deleted',
+            data: null
+        });
+    }
+}
+async function checkFileRequestIfHave(req, res, next) {
+    let file = await findFile(req);
+    if (file && !file.isDeleted) {
+        req.fileitems.file_saved = file;
+    } else {
+        req.fileitems.file_saved = null;
+    }
+    return next();
+}
 async function getAllFiles() {
     return (await FileItem.find({isDeleted: false })).map(file => {
         return file.getBasicInfo();
@@ -70,6 +95,7 @@ async function postFiles(req, res, next) {
     try {
         req.fileitems.file_saved = null;
         req.fileitems.file_selected_id = null;
+        req.fileitems.files_saved = null;
         if (!req.files) {
             throw new Error("Input files null");
         }
@@ -265,28 +291,50 @@ async function postFileIfHave(req, res, next) {
         });
     }
 }
-async function deleteFile(req, res) {
+async function updateFile(req, res, next) {
     try {
-        let file = await findFile(req);
-        req.fileitems.file_saved= file;
-        req.fileitems.file_selected_id = file ? file._id : null;
-        if (!file || file.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit file',
-                data: null,
-                error: 'Not exit file',
-            });
+        let file = req.fileitems.file_saved;
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
+        if (!req.file) {
+            throw new Error("Input file null");
         }
+        file.id = req.file.filename;
+        file.name = req.file.originalname;
+        file.type = req.file.mimetype;
+        file.size = req.file.size;
+        file.createDate = new Date();
+        file.isDeleted = false;
+        file.user = user ? {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        } : null;
+        file.group = group ? {
+            id: group._id,
+            name: group.name,
+        } : null;
+        file = await file.save();
+        req.fileitems.file_saved = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
+        return next();
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Update file Failed',
+            data: null,
+            error: error.message
+        });
+    }
+}
+async function deleteFile(req, res, next) {//TODO: check permission delete file.
+    try {
+        let file = req.fileitems.file_saved;
         file.isDeleted = true;
         file = await file.save();
         req.fileitems.file_saved= file;
         req.fileitems.file_selected_id = file ? file._id : null;
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: file.getBasicInfo(),
-        });
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -298,27 +346,11 @@ async function deleteFile(req, res) {
 }
 async function getInfoFile(req, res) {
     try {
-        let  file = await findFile(req);
-        req.fileitems.file_saved= file;
-        req.fileitems.file_selected_id = file ? file._id : null;
-        if (!file) {
-            return res.status(400).json({
-                code: 400,
-                message: 'File not exited or deleted.',
-                data: null
-            });
-        } 
-        if (file.isDeleted) {
-            return res.status(400).json({
-                code: 400,
-                message: 'File deleted.',
-                data: null
-            });
-        } 
+        let  file = req.fileitems.file_saved;
         return res.json({
             code: 200,
             message: 'Success',
-            data: file.getBasicInfo(file)
+            data: file.getBasicInfo()
         });
     } catch (error) {
         return res.status(400).json({
@@ -339,10 +371,12 @@ async function getInfoFiles(req, res) {
                 data: null
             });
         }
+        let datas = files.filter(file => file.isDeleted === false).map(file => file.getBasicInfo());
         return res.json({
             code: 200,
             message: 'Success',
-            data: files.filter(file => file.isDeleted === false).map(file => file.getBasicInfo()),
+            length: datas.length,
+            data: datas,
         });
     } catch (error) {
         return res.status(400).json({
@@ -356,16 +390,7 @@ async function getInfoFiles(req, res) {
 
 async function getOrAttachFile(req, res, isAttach) {
     try {
-        let file = await findFile(req);
-        req.fileitems.file_saved= file;
-        req.fileitems.file_selected_id = file ? file._id : null;
-        if (!file || file.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Not exit file.',
-                data: null
-            });
-        }
+        let file = req.fileitems.file_saved;
         let readStream = fs.createReadStream(getLocalFilePath(file));
         readStream.on("open", () => {
             res.setHeader('Content-Type', file.type);
@@ -462,3 +487,6 @@ exports.postFiles = postFiles;
 exports.cleanUploadFolder = cleanUploadFolder;
 exports.postFileIfHave = postFileIfHave;
 exports.postFilesIfHave = postFilesIfHave;
+exports.checkFileRequest = checkFileRequest;
+exports.checkFileRequestIfHave = checkFileRequestIfHave;
+exports.updateFile = updateFile;

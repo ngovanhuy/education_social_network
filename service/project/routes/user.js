@@ -11,13 +11,13 @@ router.route('/')
     .delete(userController.deleteUser, userController.getUser)
     .post(userController.postUser, userController.getUser);
 router.route('/profileImage/:userID')
-    .get(userController.checkUserRequest, userController.getProfileImageID, fileController.getFile)
-    .put(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage)
-    .post(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage);
+    .get(userController.checkUserRequest, userController.getProfileImageID, fileController.checkFileRequest, fileController.getFile)
+    .put(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage, fileController.getInfoFile)
+    .post(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage, fileController.getInfoFile)
 router.route('/coverImage/:userID')
-    .get(userController.checkUserRequest, userController.getCoverImageID, fileController.getFile)
-    .put(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage)
-    .post(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putCoverImage);
+    .get(userController.checkUserRequest, userController.getCoverImageID, fileController.checkFileRequest, fileController.getFile)
+    .put(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putCoverImage, fileController.getInfoFile)
+    .post(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putCoverImage, fileController.getInfoFile)
 
 router.route('/friends/:userID').get(userController.checkUserRequest, userController.getFriends);
 router.route('/friends/:userID/:friendUserID')
@@ -46,9 +46,10 @@ router.route('/classrequest/:userID/:groupID')
 router.route('/login/').post(userController.login);
 router.route('/info/:userID').get(userController.checkUserRequest, userController.getUserInfo);
 router.route('/files/:userID')
-    .get(userController.checkUserRequest, userController.getFiles)
+    .get(userController.checkUserRequest, userController.getFiles, fileController.getInfoFiles)
     .post(fileController.arrayFileUpload, userController.checkUserRequest, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(userController.searchUserByName);
+router.route('/all').get(userController.getUsers);
 router.route('/:userID')
     .get(userController.checkUserRequest, userController.getUser)
     .put(userController.checkUserRequest, userController.putUser, userController.getUser)

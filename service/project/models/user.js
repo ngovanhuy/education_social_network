@@ -146,12 +146,11 @@ let UserSchema = new mongoose.Schema(
             type: Date,
             default: new Date(),
         },
-        timeUpdate: {
+        timeUpdate : {
             type: Date,
             default: new Date(),
         },
-    }
-);
+    });
 UserSchema.pre('save', function (callback) {
     let user = this;
     user.timeUpdate = new Date();

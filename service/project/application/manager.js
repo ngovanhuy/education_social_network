@@ -24,8 +24,8 @@ db.on('disconnected', () => {
     console.log('Connection to db disconnected.');
 });
 
-var firstConnectSuccess = 0;
-var interval = null;
+let firstConnectSuccess = 0;
+let interval = null;
 function start() {
     interval = setInterval(() => {
         if (firstConnectSuccess > 0) {
