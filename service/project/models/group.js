@@ -24,7 +24,7 @@ let StatusEnum = {
 };
 let GroupSchema = new mongoose.Schema(
     {
-        _id: { type: Number, default: getNewID },// id: { type: Number, unique: true, require: true, index: true },
+        _id: { type: Number, default: getNewID },// id: { type: Number, unique: true, require: true, index: true, default: Date.now() },
         name: { type: String, required: true },
         typegroup: { type: Number, require: false, default: 0, min: 0, max: 1000 },
         profileImageID: { type: String, required: false, default: null, },
