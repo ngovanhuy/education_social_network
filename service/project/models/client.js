@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var utils = require('../application/utils');
 var ClientSchema = new mongoose.Schema({
-    _id: { type: String, required: true, default: Date.now()},
+    _id: { type: String, required: true, default: new Date()},
     name: { type: String, required: true, index: true},
     secret: { type: String, required: true, default: getNewSecret()},
     userId: { type: String, required: true },

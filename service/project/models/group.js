@@ -24,7 +24,7 @@ let StatusEnum = {
 };
 let GroupSchema = new mongoose.Schema(
     {
-        _id: { type: Number, default: getNewID() },// id: { type: Number, unique: true, require: true, index: true, default: Date.now() },
+        _id: { type: Number, default: getNewID },// id: { type: Number, unique: true, require: true, index: true },
         name: { type: String, required: true },
         typegroup: { type: Number, require: false, default: 0, min: 0, max: 1000 },
         profileImageID: { type: String, required: false, default: null, },
@@ -32,7 +32,7 @@ let GroupSchema = new mongoose.Schema(
         about: { type: String, required: false, default: "", },
         language: {
             type: [{
-                _id: { type: Number, default: getNewID() },
+                _id: { type: Number, default: getNewID },
                 code: String,
                 text: String,
                 isDefault: Boolean,
@@ -248,7 +248,7 @@ function isAdmin(user) {
     return TypeMemberEnum[member.typemember] === 'Admin';
 }
 function getNewID() {
-    return new Date().getTime();
+    return Date.now();
 }
 function addUserInArray(new_user, arrays) {
     if (!new_user) {

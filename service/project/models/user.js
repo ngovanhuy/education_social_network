@@ -17,7 +17,7 @@ let StatusEnum = {
 };
 let UserSchema = new mongoose.Schema(
     {
-        _id: { type: Number, default: getNewID() },// id: { type: Number, unique: true, require: true, index: true, default: Date.now() },
+        _id: { type: Number, default: getNewID },// id: { type: Number, unique: true, require: true, index: true },
         username: { type: String, unique: true, required: true, },
         password: { type: String, required: true },
         firstName: { type: String, required: true, },
@@ -34,7 +34,7 @@ let UserSchema = new mongoose.Schema(
         nickname: { type: [String], required: false, },
         skills: {
             type: [{
-                _id: { type: Number, default: getNewID() },
+                _id: { type: Number, default: getNewID },
                 name: String,
                 description: String,
                 isRemoved: {type: Boolean, default: false}
@@ -44,7 +44,7 @@ let UserSchema = new mongoose.Schema(
         },
         worked: {
             type: [{
-                _id: { type: Number, default: getNewID() },
+                _id: { type: Number, default: getNewID },
                 startTime: Date,
                 endTime: { type: Date, default: null },
                 where: String,
@@ -56,7 +56,7 @@ let UserSchema = new mongoose.Schema(
         },
         language: {
             type: [{
-                _id: { type: Number, default: getNewID() },
+                _id: { type: Number, default: getNewID },
                 code: String,
                 text: String,
                 isDefault: {type: Boolean, default: false},
@@ -67,7 +67,7 @@ let UserSchema = new mongoose.Schema(
         },
         lifeEvent: {
             type: [{
-                _id: { type: Number, default: getNewID() },
+                _id: { type: Number, default: getNewID },
                 startTime: Date,
                 endTime: { type: Date, default: null },
                 description: String,
@@ -408,7 +408,7 @@ function getBirthDate(dateString) {
     return Utils.parseDate(dateString);
 }
 function getNewID() {
-    return new Date().getTime();
+    return Date.now();
 }
 function verifyPassword(password, cb) {
     bcrypt.compare(password, this.password, (err, isMatch) => err ? cb(err) : cb(null, isMatch));
