@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import FileInput from '@ranyefet/react-file-input'
 import './userProfile.css'
 import {DOMAIN_SERVICE, defaultConstants} from "../../constants";
-import {fileUtils} from "../../utils";
+import {fileUtils, userUtils} from "../../utils";
 
 class UserProfileTopContent extends Component {
     render() {
@@ -26,9 +26,9 @@ class UserProfileTopContent extends Component {
                                         </FileInput>
                                     </div>
                                 </div>
-                                <div className="profile-picture">
+                                <div className="profile-picture img-circle">
                                     <img className="img-circle"
-                                         src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                                         src={user && fileUtils.renderFileSource(user.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}/>
                                     <div className="cover-profile-picture">
                                         <FileInput name="profilePicture"
                                                    onChange={(event) => onUploadProfilePicture(event.target.files[0])}>

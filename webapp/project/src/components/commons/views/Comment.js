@@ -4,22 +4,26 @@ import {Link} from 'react-router-dom'
 import UserProfileInfo from "./UserProfileInfo";
 import ReactComment from "./ReactComment";
 import NewComment from "./NewComment";
-import {dateUtils, fileUtils} from "../../../utils";
-import {defaultConstants} from "../../../constants";
+import {dateUtils, fileUtils, userUtils} from "../../../utils";
+import {defaultConstants, userConstants} from "../../../constants";
 
 class Comment extends Component {
     render() {
         const {comment, post} = this.props
         var favouritedComment = false, hasReply = false, showReactComment = false
         const user = {
-            id: comment.userID, firstName: comment.firstName, lastName: comment.lastName
+            id: comment.userID, firstName: comment.firstName,
+            lastName: comment.lastName,
+            gender: {
+                enum_id: userConstants.GENDER.NONE
+            },
         }
         return (
             <div className="comment clearfix">
                 <div className="comment-user-profile-picture">
                     <Link to={`/users/${user.id}`}>
                         <img className="img-circle"
-                             src={fileUtils.renderFileSource(comment.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}></img>
+                             src={fileUtils.renderFileSource(comment.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}></img>
                     </Link>
                 </div>
                 <div className="comment-content-info">

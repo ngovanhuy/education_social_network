@@ -13,6 +13,7 @@ export const postService = {
     getFavourites,
     insertFavourite,
     deleteFavourite,
+    getById,
 };
 
 function getPostsByUserId(userId) {
@@ -131,6 +132,15 @@ function deleteFavourite(postId, userID) {
     const url = DOMAIN_SERVICE + '/posts/like/' + postId;
     return fetch(url, requestOptions)
         .then(handleResponse)
+}
+
+function getById(postId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/posts/' + postId;
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

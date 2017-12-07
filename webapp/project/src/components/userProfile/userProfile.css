@@ -16,10 +16,17 @@
   z-index: 4;
   position: absolute;
   top: 175px;
-  left: 25px; }
+  left: 25px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.07);
+  display: block;
+  padding: 1px;
+  position: absolute;
+  box-shadow: none; }
   .top-content-user-profile .profile-picture img {
     width: 175px;
-    height: 175px; }
+    height: 175px;
+    background-color: #fff; }
   .top-content-user-profile .profile-picture .cover-profile-picture {
     display: none;
     background-color: #CCCCCC;

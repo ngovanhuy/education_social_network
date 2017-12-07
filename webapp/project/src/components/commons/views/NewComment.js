@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import FileInput from '@ranyefet/react-file-input'
 import '../common.css'
-import {fileUtils} from "../../../utils";
+import {fileUtils, userUtils} from "../../../utils";
 import {defaultConstants, postConstants} from "../../../constants";
 import {postActions} from "../../../actions";
 
@@ -25,10 +25,10 @@ class NewComment extends Component {
             e.preventDefault();
 
             const {content, fileUpload} = this.state;
-            const {post, user} = this.props
+            const {post, user, contextView} = this.props
             this.setState({submitted: true});
 
-            this.props.dispatch(postActions.insertComment(post.id, user.id, content, fileUpload))
+            this.props.dispatch(postActions.insertComment(post.id, user.id, content, fileUpload, contextView))
 
             this.setState({
                 ...this.state,
@@ -48,11 +48,11 @@ class NewComment extends Component {
     }
 
     render() {
-        const {post} = this.props
+        const {post, contextView} = this.props
         return (
             <div className="new-comment clearfix">
                 <img
-                    src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profilePictureUrl, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                    src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profilePictureUrl, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}/>
                 <form className="navbar-form">
                     <div className="navbar-search">
                         <input type="text" placeholder="Write somthing …" className="form-control" name="content"
@@ -70,4 +70,4 @@ class NewComment extends Component {
     }
 }
 
-export default connect(null, null)(NewComment)
+export default connect(null)(NewComment)

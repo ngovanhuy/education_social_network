@@ -62,7 +62,8 @@ class ClassTopicPage extends Component {
                         </div>
                         <div className="row">
                             <div className="class-feed">
-                                <Feed feed={posts} user={user} context={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
+                                <Feed feed={posts} user={user}
+                                      contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
                             </div>
                         </div>
                     </div>

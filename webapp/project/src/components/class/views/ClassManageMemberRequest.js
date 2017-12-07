@@ -6,6 +6,8 @@ import {defaultConstants} from "../../../constants/defaultConstant";
 import {fileUtils} from "../../../utils/fileUtils";
 import {userService} from "../../../services/userService";
 import {userActions} from "../../../actions/userActions";
+import {userUtils} from "../../../utils";
+import {userConstants} from "../../../constants";
 
 class ClassManageMemberRequest extends Component {
 
@@ -20,12 +22,15 @@ class ClassManageMemberRequest extends Component {
             id: memberRequest._id.toString(),
             firstName: memberRequest.firstName,
             lastName: memberRequest.lastName,
+            gender: {
+                enum_id: userConstants.GENDER.NONE
+            },
         }
         return (
             <div key={index} className="member-request clearfix">
                 <div className="member-info">
                     <img
-                        src={memberRequest && fileUtils.renderFileSource(memberRequest.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                        src={memberRequest && fileUtils.renderFileSource(memberRequest.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}/>
                     <div className="member-info-content">
                         <UserProfileInfo user={user}/>
                         <div>

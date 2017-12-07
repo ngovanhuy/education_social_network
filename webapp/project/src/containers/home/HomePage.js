@@ -25,8 +25,8 @@ class HomePage extends Component {
         notifcationsLatest: [{
             title: 'Giao lưu hỏi đáp "Cuộc đua số - Xe tự hành 2017 - 2018',
             createTime: new Date(),
-            from:{
-                user:{
+            from: {
+                user: {
                     id: "1",
                     coverPhotoUrl: "/images/cover_photo.jpg",
                     profilePictureUrl: "/images/profile_picture.png",
@@ -34,11 +34,11 @@ class HomePage extends Component {
                     userName: "ngovanhuy0241"
                 }
             }
-        },{
+        }, {
             title: 'Giao lưu hỏi đáp "Cuộc đua số - Xe tự hành 2017 - 2018',
             createTime: new Date(),
-            from:{
-                user:{
+            from: {
+                user: {
                     id: "1",
                     coverPhotoUrl: "/images/cover_photo.jpg",
                     profilePictureUrl: "/images/profile_picture.png",
@@ -46,11 +46,11 @@ class HomePage extends Component {
                     userName: "ngovanhuy0241"
                 }
             }
-        },{
+        }, {
             title: 'Giao lưu hỏi đáp "Cuộc đua số - Xe tự hành 2017 - 2018',
             createTime: new Date(),
-            from:{
-                user:{
+            from: {
+                user: {
                     id: "1",
                     coverPhotoUrl: "/images/cover_photo.jpg",
                     profilePictureUrl: "/images/profile_picture.png",
@@ -63,7 +63,7 @@ class HomePage extends Component {
 
     componentWillMount() {
         var {user} = this.props;
-        if(!user || !user.id){
+        if (!user || !user.id) {
             user = JSON.parse(localStorage.getItem('user'))
         }
         this.props.dispatch(userActions.getById(user.id));
@@ -76,7 +76,7 @@ class HomePage extends Component {
         const {schoolDetail, user, classUserJoined, notifcationsLatest} = this.props
         var {posts} = this.props
         posts = posts ? posts : []
-        posts = posts.sort(function(a,b){
+        posts = posts.sort(function (a, b) {
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
 
@@ -101,11 +101,12 @@ class HomePage extends Component {
                                 <div className="col-sm-8">
                                     <div className="home-feed">
                                         <Feed feed={posts} user={user}
-                                              context={postConstants.CONTEXT_VIEW.IN_HOME_PAGE}/>
+                                              contextView={postConstants.CONTEXT_VIEW.IN_HOME_PAGE}/>
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <HomeRightmenu events={eventsByUserAfterUpdateInfo} notifcationsLatest={notifcationsLatest}
+                                    <HomeRightmenu events={eventsByUserAfterUpdateInfo}
+                                                   notifcationsLatest={notifcationsLatest}
                                                    schoolDetail={schoolDetail}/>
                                 </div>
                             </div>

@@ -7,6 +7,7 @@ import {fileUtils} from "../../../utils/fileUtils";
 import {classActions} from "../../../actions/classActions";
 import {postConstants} from "../../../constants";
 import {postActions} from "../../../actions";
+import {userUtils} from "../../../utils";
 
 class PostCreateAnnouncement extends Component {
     constructor(props) {
@@ -79,7 +80,7 @@ class PostCreateAnnouncement extends Component {
                 topic, false, []
             )
         )
-        this.props.dispatch(postActions.getPostsByClassId(classDetail.id))
+        this.props.dispatch(postActions.getPostsByUserId(user.id))
         this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, user.id))
 
         this.setState({
@@ -97,7 +98,7 @@ class PostCreateAnnouncement extends Component {
                 <div className="new-post-content clearfix">
                     <div className="user-create-post">
                         <img
-                            src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                            src={user && fileUtils.renderFileSource(user.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}/>
                     </div>
                     <div className="new-post-message controls">
                         <textarea className="form-control" rows="1" placeholder="Title" name="title"

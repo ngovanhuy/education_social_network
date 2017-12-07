@@ -3,24 +3,33 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import {postActions} from "../../../actions";
+import {postConstants} from "../../../constants";
 
 class ReactPost extends Component {
     constructor(props){
         super(props)
         this.handleFavouritePost = this.handleFavouritePost.bind(this)
         this.handleUnFavouritePost = this.handleUnFavouritePost.bind(this)
+        this.loadAllComments = this.loadAllComments.bind(this)
+    }
+
+    loadAllComments(postId){
+        const {contextView} = this.props
+        this.props.dispatch(postActions.getComments(postId, contextView))
     }
 
     handleFavouritePost(post, user){
-        this.props.dispatch(postActions.insertFavourite(post, user.id))
+        const {contextView} = this.props
+        this.props.dispatch(postActions.insertFavourite(post, user.id, contextView))
     }
 
     handleUnFavouritePost(post, user){
-        this.props.dispatch(postActions.deleteFavourite(post, user.id))
+        const {contextView} = this.props
+        this.props.dispatch(postActions.deleteFavourite(post, user.id, contextView))
     }
 
     render() {
-        const {post, favouritedPost, user} = this.props
+        const {post, user, favouritedPost, contextView} = this.props
         return (
             <div className="post-reacts clearfix">
                 <div className="post-react favourite">
@@ -40,7 +49,7 @@ class ReactPost extends Component {
                     <span className="badge badge-primary badge-small">{post.countLikes}</span>
                 </div>
                 <div className="post-react comment">
-                    <a href="javascript:;">
+                    <a href="javascript:;" onClick={() => this.loadAllComments(post.id)}>
                         <i className="fa  fa-comment-o"></i>
                         Comment
                     </a>
@@ -64,11 +73,4 @@ class ReactPost extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const {user} = state.authentication
-    return {
-        user
-    }
-}
-
-export default connect(mapStateToProps)(ReactPost)
+export default connect(null)(ReactPost)

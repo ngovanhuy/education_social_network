@@ -141,7 +141,7 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 classDetail: {
                     ...state.classDetail,
-                    posts: action.data
+                    posts: action.posts
                 }
             };
         case classConstants.CLASSES_GETPOSTS_FAILURE:
@@ -161,7 +161,7 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 classDetail: {
                     ...state.classDetail,
-                    postsByUser: action.data
+                    postsByUser: action.posts
                 }
             };
         case classConstants.CLASSES_GETPOSTSBYUSER_FAILURE:
@@ -181,7 +181,7 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 classDetail: {
                     ...state.classDetail,
-                    postsByTopic: action.data
+                    postsByTopic: action.posts
                 }
             };
         case classConstants.CLASSES_GETPOSTSBYTOPIC_FAILURE:
@@ -261,7 +261,7 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false
             };
         case classConstants.CLASSES_INSERTPOST_FAILURE:
-            return{
+            return {
                 ...state,
                 loading: false,
                 error: action.error
@@ -277,12 +277,24 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 classDetail: {
                     ...state.classDetail,
-                    postsByUser: state.classDetail.postsByUser.map(post => post.id == action.data.post.postID ?
-                        {
-                            ...post,
-                            comments: action.data.comments
-                        } : post
-                    )
+                    postsByUser: (state.classDetail.postsByUser && state.classDetail.postsByUser.length > 0) ?
+                        (
+                            state.classDetail.postsByUser.map(post => post.id == action.data.post.postID ?
+                                {
+                                    ...post,
+                                    comments: action.data.comments
+                                } : post
+                            )
+                        ) : [],
+                    postsByTopic: (state.classDetail.postsByTopic && state.classDetail.postsByTopic.length > 0) ?
+                        (
+                            state.classDetail.postsByTopic.map(post => post.id == action.data.post.postID ?
+                                {
+                                    ...post,
+                                    comments: action.data.comments
+                                } : post
+                            )
+                        ) : []
                 }
             };
         case classConstants.CLASSES_GETCOMMENTS_FAILURE:
@@ -291,22 +303,6 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 error: action.error
             };
-        case classConstants.CLASSES_INSERTCOMMENT_REQUEST:
-            return {
-                ...state,
-                loading: true,
-            };
-        case classConstants.CLASSES_INSERTCOMMENT_SUCCESS:
-            return {
-                ...state,
-                loading: false
-            };
-        case classConstants.CLASSES_INSERTCOMMENT_FAILURE:
-            return{
-                ...state,
-                loading: false,
-                error: action.error
-            }
         case classConstants.CLASSES_GETFAVOURITES_REQUEST:
             return {
                 ...state,
@@ -332,22 +328,6 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 error: action.error
             };
-        case classConstants.CLASSES_INSERTFAVOURITES_REQUEST:
-            return {
-                ...state,
-                loading: true,
-            };
-        case classConstants.CLASSES_INSERTFAVOURITES_SUCCESS:
-            return {
-                ...state,
-                loading: false
-            };
-        case classConstants.CLASSES_INSERTFAVOURITES_FAILURE:
-            return{
-                ...state,
-                loading: false,
-                error: action.error
-            }
         case classConstants.CLASSES_DELETEFAVOURITE_REQUEST:
             return {
                 ...state,
@@ -359,11 +339,36 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false
             };
         case classConstants.CLASSES_DELETEFAVOURITE_FAILURE:
-            return{
+            return {
                 ...state,
                 loading: false,
                 error: action.error
             }
+        case  classConstants.CLASSES_UPDATEPOSTINFO_SUCCESS:
+            return {
+                ...state,
+                classDetail: {
+                    ...state.classDetail,
+                    postsByUser: (state.classDetail.postsByUser && state.classDetail.postsByUser.length > 0) &&
+                        (
+                            state.classDetail.postsByUser.map(post => post.id == action.postDetail.id ?
+                                {
+                                    ...post,
+                                    ...action.postDetail,
+                                } : post
+                            )
+                        ),
+                    postsByTopic: (state.classDetail.postsByTopic && state.classDetail.postsByTopic.length > 0) &&
+                        (
+                            state.classDetail.postsByTopic.map(post => post.id == action.postDetail.id ?
+                                {
+                                    ...post,
+                                    ...action.postDetail,
+                                } : post
+                            )
+                        )
+                }
+            };
         default:
             return state
     }

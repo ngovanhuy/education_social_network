@@ -7,6 +7,7 @@ import * as FileUtil from '../../utils/fileUtils'
 import ClassMembersHeadline from "./views/ClassMembersHeadline";
 import {defaultConstants} from "../../constants/defaultConstant";
 import {fileUtils} from "../../utils/fileUtils";
+import {userUtils} from "../../utils";
 
 class ClassMembers extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class ClassMembers extends Component {
                         <Link to={`/users/${member._id}`}>
                             <div className="text-center panel-member-col">
                                 <img
-                                    src={member &&  fileUtils.renderFileSource(member.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}
+                                    src={member &&  fileUtils.renderFileSource(member.profileImageID, userUtils.renderSourceProfilePictureDefault(member.gender))}
                                     className="img-circle" alt="No Image"/>
 
                                 <h4 className="thin">

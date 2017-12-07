@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import EventInfo from "../../commons/views/EventProfileInfo";
+import EventProfileInfo from "../../commons/views/EventProfileInfo";
 import '../event.css'
 import {dateUtils, fileUtils} from "../../../utils";
 import {defaultConstants} from "../../../constants";
@@ -15,7 +15,7 @@ class EventsAgenda extends Component{
                     </div>
                     <div className="event-detail">
                         <div className="event-name">
-                            <EventInfo event={event}/>
+                            <EventProfileInfo event={event}/>
                         </div>
                         <div className="event-location">
                             {event.location}

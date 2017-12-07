@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import ClassInfo from "../commons/views/ClassProfileInfo";
+import ClassProfileInfo from "../commons/views/ClassProfileInfo";
 import {defaultConstants} from "../../constants/defaultConstant";
 import {fileUtils} from "../../utils/fileUtils";
 import {classConstants} from "../../constants/classConstants";
@@ -68,7 +68,7 @@ class Classes extends Component {
                             {
                                 classDetail.statusOfCurrentUser === classConstants.STATUS_OF_USER_IN_CLASS.JOINED ?
                                     (
-                                        <ClassInfo classDetail={classDetail}/>
+                                        <ClassProfileInfo classDetail={classDetail}/>
                                     ) :
                                     (
                                         <span className="class-full-name">{classDetail.name}</span>

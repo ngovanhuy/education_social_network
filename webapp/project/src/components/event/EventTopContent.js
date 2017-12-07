@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
 import './event.css'
-import ClassInfo from "../commons/views/ClassProfileInfo";
+import ClassProfileInfo from "../commons/views/ClassProfileInfo";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import {dateUtils, fileUtils} from "../../utils";
 import {defaultConstants, eventConstants} from "../../constants";
@@ -37,7 +37,7 @@ class EventTopContent extends Component {
                                         eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP ?
                                             (
                                                 <span className="event-for-class">
-                                                    Event for <ClassInfo classDetail={eventDetail.contextData}/>
+                                                    Event for <ClassProfileInfo classDetail={eventDetail.contextData}/>
                                                 </span>
                                             ) : ''
                                     }

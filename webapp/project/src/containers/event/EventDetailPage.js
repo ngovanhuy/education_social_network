@@ -52,7 +52,7 @@ class EventDetailPage extends Component {
                                         </div>
                                         <div className="ui-box-content clearfix">
                                             <div className="user-profile-picture">
-                                                <img src={eventDetail.userCreate && fileUtils.renderFileSource(eventDetail.userCreate.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                                                <img src={eventDetail.userCreate && fileUtils.renderFileSource(eventDetail.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(eventDetail.userCreate.gender))}/>
                                             </div>
                                             <div className="user-detail">
                                                 <UserProfileInfo user={eventDetail.userCreate}/>

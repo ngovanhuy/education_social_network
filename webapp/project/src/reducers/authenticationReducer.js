@@ -1,4 +1,4 @@
-import {userConstants} from '../constants';
+import {classConstants, userConstants} from '../constants';
 
 export function authentication(state = {}, action) {
     switch (action.type) {
@@ -43,7 +43,6 @@ export function authentication(state = {}, action) {
             return {
                 ...state
             };
-
         case userConstants.USERS_GETCLASSJOINED_REQUEST:
             return {
                 ...state,
@@ -94,6 +93,70 @@ export function authentication(state = {}, action) {
                 ...state,
                 loading: false,
                 error: action.error
+            };
+        case userConstants.USERS_GETCOMMENTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case userConstants.USERS_GETCOMMENTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                posts: (state.posts && state.posts.length > 0) ?
+                    (
+                        state.posts.map(post => post.id == action.data.post.postID ?
+                            {
+                                ...post,
+                                comments: action.data.comments
+                            } : post
+                        )
+                    ) : []
+            };
+        case userConstants.USERS_GETCOMMENTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case userConstants.USERS_GETFAVOURITES_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case userConstants.USERS_GETFAVOURITES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                posts: (state.posts && state.posts.length > 0) ?
+                    (
+                        state.posts.map(post => post.id == action.data.post.postID ?
+                            {
+                                ...post,
+                                favourites: action.data.likes
+                            } : post
+                        )
+
+                    ) : []
+            };
+        case userConstants.USERS_GETFAVOURITES_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case  userConstants.USERS_UPDATEPOSTINFO_SUCCESS:
+            return {
+                ...state,
+                posts: (state.posts && state.posts.length > 0) &&
+                    (
+                        state.posts.map(post => post.id == action.postDetail.id ?
+                            {
+                                ...post,
+                                ...action.postDetail,
+                            } : post
+                        )
+                    )
             };
         default:
             return state

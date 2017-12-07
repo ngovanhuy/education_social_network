@@ -67,6 +67,7 @@ class HomeLeftmenu extends Component {
     render() {
         const {schoolDetail, user, classes} = this.props
         const isTeacher = userUtils.checkIsTeacher(user)
+        const defaultImage = user && userUtils.renderSourceProfilePictureDefault(user.gender)
         return (
             <div className="home-leftmenu clearfix">
                 <div className="row">
@@ -84,11 +85,13 @@ class HomeLeftmenu extends Component {
                                     {
                                         user &&
                                         (
-                                            <Link to={`/users/${user.id}`}>
-                                                <img src={user &&
-                                                fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                                            <span>
+                                                <Link to={`/users/${user.id}`}>
+                                                    <img src={user &&
+                                                    fileUtils.renderFileSource(user.profileImageID, defaultImage)}/>
+                                                </Link>
                                                 <UserProfileInfo user={user}/>
-                                            </Link>
+                                            </span>
                                         )
                                     }
                                 </li>

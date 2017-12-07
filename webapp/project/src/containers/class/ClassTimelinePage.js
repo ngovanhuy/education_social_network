@@ -10,6 +10,7 @@ import Feed from "../../components/commons/Feed";
 import {classActions, postActions} from "../../actions";
 import {userUtils} from "../../utils";
 import queryString from "query-string"
+import {postConstants} from "../../constants";
 
 class ClassTimelinePage extends Component {
     constructor(props) {
@@ -72,7 +73,7 @@ class ClassTimelinePage extends Component {
                         </div>
                         <div className="row">
                             <div className="class-feed">
-                                <Feed feed={posts} user={user}/>
+                                <Feed feed={posts} user={user} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
                             </div>
                         </div>
                     </div>

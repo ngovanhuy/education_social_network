@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import UserProfileInfo from './views/UserProfileInfo'
-import {dateUtils, fileUtils} from '../../utils'
+import {dateUtils, fileUtils, userUtils} from '../../utils'
 import './common.css'
 import Attachment from "./views/Attachment";
 import ReactPost from "./views/ReactPost";
 import Comment from "./views/Comment";
 import {defaultConstants, postConstants} from "../../constants";
-import {postActions, userActions} from "../../actions";
-import ClassInfo from "./views/ClassProfileInfo";
+import {classActions, eventActions, postActions, userActions} from "../../actions";
+import ClassProfileInfo from "./views/ClassProfileInfo";
 
 class Post extends Component {
     static propTypes = {
@@ -18,18 +18,19 @@ class Post extends Component {
     }
 
     componentWillMount() {
-        const {post} = this.props;
+        const {post, contextView} = this.props;
         if (post) {
-            this.props.dispatch(postActions.getFavourites(post.id));
+            this.props.dispatch(postActions.getFavourites(post.id, contextView));
         }
     }
 
-    checkUserFavouritePost = (post, user) => {
-        var favourited = false;
-        if (post.favourites && post.favourites && post.favourites.length > 0 && post.favourites.indexOf(user.id)) {
-            favourited = true;
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.post.id !== this.props.post.id) {
+            const {post, contextView} = this.props;
+            if (post) {
+                this.props.dispatch(postActions.getFavourites(post.id, contextView));
+            }
         }
-        return favourited;
     }
 
     renderContextTopic(topic, index, classDetailOfPost) {
@@ -44,8 +45,16 @@ class Post extends Component {
         )
     }
 
+    checkUserFavouritePost = (post, user) => {
+        var favourited = false;
+        if (post.favourites && post.favourites && post.favourites.length > 0 && post.favourites.indexOf(user.id)) {
+            favourited = true;
+        }
+        return favourited;
+    }
+
     render() {
-        const {post, user, context} = this.props
+        const {post, user, contextView} = this.props
         var favouritedPost = this.checkUserFavouritePost(post, user);
         var classDetailOfPost = {
             id: post.group && post.group.id,
@@ -57,7 +66,7 @@ class Post extends Component {
             <div className="post-detail">
                 <div className="post-context clearfix">
                     <img className="post-user-profile-picture img-circle"
-                         src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}></img>
+                         src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}></img>
                     <div className="post-context-content">
                         <span className="post-context-user-group">
                             <span className="post-context-user">
@@ -65,12 +74,12 @@ class Post extends Component {
                             </span>
                             {
                                 (
-                                    (context == postConstants.CONTEXT_VIEW.IN_HOME_PAGE || context == postConstants.CONTEXT_VIEW.IN_USER_PAGE)
+                                    (contextView == postConstants.CONTEXT_VIEW.IN_HOME_PAGE || contextView == postConstants.CONTEXT_VIEW.IN_USER_PAGE)
                                     && classDetailOfPost && classDetailOfPost !== {}
                                 ) &&
                                 <span className="post-context-class">
                                         <i className="post-context-image"><u>to</u></i>
-                                        <ClassInfo classDetail={classDetailOfPost}/>
+                                        <ClassProfileInfo classDetail={classDetailOfPost}/>
                                     </span>
                             }
                             {
@@ -118,17 +127,10 @@ class Post extends Component {
                         }
                     </div>
                 </div>
-                <ReactPost post={post} favouritedPost={favouritedPost}/>
+                <ReactPost post={post} user={user} favouritedPost={favouritedPost} contextView={contextView}/>
             </div>
         )
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const {user} = state.authentication
-    return {
-        user
-    }
-}
-
-export default connect(mapStateToProps)(Post);
+export default connect(null)(Post);

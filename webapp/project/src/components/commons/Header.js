@@ -123,7 +123,7 @@ class Header extends Component {
                             <li className="dropdown">
                                 <a data-toggle="dropdown" className="dropdown-toggle navbar-user" href="javascript:;">
                                     <img className="img-circle"
-                                         src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
+                                         src={user && fileUtils.renderFileSource(user.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}/>
                                     <span className="hidden-xs user_full_name">{user.firstName} {user.lastName}</span>
                                     <b className="caret"></b>
                                 </a>

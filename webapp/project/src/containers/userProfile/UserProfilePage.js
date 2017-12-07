@@ -70,7 +70,7 @@ class UserProfilePage extends Component {
                             <div className="col-sm-8">
                                 <div className="user-profile-feed">
                                     <Feed feed={posts} user={user}
-                                          context={postConstants.CONTEXT_VIEW.IN_USER_PAGE}/>
+                                          contextView={postConstants.CONTEXT_VIEW.IN_USER_PAGE}/>
                                 </div>
                             </div>
                         </div>
