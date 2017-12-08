@@ -40,7 +40,7 @@ class ClassRecentFiles extends Component{
     render(){
         const {classId, recentFiles} = this.props
         return(
-            <div className="class-recent-files files">
+            <div className="class-recent-files files has-border-radius">
                 <div>
                     <h3>
                         Recent class files

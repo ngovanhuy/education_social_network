@@ -5,6 +5,9 @@ import PostCreateAssignment from "./PostCreateAssignment";
 import PostAddAttachment from "./PostAddAttachment";
 import NewPostFooter from "./NewPostFooter";
 import CreateEventModal from "../../event/views/CreateEventModal";
+import {eventActions} from "../../../actions";
+import {connect} from "react-redux";
+import {dateUtils} from "../../../utils";
 
 class NewPost extends Component {
     constructor() {
@@ -14,6 +17,7 @@ class NewPost extends Component {
         }
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleCreateEvent = this.handleCreateEvent.bind(this);
     }
     openModal() {
         this.setState({modalIsOpen: true});
@@ -23,10 +27,17 @@ class NewPost extends Component {
         this.setState({modalIsOpen: false});
     }
 
+    handleCreateEvent = (imageUpload, title, location, content, start, end) => {
+        this.setState({modalCreateEventIsOpen: false});
+        const {user, classDetail} = this.props
+        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
+    }
+
     render() {
         const {classDetail, isTeacher} = this.props
         return (
-            <div className="new-post">
+            <div className="new-post has-border-radius">
                 <div className="new-post-headline">
                     <Tabs>
                         <TabList>
@@ -66,7 +77,9 @@ class NewPost extends Component {
                                                 <i className="fa fa-calendar"></i>
                                                 Create event
                                             </a>
-                                            <CreateEventModal classDetail={classDetail} modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}/>
+                                            <CreateEventModal classDetail={classDetail} modalIsOpen={this.state.modalIsOpen}
+                                                              onSubmit={this.handleCreateEvent}
+                                                              closeModal={this.closeModal}/>
                                         </li>
                                     </ul>
                                 </div>
@@ -95,4 +108,11 @@ class NewPost extends Component {
     }
 }
 
-export default NewPost;
+function mapStateToProps(state) {
+    const {user} = state.authentication;
+    return {
+        user,
+    };
+}
+
+export default connect(mapStateToProps)(NewPost);

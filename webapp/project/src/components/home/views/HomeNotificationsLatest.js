@@ -21,7 +21,7 @@ class HomeNotificationsLatest extends Component{
         const {notifcationsLatest} = this.props
         return(
             <div className="home-notifications">
-                <div className="ui-box">
+                <div className="ui-box has-border-radius">
                     <div className="ui-box-title">
                         <span>Notifications latest</span>
                     </div>

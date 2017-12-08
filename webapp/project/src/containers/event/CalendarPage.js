@@ -7,63 +7,26 @@ import EventLeftmenu from "../../components/event/EventLeftmenu";
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment';
-BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+import {eventActions} from "../../actions";
+import {eventUtils} from "../../utils";
+import {history} from "../../helpers/history";
 
+BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
 class CalendarPage extends Component {
-    static propTypes = {
-        events: PropTypes.array,
+    componentWillMount() {
+        this.props.dispatch(eventActions.getAll());
     }
 
-    static defaultProps = {
-        events: [
-            {
-                'title': 'All Day Event very long title',
-                'allDay': true,
-                'start': new Date(2015, 3, 0),
-                'end': new Date(2015, 3, 1),
-                'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            },
-            {
-                'title': 'Long Event',
-                'start': new Date(2015, 3, 7),
-                'end': new Date(2015, 3, 10),
-                'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            },
-
-            {
-                'title': 'DTS STARTS',
-                'start': new Date(2016, 2, 13, 0, 0, 0),
-                'end': new Date(2016, 2, 20, 0, 0, 0),
-                'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            },
-
-            {
-                'title': 'DTS ENDS',
-                'start': new Date(2016, 10, 6, 0, 0, 0),
-                'end': new Date(2016, 10, 13, 0, 0, 0),
-                'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            },
-
-            {
-                'title': 'Some Event',
-                'start': new Date(2015, 3, 9, 0, 0, 0),
-                'end': new Date(2015, 3, 9, 0, 0, 0),
-                'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            },
-            {
-                'title': 'Conference',
-                'start': new Date(2015, 3, 11),
-                'end': new Date(2015, 3, 13),
-                desc: 'Big conference for important people',
-                'location': ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            }
-        ]
+    handleClickEvent = (event) => {
+        var url = `/events/${event.id}`
+        history.push(url)
     }
 
     render() {
-        const {events} = this.props
+        var {events} = this.props
+        events = eventUtils.updateInfoEvents(events)
         return (
             <div>
                 <div className="container">
@@ -75,20 +38,24 @@ class CalendarPage extends Component {
                     <div className="col-sm-10">
                         <div className="row">
                             <div className="calendar">
-                                <BigCalendar
-                                    selectable
-                                    {...this.props}
-                                    events={events}
-                                    views={allViews}
-                                    step={60}
-                                    defaultDate={new Date(2015, 3, 1)}
-                                    onSelectEvent={event => alert(event.title)}
-                                    onSelectSlot={(slotInfo) => alert(
-                                        `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-                                        `\nend: ${slotInfo.end.toLocaleString()}` +
-                                        `\naction: ${slotInfo.action}`
-                                    )}
-                                />
+                                {
+                                    (events && events.length > 0) &&
+                                    <BigCalendar
+                                        selectable
+                                        popup
+                                        {...this.props}
+                                        events={events}
+                                        views={allViews}
+                                        step={60}
+                                        defaultDate={new Date()}
+                                        onSelectEvent={event => this.handleClickEvent(event)}
+                                        onSelectSlot={(slotInfo) => alert(
+                                            `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+                                            `\nend: ${slotInfo.end.toLocaleString()}` +
+                                            `\naction: ${slotInfo.action}`
+                                        )}
+                                    />
+                                }
                             </div>
                         </div>
                     </div>
@@ -98,4 +65,13 @@ class CalendarPage extends Component {
     }
 }
 
-export default withRouter(CalendarPage);
+const mapStateToProps = (state, ownProps) => {
+    const events = state.events.items
+    const {user} = state.authentication
+    return {
+        events,
+        user
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(CalendarPage));

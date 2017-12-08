@@ -3,6 +3,27 @@ import {connect} from 'react-redux';
 import Datetime from 'react-datetime'
 import 'react-datetime/css/react-datetime.css'
 import {userActions} from "../../actions";
+import {userConstants} from "../../constants";
+import Select from 'react-select'
+import 'react-select/dist/react-select.css'
+
+const fillGenderForSelectTag = () => {
+    var genders = [
+        {
+            value: userConstants.GENDER.NONE,
+            label: "None"
+        },
+        {
+            value: userConstants.GENDER.MALE,
+            label: "Male"
+        },
+        {
+            value: userConstants.GENDER.FEMALE,
+            label: "Female"
+        }
+    ]
+    return genders;
+}
 
 class UserAbout extends Component {
     constructor(props) {
@@ -12,11 +33,12 @@ class UserAbout extends Component {
             id: '',
             firstName: '',
             lastName: '',
-            birthday: '',
+            birthday: {},
             phone: '',
             about: '',
             quote: '',
             location: '',
+            gender: '',
             submitted: false
         };
 
@@ -25,30 +47,38 @@ class UserAbout extends Component {
     }
 
     componentWillMount() {
-        this.setState({
-            id: this.props.user.id,
-            firstName: this.props.user.firstName,
-            lastName: this.props.user.lastName,
-            birthday: this.props.user.birthday,
-            phone: this.props.user.phone,
-            quote: this.props.user.quote,
-            about: this.props.user.about,
-            location: this.props.user.location,
-        });
+        const {user} = this.props
+        if (user) {
+            this.setState({
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                birthday: user.birthday,
+                phone: user.phone,
+                quote: user.quote,
+                about: user.about,
+                location: user.location,
+                gender: user.gender.enum_id.toString()
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user !== this.props.user) {
-            this.setState({
-                id: this.props.user.id,
-                firstName: this.props.user.firstName,
-                lastName: this.props.user.lastName,
-                birthday: this.props.user.birthday,
-                phone: this.props.user.phone,
-                quote: this.props.user.quote,
-                about: this.props.user.about,
-                location: this.props.user.location
-            });
+            const {user} = nextProps
+            if (user) {
+                this.setState({
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    birthday: user.birthday,
+                    phone: user.phone,
+                    quote: user.quote,
+                    about: user.about,
+                    location: user.location,
+                    gender: user.gender.enum_id.toString()
+                });
+            }
         }
     }
 
@@ -60,14 +90,32 @@ class UserAbout extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {id, firstName, lastName, birthday, phone, quote, about, location} = this.state;
+        const {id, firstName, lastName, birthday, phone, quote, about, location, gender} = this.state;
         this.setState({submitted: true});
-        this.props.dispatch(userActions.update({id, firstName, lastName, birthday, phone, quote, about, location}));
+        this.props.dispatch(userActions.update({
+            id,
+            firstName,
+            lastName,
+            birthday,
+            phone,
+            quote,
+            about,
+            location,
+            gender
+        }));
+    }
+
+    handleChangeGender = (gender) => {
+        this.setState({
+            gender: gender ? gender.value : userConstants.GENDER.NONE
+        })
     }
 
     render() {
+        const genders = fillGenderForSelectTag()
+        const {firstName, lastName, birthday, phone, quote, about, location, gender} = this.state;
         return (
-            <div className="ui-box">
+            <div className="ui-box has-border-radius">
                 <div className="ui-box-title">
                     <span>Edit About</span>
                 </div>
@@ -78,7 +126,7 @@ class UserAbout extends Component {
                                 <div className="form-group">
                                     <label htmlFor="firstName">First Name</label>
                                     <input type="text" className="form-control" name="firstName"
-                                           value={this.state.firstName}
+                                           value={firstName}
                                            onChange={this.handleChange}/>
                                 </div>
                             </div>
@@ -86,24 +134,33 @@ class UserAbout extends Component {
                                 <div className="form-group">
                                     <label htmlFor="lastName">Last Name</label>
                                     <input type="text" className="form-control" name="lastName"
-                                           value={this.state.lastName}
+                                           value={lastName}
                                            onChange={this.handleChange}/>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-sm-6">
+                            <div className="col-sm-4">
                                 <div className="form-group">
                                     <label htmlFor="birthday">Birthday</label>
                                     <Datetime timeFormat={false} inputFormat="DD/MM/YYYY"
-                                              defaultValue={new Date(this.state.birthday)}
                                               onChange={(data) => this.setState({birthday: Datetime.moment(data).format("YYYY-MM-DD HH:MM:SS")})}/>
                                 </div>
                             </div>
-                            <div className="col-sm-6">
+                            <div className="col-sm-4">
+                                <div className="form-group">
+                                    <label htmlFor="gender">Gender</label>
+                                    <Select
+                                        name="genders"
+                                        value={gender}
+                                        options={genders}
+                                        onChange={this.handleChangeGender}/>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
                                 <div className="form-group">
                                     <label htmlFor="phone">Phone</label>
-                                    <input type="text" className="form-control" name="phone" value={this.state.phone}
+                                    <input type="text" className="form-control" name="phone" value={phone}
                                            onChange={this.handleChange}/>
                                 </div>
                             </div>
@@ -111,18 +168,18 @@ class UserAbout extends Component {
                         <div className="form-group">
                             <label htmlFor="quote">Quote</label>
                             <textarea rows="4" style={{maxHeight: 100, maxWidth: "100%"}} className="form-control"
-                                      name="quote" value={this.state.quote} onChange={this.handleChange}/>
+                                      name="quote" value={quote} onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="about">About</label>
                             <textarea rows="4" style={{maxHeight: 100, maxWidth: "100%"}} className="form-control"
-                                      name="about" value={this.state.about}
+                                      name="about" value={about}
                                       onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="classLocation">Location</label>
                             <textarea rows="4" style={{maxHeight: 100, maxWidth: "100%"}} className="form-control"
-                                      name="location" value={this.state.location}
+                                      name="location" value={location}
                                       onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">

@@ -4,6 +4,11 @@ import {history} from "../helpers/history";
 
 export const eventActions = {
     getAll,
+    getEventsByUserId,
+    getEventsByClassId,
+    getEventsNotBelongClass,
+    getEventsUpcomming,
+    getEventsUpcommingOfClass,
     filter,
     getById,
     insert,
@@ -25,12 +30,132 @@ function getAll() {
         return {type: eventConstants.EVENTS_GETALL_REQUEST}
     }
 
-    function success(classes) {
-        return {type: eventConstants.EVENTS_GETALL_SUCCESS, classes}
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETALL_SUCCESS, events}
     }
 
     function failure(error) {
         return {type: eventConstants.EVENTS_GETALL_FAILURE, error}
+    }
+}
+
+function getEventsByUserId(userId) {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.getEventsByUserId(userId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_GETBYUSER_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETBYUSER_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_GETBYUSER_FAILURE, error}
+    }
+}
+
+function getEventsByClassId(classId) {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.getEventsByClassId(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_GETBYCLASS_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETBYCLASS_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_GETBYCLASS_FAILURE, error}
+    }
+}
+
+function getEventsNotBelongClass() {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.getEventsNotBelongClass()
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_GETNOTBELONGCLASS_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETNOTBELONGCLASS_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_GETNOTBELONGCLASS_FAILURE, error}
+    }
+}
+
+function getEventsUpcomming() {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.getEventsUpcomming()
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_GETUPCOMMING_FAILURE, error}
+    }
+}
+
+function getEventsUpcommingOfClass(classId) {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.getEventsUpcommingOfClass(classId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_GETUPCOMMINGOFCLASS_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_GETUPCOMMINGOFCLASS_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_GETUPCOMMINGOFCLASS_FAILURE, error}
     }
 }
 
@@ -73,8 +198,8 @@ function getById(id) {
         return {type: eventConstants.EVENTS_GETBYID_REQUEST}
     }
 
-    function success(classDetail) {
-        return {type: eventConstants.EVENTS_GETBYID_SUCCESS, classDetail}
+    function success(eventDetail) {
+        return {type: eventConstants.EVENTS_GETBYID_SUCCESS, eventDetail}
     }
 
     function failure(error) {
@@ -82,15 +207,15 @@ function getById(id) {
     }
 }
 
-function insert(classId, userId, name) {
+function insert(classId, userId, imageUpload, title, location, content, start, end) {
     return dispatch => {
         dispatch(request());
 
-        eventService.insert(userId, name)
+        eventService.insert(classId, userId, imageUpload, title, location, content, start, end)
             .then(
                 response => {
                     dispatch(success(response.data));
-                    history.push('/events');
+                    history.push(`/events/${response.data.data.id}`);
                 },
                 error => dispatch(failure(error))
             );

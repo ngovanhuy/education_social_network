@@ -8,26 +8,11 @@ $main-color: rgba(146, 181, 88, 1);
       }
     }
     .user-info {
-      margin: 20px 0;
-      .imgWrap{
-        height: 20px;
-        margin: 4px 6px 0 -24px;
-        position: relative;
-        width: 20px;
-      }
+      margin-top: 10px;
       img {
         height: 30px;
         width: 30px;
         border-radius: 50%;
-      }
-      .user-profile-info {
-        display: inline-block;
-        margin-left: 10px;
-        max-width: 126px;
-        overflow: hidden;
-        padding-left: 0;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
     }
     .home-leftmenu-title {
@@ -41,7 +26,7 @@ $main-color: rgba(146, 181, 88, 1);
         align-items: center;
         display: -ms-flexbox;
         display: flex;
-        padding: 0 5px;
+        padding: 5px;
         line-height: 28px;
         position: relative;
         z-index: 0;
@@ -68,6 +53,11 @@ $main-color: rgba(146, 181, 88, 1);
           }
           span{
             margin-left: 10px;
+          }
+        }
+        .user-profile-info{
+          .user-fullname{
+            margin-left: 5px;
           }
         }
       }

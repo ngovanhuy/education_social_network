@@ -35,8 +35,8 @@ class ClassTopics extends Component {
 
     renderTopic(topic, index, classId, currentTopic) {
         return (
-            <div key={index} className={currentTopic==topic ? 'topic clearfix current' : 'topic clearfix'}>
-                <Link to={`/classes/${classId}?topicName=${topic}`}
+            <div key={index} className={(currentTopic && currentTopic==topic) ? 'topic clearfix current' : 'topic clearfix'}>
+                <Link to={`/classes/${classId}/topics/${topic}`}
                       className={'topic-full-name'}>
                     {topic}
                 </Link>
@@ -57,7 +57,7 @@ class ClassTopics extends Component {
     render() {
         const {topics, classId, currentTopic} = this.props
         return (
-            <div className="class-topics clearfix">
+            <div className="class-topics has-border-radius clearfix">
                 <h3>Topics</h3>
                 {
                     topics && topics.length > 0 &&

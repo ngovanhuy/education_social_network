@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import {dateUtils} from "../../../utils";
+import EventProfileInfo from "../../commons/views/EventProfileInfo";
 
 class ClassEventsUpcomming extends Component{
     renderEventDetail = (event, index) => {
         return(
             <div key={index} className="event-detail">
-                <div className="event-start">{event.start.toLocaleString()}</div>
-                <div className="event-title">{event.title}</div>
+                <EventProfileInfo event={event}/>
+                <div className="event-start">{dateUtils.convertISOToLocaleString(event.startTime)}</div>
             </div>
         )
     }
@@ -14,7 +16,7 @@ class ClassEventsUpcomming extends Component{
     render(){
         const {events, classId} = this.props
         return(
-            <div className="class-events-upcomming clearfix">
+            <div className="class-events-upcomming has-border-radius clearfix">
                 <h3>
                     Events upcomming
                     <Link to={`/classes/${classId}/events`}>

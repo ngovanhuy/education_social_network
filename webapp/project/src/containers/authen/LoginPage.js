@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-
 import {userActions} from '../../actions';
 import {alertAuthenActions} from "../../actions/alertAuthenActions";
 import {history} from "../../helpers/history";

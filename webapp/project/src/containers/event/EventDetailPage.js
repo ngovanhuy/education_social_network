@@ -6,88 +6,82 @@ import '../../components/class/class.css'
 import EventLeftmenu from "../../components/event/EventLeftmenu";
 import EventTopContent from "../../components/event/EventTopContent";
 import UserProfileInfo from "../../components/commons/views/UserProfileInfo";
+import {classActions, eventActions} from "../../actions";
+import {fileUtils, userUtils} from "../../utils";
+import {defaultConstants} from "../../constants";
+import PageNotFound from "../../components/commons/PageNotFound";
 
 class EventDetailPage extends Component {
-    static propTypes = {
-        eventDetail: PropTypes.object,
-        eventId: PropTypes.string,
+    componentWillMount() {
+        const {eventId} = this.props;
+        this.props.dispatch(eventActions.getById(eventId));
     }
 
-    static defaultProps = {
-        eventDetail: {
-            id: 1,
-            title: 'All Day Event very long title',
-            allDay: true,
-            start: new Date(2015, 3, 0),
-            end: new Date(2015, 3, 1),
-            location: ' Royal City 72A Nguyễn Trãi - Thanh xuân - Hà Nội',
-            source: '/images/cover_photo.jpg',
-            description: '250 gian hàng các đặc sản vùng miền nổi tiếng của Việt Nam được giới thiệu. Lần đầu tiên không gian thưởng trà, không gian bánh dân gian Nam Bộ... được giới thiệu vô cùng đặc sắc',
-            from: {
-                user: {
-                    id: "1",
-                    coverPhotoUrl: "/images/cover_photo.jpg",
-                    profilePictureUrl: "/images/profile_picture.png",
-                    fullName: "NgoVan Huy",
-                    userName: "ngovanhuy0241"
-                },
-            },
-            forClass:{
-
-            }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.eventId !== this.props.eventId) {
+            const {eventId} = nextProps;
+            this.props.dispatch(eventActions.getById(eventId));
         }
     }
 
     render() {
-        const {eventDetail, eventId} = this.props
+        const {eventDetail, eventId, error} = this.props
         return (
-            <div>
-                <div className="container">
-                    <div className="col-sm-2">
-                        <div className="row">
-                            <EventLeftmenu currentPage="eventDetail" eventDetailTitle={eventDetail.title}/>
-                        </div>
-                    </div>
-                    <div className="col-sm-7 event-main-content">
-                        <EventTopContent eventDetail={eventDetail}/>
-                        <div className="ui-box event-description clearfix">
-                            <div className="ui-box-title">
-                                <span>Details</span>
+            <div className="container">
+                {
+                    (eventDetail.id || !error) ?
+                        <div>
+                            <div className="col-sm-2">
+                                <div className="row">
+                                    <EventLeftmenu currentPage="eventDetail" eventDetailTitle={eventDetail.title}/>
+                                </div>
                             </div>
-                            <div className="ui-box-content">
-                                {eventDetail.description}
-                            </div>
-                        </div>
-                        {
-                            eventDetail.from.user ?
-                                (
-                                    <div className="ui-box event-about-user clearfix">
-                                        <div className="ui-box-title">
-                                            <span>About {eventDetail.from.user.firstName} {eventDetail.from.user.lastName}</span>
-                                        </div>
-                                        <div className="ui-box-content clearfix">
-                                            <div className="user-profile-picture">
-                                                <img src={eventDetail.from.user.profilePictureUrl}/>
-                                            </div>
-                                            <div className="user-detail">
-                                                <UserProfileInfo user={eventDetail.from.user}/>
-                                            </div>
-                                        </div>
+                            <div className="col-sm-7 event-main-content">
+                                <EventTopContent eventDetail={eventDetail}/>
+                                <div className="ui-box has-border-radius event-description clearfix">
+                                    <div className="ui-box-title">
+                                        <span>Details</span>
                                     </div>
-                                ) : ''
-                        }
+                                    <div className="ui-box-content">
+                                        {eventDetail.content}
+                                    </div>
+                                </div>
+                                {
+                                    eventDetail.userCreate ?
+                                        (
+                                            <div className="ui-box has-border-radius event-about-user clearfix">
+                                                <div className="ui-box-title">
+                                                    <span>About {userUtils.renderFullName(eventDetail.userCreate.firstName, eventDetail.userCreate.lastName)}</span>
+                                                </div>
+                                                <div className="ui-box-content clearfix">
+                                                    <div className="user-profile-picture img-circle">
+                                                        <img className="img-circle"
+                                                             src={eventDetail.userCreate && fileUtils.renderFileSource(eventDetail.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(eventDetail.userCreate.gender))}/>
+                                                    </div>
+                                                    <div className="user-detail">
+                                                        <UserProfileInfo user={eventDetail.userCreate}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : ''
+                                }
 
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                        : <PageNotFound/>
+                }
             </div>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const eventId = ownProps.match.params.id
+    const eventId = ownProps.match.params.eventId
+    const {eventDetail, error} = state.events
     return {
-        eventId
+        eventId,
+        eventDetail,
+        error
     }
 }
 

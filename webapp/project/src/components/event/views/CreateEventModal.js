@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import Modal from 'react-modal';
 import FileInput from '@ranyefet/react-file-input'
 import Datetime from 'react-datetime'
@@ -44,14 +45,14 @@ class CreateEventModal extends Component {
         super()
         this.state = {
             uploadedPhoto: false,
-            eventPhoto: '',
+            eventPhoto: {},
             title: '',
             location: '',
             start: new Date(),
             startAllDay: false,
             end: new Date(),
             endAllDay: false,
-            description: ''
+            content: ''
         }
         this.handleEventPhotoChanged = this.handleEventPhotoChanged.bind(this);
         this.handleRemoveEventPhoto = this.handleRemoveEventPhoto.bind(this);
@@ -60,7 +61,6 @@ class CreateEventModal extends Component {
         this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
         this.handleChangeStartTimeAllDay = this.handleChangeStartTimeAllDay.bind(this);
         this.handleChangeEndTimeAllDay = this.handleChangeEndTimeAllDay.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleEventPhotoChanged = function (event) {
@@ -85,47 +85,58 @@ class CreateEventModal extends Component {
     }
 
     handleChangeStartTime(e) {
-        this.setState({
-            start: new Date(e.format("YYYY-MM-DD HH:mm:ss"))
-        })
+        if(this.state.startAllDay){
+            this.setState({
+                start: new Date(e.format("YYYY-MM-DD"))
+            })
+        } else {
+            this.setState({
+                start: new Date(e.format("YYYY-MM-DD HH:mm:ss"))
+            })
+        }
     }
 
     handleChangeEndTime(e) {
-        this.setState({
-            end: new Date(e.format("YYYY-MM-DD HH:mm:ss"))
-        })
+        if(this.state.endAllDay){
+            this.setState({
+                end: new Date(e.format("YYYY-MM-DD"))
+            })
+        } else {
+            this.setState({
+                end: new Date(e.format("YYYY-MM-DD HH:mm:ss"))
+            })
+        }
     }
 
     handleChangeStartTimeAllDay(event) {
+        var startDate = this.state.start
+        var startAllDay = event.target.checked
         this.setState({
-            startAllDay: event.target.checked
+            startAllDay: startAllDay,
         });
+        if(startAllDay){
+            this.setState({
+                start: new Date(startDate.setHours(0,0,0,0))
+            });
+        }
     }
 
     handleChangeEndTimeAllDay(event) {
+        var endDate = this.state.end
+        var endAllDay = event.target.checked
         this.setState({
-            endAllDay: event.target.checked
+            endAllDay: endAllDay,
         });
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        console.log(this.state)
-
-        // const {classDetail, user, title, content, topic, members, isSchedule, scopeType, startTime, endTime } = this.state;
-        // this.setState({submitted: true});
-        // eventService.insertPost(classDetail.id, user.id, title, content, topic, members, isSchedule, scopeType, startTime, endTime)
-        //     .then(
-        //         this.props.dispatch(classActions.getPosts(classDetail.id))
-        //     );
-        //
-        // const { history } = this.props
-        // history.push(`/classes/${classDetail.id}`);
+        if(endAllDay){
+            this.setState({
+                end: new Date(endDate.setHours(0,0,0,0))
+            });
+        }
     }
 
     render() {
-        const {uploadedPhoto, eventPhoto} = this.state
-        const {classDetail, modalIsOpen} = this.props
+        const {uploadedPhoto, eventPhoto, title, location, start, end, startAllDay, endAllDay, content } = this.state
+        const {classDetail, modalIsOpen, onSubmit} = this.props
 
         return (
             <Modal
@@ -134,10 +145,10 @@ class CreateEventModal extends Component {
                 style={customStyles}
                 contentLabel="Create Event Modal">
                 <h2>{renderModalTitle(classDetail)}</h2>
-                <button className="mm-popup__close"
+                <a href='#' className="mm-popup__close"
                         data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
                         onClick={this.props.closeModal}>×
-                </button>
+                </a>
                 <form className="create-event-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Event Photo</label>
@@ -172,6 +183,7 @@ class CreateEventModal extends Component {
                         <label className="col-sm-3 control-label">Title</label>
                         <div className="col-sm-9">
                             <input type="text" className="form-control" id="title" name="title"
+                                   value={title}
                                    onChange={this.handleChange}
                                    placeholder="Add a short, clear name"/>
                         </div>
@@ -180,20 +192,21 @@ class CreateEventModal extends Component {
                         <label className="col-sm-3 control-label">Location</label>
                         <div className="col-sm-9">
                             <input type="text" className="form-control" id="location" name="location" placeholder=""
+                                   value={location}
                                    onChange={this.handleChange}/>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Start</label>
                         <div className='event-end-date col-sm-4'>
-                            <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" value={this.state.start}
+                            <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" value={start}
                                       onChange={this.handleChangeStartTime}/>
                         </div>
                         {
-                            !this.state.startAllDay &&
+                            !startAllDay &&
                             (
                                 <div className='event-end-time col-sm-3'>
-                                    <Datetime dateFormat={false} value={this.state.start}
+                                    <Datetime dateFormat={false} value={start}
                                               onChange={this.handleChangeStartTime}/>
                                 </div>
                             )
@@ -210,14 +223,14 @@ class CreateEventModal extends Component {
                     <div className="form-group">
                         <label className="col-sm-3 control-label">End</label>
                         <div className='event-end-date col-sm-4'>
-                            <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" value={this.state.end}
+                            <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" value={end}
                                       onChange={this.handleChangeEndTime}/>
                         </div>
                         {
-                            !this.state.endAllDay &&
+                            !endAllDay &&
                             (
                                 <div className='event-end-time col-sm-3'>
-                                    <Datetime dateFormat={false} value={this.state.end}
+                                    <Datetime dateFormat={false} value={end}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
                             )
@@ -234,15 +247,17 @@ class CreateEventModal extends Component {
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Description</label>
                         <div className="col-sm-9">
-                                    <textarea className="form-control announcement" rows="4" name="description"
+                                    <textarea className="form-control announcement" rows="4" name="content"
+                                              value={content}
                                               placeholder="Tell people more about event"
                                               onChange={this.handleChange}></textarea>
                         </div>
                     </div>
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
-                            <button className="btn btn-white" onClick={this.props.closeModal}>Cancel</button>
-                            <button className="btn btn-primary" onClick={this.handleSubmit}>Create</button>
+                            <a href='#' className="btn btn-white" onClick={this.props.closeModal}>Cancel</a>
+                            <a href='#' className="btn btn-primary"
+                                    onClick={() => onSubmit(eventPhoto, title, location, content, start, end)}>Create</a>
                         </div>
                     </div>
                 </form>
@@ -251,4 +266,11 @@ class CreateEventModal extends Component {
     }
 }
 
-export default CreateEventModal;
+const mapStateToProps = (state, ownProps) => {
+    const {user} = state.authentication
+    return {
+        user
+    }
+}
+
+export default connect(mapStateToProps)(CreateEventModal);

@@ -13,7 +13,8 @@ class Comments extends Component {
     }
 
     loadAllComments(postId){
-        this.props.dispatch(postActions.getComments(postId))
+        const {contextView} = this.props
+        this.props.dispatch(postActions.getComments(postId, contextView))
     }
 
     render(){
@@ -21,11 +22,14 @@ class Comments extends Component {
         return(
             <div>
                 <div className="comments">
-                    <div>
-                        <a href="javascript:;" onClick={() => this.loadAllComments(post.id)}>
-                            View all comments
-                        </a>
-                    </div>
+                    {/*{*/}
+                        {/*post.countComments > 0 &&*/}
+                        {/*<div>*/}
+                            {/*<a href="javascript:;" onClick={() => this.loadAllComments(post.id)}>*/}
+                                {/*View all comments*/}
+                            {/*</a>*/}
+                        {/*</div>*/}
+                    {/*}*/}
                     {
                         comments && comments.length > 0 &&
                         comments.map((comment, index) =>

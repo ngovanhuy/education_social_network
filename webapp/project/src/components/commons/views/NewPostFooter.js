@@ -5,7 +5,7 @@ class NewPostFooter extends Component{
         const {className, onSubmit} = this.props
         return(
             <div className="new-post-footer">
-                <button className="btn btn-primary" type="button" onClick={onSubmit}>POST</button>
+                <a href="#" className="btn btn-primary" type="button" onClick={onSubmit}>POST</a>
                 <span className="class-full-name">{className}</span>
             </div>
         )

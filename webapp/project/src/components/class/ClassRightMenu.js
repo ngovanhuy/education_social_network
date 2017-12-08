@@ -18,11 +18,11 @@ class ClassRightMenu extends Component{
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <div className="add-member-and-description-and-location">
+                        <div className="add-member-and-description-and-location has-border-radius">
                             {
                                 isTeacher &&
                                 (
-                                    <AddMember memberCount={classDetail.memberCount} classId={classDetail.id}/>
+                                    <AddMember classDetail={classDetail}/>
                                 )
                             }
                             <div className="description">

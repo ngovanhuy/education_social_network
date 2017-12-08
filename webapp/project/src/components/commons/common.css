@@ -35,9 +35,9 @@ ul.nav li .user_full_name {
   margin: 0 5px; }
 
 .feed .feed-content {
-  padding: 10px;
   background-color: #fff;
-  border: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  position: relative; }
 .feed .no-post {
   margin: 10px 15px;
   padding: 10px;
@@ -47,13 +47,33 @@ ul.nav li .user_full_name {
 
 .post-detail {
   padding: 10px 10px 0 10px; }
-  .post-detail .post-user .post-user-profile-picture {
+  .post-detail .post-context .post-user-profile-picture {
     width: 50px;
     height: 50px;
     float: left;
-    margin-right: 10px; }
-  .post-detail .post-user .post-user-content {
+    margin-right: 10px;
+    border: 1px rgba(0, 0, 0, 0.3); }
+  .post-detail .post-context .post-context-content {
     float: left; }
+    .post-detail .post-context .post-context-content .post-context-user-group .post-context-image {
+      width: 11px;
+      height: 9px;
+      background-position: -271px -71px;
+      background-image: url("/images/icons-2.png");
+      background-size: auto;
+      background-repeat: no-repeat;
+      display: inline-block;
+      margin-left: 5px;
+      margin-right: 5px; }
+      .post-detail .post-context .post-context-content .post-context-user-group .post-context-image u {
+        clip: rect(1px 1px 1px 1px);
+        clip: rect(1px, 1px, 1px, 1px);
+        height: 1px;
+        left: auto;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px; }
   .post-detail .post-content-info {
     border-bottom: 1px solid #e5e5e5;
     padding: 10px 0; }
@@ -299,18 +319,28 @@ ul.nav li .user_full_name {
   .ReactModal__Overlay .modal-bottom {
     padding-top: 15px;
     border-top: 0.1rem solid rgba(0, 0, 0, 0.12); }
-    .ReactModal__Overlay .modal-bottom button:first-of-type {
+    .ReactModal__Overlay .modal-bottom .btn:first-of-type {
       margin-right: 15px; }
 
 .ui-box {
   margin-top: 20px;
   background-color: #fff;
-  border: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  border-radius: 3px; }
   .ui-box .ui-box-title {
     font-weight: bold;
     padding-bottom: 10px;
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     padding: 10px; }
+    .ui-box .ui-box-title .warning-icon {
+      width: 16px;
+      height: 16px;
+      background-position: -17px -72px;
+      background-image: url("/images/icons-3.png");
+      background-size: auto;
+      background-repeat: no-repeat;
+      display: inline-block;
+      margin-right: 10px; }
   .ui-box .ui-box-content {
     padding: 10px; }
 
@@ -383,5 +413,20 @@ a.black-none-under {
 .no-class {
   margin: 0 50px;
   font-weight: bold; }
+
+.has-border-radius {
+  border: 1px solid #dddfe2;
+  border-radius: 3px;
+  position: relative; }
+  .has-border-radius:before {
+    border: 1px solid #dddfe2;
+    border-radius: 4px;
+    bottom: -1px;
+    content: '';
+    left: -1px;
+    pointer-events: none;
+    position: absolute;
+    right: -1px;
+    top: -1px; }
 
 /*# sourceMappingURL=common.css.map */

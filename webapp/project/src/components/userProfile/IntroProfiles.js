@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
+import {dateUtils, userUtils} from "../../utils";
 
 // const renderIntro = (intro, index) => {
 //     var iconName = "";
@@ -29,7 +30,7 @@ const IntroProfiles = ({user}) => {
     if(user){
         return(
             <div className="intros">
-                <h2 className="user-fullname">{user.firstName} {user.lastName}</h2>
+                <h2 className="user-fullname">{userUtils.renderFullName(user.firstName, user.lastName)}</h2>
                 <ul className="list-intro">
                     {/*{*/}
                     {/*user.intros ? (*/}
@@ -46,7 +47,7 @@ const IntroProfiles = ({user}) => {
                         renderInfo("Location", user.location)
                     }
                     {
-                        renderInfo("Birthday", user.birthday)
+                        renderInfo("Birthday", dateUtils.convertISOToLocaleDateString(user.birthday))
                     }
                 </ul>
             </div>

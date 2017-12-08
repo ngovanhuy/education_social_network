@@ -45,7 +45,7 @@ function mapFiles(fn, files) {
 }
 
 function renderFileSource(fileId, defaultSource = "") {
-    if(fileId && !defaultSource)
+    if(fileId)
         return DOMAIN_SERVICE + "/files/get/" + fileId;
     else
         return defaultSource;

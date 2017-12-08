@@ -23,7 +23,7 @@ const updateStatusOfClass = (classDetail, classUserJoined, classUserRequest) => 
 
     var classDetailBelongRequest = (classUserRequest && classUserRequest.length > 0) ?
         classUserRequest.filter(function (element) {
-            return element._id == classDetail.id
+            return element.id == classDetail.id
         }) : [];
     if (classDetailBelongRequest && classDetailBelongRequest.length > 0) {
         classNewDetail.statusOfCurrentUser = classConstants.STATUS_OF_USER_IN_CLASS.SEND_REQUEST_JOIN
@@ -82,7 +82,7 @@ class ClassesPage extends Component {
                         <div className="row">
                             <div className="col-sm-12">
                                 <div className="col-sm-12">
-                                    <div className="classes-header clearfix">
+                                    <div className="classes-header has-border-radius clearfix">
                                         <span className="current">Classes</span>
                                         {
                                             isTeacher &&

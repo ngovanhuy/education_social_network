@@ -8,8 +8,6 @@ export const classService = {
     getMembers,
     getRequests,
     getFiles,
-    getEvents,
-    getEventsByUser,
     insert,
     update,
     updateProfilePicture,
@@ -65,24 +63,6 @@ function getFiles(classId) {
         headers: authHeader()
     };
     const url = DOMAIN_SERVICE + '/groups/files/' + classId;
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-function getEvents(classId) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-    const url = DOMAIN_SERVICE + '/groups/event/' + classId;
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-function getEventsByUser(classId, userId) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-    const url = DOMAIN_SERVICE + '/groups/event/' + classId + "/" + userId;
     return fetch(url, requestOptions).then(handleResponse);
 }
 

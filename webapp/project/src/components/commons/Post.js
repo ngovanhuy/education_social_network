@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import UserProfileInfo from './views/UserProfileInfo'
-import {dateUtils, fileUtils} from '../../utils'
+import {dateUtils, fileUtils, userUtils} from '../../utils'
 import './common.css'
 import Attachment from "./views/Attachment";
 import ReactPost from "./views/ReactPost";
 import Comment from "./views/Comment";
-import {defaultConstants} from "../../constants";
-import {postActions, userActions} from "../../actions";
+import {defaultConstants, postConstants} from "../../constants";
+import {classActions, eventActions, postActions, userActions} from "../../actions";
+import ClassProfileInfo from "./views/ClassProfileInfo";
 
 class Post extends Component {
     static propTypes = {
@@ -17,10 +18,31 @@ class Post extends Component {
     }
 
     componentWillMount() {
-        const {post} = this.props;
-        if(post) {
-            this.props.dispatch(postActions.getFavourites(post.id));
+        const {post, contextView} = this.props;
+        if (post) {
+            this.props.dispatch(postActions.getFavourites(post.id, contextView));
         }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.post.id !== this.props.post.id) {
+            const {post, contextView} = this.props;
+            if (post) {
+                this.props.dispatch(postActions.getFavourites(post.id, contextView));
+            }
+        }
+    }
+
+    renderContextTopic(topic, index, classDetailOfPost) {
+        return (
+            <span key={index} className="topic">
+                {
+                    (classDetailOfPost && classDetailOfPost.id > 0) ?
+                        <Link to={`/classes/${classDetailOfPost.id}/topics/${topic}`}>{topic}</Link>
+                        : <span>{topic}</span>
+                }
+            </span>
+        )
     }
 
     checkUserFavouritePost = (post, user) => {
@@ -32,29 +54,61 @@ class Post extends Component {
     }
 
     render() {
-        const {post, user} = this.props
+        const {post, user, contextView} = this.props
         var favouritedPost = this.checkUserFavouritePost(post, user);
+        var classDetailOfPost = {
+            id: post.group && post.group.id,
+            name: post.group && post.group.name,
+            profileImageID: post.group && post.group.profileImageID,
+        }
+
         return (
             <div className="post-detail">
-                <div className="post-user clearfix">
-                    <img className="post-user-profile-picture img-circle" src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}></img>
-                    <div className="post-user-content">
-                        <UserProfileInfo user={post.userCreate}/>
-                        <div className="post-create-time">{post.timeCreate}</div>
+                <div className="post-context clearfix">
+                    <img className="post-user-profile-picture img-circle"
+                         src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}></img>
+                    <div className="post-context-content">
+                        <span className="post-context-user-group">
+                            <span className="post-context-user">
+                                <UserProfileInfo user={post.userCreate}/>
+                            </span>
+                            {
+                                (
+                                    (contextView == postConstants.CONTEXT_VIEW.IN_HOME_PAGE || contextView == postConstants.CONTEXT_VIEW.IN_USER_PAGE)
+                                    && classDetailOfPost && classDetailOfPost !== {}
+                                ) &&
+                                <span className="post-context-class">
+                                        <i className="post-context-image"><u>to</u></i>
+                                        <ClassProfileInfo classDetail={classDetailOfPost}/>
+                                    </span>
+                            }
+                            {
+                                post.topics && post.topics.length > 0 &&
+                                <span className="post-context-topics">
+                                    <i className="post-context-image"><u>to</u></i>
+                                        <span>
+                                            {
+                                                post.topics.map((topic, index) => this.renderContextTopic(topic, index, classDetailOfPost))
+                                            }
+                                        </span>
+                                </span>
+                            }
+                        </span>
+                        <div className="post-create-time">{dateUtils.convertISOToLocaleString(post.timeCreate)}</div>
                     </div>
                     {/*<div className="pull-right">*/}
-                        {/*<div className="dropdown">*/}
-                            {/*<a data-toggle="dropdown" className="dropdown-toggle" href="javascript:;">*/}
-                                {/*<i className="fa fa-angle-down fa-2x"></i>*/}
-                            {/*</a>*/}
-                            {/*<ul className="dropdown-menu pull-right">*/}
-                                {/*<li className="arrow"></li>*/}
-                                {/*<li>*/}
-                                    {/*<a href="javascript:;">Edit</a>*/}
-                                {/*</li>*/}
-                                {/*<li><a href="javascript:;">Delete</a></li>*/}
-                            {/*</ul>*/}
-                        {/*</div>*/}
+                    {/*<div className="dropdown">*/}
+                    {/*<a data-toggle="dropdown" className="dropdown-toggle" href="javascript:;">*/}
+                    {/*<i className="fa fa-angle-down fa-2x"></i>*/}
+                    {/*</a>*/}
+                    {/*<ul className="dropdown-menu pull-right">*/}
+                    {/*<li className="arrow"></li>*/}
+                    {/*<li>*/}
+                    {/*<a href="javascript:;">Edit</a>*/}
+                    {/*</li>*/}
+                    {/*<li><a href="javascript:;">Delete</a></li>*/}
+                    {/*</ul>*/}
+                    {/*</div>*/}
                     {/*</div>*/}
                 </div>
                 <div className="post-content-info">
@@ -73,17 +127,10 @@ class Post extends Component {
                         }
                     </div>
                 </div>
-                <ReactPost post={post} favouritedPost={favouritedPost}/>
+                <ReactPost post={post} user={user} favouritedPost={favouritedPost} contextView={contextView}/>
             </div>
         )
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const {user} = state.authentication
-    return {
-        user
-    }
-}
-
-export default connect(mapStateToProps)(Post);
+export default connect(null)(Post);

@@ -6,9 +6,11 @@ import moment from 'moment';
 import CreateEventModal from "../event/views/CreateEventModal";
 import ClassEventsCalendarHeadline from "./views/ClassEventsCalendarHeadline";
 import {history} from "../../helpers/history";
+import {eventActions} from "../../actions";
+import {connect} from "react-redux";
+import {dateUtils} from "../../utils";
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
-
 let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
 class ClassCalendar extends Component {
@@ -17,6 +19,7 @@ class ClassCalendar extends Component {
         this.state = {modalIsOpen: false}
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleCreateEvent = this.handleCreateEvent.bind(this);
     }
 
     openModal() {
@@ -28,24 +31,32 @@ class ClassCalendar extends Component {
     }
 
     handleClickEvent = (event) => {
-        // alertAuthen(event.title)
         var url = `/events/${event.id}`
         history.push(url)
+    }
+
+    handleCreateEvent = (imageUpload, title, location, content, start, end) => {
+        this.setState({modalCreateEventIsOpen: false});
+        const {user, classDetail} = this.props
+        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
     render() {
         const {events, classId, classDetail} = this.props
         return (
             <div className="class-calendar">
-                <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}/>
-                <ClassEventsCalendarHeadline classDetail={classDetail} currentPage="calendar" openModal={this.openModal}/>
+                <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}
+                                  onSubmit={this.handleCreateEvent}/>
+                <ClassEventsCalendarHeadline classDetail={classDetail} currentPage="calendar" openModal={this.openModal}
+                                             onSubmit={this.handleCreateEvent}/>
                 <BigCalendar
                     selectable
                     {...this.props}
                     events={events}
                     views={allViews}
                     step={60}
-                    defaultDate={new Date(2015, 3, 1)}
+                    defaultDate={new Date()}
                     onSelectEvent={event => this.handleClickEvent(event)}
                     onSelectSlot={(slotInfo) => alert(
                         `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
@@ -58,4 +69,4 @@ class ClassCalendar extends Component {
     }
 }
 
-export default ClassCalendar;
+export default connect(null)(ClassCalendar);

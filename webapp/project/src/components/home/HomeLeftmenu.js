@@ -4,10 +4,11 @@ import CreateClassModal from "../class/views/CreateClassModal";
 import CreateEventModal from "../event/views/CreateEventModal";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import {defaultConstants} from "../../constants";
-import {classActions} from "../../actions";
+import {classActions, eventActions} from "../../actions";
 import {connect} from 'react-redux';
 import {fileUtils} from "../../utils/fileUtils";
 import {userUtils} from "../../utils/userUtils";
+import {dateUtils} from "../../utils";
 
 class HomeLeftmenu extends Component {
     constructor() {
@@ -20,6 +21,8 @@ class HomeLeftmenu extends Component {
         this.closeModalCreateClass = this.closeModalCreateClass.bind(this);
         this.openModalCreateEvent = this.openModalCreateEvent.bind(this);
         this.closeModalCreateEvent = this.closeModalCreateEvent.bind(this);
+        this.handleCreateClass = this.handleCreateClass.bind(this);
+        this.handleCreateEvent = this.handleCreateEvent.bind(this);
     }
 
     openModalCreateClass() {
@@ -51,12 +54,20 @@ class HomeLeftmenu extends Component {
 
     handleCreateClass = (userId, className, membersInvited) => {
         this.setState({modalCreateClassIsOpen: false});
-        this.props.dispatch(classActions.insert(userId, className));
+        this.props.dispatch(classActions.insert(userId, className, membersInvited));
+    }
+
+    handleCreateEvent = (imageUpload, title, location, content, start, end) => {
+        this.setState({modalCreateEventIsOpen: false});
+        const {user} = this.props
+        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
     render() {
         const {schoolDetail, user, classes} = this.props
         const isTeacher = userUtils.checkIsTeacher(user)
+        const defaultImage = user && userUtils.renderSourceProfilePictureDefault(user.gender)
         return (
             <div className="home-leftmenu clearfix">
                 <div className="row">
@@ -68,20 +79,24 @@ class HomeLeftmenu extends Component {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        {
-                            user &&
-                            (
-                                <div className="user-info">
-                                    <a href={`/users/${user.id}`}>
-                                        <span className="imgWrap">
-                                            <img
-                                                src={user && fileUtils.renderFileSource(user.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL)}/>
-                                        </span>
-                                    </a>
-                                    <UserProfileInfo user={user}/>
-                                </div>
-                            )
-                        }
+                        <div className="user-info clearfix">
+                            <ul className="home-leftmenu-list">
+                                <li>
+                                    {
+                                        user &&
+                                        (
+                                            <span>
+                                                <Link to={`/users/${user.id}`}>
+                                                    <img src={user &&
+                                                    fileUtils.renderFileSource(user.profileImageID, defaultImage)}/>
+                                                </Link>
+                                                <UserProfileInfo user={user}/>
+                                            </span>
+                                        )
+                                    }
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div className="row">
@@ -131,7 +146,8 @@ class HomeLeftmenu extends Component {
                                 Event
                             </a>
                             <CreateEventModal modalIsOpen={this.state.modalCreateEventIsOpen}
-                                              closeModal={this.closeModalCreateEvent}/>
+                                              closeModal={this.closeModalCreateEvent}
+                                              onSubmit={this.handleCreateEvent}/>
                             {
                                 isTeacher &&
                                 (

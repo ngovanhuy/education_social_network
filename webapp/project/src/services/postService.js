@@ -13,6 +13,7 @@ export const postService = {
     getFavourites,
     insertFavourite,
     deleteFavourite,
+    getById,
 };
 
 function getPostsByUserId(userId) {
@@ -38,7 +39,7 @@ function getPostsByTopicName(classId, topicName) {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/groups/post/' + classId + "?topicname=" + topicName;
+    const url = DOMAIN_SERVICE + '/groups/topic/' + classId + "?topicname=" + topicName;
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -70,8 +71,17 @@ function insert(classId, userId, title, content, fileUpload, scopeType, topic, i
     if (isSchedule) {
         data.append("isSchedule", isSchedule)
     }
-    if (members) {
-        data.append("member", members)
+    if (members && members.length > 0) {
+        var memberReqquest = "["
+        for (var i = 0; i < members.length; i++) {
+            if(i == members.length - 1){
+                memberReqquest += members[i]
+            } else {
+                memberReqquest += members[i] + ","
+            }
+        }
+        memberReqquest += "]"
+        data.append("members", memberReqquest)
     }
     if (startTime) {
         data.append("startTime", startTime)
@@ -131,6 +141,15 @@ function deleteFavourite(postId, userID) {
     const url = DOMAIN_SERVICE + '/posts/like/' + postId;
     return fetch(url, requestOptions)
         .then(handleResponse)
+}
+
+function getById(postId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    const url = DOMAIN_SERVICE + '/posts/' + postId;
+    return fetch(url, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

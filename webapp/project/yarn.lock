@@ -5896,7 +5896,7 @@ react-with-styles-interface-css@^3.0.0:
     array-flatten "^2.1.1"
     global-cache "^1.2.1"
 
-react-with-styles@^2.2.0:
+react-with-styles@^2.2.0, react-with-styles@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-with-styles/-/react-with-styles-2.3.0.tgz#68aaf49b427526f5f1cc99e7b9d128011c2b3406"
   dependencies:

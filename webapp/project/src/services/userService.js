@@ -13,8 +13,8 @@ export const userService = {
     updateCoverPhoto,
     getClassJoined,
     getClassRequest,
-    createRequestJoinClass,
-    deleteRequestJoinClass,
+    createClassRequest,
+    deleteClassRequest,
     approveRequestJoinClass,
     leaveClass,
     searchByUsername,
@@ -61,7 +61,7 @@ function getAll() {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/test/users';
+    const url = DOMAIN_SERVICE + '/users/all';
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -109,7 +109,7 @@ function update(user) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function createRequestJoinClass(userId, classId) {
+function createClassRequest(userId, classId) {
     const requestOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -120,7 +120,7 @@ function createRequestJoinClass(userId, classId) {
         .then(handleResponse);
 }
 
-function deleteRequestJoinClass(userId, classId) {
+function deleteClassRequest(userId, classId) {
     const requestOptions = {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
@@ -188,7 +188,6 @@ function _delete(id) {
     };
 
     return fetch('/users/' + id, requestOptions).then(handleResponse);
-    ;
 }
 
 function handleResponse(response) {

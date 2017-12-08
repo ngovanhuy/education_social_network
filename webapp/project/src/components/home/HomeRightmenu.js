@@ -6,17 +6,13 @@ import HomeCalendar from "./views/HomeCalendar";
 import HomeNotificationsLatest from "./views/HomeNotificationsLatest";
 import HomeSchoolAbout from "./views/HomeSchoolAbout";
 
-BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
-
-let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
-
 class HomeRightmenu extends Component {
     render() {
         const {events, notifcationsLatest, schoolDetail} = this.props
         return (
             <div className="home-rightmenu">
-                <HomeCalendar events={events}/>
                 <HomeNotificationsLatest notifcationsLatest={notifcationsLatest}/>
+                <HomeCalendar events={events}/>
                 <HomeSchoolAbout schoolDetail={schoolDetail}/>
             </div>
         )

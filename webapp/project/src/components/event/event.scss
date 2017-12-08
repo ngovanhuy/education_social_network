@@ -11,7 +11,7 @@ $main-color: rgba(146, 181, 88, 1);
       margin-right: 5px;
     }
   }
-  .btn-group {
+  .buttons {
     .btn {
       margin-bottom: 10px;
     }
@@ -57,10 +57,10 @@ $main-color: rgba(146, 181, 88, 1);
   background-color: #fff;
   margin-top: 10px;
   .find-event-title {
+    font-weight: bold;
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
     margin-bottom: 10px;
-    margin-top: 10px;
-    padding: 5px 0;
+    padding: 10px 0;
     font-size: 16px;
     color: #000;
     padding-left: 15px;
@@ -110,19 +110,37 @@ $main-color: rgba(146, 181, 88, 1);
   margin: 10px 0;
   padding-bottom: 10px;
   border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
-  &:last-of-type {
-    border-bottom: none;
-  }
-  .event-create-time {
+  //&:last-of-type {
+  //  border-bottom: none;
+  //}
+  .event-photo {
     float: left;
+    img{
+      width: 100px;
+      height: 70px;
+    }
   }
   .event-detail {
     float: left;
     margin-left: 10px;
+    .event-name {
+      font-weight: bold;
+      font-size: 16px;
+    }
     .event-location {
       margin: 5px 0;
+      color: rgba(0, 0, 0, 0.55);
+      i.fa{
+        margin-right: 15px;
+      }
+    }
+    .event-start{
+      i.fa{
+        margin-right: 10px;
+      }
     }
     .action-with-event {
+      margin-top: 5px;
       .share-text {
         margin: 0 10px;
       }
@@ -148,6 +166,11 @@ $main-color: rgba(146, 181, 88, 1);
     i {
       margin-right: 8px;
     }
+    .event-location{
+      i.fa{
+        margin-right: 15px;
+      }
+    }
   }
   .action-with-event {
     border-bottom-left-radius: 5px;
@@ -171,56 +194,85 @@ $main-color: rgba(146, 181, 88, 1);
   border-radius: 5px;
   .events-header {
     border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
-    margin-top: 10px;
-    padding: 5px 0;
+    padding: 10px 0;
     font-size: 16px;
     color: #000;
+    .events-header-title{
+      margin-right: 100px;
+      font-weight: bold;
+    }
+    .discovery-filter {
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+      .discovery-filter-form {
+        .show-filter-content-button {
+          height: 34px;
+        }
+        .controls{
+          .input-group{
+            width: 450px;
+          }
+        }
+        .discovery-filter-content {
+          background-color: #fff;
+          color: #212121;
+          font-size: 14px;
+          font-family: inherit;
+          line-height: 16px;
+          -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+          -webkit-border-radius: 2px;
+          border-radius: 2px;
+          outline: 0;
+          position: absolute;
+          margin-top: 3px;
+          width: 450px;
+          z-index: 1003;
+          .filter-content-detail {
+            padding: 4px 16px;
+            &:first-of-type {
+              margin-top: 10px;
+            }
+            .DateRangePicker{
+              .DateInput{
+                font-size: 16px;
+                line-height: 20px;
+                width: 110px;
+                .DateInput_input{
+                  font-size: 16px;
+                  line-height: 20px;
+                  padding: 8px;
+                }
+              }
+            }
+          }
+          .form-bottom{
+            margin-bottom: 15px;
+            margin-right: 33px;
+            .btn{
+              &:first-of-type{
+                margin-right: 10px;
+              }
+            }
+          }
+        }
+        .hide-filter-content {
+          display: none;
+        }
+      }
+    }
     .change-view-style {
       float: right;
+      display: inline-block;
     }
   }
   .events-content {
+    margin-top: 10px;
     .event-pinboard {
       margin: 10px 0;
       border: 0.1rem solid rgba(0, 0, 0, 0.12);
       border-radius: 5px;
-    }
-  }
-  .discovery-filter {
-    margin-top: 20px;
-    .discovery-filter-form{
-      width: 720px;
-      margin-right: 100px;
-      .show-filter-content-button {
-        height: 34px;
-      }
-      .discovery-filter-content {
-        background-color: #fff;
-        color: #212121;
-        font-size: 14px;
-        font-family: inherit;
-        line-height: 16px;
-        -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-        box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        outline: 0;
-        position: absolute;
-        margin-top: 3px;
-        width: 720px;
-        z-index: 1003;
-        .filter-content-detail{
-            padding: 4px 16px;
-        }
-        .filter-content-detail{
-          &:first-of-type{
-            margin-top: 10px;
-          }
-        }
-      }
-      .hide-filter-content{
-        display: none;
-      }
     }
   }
 }
@@ -388,9 +440,18 @@ $main-color: rgba(146, 181, 88, 1);
             font-weight: bold;
             margin-bottom: 5px;
           }
+          .event-for-class {
+            .class-profile-info {
+              display: inline-block;
+              color: #365899;
+              cursor: pointer;
+            }
+          }
           .event-from-user {
             .user-profile-info {
               display: inline-block;
+              color: #365899;
+              cursor: pointer;
             }
           }
         }
@@ -406,7 +467,14 @@ $main-color: rgba(146, 181, 88, 1);
       }
       .event-detail-extra {
         margin: 10px;
-        i.fa {
+      }
+      .event-location {
+        i.fa{
+          margin-right: 15px;
+        }
+      }
+      .event-start{
+        i.fa{
           margin-right: 10px;
         }
       }
@@ -415,6 +483,15 @@ $main-color: rgba(146, 181, 88, 1);
   .event-about-user {
     .user-profile-picture {
       float: left;
+      background: rgba(0, 0, 0, .3);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .07);
+      display: block;
+      padding: 1px;
+      box-shadow: none;
+      img {
+        background-color: #fff;
+        width: 50px;
+      }
     }
     .user-detail {
       float: left;
