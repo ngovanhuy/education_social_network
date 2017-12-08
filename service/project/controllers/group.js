@@ -182,11 +182,9 @@ async function removeRequested(req, res) {
                 data: null,
             });
         }
-        if (user.removeClassRequest(group)) {
-            if (group.removeRequested(user)) {
-                group = await group.save();
-                user = await user.save();
-            }
+        if (group.removeRequested(user, true)) {
+            group = await group.save();
+            user = await user.save();
         }
         return res.status(200).send({
             code: 200,
@@ -372,6 +370,7 @@ async function putGroup(req, res, next) {
                 return next();
             }
         }
+        //TODO update reference to this group.
         return res.status(400).send({
             code: 400,
             message: message,
@@ -403,6 +402,7 @@ async function deleteGroup(req, res, next) {
         }
         group.isDeleted = true;
         group = await group.save();
+        //TODO: Remove all member in group.
         req.groups.group_request = group;
         return next();
     } catch (error) {
@@ -554,7 +554,7 @@ async function getFiles(req, res, next) {
             isDeleted: false,
             'group.id': group._id,
         });
-        req.fileitems.files_saved = files.map(file => file.getBasicInfo());
+        req.fileitems.files_saved = files;
         return next();
     } catch (error) {
         return res.status(500).json({
@@ -589,6 +589,13 @@ async function getPosts(req, res) {
         if (!group) throw new Error();
         let userID = req.params.userID ? req.params.userID : req.body.userID ? req.body.userID : null;
         let user = group.getMemberById(userID);
+        if (!group.isMember(user)) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Only member can get Post',
+                data: null,
+            });
+        }
         let posts = group.posts;
         let postIDs = group.getPostIDs(user);
         let datas = [];

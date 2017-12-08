@@ -23,6 +23,7 @@ let EventSchema = new mongoose.Schema({
         required: true, 
         default: null 
     },
+    groupEventID: { type: Number, default: Date.now},
     eventImageID: {type: String, required: false, default: null},
     location: {type: String, required: false, default: ''},
     contextData: {},
@@ -56,6 +57,7 @@ function getBasicInfo() {
         },
         context: this.context,
         contextData: this.contextData,
+        groupEventID: this.groupEventID,
         isGroupContext: ContextEnum[this.context] === 'Group',
         isAllDay: this.isAllDay,
         location: this.location,
@@ -104,6 +106,10 @@ EventSchema.methods.isUserContext = isUserContext;
 EventSchema.methods.isSystemContext = isSystemContext;
 EventSchema.methods.setContext = setContext;
 EventSchema.statics.isInvalidContext = isInvalidContext;
+
+EventSchema.statics.getUserContext = () => 1;
+EventSchema.statics.getGroupContext = () => 10;
+EventSchema.statics.getSystemContext = () => 100;
 
 EventSchema.statics.getNewID = getNewID;
 module.exports = mongoose.model('Event', EventSchema);
