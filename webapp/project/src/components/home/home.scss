@@ -94,15 +94,15 @@ $main-color: rgba(146, 181, 88, 1);
     }
   }
   .home-rightmenu{
-    .home-notifications{
-      .notification-detail{
+    .home-announcements{
+      .announcement-detail{
         margin-top: 5px;
         padding-bottom: 5px;
         border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
         &:last-of-type{
           border-bottom: none;
         }
-        .notification-time-user{
+        .announcement-time-user{
           .user-profile-info{
             display: inline-block;
           }

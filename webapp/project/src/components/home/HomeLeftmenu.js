@@ -4,23 +4,28 @@ import CreateClassModal from "../class/views/CreateClassModal";
 import CreateEventModal from "../event/views/CreateEventModal";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import {defaultConstants} from "../../constants";
-import {classActions, eventActions} from "../../actions";
+import {announcementActions, classActions, eventActions} from "../../actions";
 import {connect} from 'react-redux';
 import {fileUtils} from "../../utils/fileUtils";
 import {userUtils} from "../../utils/userUtils";
 import {dateUtils} from "../../utils";
+import CreateAnnouncementModal from "../announcement/CreateAnnouncementModal";
 
 class HomeLeftmenu extends Component {
     constructor() {
         super()
         this.state = {
             modalCreateEventIsOpen: false,
-            modalCreateClassIsOpen: false
+            modalCreateClassIsOpen: false,
+            modalCreateAnnouncementIsOpen: false
         }
-        this.openModalCreateClass = this.openModalCreateClass.bind(this);
-        this.closeModalCreateClass = this.closeModalCreateClass.bind(this);
+        this.openModalCreateAnnouncement = this.openModalCreateAnnouncement.bind(this);
+        this.closeModalCreateAnnouncement = this.closeModalCreateAnnouncement.bind(this);
         this.openModalCreateEvent = this.openModalCreateEvent.bind(this);
         this.closeModalCreateEvent = this.closeModalCreateEvent.bind(this);
+        this.openModalCreateClass = this.openModalCreateClass.bind(this);
+        this.closeModalCreateClass = this.closeModalCreateClass.bind(this);
+        this.handleCreateAnnouncement = this.handleCreateAnnouncement.bind(this);
         this.handleCreateClass = this.handleCreateClass.bind(this);
         this.handleCreateEvent = this.handleCreateEvent.bind(this);
     }
@@ -41,6 +46,14 @@ class HomeLeftmenu extends Component {
         this.setState({modalCreateEventIsOpen: false});
     }
 
+    openModalCreateAnnouncement() {
+        this.setState({modalCreateAnnouncementIsOpen: true});
+    }
+
+    closeModalCreateAnnouncement() {
+        this.setState({modalCreateAnnouncementIsOpen: false});
+    }
+
     renderListItem = (index, linkTo, linkLabel) => {
         return (
             <li key={index}>
@@ -55,6 +68,11 @@ class HomeLeftmenu extends Component {
     handleCreateClass = (userId, className, membersInvited) => {
         this.setState({modalCreateClassIsOpen: false});
         this.props.dispatch(classActions.insert(userId, className, membersInvited));
+    }
+
+    handleCreateAnnouncement = (userId, title, content) => {
+        this.setState({modalCreateAnnouncementIsOpen: false});
+        this.props.dispatch(announcementActions.insert(userId, title, content));
     }
 
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {
@@ -163,6 +181,19 @@ class HomeLeftmenu extends Component {
                                                                   userId={user.id}
                                                                   closeModal={this.closeModalCreateClass}
                                                                   onSubmit={this.handleCreateClass}/>
+                                            )
+                                        }
+                                        <span role="presentation" aria-hidden="true"> · </span>
+                                        <a href="#" onClick={this.openModalCreateAnnouncement}>
+                                            Announcement
+                                        </a>
+                                        {
+                                            user &&
+                                            (
+                                                <CreateAnnouncementModal modalIsOpen={this.state.modalCreateAnnouncementIsOpen}
+                                                                  userId={user.id}
+                                                                  closeModal={this.closeModalCreateAnnouncement}
+                                                                  onSubmit={this.handleCreateAnnouncement}/>
                                             )
                                         }
                                     </span>

@@ -6,6 +6,7 @@ import {alertAuthen} from './alertAuthenReducer';
 import {classes} from './classReducer';
 import {events} from './eventReducer';
 import {users} from './userReducer';
+import {announcements} from './announcementReducer';
 
 const rootReducer = combineReducers({
     authentication,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     classes,
     events,
     users,
+    announcements
 });
 
 export default rootReducer;

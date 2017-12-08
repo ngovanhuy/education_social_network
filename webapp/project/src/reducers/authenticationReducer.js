@@ -215,6 +215,40 @@ export function authentication(state = {}, action) {
                 loading: false,
                 error: action.error
             };
+        case userConstants.USERS_UPDATEPROFILEPICTURE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: ''
+            };
+        case userConstants.USERS_UPDATEPROFILEPICTURE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case userConstants.USERS_UPDATEPROFILEPICTURE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case userConstants.USERS_UPDATECOVERPHOTO_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: ''
+            };
+        case userConstants.USERS_UPDATECOVERPHOTO_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case userConstants.USERS_UPDATECOVERPHOTO_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
         default:
             return state
     }

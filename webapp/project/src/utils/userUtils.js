@@ -1,9 +1,10 @@
-import {userConstants, defaultConstants} from "../constants";
+import {userConstants, defaultConstants, DOMAIN_SERVICE} from "../constants";
 
 export const userUtils = {
     checkIsTeacher,
     renderFullName,
     renderSourceProfilePictureDefault,
+    renderProfileImageOfUser,
 }
 
 function checkIsTeacher(user) {
@@ -27,4 +28,11 @@ function renderSourceProfilePictureDefault(gender) {
     // }
 
     return defaultConstants.USER_PROFILE_PICTURE_URL_NONE
+}
+
+
+function renderProfileImageOfUser(userId) {
+    if (userId)
+        return DOMAIN_SERVICE + "/users/profileImage/" + userId;
+    return defaultConstants.USER_PROFILE_PICTURE_URL_NONE;
 }

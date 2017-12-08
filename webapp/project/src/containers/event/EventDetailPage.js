@@ -7,7 +7,7 @@ import EventLeftmenu from "../../components/event/EventLeftmenu";
 import EventTopContent from "../../components/event/EventTopContent";
 import UserProfileInfo from "../../components/commons/views/UserProfileInfo";
 import {classActions, eventActions} from "../../actions";
-import {fileUtils, userUtils} from "../../utils";
+import {appUtils, fileUtils, userUtils} from "../../utils";
 import {defaultConstants} from "../../constants";
 import PageNotFound from "../../components/commons/PageNotFound";
 
@@ -25,11 +25,11 @@ class EventDetailPage extends Component {
     }
 
     render() {
-        const {eventDetail, eventId, error} = this.props
+        const {eventDetail, eventId, loading} = this.props
         return (
             <div className="container">
                 {
-                    (eventDetail.id || !error) ?
+                    (eventDetail && eventDetail.id) ?
                         <div>
                             <div className="col-sm-2">
                                 <div className="row">
@@ -68,7 +68,7 @@ class EventDetailPage extends Component {
 
                             </div>
                         </div>
-                        : <PageNotFound/>
+                        : <PageNotFound loading={loading}/>
                 }
             </div>
         )
@@ -77,11 +77,12 @@ class EventDetailPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const eventId = ownProps.match.params.eventId
-    const {eventDetail, error} = state.events
+    const {eventDetail} = state.events
+    var loading = appUtils.checkLoading(state)
     return {
         eventId,
         eventDetail,
-        error
+        loading
     }
 }
 

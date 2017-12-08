@@ -16,6 +16,8 @@ export const userActions = {
     createClassRequest,
     deleteClassRequest,
     approveRequestJoinClass,
+    updateProfilePicture,
+    updateCoverPhoto,
 };
 
 function login(username, password) {
@@ -210,4 +212,42 @@ function approveRequestJoinClass(userId, classId) {
     function request() { return { type: userConstants.USERS_APPROVECLASSREQUEST_REQUEST } }
     function success() { return { type: userConstants.USERS_APPROVECLASSREQUEST_SUCCESS } }
     function failure(error) { return { type: userConstants.USERS_APPROVECLASSREQUEST_FAILURE, error } }
+}
+
+function updateProfilePicture(userId, file) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.updateProfilePicture(userId, file)
+            .then(
+                response => {
+                    dispatch(success())
+                    dispatch(getById(userId))
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_UPDATEPROFILEPICTURE_REQUEST } }
+    function success() { return { type: userConstants.USERS_UPDATEPROFILEPICTURE_SUCCESS } }
+    function failure(error) { return { type: userConstants.USERS_UPDATEPROFILEPICTURE_FAILURE, error } }
+}
+
+function updateCoverPhoto(userId, file) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.updateCoverPhoto(userId, file)
+            .then(
+                response => {
+                    dispatch(success())
+                    dispatch(getById(userId))
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: userConstants.USERS_UPDATECOVERPHOTO_REQUEST } }
+    function success() { return { type: userConstants.USERS_UPDATECOVERPHOTO_SUCCESS } }
+    function failure(error) { return { type: userConstants.USERS_UPDATECOVERPHOTO_FAILURE, error } }
 }

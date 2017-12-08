@@ -1,0 +1,16 @@
+.announcements-page{
+  .announcement-detail{
+    background-color: #fff;
+    border: .1rem solid rgba(0,0,0,0.12);
+    border-bottom: none;
+    height: 7.1rem;
+    .announcement-detail-content{
+      box-sizing: border-box;
+      height: 100%;
+      padding: 0 2.4rem 0 1.8rem;
+      display: flex;
+      justify-content: space-between;
+      border-left: solid .6rem;
+    }
+  }
+}

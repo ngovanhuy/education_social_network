@@ -7,7 +7,7 @@ import '../../components/class/class.css'
 import NewPost from "../../components/commons/views/NewPost";
 import Feed from "../../components/commons/Feed";
 import {classActions, eventActions, postActions} from "../../actions";
-import {userUtils} from "../../utils";
+import {appUtils, userUtils} from "../../utils";
 import {postConstants} from "../../constants";
 import PageNotFound from "../../components/commons/PageNotFound";
 
@@ -41,7 +41,7 @@ class ClassTimelinePage extends Component {
     }
 
     render() {
-        const {classDetail, classId, user, error, eventsUpcommingOfClass} = this.props
+        const {classDetail, classId, user, loading, eventsUpcommingOfClass} = this.props
         const topics = classDetail.topics
         const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
         const isTeacher = userUtils.checkIsTeacher(user)
@@ -65,7 +65,7 @@ class ClassTimelinePage extends Component {
         return (
             <div className="container">
                 {
-                    (classDetail.id || !error) ?
+                    (classDetail && classDetail.id) ?
                         <div>
                             <div className="col-sm-2">
                                 <div className="row">
@@ -91,7 +91,7 @@ class ClassTimelinePage extends Component {
                                 </div>
                             </div>
                         </div>
-                        : <PageNotFound/>
+                        : <PageNotFound loading={loading}/>
                 }
             </div>
         )
@@ -100,15 +100,16 @@ class ClassTimelinePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail, error} = state.classes
+    const {classDetail} = state.classes
     const {user} = state.authentication
     const {eventsUpcommingOfClass} = state.events
+    var loading = appUtils.checkLoading(state)
     return {
         classId,
         classDetail,
         user,
         eventsUpcommingOfClass,
-        error
+        loading
     }
 }
 

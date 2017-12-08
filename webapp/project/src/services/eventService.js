@@ -1,7 +1,7 @@
 import {authHeader} from '../helpers';
 import {DOMAIN_SERVICE, eventConstants} from '../constants'
 import axios from 'axios';
-import {dateUtils} from "../utils";
+import {dateUtils, stringUtils} from "../utils";
 
 export const eventService = {
     getAll,
@@ -54,22 +54,22 @@ function getEventsNotBelongClass() {
 }
 
 function getEventsUpcomming() {
-    const dateNow = new Date().setHours(0,0,0,0)
+    const dateNow = new Date().setHours(0, 0, 0, 0)
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/events/filter?startTime='+dateUtils.convertDateTimeToISO(dateNow);
+    const url = DOMAIN_SERVICE + '/events/filter?startTime=' + dateUtils.convertDateTimeToISO(dateNow);
     return fetch(url, requestOptions).then(handleResponse);
 }
 
 function getEventsUpcommingOfClass(classId) {
-    const dateNow = new Date().setHours(0,0,0,0)
+    const dateNow = new Date().setHours(0, 0, 0, 0)
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/events/filter?groupID='+classId+'&startTime='+dateUtils.convertDateTimeToISO(dateNow);
+    const url = DOMAIN_SERVICE + '/events/filter?groupID=' + classId + '&startTime=' + dateUtils.convertDateTimeToISO(dateNow);
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -78,7 +78,8 @@ function filter(textSearch, userId, classId, startDate, endDate) {
         method: 'GET',
         headers: authHeader(),
     };
-    const url = DOMAIN_SERVICE + '/events/filter?' + `title=${textSearch}&userID=${userId}&groupID=${classId}&startTime=${startDate}&endTime=${endDate}&`;
+    const url = DOMAIN_SERVICE + '/events/filter?' + `title=${stringUtils.converToString(textSearch)}&userID=${stringUtils.converToString(userId)}`+
+        `&groupID=${stringUtils.converToString(classId)}&startTime=${startDate}&endTime=${endDate}`;
     return fetch(url, requestOptions).then(handleResponse);
 }
 
@@ -99,7 +100,7 @@ function insert(classId, userId, imageUpload, title, location, content, startTim
     }
     data.append("userID", userId)
     var context = eventConstants.EVENT_CONTEXT.SYSTEM
-    if(classId && classId > 0){
+    if (classId && classId > 0) {
         data.append("groupID", classId)
         context = eventConstants.EVENT_CONTEXT.GROUP
     }
