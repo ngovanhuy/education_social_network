@@ -248,7 +248,7 @@ function isAdmin(user) {
     return TypeMemberEnum[member.typemember] === 'Admin';
 }
 function getNewID() {
-    return new Date().getTime();
+    return Date.now();
 }
 function addUserInArray(new_user, arrays) {
     if (!new_user) {
@@ -300,15 +300,20 @@ function removeUserFromArray(remove_user, arrays) {
 function addRequested(user) {//TODO: check member exited.
     return addUserInArray(user, this.requesteds) ? user : null;
 }
-function removeRequested(user) {
-    return removeUserFromArray(user, this.requesteds) ? user : null;
-}
-function confirmRequested(user) {
-    if (addMember.call(this, user)) {
-        removeRequested.call(this, user);
+function removeRequested(user, isUpdateReference = false) {
+    if (!removeUserFromArray(user, this.requesteds)) {
+        return null;
+    }
+    if (!isUpdateReference) {
         return user;
     }
-    return null;
+    return user.removeClassRequest.call(user, this, false) ? user : null;
+}
+function confirmRequested(user, isUpdateReference = false) {
+    if (!addMember.call(this, user)) {
+        return null;
+    }
+    return removeRequested.call(this, user, isUpdateReference) ? user : null;
 }
 
 function addMember(user, typemember = 1) {//TODO: check owner.
@@ -483,13 +488,20 @@ function getPostIDs(user, topics = null, top = -1) {
     }
     return postIDs;
 }
+function getBasicPostID() {
+    if (!this.posts) { return []; }
+    if (!user) {
+        return this.posts.filter(post => post.isDeleted === false).map(post => post._id);
+    }
+
+}
 
 function getRequesteds() {
     let requesteds = [];
     this.requesteds.forEach(requested => {
         if (!requested.isRemoved) {
             requesteds.push({
-                _id: requested._id,
+                id: requested._id,
                 firstName: requested.firstName,
                 lastName: requested.lastName,
                 profileImageID: requested.profileImageID,

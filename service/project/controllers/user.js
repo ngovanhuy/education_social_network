@@ -218,6 +218,7 @@ async function putUser(req, res, next) {
         }
         user = await user.save();
         req.users.user_request = user;
+        //TODO: update reference to this user.
         return next();
     } catch (error) {
         return res.status(500).send({
@@ -250,6 +251,7 @@ async function deleteUser(req, res, next) {
             user = await user.save();
             req.users.user_request = user;
         }
+        //TODO remove all request, member of this user.
         return next();
     } catch (error) {
         return res.status(500).send({
@@ -495,7 +497,7 @@ async function addClassRequest(req, res) {
     try {
         let user = req.users.user_request;
         let group = req.groups.group_request;
-        if (user.addClassRequest(group)) {
+        if (user.addClassRequest(group, true)) {
             group = await group.save();
             user = await user.save();
             req.users.user_request = user;
@@ -524,15 +526,11 @@ async function removeClassRequest(req, res) {
     try {
         let user = req.users.user_request;
         let group = req.groups.group_request;
-        if (user.removeClassRequest(group)) {
-            if (group.removeRequested(user)) {
-                group = await group.save();
-                user = await user.save();
-                req.users.user_request = user;
-                req.groups.group_request = group;
-            } else {
-                throw new Error();
-            }
+        if (user.removeClassRequest(group, true)) {
+            group = await group.save();
+            user = await user.save();
+            req.users.user_request = user;
+            req.groups.group_request = group;
         } else {
             throw new Error();
         }
@@ -844,7 +842,7 @@ async function getFiles(req, res, next) {
             isDeleted: false,
             'user.id': user._id,
         });
-        let datas = files.map(file => file.getBasicInfo());
+        req.fileitems.files_saved = files;
         return next();
     } catch (error) {
         return res.status(500).json({

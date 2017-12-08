@@ -101,21 +101,17 @@ async function postFiles(req, res, next) {
         }
         let current_user = null;
         let current_group = null;
-        if (req.users.user_request) {
-            let user = req.users.user_request;
-            current_user = {
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-            }
-        }
-        if (req.groups.group_request) {
-            let group = req.groups.group_request;
-            current_group = {
-                id: group._id,
-                name: group.name,
-            }
-        }
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
+        current_user = user ? {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        } : null;
+        current_group = group ? {
+            id: group._id,
+            name: group.name,
+        } : null;
         let files = [];
         let now = new Date();
         req.files.forEach(file => {
@@ -152,23 +148,20 @@ async function postFilesIfHave(req, res, next) {
         if (!req.files) {
             return next();
         }
+
         let current_user = null;
         let current_group = null;
-        if (req.users.user_request) {
-            let user = req.users.user_request;
-            current_user = {
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-            }
-        }
-        if (req.groups.group_request) {
-            let group = req.groups.group_request;
-            current_group = {
-                id: group._id,
-                name: group.name,
-            }
-        }
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
+        current_user = user ? {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        } : null;
+        current_group = group ? {
+            id: group._id,
+            name: group.name,
+        } : null;
         let files = [];
         let now = new Date();
         req.files.forEach(file => {
@@ -197,10 +190,53 @@ async function postFilesIfHave(req, res, next) {
         });
     }
 }
+async function postOrUpdateFile(req, res, next) {
+    try {
+        let file = req.fileitems.file_saved = null;
+        let file_id = req.fileitems.file_selected_id;
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
+        if (!req.file) {
+            throw new Error("Input file null");
+        }
+        if (!file) {
+            file = new FileItem({
+                id: req.file.filename,
+                name: req.file.originalname,
+                type: req.file.mimetype,
+                size: req.file.size,
+                createDate: new Date(),
+                isDeleted: false,
+            });
+        }
+        file.user = user ? {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        } : null;
+        file.group = group ? {
+            id: group._id,
+            name: group.name,
+        } : null;
+        file = await file.save();
+        req.fileitems.file_saved = file;
+        req.fileitems.file_selected_id = file ? file._id : null;
+        return next();
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Upload Failed',
+            data: null,
+            error: error.message
+        });
+    }
+}
 async function postFile(req, res, next) {
     try {
         req.fileitems.file_saved = null;
         req.fileitems.file_selected_id = null;
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
         if (!req.file) {
             throw new Error("Input file null");
         }
@@ -212,25 +248,15 @@ async function postFile(req, res, next) {
             createDate: new Date(),
             isDeleted: false,
         });
-        if (req.users.user_request) {
-            user = req.users.user_request;
-            file.user = {
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-            }
-        } else {
-            file.user = null;
-        }
-        if (req.groups.group_request) {
-            let group = req.groups.group_request;
-            file.group = {
-                id: group._id,
-                name: group.name,
-            }
-        } else {
-            file.group = null;
-        }
+        file.user = user ? {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        } : null;
+        file.group = group ? {
+            id: group._id,
+            name: group.name,
+        } : null;
         file = await file.save();
         req.fileitems.file_saved = file;
         req.fileitems.file_selected_id = file ? file._id : null;
@@ -248,6 +274,8 @@ async function postFileIfHave(req, res, next) {
     try {
         req.fileitems.file_saved = null;
         req.fileitems.file_selected_id = null;
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
         if (!req.file) {
             return next();
         }
@@ -259,25 +287,15 @@ async function postFileIfHave(req, res, next) {
             createDate: new Date(),
             isDeleted: false,
         });
-        if (req.users.user_request) {
-            user = req.users.user_request;
-            file.user = {
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-            }
-        } else {
-            file.user = null;
-        }
-        if (req.groups.group_request) {
-            let group = req.groups.group_request;
-            file.group = {
-                id: group._id,
-                name: group.name,
-            }
-        } else {
-            file.group = null;
-        }
+        file.user = user ? {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        } : null;
+        file.group = group ? {
+            id: group._id,
+            name: group.name,
+        } : null;
         file = await file.save();
         req.fileitems.file_saved = file;
         req.fileitems.file_selected_id = file ? file._id : null;
@@ -490,3 +508,4 @@ exports.postFilesIfHave = postFilesIfHave;
 exports.checkFileRequest = checkFileRequest;
 exports.checkFileRequestIfHave = checkFileRequestIfHave;
 exports.updateFile = updateFile;
+exports.postOrUpdateFile = postOrUpdateFile;

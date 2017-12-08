@@ -12,12 +12,14 @@ router.route('/')
     .post(userController.postUser, userController.getUser);
 router.route('/profileImage/:userID')
     .get(userController.checkUserRequest, userController.getProfileImageID, fileController.checkFileRequest, fileController.getFile)
-    .put(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage, fileController.getInfoFile)
-    .post(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage, fileController.getInfoFile)
+    .put(fileController.profileUpload, userController.checkUserRequest, userController.getProfileImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, userController.putProfileImage, fileController.getInfoFile)
+    // .post(fileController.profileUpload, userController.checkUserRequest, fileController.postFile, userController.putProfileImage, fileController.getInfoFile);
+    .post(fileController.profileUpload, userController.checkUserRequest, userController.getProfileImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, userController.putProfileImage, fileController.getInfoFile);
 router.route('/coverImage/:userID')
     .get(userController.checkUserRequest, userController.getCoverImageID, fileController.checkFileRequest, fileController.getFile)
-    .put(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putCoverImage, fileController.getInfoFile)
-    .post(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putCoverImage, fileController.getInfoFile)
+    .put(fileController.coverUpload, userController.checkUserRequest, userController.getCoverImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, userController.putCoverImage, fileController.getInfoFile)
+    .post(fileController.coverUpload, userController.checkUserRequest, userController.getCoverImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, userController.putCoverImage, fileController.getInfoFile);
+    // .post(fileController.coverUpload, userController.checkUserRequest, fileController.postFile, userController.putCoverImage, fileController.getInfoFile);
 
 router.route('/friends/:userID').get(userController.checkUserRequest, userController.getFriends);
 router.route('/friends/:userID/:friendUserID')

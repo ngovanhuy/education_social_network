@@ -44,7 +44,28 @@ function hash(input, callback) {
 function hashSync(input) {
     return bcrypt.hashSync(input);
 }
-
+function getObjectArray(jsonContent) {
+    try {
+        if (Array.isArray(jsonContent)) {
+            return jsonContent;
+        }
+        return [...items] = JSON.parse(jsonContent);
+    } catch (error) {
+        return [jsonContent];
+    }
+}
+function periodReducer(accumulator, currentValue, currentIndex, arrays) {
+    if (currentIndex % 2) {
+        accumulator.push({
+            startTime : parseDate(arrays[currentIndex - 1]),
+            endTime : parseDate(arrays[currentIndex]),
+        });
+    }
+    return accumulator;
+}
+function getPeriodArray(jsonContent) {
+    return getObjectArray(jsonContent).reduce(periodReducer, []);
+}
 function parseDate(dateString) {
     if (!dateString) {
         return null;
@@ -70,7 +91,7 @@ function getStringArray(jsonContent) {
         }
         return [...items] = JSON.parse(jsonContent);
     } catch (error) {
-        return null;
+        return typeof(jsonContent) === 'string' ? [jsonContent] : null
     }
 }
 function getNumberArray(jsonContent) {
@@ -116,8 +137,10 @@ exports.randomStringNumber = randomStringNumber;
 exports.hash = hash;
 exports.hashSync = hashSync;
 exports.parseDate = parseDate;
+exports.getObjectArray = getObjectArray;
 exports.getStringArray = getStringArray;
 exports.getNumberArray = getNumberArray;
+exports.getPeriodArray = getPeriodArray;
 exports.getNumbers = getNumbers;
 exports.validateEmail = validateEmail;
 exports.validatePhoneNumber = validatePhoneNumber;
