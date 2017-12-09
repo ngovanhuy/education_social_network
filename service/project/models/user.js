@@ -320,6 +320,10 @@ function getClasss() {
     }));
 }
 
+function getClasssID() {
+    return this.classs.filter(classItem => classItem.isRemoved === false).map(classItem => classItem.id);
+}
+
 function validateUserName(username, isRequired = true) {
     if (!username) return !isRequired;
     let re = /^([a-zA-Z\-0-9\.\_]{1,20})$/;
@@ -509,5 +513,6 @@ UserSchema.methods.getClassRequests = getClassRequests;
 UserSchema.methods.getFriends = getFriends;
 UserSchema.methods.getRequests = getRequests;
 UserSchema.methods.getRequesteds = getRequesteds;
+UserSchema.methods.getClasssID = getClasssID;
 
 module.exports = mongoose.model('User', UserSchema); 

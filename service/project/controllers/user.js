@@ -95,6 +95,20 @@ async function findUser(req, isFindWithPhoneAndEmail = true) {
     return null;
 }
 
+async function postUsers(req, res, next) {
+    try {
+
+        return next();
+    } catch (error) {
+    return res.status(500).send({
+        code: 500,
+        message: 'Server Error',
+        data: null,
+        error: error.message
+    });
+}
+}
+
 async function updateUserInfo(req, user, isCheckValidInput = true) {
     let message = [];
     if (isCheckValidInput) {
@@ -433,13 +447,20 @@ async function removeFriend(req, res) {
         });
     }
 }
-function getClasss(req, res) {
+async function getClasss(req, res) {
     try {
         let user = req.users.user_request;
+        let groups = await Groups.find({_id: {$in: user.getClasssID()}});
+        let datas = groups.map(group => ({
+            id: group._id,
+            profileImageID: group.profileImageID,
+            name: group.name,
+        }));
         return res.send({
             code: 200,
             message: '',
-            data: user.getClasss()
+            length: datas.length,
+            data: datas,//user.getClasss()
         })
     } catch (error) {
         return res.status(500).send({
@@ -944,3 +965,4 @@ exports.getFiles = getFiles;
 exports.searchUserByName = searchUserByName;
 exports.getPosts = getPosts;
 exports.getManyUsers = getManyUsers;
+exports.postUsers = postUsers;
