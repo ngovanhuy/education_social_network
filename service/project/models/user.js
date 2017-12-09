@@ -287,11 +287,23 @@ function getClassRequests() {
         profileImageID: null,
     }));
 }
-function addClassRequest(new_group) {
-    return addGroupInArray(new_group, this.classrequests) ? new_group.addRequested.call(new_group, this) ? new_group : null : null;
+function addClassRequest(new_group, isUpdateReference = false) {
+    if (!addGroupInArray(new_group, this.classrequests)) {
+        return null;
+    }
+    if (!isUpdateReference) {
+        return new_group;
+    }
+    return new_group.addRequested.call(new_group, this) ? new_group : null
 }
-function removeClassRequest(remove_group) {
-    return removeGroupFromArray(remove_group, this.classrequests) ? remove_group.removeRequested.call(remove_group, this) : null;
+function removeClassRequest(remove_group, isUpdateReference = false) {
+    if (!removeGroupFromArray(remove_group, this.classrequests)) {
+        return null;
+    }
+    if (!isUpdateReference) {
+        return remove_group;
+    }
+    return remove_group.removeRequested.call(remove_group, this, false);
 }
 function addToClass(group) {
     return addGroupInArray(group, this.classs) ? group : null;
@@ -408,7 +420,7 @@ function getBirthDate(dateString) {
     return Utils.parseDate(dateString);
 }
 function getNewID() {
-    return new Date().getTime();
+    return Date.now();
 }
 function verifyPassword(password, cb) {
     bcrypt.compare(password, this.password, (err, isMatch) => err ? cb(err) : cb(null, isMatch));

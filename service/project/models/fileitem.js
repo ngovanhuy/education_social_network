@@ -26,13 +26,22 @@ let FileItemSchema = new mongoose.Schema({
         default: null
     },
 });
+function getVersion(version) {
+    if (!this.versions) {this.versions = []};
+    let v = Number(version);
+    if (isNaN(v)) return null;
+    if (v >= 0 && v < this.versions.length) {
+        return this.versions[v];
+    }
+    return null;
+}
 function addFiles(files) {
     if (!this.versions) {this.versions = []};
     if (!files) return null;
     let now = new Date();
     if (Array.isArray(files)) {
         let maxIndex = files.length - 1;
-        if (maxIndex > 0) {
+        if (maxIndex >= 0) {
             this.id = files[maxIndex];
             this.createDate = now;
         }
@@ -60,4 +69,5 @@ function getBasicInfo() {
 
 FileItemSchema.methods.getBasicInfo = getBasicInfo;
 FileItemSchema.methods.addFiles = addFiles;
+FileItemSchema.methods.getVersion = getVersion;
 module.exports = mongoose.model('FileItem', FileItemSchema);

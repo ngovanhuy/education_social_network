@@ -11,8 +11,9 @@ router.route('/create/:userID').post(userController.checkUserRequest, groupContr
 router.route('/info/:groupID').get(groupController.checkGroupRequest, groupController.getGroup);
 router.route('/profileImage/:groupID')
     .get(groupController.checkGroupRequest, groupController.getProfileImageID, fileController.checkFileRequest, fileController.getFile)
-    .put(fileController.profileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, fileController.postFile, groupController.putProfileImage, fileController.getInfoFile)
-    .post(fileController.profileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, fileController.postFile, groupController.putProfileImage, fileController.getInfoFile);
+    .put(fileController.profileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, groupController.getProfileImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, groupController.putProfileImage, fileController.getInfoFile)
+    .post(fileController.profileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, groupController.getProfileImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, groupController.putProfileImage, fileController.getInfoFile);
+    // .post(fileController.profileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, fileController.postFile, groupController.putProfileImage, fileController.getInfoFile);
 router.route('/members/:groupID')
     .get(groupController.checkGroupRequest, groupController.getMembers)
     .post(groupController.checkGroupRequest, groupController.addMember)
@@ -35,7 +36,7 @@ router.route('/action/:groupID')
     .delete(groupController.checkGroupRequest, groupController.deleteGroup, groupController.getGroup);
 router.route('/files/:groupID')
     .get(groupController.checkGroupRequest, groupController.getFiles, fileController.getInfoFiles)
-    .post(fileController.arrayFileUpload, groupController.checkGroupRequest, fileController.postFiles, fileController.getInfoFiles);
+    .post(fileController.arrayFileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(groupController.searchGroupByName);
 router.route('/post/:groupID').get(groupController.checkGroupRequest, groupController.getPosts);
 router.route('/post/:groupID/:userID')

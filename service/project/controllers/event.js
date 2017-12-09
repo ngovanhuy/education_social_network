@@ -132,6 +132,36 @@ async function getUserEvents(req, res, next) {
         });
     }
 }
+async function getGroupEvent(req, res, next) {
+    try {
+        if (!req.params.groupEventID) {
+            return res.status(400).send({
+                code: 400,
+                message: 'GroupEventID not define',
+                data: null,
+            });
+        }
+        let groupEventID = Number(req.params.groupEventID);
+        if (isNaN(groupEventID)) {
+            return res.status(400).send({
+                code: 400,
+                message: 'GroupEventID invalid format',
+                data: null,
+            });
+        }
+
+        let events = await EventItem.find({isDeleted: false, groupEventID: groupEventID});
+        req.events.events_requested = events ? events : [];
+        return next();
+    } catch(error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error
+        });
+    }
+}
 
 async function getEvents(req, res, next) {
     try {
@@ -180,7 +210,13 @@ async function addEvent(req, res, next) {
         let isAllDay = req.body.isAllDay ? req.body.isAllDay === 'true' : false;
         let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
-
+        let groupEventID = null;
+        if (req.body.groupEventID) {
+            let n = Number(req.body.groupEventID);
+            groupEventID = isNaN(n) ? Date.now() : n;
+        } else {
+            groupEventID = Date.now();
+        }
         if (!title || !content || !location) {
             return res.status(400).send({
                 code: 400,
@@ -199,6 +235,7 @@ async function addEvent(req, res, next) {
             isAllDay: isAllDay,
             startTime: startTime,
             endTime: endTime,
+            groupEventID: groupEventID,
         });
         event.userCreate = {
             id: user._id,
@@ -234,6 +271,86 @@ async function addEvent(req, res, next) {
         event = await event.save();
         req.events.event_requested = event;
         return next();
+    } catch(error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error
+        });
+    }
+}
+async function addEvents(req, res, next) {
+    try {
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
+        let title = req.body.title;
+        let content = req.body.content;
+        let eventImageID = req.fileitems.file_selected_id ? String(req.fileitems.file_selected_id) : null;
+        let location = req.body.location ? req.body.location : '';
+        let context = req.body.context ? req.body.context : 100;
+        let isAllDay = req.body.isAllDay ? req.body.isAllDay === 'true' : false;
+        let periods = Utils.getPeriodArray(req.body.periods);
+        let groupEventID = null;
+        if (req.body.groupEventID) {
+            let n = Number(req.body.groupEventID);
+            groupEventID = isNaN(n) ? Date.now() : n;
+        } else {
+            groupEventID = Date.now();
+        }
+        if (!title || !content || !location) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                data: null,
+                error: 'Data not exited'
+            });
+        }
+        let now = Date.now();
+        let userCreate = {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImageID: user.profileImageID,
+            timeUpdate: now,
+        };
+        let contextData = null;
+        if (context === EventItem.getGroupContext()) {
+            contextData = group ? {
+                profileImageID : group.profileImageID,
+                memberCount : group.memberCount,
+                location : group.location,
+                about : group.about,
+                name : group.name,
+                id : group._id,
+            } : null;
+        }
+        let createEventItem = function (_id, _startTime, _endTime) {
+            let eventItem = new EventItem({
+                _id: _id,
+                title: title,
+                content: content,
+                eventImageID: eventImageID,
+                location: location,
+                isAllDay: isAllDay,
+                startTime: _startTime,
+                endTime: _endTime,
+                userCreate: userCreate,
+                context: context,
+                contextData: contextData,
+                groupEventID: groupEventID,
+            });
+            return eventItem;
+        };
+        let events = periods.map(period => {
+            if (!period.startTime || !period.endTime) return null;
+            return createEventItem(now++, period.startTime, period.endTime);
+        }).filter(item => item !== null);
+        Promise.all(events.map(event => event.save())
+        ).then(eventSaveds => {
+            req.events.events_requested = eventSaveds;
+            next();
+        }).catch(error => next(error));
     } catch(error) {
         return res.status(500).send({
             code: 500,
@@ -329,6 +446,7 @@ async function updateEvent(req, res, next) {
 exports.getSystemEvents = getSystemEvents;
 exports.getEvents = getEvents;
 exports.addEvent = addEvent;
+exports.addEvents = addEvents;
 exports.removeEvent = removeEvent;
 exports.updateEvent = updateEvent;
 exports.checkEventRequest = checkEventRequest;
@@ -338,5 +456,6 @@ exports.getUserEvents = getUserEvents;
 exports.getEventsInfo = getEventsInfo;
 exports.getEventInfo = getEventInfo;
 exports.getAllEvents = getAllEvents;
+exports.getGroupEvent = getGroupEvent;
 
 
