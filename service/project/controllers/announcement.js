@@ -137,6 +137,7 @@ async function addAnnouncement(req, res, next) {
             lastName: user.lastName,
             profileImageID: user.profileImageID,
             timeUpdate: now,
+            timeCreate: now,
         };
         announcement = await announcement.save();
         req.announcements.announcement_requested = announcement;

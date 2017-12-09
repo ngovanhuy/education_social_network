@@ -51,7 +51,7 @@ function getObjectArray(jsonContent) {
         }
         return [...items] = JSON.parse(jsonContent);
     } catch (error) {
-        return [jsonContent];
+         return [jsonContent];
     }
 }
 function periodReducer(accumulator, currentValue, currentIndex, arrays) {
