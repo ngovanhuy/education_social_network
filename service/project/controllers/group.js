@@ -581,31 +581,66 @@ async function searchGroupByName(req, res) {
         return res.status(500).json({code: 500, message: '', data: []});
     }
 }
-
+async function getAllPosts(req, res) {
+    try {
+        //TODO page paging : top, start...
+        let group = req.groups.group_request;
+        let user = req.users.user_request;
+        let postIDs = group.getPostIDs();
+        let posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
+        let datas = posts.map(post => post.getBasicInfo());
+        return res.status(200).json({
+            code: 200,
+            message: '',
+            data: datas,
+        });
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
 async function getPosts(req, res) {
     try {
         //TODO page paging : top, start...
         let group = req.groups.group_request;
-        if (!group) throw new Error();
-        let userID = req.params.userID ? req.params.userID : req.body.userID ? req.body.userID : null;
-        let user = group.getMemberById(userID);
-        if (!group.isMember(user)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Only member can get Post',
-                data: null,
-            });
-        }
-        let posts = group.posts;
-        let postIDs = group.getPostIDs(user);
-        let datas = [];
-        if (postIDs.length > 0) {
-            posts = await Post.find({_id: {$in: postIDs}});
-            datas = posts.map(post => post.getBasicInfo());
-        }
+        let user = req.users.user_request;
+        let postIDs = group.getPostIDForUsers(user);
+        let posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
+        let datas = posts.map(post => post.getBasicInfo());
+        // let basicPostIDs = basicPostIDs = group.getPublicScopePostID();
+        // let assigmentPostID = [];
+        // if (group.isMember(user)) {
+        //     basicPostIDs.concat(group.getProtectedScopePostID());
+        //     assigmentPostID = group.getPrivateScopePostID(user);
+        // }
+        // let datas = [];
+        // let basicPosts = [];
+        // let assigmentPosts = [];
+        // if (basicPostIDs.length > 0) {
+        //     basicPosts = await Post.find({_id: {$in: basicPostIDs}});
+        //     basicPosts = basicPosts.map(post => {
+        //         let _post = post.getBasicInfo();
+        //         _post.isAssigmentPost = false;
+        //         return _post;
+        //     });
+        // }
+        // if (assigmentPostID.length > 0) {
+        //     assigmentPosts = await Post.find({_id: {$in: assigmentPostID}});
+        //     assigmentPosts = assigmentPosts.map(post => {
+        //         let _post = post.getBasicInfo();
+        //         _post.isAssigmentPost = true;
+        //         return _post;
+        //     });
+        // }
+        // datas = basicPosts.concat(assigmentPosts);
         return res.status(200).json({
             code: 200,
             message: '',
+            length: datas.length,
             data: datas,
         });
     } catch (error) {
@@ -748,3 +783,4 @@ exports.getTopics = getTopics;
 exports.addTopic = addTopic;
 exports.addTopics = addTopics;
 exports.removeTopic = removeTopic;
+exports.getAllPosts = getAllPosts;

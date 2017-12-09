@@ -1,4 +1,5 @@
 let User = require('../models/user');
+let Groups = require('../models/group');
 let GroupController = require('../controllers/group');
 let Files = require('../models/fileitem');
 let Utils = require('../application/utils');
@@ -871,27 +872,13 @@ async function searchUserByName(req, res) {
 
 async function getPosts(req, res) {
     try {
-        let userID = Number(req.params.userID);
-        if (!userID) {
-            return res.status(400).json({
-                code: 400,
-                message: 'userID invalid',
-                data: null
-            });
-        }
-        let datas = (await Posts.find({
-            isDeleted: false,
-            'userCreate.id': userID,
-        })).map(post => post.getBasicInfo());
-        //     .map(post => ({
-        //     id: post._id,
-        //     title: post.title,
-        //     content: post.content,
-        //     timeCreate: Utils.exportDate(post.timeCreate),
-        //     countComments: post.countComments,
-        //     countLikes: post.countLikes,
-        //     files: post.getFiles(),
-        // }));
+        let user = req.users.user_request;
+        let groups = await Groups.find({posts:{$elemMatch:{isDeleted: false, "options.members":{$elemMatch:{$eq: user._id}}}}});
+        let postIDs = groups.reduce((postIDs, group) => {
+            return postIDs.concat(group.getPostIDForUsers(user))
+        },[]);
+        let posts = await Posts.find({_id: {$in : postIDs}});
+        let datas = posts.map(post => post.getBasicInfo());
         return res.send({
             code: 200,
             message: 'Success',

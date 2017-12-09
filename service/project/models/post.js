@@ -1,5 +1,9 @@
 let mongoose = require('mongoose');
 let Utils = require('../application/utils');
+let postTypeEnum = {
+    10: 'Basic',
+    100: "Assigment",
+};
 let PostSchema = new mongoose.Schema({
     _id: { type: Number, default: getNewID },
     title: { type: String, required: true, default: 'No Title' },
@@ -79,6 +83,7 @@ let PostSchema = new mongoose.Schema({
         required: false,
         default: [],
     },
+    postType: {type: Number, default: 10},
     countComments: { type: Number, required: true, default: 0 },
     countLikes: { type: Number, required: true, default: 0 },
     isDeleted: { type: Boolean, required: true, default: false, },
@@ -107,6 +112,8 @@ function getBasicInfo() {
             size: file.size,
         })),
         topics: this.topics.filter(topic => topic.isDeleted === false).map(topic => topic._id),
+        postType: this.postType,
+        isAssigmentPost: this.postType === 100,
         countComments: this.countComments,
         countLikes: this.countLikes,
     }
@@ -354,6 +361,22 @@ function setBlockComment(isBlockComment) {
     this.options.isBlockComment = isBlockComment;
 }
 
+function setBasicPost() {
+    this.postType = 10;
+}
+
+function setAssigmentPost() {
+    this.postType = 100;
+}
+
+function isBasicPost() {
+    return this.postType === 10;
+}
+
+function isAssigmentPost() {
+    return this.postType === 100;
+}
+
 PostSchema.methods.getBasicInfo = getBasicInfo;
 PostSchema.statics.getNewID = getNewID;
 
@@ -378,4 +401,9 @@ PostSchema.methods.addFile = addFile;
 PostSchema.methods.addFiles = addFiles;
 PostSchema.methods.setBlockComment = setBlockComment;
 PostSchema.methods.isUserLiked = isUserLiked;
+PostSchema.methods.setBasicPost = setBasicPost;
+PostSchema.methods.setAssigmentPost = setAssigmentPost;
+PostSchema.methods.isBasicPost = isBasicPost;
+PostSchema.methods.isAssigmentPost = isAssigmentPost;
+
 module.exports = mongoose.model('Post', PostSchema);

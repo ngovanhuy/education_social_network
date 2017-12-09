@@ -38,9 +38,9 @@ router.route('/files/:groupID')
     .get(groupController.checkGroupRequest, groupController.getFiles, fileController.getInfoFiles)
     .post(fileController.arrayFileUpload, userController.checkUserRequestIfHave, groupController.checkGroupRequest, fileController.postFiles, fileController.getInfoFiles);
 router.route('/search').get(groupController.searchGroupByName);
-router.route('/post/:groupID').get(groupController.checkGroupRequest, groupController.getPosts);
+router.route('/post/:groupID').get(groupController.checkGroupRequest, groupController.getAllPosts);
 router.route('/post/:groupID/:userID')
-    .get(groupController.checkGroupRequest, groupController.getPosts)
+    .get(userController.checkUserRequest, groupController.checkGroupRequest, groupController.getPosts)
     .post(fileController.arrayFileUpload, userController.checkUserRequest, groupController.checkGroupRequest, fileController.postFilesIfHave, postController.addPost, postController.getPost);
 router.route('/topic/:groupID')
     .get(groupController.checkGroupRequest, postController.getPostsInTopic)

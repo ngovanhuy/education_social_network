@@ -92,6 +92,7 @@ async function addPost(req, res, next) {
         let startTime = req.body.startTime ? Utils.parseDate(req.body.startTime) : null;
         let endTime = req.body.endTime ? Utils.parseDate(req.body.endTime) : null;
         let members = req.body.members ? Utils.getNumberArray(req.body.members) : [];
+        members.push(user._id);
         let options = {
             isShow: isShow,
             isSchedule: isSchedule,
@@ -103,6 +104,11 @@ async function addPost(req, res, next) {
             members: members,
         };
         let post = createNewPost(user, group, title, content, topic, currentFiles);
+        if (scopeType == 100) {
+            post.setAssigmentPost();
+        } else {
+            post.setBasicPost();
+        }
         group.addPost(post, topic, options);
         group = await group.save();
         post = await post.save();
@@ -487,7 +493,7 @@ async function removeLike(req, res, next) {
 
 function createNewPost(user, group, title, content, topic, files = null) {
     if (!user || !group) return null;
-    let now = new Date()
+    let now = new Date();
     let post = new PostItem({
         _id: now.getTime(),
         title: title,
