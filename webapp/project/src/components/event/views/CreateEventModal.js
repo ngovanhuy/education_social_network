@@ -5,7 +5,6 @@ import FileInput from '@ranyefet/react-file-input'
 import Datetime from 'react-datetime'
 import 'react-datetime/css/react-datetime.css'
 import '../event.css'
-import {userConstants} from "../../../constants/userConstants";
 
 const customStyles = {
     overlay: {
@@ -266,11 +265,4 @@ class CreateEventModal extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const {user} = state.authentication
-    return {
-        user
-    }
-}
-
-export default connect(mapStateToProps)(CreateEventModal);
+export default CreateEventModal;

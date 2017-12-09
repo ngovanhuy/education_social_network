@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import UserProfileInfo from './views/UserProfileInfo'
-import {dateUtils, fileUtils, userUtils} from '../../utils'
+import {appUtils, dateUtils, fileUtils, userUtils} from '../../utils'
 import './common.css'
 import Attachment from "./views/Attachment";
 import ReactPost from "./views/ReactPost";
@@ -13,10 +13,6 @@ import {classActions, eventActions, postActions, userActions} from "../../action
 import ClassProfileInfo from "./views/ClassProfileInfo";
 
 class Post extends Component {
-    static propTypes = {
-        post: PropTypes.object.isRequired,
-    }
-
     componentWillMount() {
         const {post, contextView} = this.props;
         if (post) {
@@ -45,17 +41,8 @@ class Post extends Component {
         )
     }
 
-    checkUserFavouritePost = (post, user) => {
-        var favourited = false;
-        if (post.favourites && post.favourites && post.favourites.length > 0 && post.favourites.indexOf(user.id)) {
-            favourited = true;
-        }
-        return favourited;
-    }
-
     render() {
-        const {post, user, contextView} = this.props
-        var favouritedPost = this.checkUserFavouritePost(post, user);
+        const {post, currentUser, contextView} = this.props
         var classDetailOfPost = {
             id: post.group && post.group.id,
             name: post.group && post.group.name,
@@ -127,10 +114,17 @@ class Post extends Component {
                         }
                     </div>
                 </div>
-                <ReactPost post={post} user={user} favouritedPost={favouritedPost} contextView={contextView}/>
+                <ReactPost post={post} contextView={contextView}/>
             </div>
         )
     }
 }
 
-export default connect(null)(Post);
+const mapStateToProps = (state, ownProps) => {
+    const {currentUser} = state.authentication
+    return {
+        currentUser,
+    }
+}
+
+export default connect(mapStateToProps)(Post);

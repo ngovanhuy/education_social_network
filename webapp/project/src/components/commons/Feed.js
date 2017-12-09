@@ -7,27 +7,27 @@ import NewComment from "./views/NewComment";
 import Comments from "./Comments";
 
 class Feed extends Component {
-    renderFeedDetail(postDetail, index, user, contextView) {
+    renderFeedDetail(postDetail, index, contextView) {
         return (
             <div key={index} className="feed-content has-border-radius">
-                <Post post={postDetail} contextView={contextView} user={user}/>
+                <Post post={postDetail} contextView={contextView}/>
                 <div className="post-new-comment">
-                    <NewComment post={postDetail} user={user} contextView={contextView}/>
+                    <NewComment post={postDetail} contextView={contextView}/>
                 </div>
-                <Comments comments={postDetail.comments} post={postDetail} user={user} contextView={contextView}/>
+                <Comments post={postDetail} contextView={contextView}/>
             </div>
         )
     }
 
     render() {
-        const {feed, user, contextView} = this.props
+        const {feed, contextView} = this.props
         return (
             <div className="feed">
                 {
                     (feed && feed.length > 0) ?
                         (
                             feed.map((postDetail, index) =>
-                                this.renderFeedDetail(postDetail, index, user, contextView)
+                                this.renderFeedDetail(postDetail, index, contextView)
                             )
                         ) :
                         <div className="no-post">No post</div>

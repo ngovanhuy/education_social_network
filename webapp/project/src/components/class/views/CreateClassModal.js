@@ -46,7 +46,7 @@ const renderSuggestion = suggestion => (
 );
 
 
-class CreateClassModal extends Component{
+class CreateClassModal extends Component {
     constructor() {
         super()
         this.state = {
@@ -64,13 +64,13 @@ class CreateClassModal extends Component{
         })
     }
 
-    handleChangeName(event){
+    handleChangeName(event) {
         this.setState({
             className: event.target.value
         })
     }
 
-    onSuggestionsFetchRequested = ({ value }) => {
+    onSuggestionsFetchRequested = ({value}) => {
         userService.searchByUsername(value)
             .then(
                 response => {
@@ -88,10 +88,12 @@ class CreateClassModal extends Component{
         });
     };
 
-    render(){
-        const {userId, modalIsOpen, onSubmit, suggestions} = this.props
+    render() {
+        const {modalIsOpen, onSubmit, suggestions} = this.props
+        const {className, membersInvited} = this.state
         var modalTitle = 'Create New Group';
-        function autocompleteRenderInput ({addTag, ...props}) {
+
+        function autocompleteRenderInput({addTag, ...props}) {
             const handleOnChange = (e, {newValue, method}) => {
                 if (method === 'enter') {
                     e.preventDefault()
@@ -119,38 +121,38 @@ class CreateClassModal extends Component{
                 />
             )
         }
-        return(
+
+        return (
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={this.props.closeModal}
                 style={customStylesModal}
-                contentLabel="Create Class Modal"
-
-            >
+                contentLabel="Create Class Modal">
                 <h2>{modalTitle}</h2>
                 <a href='#' className="mm-popup__close"
-                        data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
-                        onClick={this.props.closeModal}>×</a>
+                   data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
+                   onClick={this.props.closeModal}>×</a>
                 <form className="create-class-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Name your class</label>
                         <div className="col-sm-9 ">
                             <input type="text" className="form-control" id="className"
-                                onChange={this.handleChangeName}/>
+                                   onChange={this.handleChangeName}/>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label className="col-sm-3 control-label">Invite members</label>
-                        <div className="col-sm-9">
-                            <TagsInput value={this.state.membersInvited} onChange={this.handleChange}
-                                       // renderInput={autocompleteRenderInput}
-                                       inputProps={customTagsInput.inputProps}/>
-                        </div>
-                    </div>
+                    {/*<div className="form-group">*/}
+                        {/*<label className="col-sm-3 control-label">Invite members</label>*/}
+                        {/*<div className="col-sm-9">*/}
+                            {/*<TagsInput value={this.state.membersInvited} onChange={this.handleChange}*/}
+                                {/*// renderInput={autocompleteRenderInput}*/}
+                                       {/*inputProps={customTagsInput.inputProps}/>*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
                             <a href='#' className="btn btn-white" onClick={this.props.closeModal}>Cancel</a>
-                            <a href='#' className="btn btn-primary" onClick={() => onSubmit(userId, this.state.className, this.state.membersInvited)}>Create</a>
+                            <a href='#' className="btn btn-primary"
+                               onClick={() => onSubmit(className, membersInvited)}>Create</a>
                         </div>
                     </div>
                 </form>

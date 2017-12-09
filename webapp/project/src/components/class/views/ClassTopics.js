@@ -27,10 +27,7 @@ class ClassTopics extends Component {
 
     handleAddTopic = (classId, topicName) => {
         this.setState({modalAddTopic: false});
-        classService.insertTopic(classId, topicName)
-            .then(
-                this.props.dispatch(classActions.getTopics(classId))
-            );
+        this.props.dispatch(classActions.insertTopic(classId, topicName))
     }
 
     renderTopic(topic, index, classId, currentTopic) {

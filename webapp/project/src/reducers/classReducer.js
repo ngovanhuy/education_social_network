@@ -501,6 +501,20 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 ...state,
                 error: action.error
             };
+        case classConstants.CLASSES_ADDTOPIC_REQUEST:
+            return {
+                ...state,
+                error: ''
+            };
+        case classConstants.CLASSES_ADDTOPIC_SUCCESS:
+            return {
+                ...state
+            };
+        case classConstants.CLASSES_ADDTOPIC_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            };
         default:
             return state
     }

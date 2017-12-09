@@ -50,8 +50,6 @@ class PostCreateAssignment extends Component {
         super(props);
 
         this.state = {
-            user: {},
-            classDetail: {},
             title: '',
             content: '',
             topic: classConstants.DEFAULT_ALL_TOPIC,
@@ -73,22 +71,8 @@ class PostCreateAssignment extends Component {
     }
 
     componentWillMount() {
-        const {classDetail, user} = this.props
+        const {classDetail} = this.props
         this.props.dispatch(classActions.getMembers(classDetail.id))
-        this.setState({
-            classDetail: classDetail,
-            user: user
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.classDetail !== this.props.classDetail ||
-            nextProps.user !== this.props.user) {
-            this.setState({
-                classDetail: nextProps.classDetail,
-                user: nextProps.user
-            });
-        }
     }
 
     handleChangePostUserFor = (member) => {
@@ -143,15 +127,16 @@ class PostCreateAssignment extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {classDetail, user, title, content, topic, members, isSchedule, scopeType, startTime, endTime, files} = this.state;
+        const {classDetail, currentUser} = this.props
+        const {title, content, topic, members, isSchedule, scopeType, startTime, endTime, files} = this.state;
         this.setState({submitted: true});
 
         this.props.dispatch(
-            postActions.insert(classDetail.id, user.id, title, content, files, scopeType,
+            postActions.insert(classDetail.id, currentUser.id, title, content, files, scopeType,
                 topic, isSchedule, members, dateUtils.convertDateTimeToISO(startTime), dateUtils.convertDateTimeToISO(endTime))
         )
-        this.props.dispatch(postActions.getPostsByUserId(user.id))
-        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, user.id))
+        this.props.dispatch(postActions.getPostsByUserId(currentUser.id))
+        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, currentUser.id))
 
         this.setState({
             title: '',
@@ -168,6 +153,7 @@ class PostCreateAssignment extends Component {
 
     render() {
         const {classDetail} = this.props
+        const {memberSelected, title, content, endTime, topic, files} = this.state
         // const membersOfClass = (classDetail && classDetail.members) ? classDetail.members.filter(function (member) {
         //     return member.isAdmin == false
         // }) : []
@@ -185,7 +171,7 @@ class PostCreateAssignment extends Component {
                                 <div className="col-sm-11">
                                     <Select
                                         name="new-post-user-for"
-                                        value={this.state.memberSelected}
+                                        value={memberSelected}
                                         options={newPostUserFor}
                                         onChange={this.handleChangePostUserFor}
                                     />
@@ -195,7 +181,7 @@ class PostCreateAssignment extends Component {
                                 <div className="col-sm-12">
                                     <textarea className="form-control" rows="1" placeholder="Title"
                                               name="title" onChange={this.handleChange}
-                                              value={this.state.title}></textarea>
+                                              value={title}></textarea>
                                 </div>
                             </div>
                             <div className="form-group controls">
@@ -203,17 +189,17 @@ class PostCreateAssignment extends Component {
                                 <textarea className="form-control" rows="1"
                                           placeholder="Instructions (optional)" name="content"
                                           onChange={this.handleChange}
-                                          value={this.state.content}></textarea>
+                                          value={content}></textarea>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label col-sm-1">Due</label>
                                 <div className='post-end-date col-sm-4'>
-                                    <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" value={this.state.endTime}
+                                    <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
                                 <div className='post-end-time col-sm-3'>
-                                    <Datetime dateFormat={false} value={this.state.endTime}
+                                    <Datetime dateFormat={false} value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
                             </div>
@@ -222,7 +208,7 @@ class PostCreateAssignment extends Component {
                                 <div className="col-sm-11">
                                     <Select
                                         name="new-post-topic-for"
-                                        value={this.state.topic}
+                                        value={topic}
                                         options={newPostTopicFor}
                                         onChange={this.handleChangePostTopicFor}
                                     />
@@ -230,7 +216,7 @@ class PostCreateAssignment extends Component {
                             </div>
                         </div>
                     </div>
-                    <PostAddAttachment files={this.state.files} onUploadFile={this.handleUploadFile}
+                    <PostAddAttachment files={files} onUploadFile={this.handleUploadFile}
                                        onRemoveUploadFile={this.handleRemoveUploadFile}/>
                     {/*<div className="new-post-footer">*/}
                         {/*<a href="#" className="btn btn-primary" onClick={() => this.handleSubmit}>POST</a>*/}
@@ -245,10 +231,10 @@ class PostCreateAssignment extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
         classDetail,
-        user
+        currentUser
     }
 }
 

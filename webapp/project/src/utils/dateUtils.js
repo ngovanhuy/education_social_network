@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const dateUtils = {
     formatDate,
     sortByDateTime,
@@ -61,8 +63,8 @@ function convertISOToLocaleDateString(datetime) {
 
 function convertDateTimeToISO(datetime) {
     if(datetime){
-        var date = new Date(datetime);
-        var result = date.toISOString();
+        var date = moment.utc(datetime).valueOf();
+        var result = new Date(date).toISOString();
         return result;
     }
     return "";

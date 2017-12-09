@@ -72,7 +72,8 @@
   margin-top: 20px;
   padding: 10px 0; }
   .intros .user-fullname {
-    margin-left: 15px; }
+    margin-left: 15px;
+    font-size: 20px; }
   .intros ul.list-intro {
     list-style: none;
     margin-left: -25px; }

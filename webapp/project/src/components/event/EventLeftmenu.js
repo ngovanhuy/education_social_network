@@ -30,9 +30,9 @@ class EventLeftmenu extends Component{
     }
 
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {
-        this.setState({modalCreateEventIsOpen: false});
-        const {user} = this.props
-        this.props.dispatch(eventActions.insert(null, user.id, imageUpload, title, location,
+        this.setState({modalIsOpen: false});
+        const {currentUser} = this.props
+        this.props.dispatch(eventActions.insert(null, currentUser.id, imageUpload, title, location,
             content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
@@ -45,10 +45,10 @@ class EventLeftmenu extends Component{
                                   onSubmit={this.handleCreateEvent}/>
                 <div className="col-sm-12">
                     <div className="row">
-                        <h1>
+                        <h2 className="title">
                             <i className="fa fa-calendar"></i>
                             <span>Events</span>
-                        </h1>
+                        </h2>
                     </div>
                 </div>
                 <div className="col-sm-12">
@@ -96,9 +96,9 @@ class EventLeftmenu extends Component{
 }
 
 function mapStateToProps(state) {
-    const {user} = state.authentication;
+    const {currentUser} = state.authentication;
     return {
-        user,
+        currentUser,
     };
 }
 

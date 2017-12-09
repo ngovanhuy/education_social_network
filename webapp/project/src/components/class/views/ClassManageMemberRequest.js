@@ -19,7 +19,7 @@ class ClassManageMemberRequest extends Component {
 
     renderMemberRequest = (memberRequest, classId, index) => {
         var user = {
-            id: memberRequest._id.toString(),
+            id: memberRequest.id.toString(),
             firstName: memberRequest.firstName,
             lastName: memberRequest.lastName,
             gender: {

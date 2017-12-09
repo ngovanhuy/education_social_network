@@ -1,6 +1,6 @@
-.events-left-menu h1 {
+.events-left-menu .title {
   font-size: 20px; }
-  .events-left-menu h1 span {
+  .events-left-menu .title span {
     margin-left: 10px; }
 .events-left-menu .btn .fa {
   margin-right: 5px; }
@@ -184,6 +184,8 @@
     .events .events-header .change-view-style {
       float: right;
       display: inline-block; }
+      .events .events-header .change-view-style .current {
+        background: #E6ECF0; }
   .events .events-content {
     margin-top: 10px; }
     .events .events-content .event-pinboard {

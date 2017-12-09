@@ -2,10 +2,9 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
-import {fileUtils} from "../../utils";
+import {dateUtils, fileUtils} from "../../utils";
 
 class ClassFiles extends Component{
-
     renderFile = (file, index, onDeleteFile) => {
         const defaultImageDocument = "/images/basic-document.png"
         return(
@@ -29,14 +28,14 @@ class ClassFiles extends Component{
                 </div>
                 <div className="file-content">
                     {
-                        (file.userCreate) ?
+                        (file.user) ?
                             (
                                 <div className="file-user-full-name">
-                                    <UserProfileInfo user={file.userCreate}/>
+                                    <UserProfileInfo user={file.user}/>
                                 </div>
                             ) : ''
                     }
-                    <div className="file-create-time">{file.createDate}</div>
+                    <div className="file-create-time">{dateUtils.convertISOToLocaleDateString(file.createDate)}</div>
                 </div>
                 <div className="dropdown pull-right action-with-file">
                     <a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">
@@ -47,7 +46,7 @@ class ClassFiles extends Component{
                     </a>
                     <ul role="menu" className="dropdown-menu">
                         <li><a href={file && fileUtils.renderFileSource(file.id)} target="_blank" download="proposed_file_name">Download</a></li>
-                        <li><a href="#" onClick={() => onDeleteFile(file.id)}>Delete This File</a></li>
+                        {/*<li><a href="#" onClick={() => onDeleteFile(file.id)}>Delete This File</a></li>*/}
                     </ul>
                 </div>
             </div>
@@ -55,7 +54,11 @@ class ClassFiles extends Component{
     }
 
     render(){
-        const {classId, userId, files, onUploadFile, onDeleteFile} = this.props
+        const {classId, userId, onUploadFile, onDeleteFile} = this.props
+        var files = this.props.files
+        files = (files && files.length > 0) ? files.sort(function (a, b) {
+            return new Date(b.createDate) - new Date(a.createDate);
+        }) : [];
         return(
             <div className="class-files files">
                 <div className="class-files-headline clearfix">

@@ -5,7 +5,7 @@ import 'react-select/dist/react-select.css'
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import {DateRangePicker} from 'react-dates';
-import {classActions, eventActions, userActions} from "../../../actions";
+import {classActions, eventActions, postActions, userActions} from "../../../actions";
 import {classConstants} from "../../../constants";
 import {dateUtils} from "../../../utils";
 
@@ -61,6 +61,7 @@ class DiscoveryFilter extends Component {
         this.handleChangeSearchByUser = this.handleChangeSearchByUser.bind(this);
         this.handleSearch = this.handleSearch.bind(this)
         this.handleReset = this.handleReset.bind(this)
+        this.onKeyPress = this.onKeyPress.bind(this);
     }
 
     componentWillMount() {
@@ -115,6 +116,14 @@ class DiscoveryFilter extends Component {
         })
     }
 
+    onKeyPress(e) {
+        if (e.key == 'Enter') {
+            e.preventDefault();
+
+            this.handleSearch(e);
+        }
+    }
+
     handleSearch = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -148,7 +157,8 @@ class DiscoveryFilter extends Component {
                                 <i className="fa fa-search"></i>
                             </span>
                             <input type="text" className="form-control" value={textSearch} name="textSearch"
-                                   onChange={this.handleChange}/>
+                                   onChange={this.handleChange}
+                                   onKeyPress={this.onKeyPress}/>
                             <div className="input-group-btn">
                                 <a className="show-filter-content-button btn btn-white" href="javascript:;"
                                    onClick={this.showFilterContent}>

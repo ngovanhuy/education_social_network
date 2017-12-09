@@ -93,7 +93,7 @@ function insert(userId, title, content) {
             .then(
                 response => {
                     dispatch(success(response.data));
-                    // history.push(`/announcements/${response.data.id}`);
+                    history.push(`/announcements/${response.data.id}`);
                 },
                 error => dispatch(failure(error))
             );

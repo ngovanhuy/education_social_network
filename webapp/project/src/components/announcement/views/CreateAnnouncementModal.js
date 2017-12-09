@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal';
+import '../announcement.css'
 
 const customStylesModal = {
     overlay: {
@@ -42,7 +43,7 @@ class CreateAnnouncementModal extends Component {
     }
 
     render() {
-        const {userId, modalIsOpen, onSubmit} = this.props
+        const {modalIsOpen, onSubmit} = this.props
         const {title, content} = this.state
         var modalTitle = 'Create New Announcement';
         return (
@@ -55,7 +56,7 @@ class CreateAnnouncementModal extends Component {
                 <a href='#' className="mm-popup__close"
                    data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
                    onClick={this.props.closeModal}>×</a>
-                <form className="create-class-modal form-horizontal" role="form">
+                <form className="create-announcement-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Title</label>
                         <div className="col-sm-9 ">
@@ -76,7 +77,7 @@ class CreateAnnouncementModal extends Component {
                         <div className="pull-right">
                             <a href='#' className="btn btn-white" onClick={this.props.closeModal}>Cancel</a>
                             <a href='#' className="btn btn-primary"
-                               onClick={() => onSubmit(userId, title, content)}>Create</a>
+                               onClick={() => onSubmit(title, content)}>Create</a>
                         </div>
                     </div>
                 </form>

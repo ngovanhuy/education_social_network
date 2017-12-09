@@ -1,6 +1,6 @@
 $main-color: rgba(146, 181, 88, 1);
 .events-left-menu {
-  h1 {
+  .title {
     font-size: 20px;
     span {
       margin-left: 10px;
@@ -265,6 +265,9 @@ $main-color: rgba(146, 181, 88, 1);
     .change-view-style {
       float: right;
       display: inline-block;
+      .current{
+        background: #E6ECF0;
+      }
     }
   }
   .events-content {

@@ -11,12 +11,15 @@ import {classActions} from "../../actions/classActions";
 import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
 import {classService} from "../../services";
 import {history} from "../../helpers/history";
+import {Redirect} from 'react-router'
 
 class Classes extends Component {
     constructor(props) {
         super(props)
         this.state = {
             modalLeaveClassWarningIsOpen: false,
+            fireRedirect: false,
+            linkRedirect: ''
         }
         this.openModalLeaveClass = this.openModalLeaveClass.bind(this);
         this.closeModalLeaveClass = this.closeModalLeaveClass.bind(this);
@@ -30,12 +33,36 @@ class Classes extends Component {
         this.setState({modalLeaveClassWarningIsOpen: false});
     }
 
-    renderButtonOfUserWithClass(classDetail, userId) {
+    handleCreateRequestJoinClass = (userId, classId) => {
+        this.props.dispatch(userActions.createClassRequest(userId, classId))
+    }
+
+    handleDeleteRequestJoinClass = (userId, classId) => {
+        this.props.dispatch(userActions.deleteClassRequest(userId, classId))
+    }
+
+    handleLeaveClass = (classDetail, userId) => {
+        var linkRedirect = '/classes'
+        this.setState({
+            fireRedirect: true,
+            linkRedirect: linkRedirect
+        })
+        this.props.dispatch(classActions.deleteMember(classDetail.id, userId))
+        this.props.dispatch(userActions.getClassJoined(userId))
+        if (classDetail.memberCount > 1) {
+            this.props.dispatch(classActions.getMembers(classDetail.id))
+        } else {
+            this.props.dispatch(classActions.deleteClass(classDetail.id, userId))
+        }
+    }
+
+    renderButtonOfUserWithClass(classDetail) {
+        const {currentUser} = this.props
         if (classDetail.statusOfCurrentUser == classConstants.STATUS_OF_USER_IN_CLASS.NOT_RELATE) {
             return (
                 <div className="button-join">
                     <a className="btn btn-white"
-                       onClick={() => this.handleCreateRequestJoinClass(userId, classDetail.id)}>
+                       onClick={() => this.handleCreateRequestJoinClass(currentUser.id, classDetail.id)}>
                         <i className="fa fa-plus"></i>
                         Join
                     </a>
@@ -45,7 +72,7 @@ class Classes extends Component {
             return (
                 <div className="button-cancel-request">
                     <a className="btn btn-white"
-                       onClick={() => this.handleDeleteRequestJoinClass(userId, classDetail.id)}>
+                       onClick={() => this.handleDeleteRequestJoinClass(currentUser.id, classDetail.id)}>
                         <i className="fa fa-times"></i>
                         Cancel Request
                     </a>
@@ -60,15 +87,15 @@ class Classes extends Component {
                     </a>
                     <LeaveClassWarningModal modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
                                             closeModal={this.closeModalLeaveClass}
-                                            onSubmit={this.handleLeaveClass}
-                                            classDetail={classDetail} userId={userId}/>
+                                            onSubmit={() => this.handleLeaveClass(classDetail, currentUser.id)}
+                                            classDetail={classDetail}/>
                 </div>
             )
         }
-        return;
+        return '';
     }
 
-    renderClassDetail = (classDetail, userId, index) => {
+    renderClassDetail = (classDetail, index) => {
         return (
             <div key={index} className="col-sm-6">
                 <div className="class-detail has-border-radius clearfix">
@@ -103,7 +130,7 @@ class Classes extends Component {
                     </div>
                     <div className="buttons clearfix">
                         {
-                            this.renderButtonOfUserWithClass(classDetail, userId)
+                            this.renderButtonOfUserWithClass(classDetail)
                         }
                     </div>
                 </div>
@@ -111,36 +138,14 @@ class Classes extends Component {
         )
     }
 
-    handleCreateRequestJoinClass = (userId, classId) => {
-        this.props.dispatch(userActions.createClassRequest(userId, classId))
-        // this.props.dispatch(userActions.getClassRequest(userId))
-        // this.props.dispatch(classActions.getRequests(classId))
-    }
-
-    handleDeleteRequestJoinClass = (userId, classId) => {
-        this.props.dispatch(userActions.deleteClassRequest(userId, classId))
-        // this.props.dispatch(userActions.getClassRequest(userId))
-        // this.props.dispatch(classActions.getRequests(classId))
-    }
-
-    handleLeaveClass = (userId, classDetail) => {
-        this.props.dispatch(classActions.deleteMember(classDetail.id, userId))
-        this.props.dispatch(userActions.getClassJoined(userId))
-        if (classDetail.memberCount > 1) {
-            this.props.dispatch(classActions.getMembers(classDetail.id))
-        } else {
-            this.props.dispatch(classActions.deleteClass(classDetail.id, userId))
-        }
-    }
-
     render() {
-        const {classes, userId} = this.props
+        const {classes} = this.props
         return (
             <div className="classes-content clearfix">
                 {
                     (classes && classes.length > 0) ?
                         (
-                            classes.map((classDetail, index) => this.renderClassDetail(classDetail, userId, index))
+                            classes.map((classDetail, index) => this.renderClassDetail(classDetail, index))
                         ) :
                         (
                             <div className="no-class">
@@ -148,9 +153,19 @@ class Classes extends Component {
                             </div>
                         )
                 }
+                {this.state.fireRedirect && (
+                    <Redirect to={this.state.linkRedirect}/>
+                )}
             </div>
         )
     }
 }
 
-export default connect(null, null)(Classes);
+const mapStateToProps = (state, ownProps) => {
+    const {currentUser} = state.authentication
+    return {
+        currentUser,
+    }
+}
+
+export default connect(mapStateToProps)(Classes);

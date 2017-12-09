@@ -15,6 +15,7 @@ export const classActions = {
     insert,
     update,
     getTopics,
+    insertTopic,
     deleteClass,
 };
 
@@ -152,11 +153,11 @@ function update(userId, classId, name, about, location) {
     function failure(error) { return { type: classConstants.CLASSES_UPDATE_FAILURE, error } }
 }
 
-function addMember(classId, memberId) {
+function addMember(classId, memberId, typeMember) {
     return dispatch => {
         dispatch(request());
 
-        classService.addMember(classId, memberId)
+        classService.addMember(classId, memberId, typeMember)
             .then(
                 response => {
                     dispatch(success());
@@ -228,11 +229,11 @@ function deleteFile(classId, fileId) {
     function failure(error) { return { type: classConstants.CLASSES_DELETEFILE_FAILURE, error } }
 }
 
-function uploadFile(classId, file) {
+function uploadFile(classId, file, userId) {
     return dispatch => {
         dispatch(request());
 
-        classService.uploadFile(classId, file)
+        classService.uploadFile(classId, file, userId)
             .then(
                 response => {
                     dispatch(success());
@@ -245,4 +246,23 @@ function uploadFile(classId, file) {
     function request() { return { type: classConstants.CLASSES_UPLOADFILE_REQUEST } }
     function success() { return { type: classConstants.CLASSES_UPLOADFILE_SUCCESS } }
     function failure(error) { return { type: classConstants.CLASSES_UPLOADFILE_FAILURE, error } }
+}
+
+function insertTopic(classId, topicName) {
+    return dispatch => {
+        dispatch(request());
+
+        classService.insertTopic(classId, topicName)
+            .then(
+                response => {
+                    dispatch(success());
+                    dispatch(getTopics(classId))
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: classConstants.CLASSES_ADDTOPIC_REQUEST } }
+    function success() { return { type: classConstants.CLASSES_ADDTOPIC_SUCCESS } }
+    function failure(error) { return { type: classConstants.CLASSES_ADDTOPIC_FAILURE, error } }
 }

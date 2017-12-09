@@ -17,34 +17,34 @@ class ClassTimelinePage extends Component {
     }
 
     componentWillMount() {
-        const {classId, user} = this.props;
+        const {classId, currentUser} = this.props;
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(classActions.getFiles(classId));
         this.props.dispatch(eventActions.getEventsUpcommingOfClass(classId));
-        if (user) {
-            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, user.id));
+        if (currentUser) {
+            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.classId !== this.props.classId) {
-            const {classId, user} = nextProps;
+            const {classId, currentUser} = nextProps;
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getTopics(classId));
             this.props.dispatch(classActions.getFiles(classId));
             this.props.dispatch(eventActions.getEventsUpcommingOfClass(classId));
-            if (user) {
-                this.props.dispatch(postActions.getPostsByClassIdUserId(classId, user.id));
+            if (currentUser) {
+                this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
             }
         }
     }
 
     render() {
-        const {classDetail, classId, user, loading, eventsUpcommingOfClass} = this.props
+        const {classDetail, classId, currentUser, loading, eventsUpcommingOfClass} = this.props
         const topics = classDetail.topics
         const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
-        const isTeacher = userUtils.checkIsTeacher(user)
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
 
         var posts = []
         posts = (classDetail && classDetail.postsByUser) ? classDetail.postsByUser : []
@@ -80,7 +80,7 @@ class ClassTimelinePage extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="class-feed">
-                                        <Feed feed={posts} user={user} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
+                                        <Feed feed={posts} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
                                     </div>
                                 </div>
                             </div>
@@ -101,13 +101,13 @@ class ClassTimelinePage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
     const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     const {eventsUpcommingOfClass} = state.events
     var loading = appUtils.checkLoading(state)
     return {
         classId,
         classDetail,
-        user,
+        currentUser,
         eventsUpcommingOfClass,
         loading
     }

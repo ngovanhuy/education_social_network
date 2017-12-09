@@ -12,18 +12,16 @@ class Comment extends Component {
         const {comment, post} = this.props
         var favouritedComment = false, hasReply = false, showReactComment = false
         const user = {
-            id: comment.userID, firstName: comment.firstName,
-            lastName: comment.lastName,
-            gender: {
-                enum_id: userConstants.GENDER.NONE
-            },
+            id: comment.userID,
+            firstName: comment.firstName,
+            lastName: comment.lastName
         }
         return (
             <div className="comment clearfix">
                 <div className="comment-user-profile-picture">
                     <Link to={`/users/${user.id}`}>
                         <img className="img-circle"
-                             src={fileUtils.renderFileSource(comment.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}></img>
+                             src={fileUtils.renderFileSource(comment.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}></img>
                     </Link>
                 </div>
                 <div className="comment-content-info">
@@ -43,7 +41,7 @@ class Comment extends Component {
                     {
                         hasReply &&
                         <div className="reply-new-comment">
-                            <NewComment post={post}/>
+                            <NewComment comment={comment} post={post}/>
                         </div>
                     }
                 </div>

@@ -6,6 +6,7 @@ import EventsAgenda from "../event/views/EventsAgenda";
 import ClassEventsCalendarHeadline from "./views/ClassEventsCalendarHeadline";
 import {eventActions} from "../../actions";
 import {connect} from "react-redux";
+import {dateUtils} from "../../utils";
 
 class ClassEvents extends Component {
     constructor(props) {
@@ -26,8 +27,9 @@ class ClassEvents extends Component {
 
     handleCreateEvent = (imageUpload, title, location, content, start, end) => {
         this.setState({modalCreateEventIsOpen: false});
-        const {user, classDetail} = this.props
-        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location, content, start, end));
+        const {currentUser, classDetail} = this.props
+        this.props.dispatch(eventActions.insert(classDetail.id, currentUser.id, imageUpload, title, location,
+            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
     }
 
     render() {
@@ -44,11 +46,10 @@ class ClassEvents extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user} = state.authentication;
+    const {currentUser} = state.authentication;
     return {
-        user,
+        currentUser,
     };
 }
-
 
 export default connect(mapStateToProps)(ClassEvents);

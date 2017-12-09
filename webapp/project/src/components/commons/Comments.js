@@ -18,7 +18,7 @@ class Comments extends Component {
     }
 
     render(){
-        const {comments, post} = this.props
+        const {post} = this.props
         return(
             <div>
                 <div className="comments">
@@ -31,8 +31,8 @@ class Comments extends Component {
                         {/*</div>*/}
                     {/*}*/}
                     {
-                        comments && comments.length > 0 &&
-                        comments.map((comment, index) =>
+                        (post && post.comments && post.comments.length > 0) &&
+                        post.comments.map((comment, index) =>
                             <Comment key={index} comment={comment} post={post}/>
                         )
                     }

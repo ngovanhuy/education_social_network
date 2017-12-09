@@ -14,15 +14,6 @@ import {classService, userService} from "../../services";
 import {history} from "../../helpers/history";
 
 class ClassMembersPage extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            fireRedirect: false
-        }
-        this.handleDeleteMember = this.handleDeleteMember.bind(this);
-    }
-
     componentWillMount() {
         const {classId} = this.props;
         this.props.dispatch(classActions.getById(classId));
@@ -39,28 +30,10 @@ class ClassMembersPage extends Component {
         }
     }
 
-    handleDeleteMember(classDetail, memberId) {
-        const {user} = this.props
-        var linkRedirect = '/classes'
-        if (classDetail.memberCount == 1 || memberId == user.id) {
-            this.setState({
-                fireRedirect: true,
-                linkRedirect: linkRedirect
-            })
-        }
-        this.props.dispatch(classActions.deleteMember(classDetail.id, memberId))
-        this.props.dispatch(classActions.getById(classDetail.id))
-        if (classDetail.memberCount > 1) {
-            this.props.dispatch(classActions.getMembers(classDetail.id))
-        } else {
-            this.props.dispatch(classActions.deleteClass(classDetail.id, user.id))
-        }
-    }
-
     render() {
-        const {user, classId, classDetail} = this.props
+        const {currentUser, classId, classDetail} = this.props
         const topics = classDetail.topics
-        const isTeacher = userUtils.checkIsTeacher(user)
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
         const members = (classDetail.members && classDetail.members.length > 0) ?
             classDetail.members.filter(function (member) {
                 return member.isAdmin == false
@@ -82,9 +55,8 @@ class ClassMembersPage extends Component {
                         <div className="row">
                             <div className="col-sm-9">
                                 <div className="row">
-                                    <ClassMembers members={teachers} classDetail={classDetail} user={user}
-                                                  classMemberTitle="Teachers"
-                                                  isTeacher={isTeacher} onDeleteMember={this.handleDeleteMember}/>
+                                    <ClassMembers members={teachers} classDetail={classDetail}
+                                                  classMemberTitle="Teachers"/>
                                 </div>
                             </div>
                             {
@@ -93,7 +65,7 @@ class ClassMembersPage extends Component {
                                     <div className="col-sm-3 add-member-and-description">
                                         <div className="row">
                                             <div className="container-fluid-md">
-                                                <AddMember memberCount={classDetail.memberCount} classId={classId}/>
+                                                <AddMember memberCount={classDetail.memberCount} classDetail={classDetail}/>
                                             </div>
                                         </div>
                                     </div>
@@ -101,13 +73,9 @@ class ClassMembersPage extends Component {
                             }
                         </div>
                         <div className="row">
-                            <ClassMembers members={members} classDetail={classDetail} user={user}
-                                          classMemberTitle="Members"
-                                          isTeacher={isTeacher} onDeleteMember={this.handleDeleteMember}/>
+                            <ClassMembers members={members} classDetail={classDetail}
+                                          classMemberTitle="Members"/>
                         </div>
-                        {this.state.fireRedirect && (
-                            <Redirect to={this.state.linkRedirect}/>
-                        )}
                     </div>
                 </div>
             </div>
@@ -118,11 +86,11 @@ class ClassMembersPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
     const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
         classId,
         classDetail,
-        user
+        currentUser
     }
 }
 

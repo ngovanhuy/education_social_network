@@ -49,8 +49,8 @@ class AddMember extends Component {
     };
 
     onSuggestionSelected = (event, {suggestion, suggestionValue, suggestionIndex, sectionIndex, method}) => {
-        const {classDetail, user} = this.props
-        this.props.dispatch(classActions.addMember(classDetail.id, suggestion.id))
+        const {classDetail} = this.props
+        this.props.dispatch(classActions.addMember(classDetail.id, suggestion.id, suggestion.typeuser.enum_id))
         this.setState({
             value: '',
             suggestions: [],
@@ -102,12 +102,4 @@ class AddMember extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const {user} = state.authentication
-    return {
-        user
-    }
-}
-
-
-export default connect(mapStateToProps, null)(AddMember);
+export default connect(null)(AddMember);

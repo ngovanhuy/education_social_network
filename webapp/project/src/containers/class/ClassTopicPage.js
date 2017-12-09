@@ -57,9 +57,9 @@ class ClassTopicPage extends Component {
                         </div>
                     </div>
                     <div className="col-sm-7 class-main-content">
-                        <div className="row">
-                            <NewPost classDetail={classDetail} isTeacher={isTeacher}/>
-                        </div>
+                        {/*<div className="row">*/}
+                            {/*<NewPost classDetail={classDetail} isTeacher={isTeacher}/>*/}
+                        {/*</div>*/}
                         <div className="row">
                             <div className="class-feed">
                                 <Feed feed={posts} user={user}

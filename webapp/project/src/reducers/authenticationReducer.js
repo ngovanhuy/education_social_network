@@ -5,250 +5,31 @@ export function authentication(state = {}, action) {
         case userConstants.LOGIN_REQUEST:
             return {
                 loggingIn: true,
-                user: action.user,
                 error: ''
             };
         case userConstants.LOGIN_SUCCESS:
             return {
                 loggedIn: true,
-                user: action.user
+                currentUser: action.user
             };
         case userConstants.LOGIN_FAILURE:
             return {};
         case userConstants.LOGOUT:
             return {};
-        case userConstants.USERS_GETBYID_REQUEST:
+        case userConstants.LOGINBYUSERID_REQUEST:
             return {
-                ...state,
+                loggingIn: true,
                 error: ''
             };
-        case userConstants.USERS_GETBYID_SUCCESS:
+        case userConstants.LOGINBYUSERID_SUCCESS:
             return {
-                ...state,
                 loggedIn: true,
-                user: action.user
+                currentUser: action.user
             };
-        case userConstants.USERS_GETBYID_FAILURE:
+        case userConstants.LOGINBYUSERID_FAILURE:
             return {};
-        case userConstants.USERS_UPDATE_REQUEST:
-            return {
-                ...state,
-                error: ''
-            };
-        case userConstants.USERS_UPDATE_SUCCESS:
-            return {
-                ...state,
-                user: action.user
-            };
-        case userConstants.USERS_UPDATE_FAILURE:
+        case userConstants.LOGOUT:
             return {};
-        case userConstants.USERS_GETCLASSJOINED_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_GETCLASSJOINED_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                classUserJoined: action.classes
-            };
-        case userConstants.USERS_GETCLASSJOINED_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        case userConstants.USERS_GETCLASSREQUEST_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_GETCLASSREQUEST_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                classUserRequest: action.classes
-            };
-        case userConstants.USERS_GETCLASSREQUEST_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                classUserRequest: [],
-                error: action.error
-            };
-        case userConstants.USERS_GETPOSTS_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_GETPOSTS_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                posts: action.posts
-            };
-        case userConstants.USERS_GETPOSTS_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                posts: [],
-                error: action.error
-            };
-        case userConstants.USERS_GETCOMMENTS_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_GETCOMMENTS_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                posts: (state.posts && state.posts.length > 0) ?
-                    (
-                        state.posts.map(post => post.id == action.data.post.postID ?
-                            {
-                                ...post,
-                                comments: action.data.comments
-                            } : post
-                        )
-                    ) : []
-            };
-        case userConstants.USERS_GETCOMMENTS_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        case userConstants.USERS_GETFAVOURITES_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_GETFAVOURITES_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                posts: (state.posts && state.posts.length > 0) ?
-                    (
-                        state.posts.map(post => post.id == action.data.post.postID ?
-                            {
-                                ...post,
-                                favourites: action.data.likes
-                            } : post
-                        )
-
-                    ) : []
-            };
-        case userConstants.USERS_GETFAVOURITES_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        case  userConstants.USERS_UPDATEPOSTINFO_SUCCESS:
-            return {
-                ...state,
-                posts: (state.posts && state.posts.length > 0) &&
-                (
-                    state.posts.map(post => post.id == action.postDetail.id ?
-                        {
-                            ...post,
-                            ...action.postDetail,
-                        } : post
-                    )
-                )
-            };
-        case userConstants.USERS_DELETECLASSREQUEST_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_DELETECLASSREQUEST_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-            };
-        case userConstants.USERS_DELETECLASSREQUEST_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        case userConstants.USERS_CREATECLASSREQUEST_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_CREATECLASSREQUEST_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-            };
-        case userConstants.USERS_CREATECLASSREQUEST_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        case userConstants.USERS_APPROVECLASSREQUEST_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_APPROVECLASSREQUEST_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-            };
-        case userConstants.USERS_APPROVECLASSREQUEST_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        case userConstants.USERS_UPDATEPROFILEPICTURE_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_UPDATEPROFILEPICTURE_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-            };
-        case userConstants.USERS_UPDATEPROFILEPICTURE_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
-        case userConstants.USERS_UPDATECOVERPHOTO_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case userConstants.USERS_UPDATECOVERPHOTO_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-            };
-        case userConstants.USERS_UPDATECOVERPHOTO_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.error
-            };
         default:
             return state
     }

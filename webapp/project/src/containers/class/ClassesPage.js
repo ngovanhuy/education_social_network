@@ -65,15 +65,16 @@ class ClassesPage extends Component {
         }
     }
 
-    handleCreateClass = (userId, className, membersInvited) => {
+    handleCreateClass = (className, membersInvited) => {
+        const {currentUser} = this.props
         this.setState({modalIsOpen: false});
-        this.props.dispatch(classActions.insert(userId, className));
+        this.props.dispatch(classActions.insert(currentUser.id, className));
     }
 
 
     render() {
-        const {classes, classUserJoined, classUserRequest, user} = this.props
-        const isTeacher = userUtils.checkIsTeacher(user)
+        const {classes, classUserJoined, classUserRequest, currentUser} = this.props
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
         var classHasStatus = updateStatusOfClasses(classes, classUserJoined, classUserRequest);
         return (
             <div>
@@ -93,14 +94,9 @@ class ClassesPage extends Component {
                                                         <i className="fa fa-plus"></i>
                                                         Create Class
                                                     </a>
-                                                    {
-                                                        (user) && (
-                                                            <CreateClassModal modalIsOpen={this.state.modalIsOpen}
-                                                                              closeModal={this.closeModal}
-                                                                              userId={user.id}
-                                                                              onSubmit={this.handleCreateClass}/>
-                                                        )
-                                                    }
+                                                    <CreateClassModal modalIsOpen={this.state.modalIsOpen}
+                                                                      closeModal={this.closeModal}
+                                                                      onSubmit={this.handleCreateClass}/>
                                                 </div>
                                             )
                                         }
@@ -110,12 +106,7 @@ class ClassesPage extends Component {
                         </div>
                         <div className="row">
                             <div className="col-sm-12">
-                                {
-                                    user && user.id &&
-                                    (
-                                        <Classes classes={classHasStatus} userId={user.id}/>
-                                    )
-                                }
+                                <Classes classes={classHasStatus}/>
                             </div>
                         </div>
                     </div>
@@ -127,8 +118,10 @@ class ClassesPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classes = state.classes.items
-    const {user, classUserJoined, classUserRequest} = state.authentication
+    const {currentUser} = state.authentication
+    const {user, classUserJoined, classUserRequest} = state.users
     return {
+        currentUser,
         classes,
         user,
         classUserJoined,

@@ -15,7 +15,7 @@ function _updateInfoEvent(event) {
         // title: event.title,
         allDay: event.isAllDay,
         start: new Date(event.startTime),
-        end: new Date(event.startTime)
+        end: new Date(event.endTime)
     };
     return eventAfterUpdate;
 }

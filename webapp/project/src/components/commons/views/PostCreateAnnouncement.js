@@ -14,8 +14,6 @@ class PostCreateAnnouncement extends Component {
         super(props);
 
         this.state = {
-            user: {},
-            classDetail: {},
             title: '',
             content: '',
             topic: classActions.DEFAULT_ALL_TOPIC,
@@ -26,23 +24,6 @@ class PostCreateAnnouncement extends Component {
         this.handleUploadFile = this.handleUploadFile.bind(this);
         this.handleRemoveUploadFile = this.handleRemoveUploadFile.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentWillMount() {
-        this.setState({
-            classDetail: this.props.classDetail,
-            user: this.props.user
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.classDetail !== this.props.classDetail ||
-            nextProps.user !== this.props.user) {
-            this.setState({
-                classDetail: nextProps.classDetail,
-                user: nextProps.user
-            });
-        }
     }
 
     handleChange(e) {
@@ -70,18 +51,19 @@ class PostCreateAnnouncement extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {classDetail, user, title, content, topic, fileUpload} = this.state;
+        const {classDetail, currentUser} = this.props
+        const {title, content, topic, fileUpload} = this.state;
         this.setState({submitted: true});
 
         this.props.dispatch(
             postActions.insert(
-                classDetail.id, user.id, title, content,
+                classDetail.id, currentUser.id, title, content,
                 fileUpload, postConstants.SCOPETYPE.IS_PROTECTED,
                 topic, false, []
             )
         )
-        this.props.dispatch(postActions.getPostsByUserId(user.id))
-        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, user.id))
+        this.props.dispatch(postActions.getPostsByUserId(currentUser.id))
+        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, currentUser.id))
 
         this.setState({
             ...this.state,
@@ -92,13 +74,13 @@ class PostCreateAnnouncement extends Component {
     }
 
     render() {
-        const {classDetail, user} = this.props
+        const {classDetail, currentUser} = this.props
         return (
             <form>
                 <div className="new-post-content clearfix">
                     <div className="user-create-post">
                         <img
-                            src={user && fileUtils.renderFileSource(user.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}/>
+                            src={currentUser && fileUtils.renderFileSource(currentUser.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}/>
                     </div>
                     <div className="new-post-message controls">
                         <textarea className="form-control" rows="1" placeholder="Title" name="title"
@@ -125,10 +107,10 @@ class PostCreateAnnouncement extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
-        classDetail,
-        user
+        currentUser,
+        classDetail
     }
 }
 

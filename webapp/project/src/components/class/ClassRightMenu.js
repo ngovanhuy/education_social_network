@@ -7,8 +7,8 @@ import {userUtils} from "../../utils/userUtils";
 
 class ClassRightMenu extends Component{
     render(){
-        const {user, classDetail, events, recentFiles} = this.props
-        const isTeacher = userUtils.checkIsTeacher(user)
+        const {currentUser, classDetail, events, recentFiles} = this.props
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
         return(
             <div>
                 <div className="row">
@@ -47,9 +47,9 @@ class ClassRightMenu extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
-        user
+        currentUser
     }
 }
 

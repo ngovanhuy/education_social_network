@@ -6,6 +6,7 @@ import {userActions} from "../../actions";
 import {userConstants} from "../../constants";
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
+import {dateUtils} from "../../utils";
 
 const fillGenderForSelectTag = () => {
     var genders = [
@@ -53,7 +54,7 @@ class UserAbout extends Component {
                 id: user.id,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                birthday: user.birthday,
+                birthday: new Date(user.birthday),
                 phone: user.phone,
                 quote: user.quote,
                 about: user.about,
@@ -71,7 +72,7 @@ class UserAbout extends Component {
                     id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    birthday: user.birthday,
+                    birthday: new Date(user.birthday),
                     phone: user.phone,
                     quote: user.quote,
                     about: user.about,
@@ -90,7 +91,8 @@ class UserAbout extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {id, firstName, lastName, birthday, phone, quote, about, location, gender} = this.state;
+        const {id, firstName, lastName, phone, quote, about, location, gender} = this.state;
+        var birthday = dateUtils.convertDateTimeToISO(this.state.birthday)
         this.setState({submitted: true});
         this.props.dispatch(userActions.update({
             id,
@@ -143,8 +145,9 @@ class UserAbout extends Component {
                             <div className="col-sm-4">
                                 <div className="form-group">
                                     <label htmlFor="birthday">Birthday</label>
-                                    <Datetime timeFormat={false} inputFormat="DD/MM/YYYY"
-                                              onChange={(data) => this.setState({birthday: Datetime.moment(data).format("YYYY-MM-DD HH:MM:SS")})}/>
+                                    <Datetime timeFormat={false} inputFormat="MM/DD/YYYY"
+                                              value={birthday}
+                                              onChange={(data) => this.setState({birthday: Datetime.moment(data).format("MM/DD/YYYY")})}/>
                                 </div>
                             </div>
                             <div className="col-sm-4">
@@ -194,11 +197,4 @@ class UserAbout extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const {user} = state.authentication
-    return {
-        user
-    }
-}
-
-export default connect(mapStateToProps, null)(UserAbout);
+export default connect(null)(UserAbout);

@@ -95,10 +95,11 @@ function updateProfilePicture(classId, file) {
     return axios.post(uploadProfilePictureUrl, data);
 }
 
-function uploadFile(classId, file) {
+function uploadFile(classId, file, userId) {
     const uploadFileUrl = DOMAIN_SERVICE + '/groups/files/' + classId;
     const data = new FormData();
     data.append('fileUpload', file);
+    data.append('userID', userId);
     return axios.post(uploadFileUrl, data);
 }
 
@@ -120,10 +121,11 @@ function searchByClassname(className) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function addMember(classId, userId) {
+function addMember(classId, userId, typeMember) {
     const requestOptions = {
         method: 'POST',
-        headers: authHeader()
+        headers: authHeader(),
+        body: JSON.stringify({typeMember})
     };
     const url = DOMAIN_SERVICE + '/groups/members/' + classId + "/" + userId;
     return fetch(url, requestOptions).then(handleResponse);

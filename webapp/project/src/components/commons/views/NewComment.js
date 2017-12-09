@@ -25,10 +25,10 @@ class NewComment extends Component {
             e.preventDefault();
 
             const {content, fileUpload} = this.state;
-            const {post, user, contextView} = this.props
+            const {post, currentUser, contextView} = this.props
             this.setState({submitted: true});
 
-            this.props.dispatch(postActions.insertComment(post.id, user.id, content, fileUpload, contextView))
+            this.props.dispatch(postActions.insertComment(post.id, currentUser.id, content, fileUpload, contextView))
 
             this.setState({
                 ...this.state,
@@ -52,7 +52,7 @@ class NewComment extends Component {
         return (
             <div className="new-comment clearfix">
                 <img
-                    src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profilePictureUrl, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}/>
+                    src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profilePictureUrl, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}/>
                 <form className="navbar-form">
                     <div className="navbar-search">
                         <input type="text" placeholder="Write somthing …" className="form-control" name="content"
@@ -70,4 +70,11 @@ class NewComment extends Component {
     }
 }
 
-export default connect(null)(NewComment)
+const mapStateToProps = (state, ownProps) => {
+    const {currentUser} = state.authentication
+    return {
+        currentUser,
+    }
+}
+
+export default connect(mapStateToProps)(NewComment)

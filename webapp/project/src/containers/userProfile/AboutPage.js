@@ -27,18 +27,12 @@ class AboutPage extends Component{
 
     handleUploadCoverPhoto = (file) => {
         const {userId} = this.props;
-        userService.updateCoverPhoto(userId, file)
-            .then(
-                this.props.dispatch(userActions.getById(userId))
-            )
+        this.props.dispatch(userActions.updateCoverPhoto(userId, file))
     }
 
     handleUploadProfilePicture = (file) => {
         const {userId} = this.props;
-        userService.updateProfilePicture(userId, file)
-            .then(
-                this.props.dispatch(userActions.getById(userId))
-            )
+        this.props.dispatch(userActions.updateProfilePicture(userId, file))
     }
 
     render(){
@@ -56,7 +50,7 @@ class AboutPage extends Component{
                         </div>
                         <div className="row">
                             <div className="col-sm-12">
-                                <UserAbout/>
+                                <UserAbout user={user}/>
                             </div>
                         </div>
                     </div>
@@ -69,7 +63,7 @@ class AboutPage extends Component{
 
 const mapStateToProps = (state, ownProps) => {
     const userId = ownProps.match.params.userId
-    const {user} = state.authentication
+    const {user} = state.users
     return{
         userId,
         user

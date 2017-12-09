@@ -163,7 +163,8 @@ ul.nav li .user_full_name {
         color: rgba(0, 0, 0, 0.87);
         text-overflow: ellipsis;
         overflow: hidden;
-        white-space: nowrap; }
+        white-space: nowrap;
+        word-break: break-all; }
       .files .file .file-content .file-type {
         color: rgba(0, 0, 0, 0.55); }
       .files .file .file-content .button-actions {

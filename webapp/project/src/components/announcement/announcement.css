@@ -1,14 +1,101 @@
-.announcements-page .announcement-detail {
-  background-color: #fff;
-  border: 0.1rem solid rgba(0, 0, 0, 0.12);
-  border-bottom: none;
-  height: 7.1rem; }
-  .announcements-page .announcement-detail .announcement-detail-content {
-    box-sizing: border-box;
-    height: 100%;
-    padding: 0 2.4rem 0 1.8rem;
+.announcements-left-menu .title {
+  font-size: 20px; }
+.announcements-left-menu .announcements-headline {
+  margin: 5px 0; }
+  .announcements-left-menu .announcements-headline h1 {
+    font-size: 20px; }
+  .announcements-left-menu .announcements-headline a:hover {
+    text-decoration: none; }
+  .announcements-left-menu .announcements-headline .announcements-headline-content {
+    align-items: center;
     display: flex;
-    justify-content: space-between;
-    border-left: solid .6rem; }
+    padding: 0 5px;
+    line-height: 28px;
+    position: relative;
+    z-index: 0; }
+    .announcements-left-menu .announcements-headline .announcements-headline-content:hover {
+      background-color: #F6F7F9; }
+  .announcements-left-menu .announcements-headline .announcements-headline-content.current {
+    background-color: #F6F7F9; }
+  .announcements-left-menu .announcements-headline .announcement-detail {
+    margin: 5px 0 5px 10px;
+    padding-left: 10px;
+    border-left: 2px solid dodgerblue; }
+.announcements-left-menu .btn .fa {
+  margin-right: 5px; }
+.announcements-left-menu .buttons {
+  margin-top: 10px; }
+
+.announcements-page {
+  -webkit-align-items: stretch;
+  align-items: stretch;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column; }
+  .announcements-page .announcements-main {
+    -webkit-align-self: center;
+    align-self: center;
+    max-width: 76rem;
+    width: -webkit-calc(100% - 2*2.4rem);
+    width: calc(100% - 2*2.4rem);
+    margin: 2.4rem 0; }
+    .announcements-page .announcements-main .title {
+      font-size: 20px; }
+    .announcements-page .announcements-main .announcement-detail {
+      background-color: #fff;
+      border: 0.1rem solid rgba(0, 0, 0, 0.12);
+      border-bottom: none;
+      height: 7.1rem; }
+      .announcements-page .announcements-main .announcement-detail .announcement-detail-content {
+        box-sizing: border-box;
+        height: 100%;
+        padding: 0 2.4rem 0 1.8rem;
+        display: flex;
+        justify-content: space-between;
+        border-left: solid .6rem; }
+        .announcements-page .announcements-main .announcement-detail .announcement-detail-content .announcement-info {
+          margin: 10px 0; }
+          .announcements-page .announcements-main .announcement-detail .announcement-detail-content .announcement-info .announcement-title {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            font-weight: 500;
+            font-size: 1.5rem;
+            max-width: 100%;
+            padding-bottom: .4rem; }
+          .announcements-page .announcements-main .announcement-detail .announcement-detail-content .announcement-info .announcement-time-user {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            width: 100%; }
+            .announcements-page .announcements-main .announcement-detail .announcement-detail-content .announcement-info .announcement-time-user .presentation {
+              margin: 0 10px; }
+
+.announcement-page .announcement-main-content {
+  margin: 10px 20px;
+  background-color: #fff;
+  border: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  .announcement-page .announcement-main-content .title {
+    font-size: 20px; }
+  .announcement-page .announcement-main-content .announcement-usercreate .user-create-image {
+    float: left; }
+    .announcement-page .announcement-main-content .announcement-usercreate .user-create-image img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%; }
+  .announcement-page .announcement-main-content .announcement-usercreate .user-create-info {
+    float: left;
+    margin-left: 15px; }
+  .announcement-page .announcement-main-content .announcement-detail {
+    margin: 20px 0; }
+
+.create-announcement-modal .announcement-content {
+  max-width: 475px; }
 
 /*# sourceMappingURL=announcement.css.map */

@@ -37,12 +37,11 @@ class UserProfilePage extends Component {
 
     handleUploadProfilePicture = (file) => {
         const {userId} = this.props;
-
         this.props.dispatch(userActions.updateProfilePicture(userId, file))
     }
 
     render() {
-        const {user, loading} = this.props
+        const {user, loading, currentUser} = this.props
         var {posts} = this.props
         posts = posts ? posts : []
         posts = posts.sort(function (a, b) {
@@ -82,7 +81,7 @@ class UserProfilePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const userId = ownProps.match.params.userId
-    const {user, posts} = state.authentication
+    const {user, posts} = state.users
     var loading = appUtils.checkLoading(state)
     return {
         userId,

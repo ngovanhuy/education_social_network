@@ -6,6 +6,7 @@ import {classActions} from "./classActions";
 
 export const userActions = {
     login,
+    loginById,
     logout,
     register,
     getAll,
@@ -42,6 +43,22 @@ function login(username, password) {
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
+function loginById(userId) {
+    return dispatch => {
+        dispatch(request({ userId }));
+
+        userService.getById(userId)
+            .then(
+                response => dispatch(success(response.data)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request(user) { return { type: userConstants.LOGINBYUSERID_REQUEST, user } }
+    function success(user) { return { type: userConstants.LOGINBYUSERID_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.LOGINBYUSERID_FAILURE, error } }
+}
+
 function logout() {
     userService.logout();
     return { type: userConstants.LOGOUT };
@@ -53,8 +70,8 @@ function register(user) {
 
         userService.register(user)
             .then(
-                user => {
-                    dispatch(success());
+                response => {
+                    dispatch(success(response.data));
                     history.push('/login');
                     dispatch(alertAuthenActions.success('Registration successful'));
                 },

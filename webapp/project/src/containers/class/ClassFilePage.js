@@ -27,23 +27,18 @@ class ClassFilePage extends Component{
     }
 
     handleUploadFile = (classId, file) => {
-        const {user} = this.props
-        classService.uploadFile(classId, file, user.id)
-            .then(
-                this.props.dispatch(classActions.getFiles(classId))
-            )
+        const {currentUser} = this.props
+        this.props.dispatch(classActions.uploadFile(classId, file, currentUser.id))
     }
 
     handleDeleteFile = (fileId) => {
         const {classId} = this.props;
-        classService.deleteFile(fileId)
-            .then(
-                this.props.dispatch(classActions.getFiles(classId))
-            )
+        this.props.dispatch(classActions.deleteFile(fileId))
     }
 
     render(){
-        const {classDetail, topics, classId} = this.props
+        const {classDetail, classId} = this.props
+        const topics = classDetail.topics
         return(
             <div>
                 <div className="container">
@@ -68,9 +63,9 @@ class ClassFilePage extends Component{
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
     const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
-        user,
+        currentUser,
         classId,
         classDetail
     }

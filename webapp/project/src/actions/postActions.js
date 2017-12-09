@@ -205,16 +205,16 @@ function getFavourites(postId, contextView) {
     function userGetFavouriteFailure(error) { return { type: userConstants.USERS_GETFAVOURITES_FAILURE, error } }
 }
 
-function insertFavourite(post, userID, contextView) {
+function insertFavourite(postId, userID, contextView) {
     return dispatch => {
         dispatch(request());
 
-        postService.insertFavourite(post.id, userID)
+        postService.insertFavourite(postId, userID)
             .then(
                 response => {
                     dispatch(success());
-                    dispatch(getFavourites(post.id, contextView));
-                    dispatch(_updateInfoPost(post.id, contextView));
+                    dispatch(getFavourites(postId, contextView));
+                    dispatch(_updateInfoPost(postId, contextView));
                 },
                 error => dispatch(failure(error))
             );
@@ -225,16 +225,16 @@ function insertFavourite(post, userID, contextView) {
     function failure(error) { return { type: postConstants.POSTS_INSERTFAVOURITE_FAILURE, error } }
 }
 
-function deleteFavourite(post, userID, contextView) {
+function deleteFavourite(postId, userID, contextView) {
     return dispatch => {
         dispatch(request());
 
-        postService.deleteFavourite(post.id, userID)
+        postService.deleteFavourite(postId, userID)
             .then(
                 response => {
                     dispatch(success());
-                    dispatch(getFavourites(post.id, contextView));
-                    dispatch(_updateInfoPost(post.id, contextView));
+                    dispatch(getFavourites(postId, contextView));
+                    dispatch(_updateInfoPost(postId, contextView));
                 },
                 error => dispatch(failure(error))
             );
@@ -256,10 +256,10 @@ function _updateInfoPost(postId, contextView) {
                     if(contextView === postConstants.CONTEXT_VIEW.IN_USER_PAGE || contextView === postConstants.CONTEXT_VIEW.IN_HOME_PAGE){
                         dispatch(updatePostInfoInPostsByUserId(response.data))
                     } else if(contextView === postConstants.CONTEXT_VIEW.IN_CLASS_PAGE){
-                        dispatch(updatePostInfoInPostsByClassIdUserId(postId))
+                        dispatch(updatePostInfoInPostsByClassIdUserId(response.data))
                     } else {
                         dispatch(updatePostInfoInPostsByUserId(response.data))
-                        dispatch(updatePostInfoInPostsByClassIdUserId(postId))
+                        dispatch(updatePostInfoInPostsByClassIdUserId(response.data))
                     }
                 },
                 error => dispatch(failure(error))

@@ -23,20 +23,27 @@ class HomePage extends Component {
     }
 
     componentWillMount() {
-        var {user} = this.props;
-        if (!user || !user.id) {
-            user = JSON.parse(localStorage.getItem('user'))
+        var {currentUser} = this.props;
+        if (!currentUser || !currentUser.id) {
+            currentUser = JSON.parse(localStorage.getItem('user'))
+            this.props.dispatch(userActions.loginById(currentUser.id));
         }
-        this.props.dispatch(userActions.getById(user.id));
-        this.props.dispatch(userActions.getClassJoined(user.id));
-        this.props.dispatch(postActions.getPostsByUserId(user.id));
-        this.props.dispatch(eventActions.getEventsByUserId(user.id));
+        this.props.dispatch(userActions.getById(currentUser.id));
+        this.props.dispatch(userActions.getClassJoined(currentUser.id));
+        this.props.dispatch(postActions.getPostsByUserId(currentUser.id));
+        this.props.dispatch(eventActions.getEventsByUserId(currentUser.id));
         this.props.dispatch(announcementActions.getAnnouncementNewest());
         this.props.dispatch(announcementActions.getAll());
     }
 
     render() {
-        const {schoolDetail, user, classUserJoined, announcementsNewest, loading} = this.props
+        const {schoolDetail, user, classUserJoined, loading, currentUser} = this.props
+
+        var {announcementsNewest} = this.props
+        announcementsNewest = (announcementsNewest && announcementsNewest.length > 0) ? announcementsNewest.sort(function (a, b) {
+            return new Date(b.timeCreate) - new Date(a.timeCreate);
+        }) : [];
+
         var {posts} = this.props
         posts = posts ? posts : []
         posts = posts.sort(function (a, b) {
@@ -86,12 +93,14 @@ class HomePage extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user, classUserJoined, posts, loggedIn} = state.authentication;
+    const {loggedIn, currentUser} = state.authentication
+    const {user, classUserJoined, posts} = state.users;
     const {eventsByUser} = state.events
     const {announcementsNewest} = state.announcements
     const announcements = state.announcements.items
     var loading = appUtils.checkLoading(state)
     return {
+        currentUser,
         loading,
         loggedIn,
         user,
