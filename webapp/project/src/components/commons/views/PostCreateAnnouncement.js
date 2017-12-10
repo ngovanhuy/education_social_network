@@ -62,8 +62,6 @@ class PostCreateAnnouncement extends Component {
                 topic, false, []
             )
         )
-        this.props.dispatch(postActions.getPostsByUserId(currentUser.id))
-        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, currentUser.id))
 
         this.setState({
             ...this.state,

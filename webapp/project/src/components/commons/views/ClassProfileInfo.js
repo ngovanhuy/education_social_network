@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
 const ClassProfileInfo = ({classDetail}) => {
-    const {id, name, profilePictureUrl} = classDetail
+    const {id, name} = classDetail
 
     return(
         <span className="class-profile-info">

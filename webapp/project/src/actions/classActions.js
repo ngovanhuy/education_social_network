@@ -200,6 +200,7 @@ function deleteClass(classId, userId) {
                 response => {
                     dispatch(success());
                     dispatch(getAll());
+                    history.push('/classes')
                 },
                 error => dispatch(failure(error))
             );

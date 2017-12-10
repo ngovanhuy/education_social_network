@@ -48,11 +48,11 @@ class NewComment extends Component {
     }
 
     render() {
-        const {post, contextView} = this.props
+        const {post, currentUser, contextView} = this.props
         return (
             <div className="new-comment clearfix">
-                <img
-                    src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profilePictureUrl, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}/>
+                <img className="img-circle"
+                    src={currentUser && fileUtils.renderFileSource(currentUser.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}/>
                 <form className="navbar-form">
                     <div className="navbar-search">
                         <input type="text" placeholder="Write somthing …" className="form-control" name="content"

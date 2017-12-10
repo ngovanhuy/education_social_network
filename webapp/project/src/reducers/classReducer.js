@@ -93,19 +93,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    members: action.data
-                }
+                members: action.data
             };
         case classConstants.CLASSES_GETMEMBERS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    members: []
-                },
+                members: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETREQUESTS_REQUEST:
@@ -118,19 +112,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    requests: action.data
-                }
+                requests: action.data,
             };
         case classConstants.CLASSES_GETREQUESTS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    requests: []
-                },
+                requests: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETFILES_REQUEST:
@@ -143,19 +131,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    files: action.data
-                }
+                files: action.data
             };
         case classConstants.CLASSES_GETFILES_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    files: []
-                },
+                files: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETPOSTS_REQUEST:
@@ -168,20 +150,14 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    posts: action.posts
-                }
+                posts: action.posts
             };
         case classConstants.CLASSES_GETPOSTS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    posts: []
-                },
-                error: action.error
+                error: action.error,
+                posts: []
             };
         case classConstants.CLASSES_GETPOSTSBYUSER_REQUEST:
             return {
@@ -193,19 +169,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    postsByUser: action.posts
-                }
+                postsByUser: action.posts
             };
         case classConstants.CLASSES_GETPOSTSBYUSER_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    postsByUser: []
-                },
+                postsByUser: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETPOSTSBYTOPIC_REQUEST:
@@ -218,19 +188,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    postsByTopic: action.posts
-                }
+                postsByTopic: action.posts
             };
         case classConstants.CLASSES_GETPOSTSBYTOPIC_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    postsByTopic: []
-                },
+                postsByTopic: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETEVENTS_REQUEST:
@@ -243,19 +207,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    events: action.data
-                }
+                events: action.data
             };
         case classConstants.CLASSES_GETEVENTS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    events: []
-                },
+                events: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETEVENTSBYUSER_REQUEST:
@@ -268,19 +226,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    eventsByUser: action.data
-                }
+                eventsByUser: action.data
             };
         case classConstants.CLASSES_GETEVENTSBYUSER_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    eventsByUser: []
-                },
+                eventsByUser: [],
                 error: action.error
             };
         case classConstants.CLASSES_GETTOPICS_REQUEST:
@@ -293,19 +245,13 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    topics: action.data
-                }
+                topics: action.data
             };
         case classConstants.CLASSES_GETTOPICS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    topics: []
-                },
+                topics: [],
                 error: action.error
             };
         case classConstants.CLASSES_INSERTPOST_REQUEST:
@@ -335,27 +281,24 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    postsByUser: (state.classDetail.postsByUser && state.classDetail.postsByUser.length > 0) ?
-                        (
-                            state.classDetail.postsByUser.map(post => post.id == action.data.post.postID ?
-                                {
-                                    ...post,
-                                    comments: action.data.comments
-                                } : post
-                            )
-                        ) : [],
-                    postsByTopic: (state.classDetail.postsByTopic && state.classDetail.postsByTopic.length > 0) ?
-                        (
-                            state.classDetail.postsByTopic.map(post => post.id == action.data.post.postID ?
-                                {
-                                    ...post,
-                                    comments: action.data.comments
-                                } : post
-                            )
-                        ) : []
-                }
+                postsByUser: (state.postsByUser && state.postsByUser.length > 0) ?
+                    (
+                        state.postsByUser.map(post => post.id == action.data.post.postID ?
+                            {
+                                ...post,
+                                comments: action.data.comments
+                            } : post
+                        )
+                    ) : [],
+                postsByTopic: (state.postsByTopic && state.postsByTopic.length > 0) ?
+                    (
+                        state.postsByTopic.map(post => post.id == action.data.post.postID ?
+                            {
+                                ...post,
+                                comments: action.data.comments
+                            } : post
+                        )
+                    ) : []
             };
         case classConstants.CLASSES_GETCOMMENTS_FAILURE:
             return {
@@ -373,15 +316,24 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
             return {
                 ...state,
                 loading: false,
-                classDetail: {
-                    ...state.classDetail,
-                    postsByUser: state.classDetail.postsByUser && state.classDetail.postsByUser.map(post => post.id == action.data.post.postID ?
-                        {
-                            ...post,
-                            favourites: action.data.likes
-                        } : post
-                    )
-                }
+                postsByUser: (state.postsByUser && state.postsByUser.length > 0) ?
+                    (
+                        state.postsByUser.map(post => post.id == action.data.post.postID ?
+                            {
+                                ...post,
+                                favourites: action.data.likes
+                            } : post
+                        )
+                    ) : [],
+                postsByTopic: (state.postsByTopic && state.postsByTopic.length > 0) ?
+                    (
+                        state.postsByTopic.map(post => post.id == action.data.post.postID ?
+                            {
+                                ...post,
+                                favourites: action.data.likes
+                            } : post
+                        )
+                    ) : []
             };
         case classConstants.CLASSES_GETFAVOURITES_FAILURE:
             return {
@@ -406,30 +358,27 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 loading: false,
                 error: action.error
             }
-        case  classConstants.CLASSES_UPDATEPOSTINFO_SUCCESS:
+        case classConstants.CLASSES_UPDATEPOSTINFO_SUCCESS:
             return {
                 ...state,
-                classDetail: {
-                    ...state.classDetail,
-                    postsByUser: (state.classDetail.postsByUser && state.classDetail.postsByUser.length > 0) &&
-                        (
-                            state.classDetail.postsByUser.map(post => post.id == action.postDetail.id ?
-                                {
-                                    ...post,
-                                    ...action.postDetail,
-                                } : post
-                            )
-                        ),
-                    postsByTopic: (state.classDetail.postsByTopic && state.classDetail.postsByTopic.length > 0) &&
-                        (
-                            state.classDetail.postsByTopic.map(post => post.id == action.postDetail.id ?
-                                {
-                                    ...post,
-                                    ...action.postDetail,
-                                } : post
-                            )
-                        )
-                }
+                postsByUser: (state.postsByUser && state.postsByUser.length > 0) &&
+                (
+                    state.postsByUser.map(post => post.id == action.postDetail.id ?
+                        {
+                            ...post,
+                            ...action.postDetail,
+                        } : post
+                    )
+                ),
+                postsByTopic: (state.postsByTopic && state.postsByTopic.length > 0) &&
+                (
+                    state.postsByTopic.map(post => post.id == action.postDetail.id ?
+                        {
+                            ...post,
+                            ...action.postDetail,
+                        } : post
+                    )
+                )
             };
         case classConstants.CLASSES_DELETEMEMBER_REQUEST:
             return {

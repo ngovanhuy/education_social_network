@@ -7,8 +7,6 @@ class ClassManageChangeDetail extends Component {
         super(props);
 
         this.state = {
-            userId: '',
-            classId: '',
             name: '',
             about: '',
             location: '',
@@ -21,8 +19,6 @@ class ClassManageChangeDetail extends Component {
 
     componentWillMount() {
         this.setState({
-            userId: this.props.user.id,
-            classId: this.props.classDetail.id,
             name: this.props.classDetail.name,
             about: this.props.classDetail.about,
             location: this.props.classDetail.location,
@@ -32,8 +28,6 @@ class ClassManageChangeDetail extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.classDetail !== this.props.classDetail) {
             this.setState({
-                userId: nextProps.user.id,
-                classId: nextProps.classDetail.id,
                 name: nextProps.classDetail.name,
                 about: nextProps.classDetail.about,
                 location: nextProps.classDetail.location,
@@ -49,9 +43,10 @@ class ClassManageChangeDetail extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const {userId, classId, name, about, location} = this.state;
+        const {currentUser, classDetail} = this.props
+        const {name, about, location} = this.state;
         this.setState({submitted: true});
-        this.props.dispatch(classActions.update(userId, classId, name, about, location));
+        this.props.dispatch(classActions.update(currentUser.id, classDetail.id, name, about, location));
     }
 
     render() {
@@ -94,10 +89,10 @@ class ClassManageChangeDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
         classDetail,
-        user
+        currentUser
     }
 }
 

@@ -13,7 +13,7 @@ class ClassRecentFiles extends Component{
                     {
                         (file.type && file.type.indexOf("image") !== -1) ?
                             <div className="preview-image">
-                                <img src={fileUtils.renderFileSource(file.id)}/>
+                                <img src={file && fileUtils.renderFileSource(file.id)}/>
                             </div> :
                             <div className="document">
                                 <img src={defaultImageDocument}/>

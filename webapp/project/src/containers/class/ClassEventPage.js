@@ -10,7 +10,7 @@ import {eventUtils} from "../../utils";
 
 class ClassEventPage extends Component {
     componentWillMount() {
-        const {classId, user} = this.props;
+        const {classId} = this.props;
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(eventActions.getEventsByClassId(classId));
@@ -18,7 +18,7 @@ class ClassEventPage extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.classId !== this.props.classId) {
-            const {classId, user} = nextProps;
+            const {classId} = nextProps;
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getTopics(classId));
             this.props.dispatch(eventActions.getEventsByClassId(classId));
@@ -26,8 +26,7 @@ class ClassEventPage extends Component {
     }
 
     render() {
-        const {classDetail, classId} = this.props
-        const topics = classDetail.topics
+        const {classDetail, classId, topics} = this.props
         var {eventsByClass} = this.props
         return (
             <div>
@@ -51,13 +50,12 @@ class ClassEventPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {classDetail, topics} = state.classes
     const {eventsByClass} = state.events
     return {
         classId,
+        topics,
         classDetail,
-        user,
         eventsByClass
     }
 }

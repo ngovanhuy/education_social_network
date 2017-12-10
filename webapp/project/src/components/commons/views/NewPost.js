@@ -7,7 +7,7 @@ import NewPostFooter from "./NewPostFooter";
 import CreateEventModal from "../../event/views/CreateEventModal";
 import {eventActions} from "../../../actions";
 import {connect} from "react-redux";
-import {dateUtils} from "../../../utils";
+import {dateUtils, userUtils} from "../../../utils";
 
 class NewPost extends Component {
     constructor() {
@@ -35,7 +35,8 @@ class NewPost extends Component {
     }
 
     render() {
-        const {classDetail, isTeacher} = this.props
+        const {classDetail, currentUser} = this.props
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
         return (
             <div className="new-post has-border-radius">
                 <div className="new-post-headline">
@@ -109,9 +110,9 @@ class NewPost extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user} = state.authentication;
+    const {currentUser} = state.authentication;
     return {
-        user,
+        currentUser,
     };
 }
 

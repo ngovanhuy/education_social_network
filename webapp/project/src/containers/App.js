@@ -17,25 +17,23 @@ class App extends Component {
         children: PropTypes.node
     }
 
-    componentWillMount(){
+    componentWillMount() {
         const {loggedIn} = this.props
         let user = JSON.parse(localStorage.getItem('user'))
-        if(!loggedIn){
-            if(user){
-                history.push('/')
-            } else {
-                this.props.dispatch(userActions.logout());
-                history.push('/login')
-            }
+        if (user) {
+            this.props.dispatch(userActions.loginById(user.id));
+        } else {
+            this.props.dispatch(userActions.logout());
+            history.push('/login')
         }
     }
 
     render() {
-        const {children, loggedIn} = this.props
+        const {children, currentUser} = this.props
         return (
             <div>
                 {
-                    (loggedIn) ? <Header/> : ''
+                    (currentUser) ? <Header/> : ''
                 }
                 <div className="page-content">
                     {children}
@@ -46,9 +44,9 @@ class App extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    const {loggedIn} = state.authentication;
+    const {currentUser} = state.authentication;
     return {
-        loggedIn
+        currentUser
     };
 }
 

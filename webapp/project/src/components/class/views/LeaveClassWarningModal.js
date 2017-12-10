@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal';
-import TagsInput from 'react-tagsinput'
-import 'react-tagsinput/react-tagsinput.css'
 import '../class.css'
 
 const customStylesModal = {
@@ -38,7 +36,7 @@ class LeaveClassWarningModal extends Component {
                 isOpen={modalIsOpen}
                 onRequestClose={this.props.closeModal}
                 style={customStylesModal}
-                contentLabel="Leave This Group?">
+                contentLabel="Leave This Class?">
                 <h2>{modalTitle}</h2>
                 <a href="#" className="mm-popup__close"
                    data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"

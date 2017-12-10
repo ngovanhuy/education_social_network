@@ -21,7 +21,7 @@ class Comment extends Component {
                 <div className="comment-user-profile-picture">
                     <Link to={`/users/${user.id}`}>
                         <img className="img-circle"
-                             src={fileUtils.renderFileSource(comment.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}></img>
+                             src={comment && fileUtils.renderFileSource(comment.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}></img>
                     </Link>
                 </div>
                 <div className="comment-content-info">

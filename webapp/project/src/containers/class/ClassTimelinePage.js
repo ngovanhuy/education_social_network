@@ -18,44 +18,43 @@ class ClassTimelinePage extends Component {
 
     componentWillMount() {
         const {classId, currentUser} = this.props;
+        if (currentUser) {
+            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
+        }
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(classActions.getFiles(classId));
         this.props.dispatch(eventActions.getEventsUpcommingOfClass(classId));
-        if (currentUser) {
-            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
-        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.classId !== this.props.classId) {
             const {classId, currentUser} = nextProps;
+            if (currentUser) {
+                this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
+            }
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getTopics(classId));
             this.props.dispatch(classActions.getFiles(classId));
             this.props.dispatch(eventActions.getEventsUpcommingOfClass(classId));
-            if (currentUser) {
-                this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
-            }
         }
     }
 
     render() {
-        const {classDetail, classId, currentUser, loading, eventsUpcommingOfClass} = this.props
-        const topics = classDetail.topics
+        const {classDetail, classId, currentUser, loading, eventsUpcommingOfClass, postsByUser, topics} = this.props
         const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
         const isTeacher = userUtils.checkIsTeacher(currentUser)
 
         var posts = []
-        posts = (classDetail && classDetail.postsByUser) ? classDetail.postsByUser : []
-        posts = posts.sort(function (a, b) {
+        posts = (postsByUser) ? postsByUser : []
+        posts = (posts && posts.length > 0) && posts.sort(function (a, b) {
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
 
         var eventsUpcomming = eventsUpcommingOfClass ? [
             ...eventsUpcommingOfClass
         ] : []
-        eventsUpcomming = eventsUpcomming.sort(function (a, b) {
+        eventsUpcomming = (eventsUpcomming && eventsUpcomming.length > 0) && eventsUpcomming.sort(function (a, b) {
             return new Date(b.startTime) - new Date(a.startTime);
         });
         eventsUpcomming = (eventsUpcomming) ? eventsUpcomming.slice(0, 3) : []
@@ -76,7 +75,7 @@ class ClassTimelinePage extends Component {
                             </div>
                             <div className="col-sm-7 class-main-content">
                                 <div className="row">
-                                    <NewPost classDetail={classDetail} isTeacher={isTeacher}/>
+                                    <NewPost classDetail={classDetail}/>
                                 </div>
                                 <div className="row">
                                     <div className="class-feed">
@@ -100,13 +99,15 @@ class ClassTimelinePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail} = state.classes
+    const {classDetail, postsByUser, topics} = state.classes
     const {currentUser} = state.authentication
     const {eventsUpcommingOfClass} = state.events
     var loading = appUtils.checkLoading(state)
     return {
         classId,
         classDetail,
+        topics,
+        postsByUser,
         currentUser,
         eventsUpcommingOfClass,
         loading

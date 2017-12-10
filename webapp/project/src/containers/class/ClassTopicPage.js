@@ -19,28 +19,27 @@ class ClassTopicPage extends Component {
 
     componentWillMount() {
         const {classId, topicName} = this.props;
+        this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
-        this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.classId !== this.props.classId ||
             nextProps.topicName !== this.props.topicName) {
             const {classId, topicName} = nextProps;
+            this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getTopics(classId));
-            this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
         }
     }
 
     render() {
-        const {classDetail, classId, user, topicName} = this.props
-        const topics = classDetail.topics
-        const isTeacher = userUtils.checkIsTeacher(user)
+        const {classDetail, classId, currentUser, topicName, postsByTopic, topics} = this.props
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
 
-        var posts = (classDetail && classDetail.postsByTopic) ? classDetail.postsByTopic : []
-        posts = posts.sort(function (a, b) {
+        var posts = (postsByTopic) ? postsByTopic : []
+        posts = (posts && posts.length > 0) && posts.sort(function (a, b) {
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
 
@@ -58,12 +57,11 @@ class ClassTopicPage extends Component {
                     </div>
                     <div className="col-sm-7 class-main-content">
                         {/*<div className="row">*/}
-                            {/*<NewPost classDetail={classDetail} isTeacher={isTeacher}/>*/}
+                        {/*<NewPost classDetail={classDetail} isTeacher={isTeacher}/>*/}
                         {/*</div>*/}
                         <div className="row">
                             <div className="class-feed">
-                                <Feed feed={posts} user={user}
-                                      contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
+                                <Feed feed={posts} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
                             </div>
                         </div>
                     </div>
@@ -76,13 +74,15 @@ class ClassTopicPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
     const topicName = ownProps.match.params.topicName
-    const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {classDetail, postsByTopic, topics} = state.classes
+    const {currentUser} = state.authentication
     return {
         classId,
         topicName,
+        topics,
         classDetail,
-        user
+        postsByTopic,
+        currentUser
     }
 }
 

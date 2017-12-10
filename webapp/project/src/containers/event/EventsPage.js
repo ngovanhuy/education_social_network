@@ -44,10 +44,10 @@ class EventsPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const {eventsUpcomming} = state.events
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
         eventsUpcomming,
-        user
+        currentUser
     }
 }
 

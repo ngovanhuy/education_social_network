@@ -43,7 +43,7 @@ class ClassCalendar extends Component {
     }
 
     render() {
-        const {events, classId, classDetail} = this.props
+        const {events, classDetail} = this.props
         return (
             <div className="class-calendar">
                 <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}

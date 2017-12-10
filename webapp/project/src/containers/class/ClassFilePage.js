@@ -37,8 +37,7 @@ class ClassFilePage extends Component{
     }
 
     render(){
-        const {classDetail, classId} = this.props
-        const topics = classDetail.topics
+        const {classDetail, classId, topics} = this.props
         return(
             <div>
                 <div className="container">
@@ -62,9 +61,10 @@ class ClassFilePage extends Component{
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail} = state.classes
+    const {classDetail, topics} = state.classes
     const {currentUser} = state.authentication
     return {
+        topics,
         currentUser,
         classId,
         classDetail

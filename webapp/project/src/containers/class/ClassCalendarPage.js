@@ -26,8 +26,7 @@ class ClassCalendarPage extends Component {
     }
 
     render() {
-        const {classDetail, classId, user} = this.props
-        const topics = classDetail.topics
+        const {classDetail, classId, topics} = this.props
         var {eventsByClass} = this.props
         var eventsByClassAfterUpdateInfo = eventUtils.updateInfoEvents(eventsByClass)
         return (
@@ -41,8 +40,7 @@ class ClassCalendarPage extends Component {
                     </div>
                     <div className="col-sm-10">
                         <div className="row">
-                            <ClassCalendar events={eventsByClassAfterUpdateInfo} classDetail={classDetail}
-                                           classId={classId} user={user}/>
+                            <ClassCalendar events={eventsByClassAfterUpdateInfo} classDetail={classDetail}/>
                         </div>
                     </div>
                 </div>
@@ -53,13 +51,14 @@ class ClassCalendarPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail} = state.classes
-    const {user} = state.authentication
+    const {classDetail, topics} = state.classes
+    const {currentUser} = state.authentication
     const {eventsByClass} = state.events
     return {
         classId,
         classDetail,
-        user,
+        topics,
+        currentUser,
         eventsByClass
     }
 }

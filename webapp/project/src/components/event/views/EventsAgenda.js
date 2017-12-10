@@ -11,7 +11,7 @@ class EventsAgenda extends Component{
             <div key={index} className="col-sm-12">
                 <div className="event-agenda clearfix">
                     <div className="event-photo">
-                        <img src={fileUtils.renderFileSource(event.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
+                        <img src={event && fileUtils.renderFileSource(event.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
                     </div>
                     <div className="event-detail">
                         <div className="event-name">

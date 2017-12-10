@@ -87,6 +87,7 @@ function insert(classId, userId, title, content, fileUpload, scopeType, topic, i
             .then(
                 response => {
                     dispatch(success());
+                    dispatch(getPostsByClassIdUserId(classId, userId))
                 },
                 error => dispatch(failure(error))
             );
@@ -213,8 +214,8 @@ function insertFavourite(postId, userID, contextView) {
             .then(
                 response => {
                     dispatch(success());
-                    dispatch(getFavourites(postId, contextView));
                     dispatch(_updateInfoPost(postId, contextView));
+                    dispatch(getFavourites(postId, contextView));
                 },
                 error => dispatch(failure(error))
             );
@@ -233,8 +234,8 @@ function deleteFavourite(postId, userID, contextView) {
             .then(
                 response => {
                     dispatch(success());
-                    dispatch(getFavourites(postId, contextView));
                     dispatch(_updateInfoPost(postId, contextView));
+                    dispatch(getFavourites(postId, contextView));
                 },
                 error => dispatch(failure(error))
             );

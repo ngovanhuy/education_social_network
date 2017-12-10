@@ -154,7 +154,7 @@ export function users(state = {loading: false, items: []}, action) {
                 loading: false,
                 error: action.error
             };
-        case  userConstants.USERS_UPDATEPOSTINFO_SUCCESS:
+        case userConstants.USERS_UPDATEPOSTINFO_SUCCESS:
             return {
                 ...state,
                 posts: (state.posts && state.posts.length > 0) &&

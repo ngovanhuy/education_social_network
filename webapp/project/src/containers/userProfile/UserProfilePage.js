@@ -44,7 +44,7 @@ class UserProfilePage extends Component {
         const {user, loading, currentUser} = this.props
         var {posts} = this.props
         posts = posts ? posts : []
-        posts = posts.sort(function (a, b) {
+        posts = (posts && posts.length > 0) && posts.sort(function (a, b) {
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
         return (

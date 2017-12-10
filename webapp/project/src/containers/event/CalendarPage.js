@@ -67,10 +67,10 @@ class CalendarPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const events = state.events.items
-    const {user} = state.authentication
+    const {currentUser} = state.authentication
     return {
         events,
-        user
+        currentUser
     }
 }
 

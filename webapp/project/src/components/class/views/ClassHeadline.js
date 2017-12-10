@@ -5,8 +5,8 @@ import {userUtils} from "../../../utils/userUtils";
 
 class ClassHeadline extends Component {
     render() {
-        const {user, classDetail, classId, currentPage} = this.props
-        const isTeacher = userUtils.checkIsTeacher(user)
+        const {currentUser, classDetail, classId, currentPage} = this.props
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
         return (
             <div className="class-headline has-border-radius">
                 <h1>{classDetail.name}</h1>
@@ -63,9 +63,9 @@ class ClassHeadline extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user} = state.authentication;
+    const {currentUser} = state.authentication;
     return {
-        user,
+        currentUser,
     };
 }
 

@@ -31,8 +31,7 @@ class ClassMembersPage extends Component {
     }
 
     render() {
-        const {currentUser, classId, classDetail} = this.props
-        const topics = classDetail.topics
+        const {currentUser, classId, classDetail, topics} = this.props
         const isTeacher = userUtils.checkIsTeacher(currentUser)
         const members = (classDetail.members && classDetail.members.length > 0) ?
             classDetail.members.filter(function (member) {
@@ -85,10 +84,11 @@ class ClassMembersPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail} = state.classes
+    const {classDetail, topics} = state.classes
     const {currentUser} = state.authentication
     return {
         classId,
+        topics,
         classDetail,
         currentUser
     }

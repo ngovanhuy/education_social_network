@@ -12,7 +12,7 @@ class EventsPinboard extends Component {
                 <div className="event-pinboard clearfix">
                     <div className="event-photo">
                         <img
-                            src={fileUtils.renderFileSource(event.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
+                            src={event && fileUtils.renderFileSource(event.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
                     </div>
                     <div className="event-detail">
                         <div className="event-name">

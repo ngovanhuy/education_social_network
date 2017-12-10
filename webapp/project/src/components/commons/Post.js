@@ -14,18 +14,14 @@ import ClassProfileInfo from "./views/ClassProfileInfo";
 
 class Post extends Component {
     componentWillMount() {
-        const {post, contextView} = this.props;
-        if (post) {
-            this.props.dispatch(postActions.getFavourites(post.id, contextView));
-        }
+        const {post} = this.props;
+        this.props.dispatch(postActions.getFavourites(post.id));
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.post.id !== this.props.post.id) {
-            const {post, contextView} = this.props;
-            if (post) {
-                this.props.dispatch(postActions.getFavourites(post.id, contextView));
-            }
+            const {post} = nextProps;
+            this.props.dispatch(postActions.getFavourites(post.id));
         }
     }
 
@@ -41,8 +37,22 @@ class Post extends Component {
         )
     }
 
+    checkUserFavouritePost = (post, user) => {
+        var favourited = false;
+        if (post.favourites && post.favourites && post.favourites.length > 0) {
+            for (var i = 0; i < post.favourites.length; i++) {
+                if (post.favourites[i] == user.id) {
+                    favourited = true;
+                    break;
+                }
+            }
+        }
+        return favourited;
+    }
+
     render() {
-        const {post, currentUser, contextView} = this.props
+        const {post, contextView, currentUser} = this.props
+        var favouritedPost = this.checkUserFavouritePost(post, currentUser);
         var classDetailOfPost = {
             id: post.group && post.group.id,
             name: post.group && post.group.name,
@@ -114,7 +124,7 @@ class Post extends Component {
                         }
                     </div>
                 </div>
-                <ReactPost post={post} contextView={contextView}/>
+                <ReactPost post={post} favouritedPost={favouritedPost} contextView={contextView}/>
             </div>
         )
     }

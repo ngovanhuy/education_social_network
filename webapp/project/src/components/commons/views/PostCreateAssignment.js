@@ -135,8 +135,6 @@ class PostCreateAssignment extends Component {
             postActions.insert(classDetail.id, currentUser.id, title, content, files, scopeType,
                 topic, isSchedule, members, dateUtils.convertDateTimeToISO(startTime), dateUtils.convertDateTimeToISO(endTime))
         )
-        this.props.dispatch(postActions.getPostsByUserId(currentUser.id))
-        this.props.dispatch(postActions.getPostsByClassIdUserId(classDetail.id, currentUser.id))
 
         this.setState({
             title: '',
@@ -152,13 +150,13 @@ class PostCreateAssignment extends Component {
     }
 
     render() {
-        const {classDetail} = this.props
+        const {classDetail, topics} = this.props
         const {memberSelected, title, content, endTime, topic, files} = this.state
         // const membersOfClass = (classDetail && classDetail.members) ? classDetail.members.filter(function (member) {
         //     return member.isAdmin == false
         // }) : []
         const membersOfClass = (classDetail && classDetail.members) ? classDetail.members : []
-        const topicsOfClass = (classDetail && classDetail.topics) ? classDetail.topics : []
+        const topicsOfClass = (topics) ? topics : []
         var newPostUserFor = fillMembersInfoForSelectTag(membersOfClass)
         var newPostTopicFor = fillTopicsInfoForSelectTag(topicsOfClass)
         return (
@@ -230,9 +228,10 @@ class PostCreateAssignment extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {classDetail} = state.classes
+    const {classDetail, topics} = state.classes
     const {currentUser} = state.authentication
     return {
+        topics,
         classDetail,
         currentUser
     }

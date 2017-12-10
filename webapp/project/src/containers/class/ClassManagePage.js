@@ -31,8 +31,7 @@ class ClassManagePage extends Component {
     }
 
     render() {
-        const {classDetail, classId} = this.props
-        const topics = classDetail.topics
+        const {classDetail, classId, topics} = this.props
         const queryStringParsed = queryString.parse(this.props.location.search)
         const currentViewLink = (queryStringParsed && queryStringParsed.currentViewLink) ? queryStringParsed.currentViewLink : 'memberRequests'
         return (
@@ -57,10 +56,11 @@ class ClassManagePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail} = state.classes
+    const {classDetail, topics} = state.classes
     return {
         classId,
-        classDetail
+        classDetail,
+        topics,
     }
 }
 
