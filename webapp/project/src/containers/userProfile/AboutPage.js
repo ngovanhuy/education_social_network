@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import UserAbout from "../../components/userProfile/UserAbout";
-import {userActions} from "../../actions/userActions";
-import {userService} from "../../services/userService";
+import {userActions} from "../../actions";
 
 class AboutPage extends Component{
 

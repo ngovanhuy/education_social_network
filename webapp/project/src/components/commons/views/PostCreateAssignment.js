@@ -6,8 +6,7 @@ import Datetime from 'react-datetime'
 import 'react-datetime/css/react-datetime.css'
 import PostAddAttachment from "./PostAddAttachment";
 import NewPostFooter from "./NewPostFooter";
-import {classActions} from "../../../actions/classActions";
-import {postActions} from "../../../actions";
+import {postActions, classActions} from "../../../actions";
 import {classConstants, defaultConstants} from "../../../constants";
 import {dateUtils} from "../../../utils";
 

@@ -1,11 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
-import UserProfileInfo from "./UserProfileInfo";
 
 const ReactComment = ({comment, favouritedComment}) => {
-    const {from, createTime, favourites, message} = comment
-
+    const {createTime, favourites, message} = comment
 
     return (
         <div className="comment-reacts clearfix">
@@ -42,7 +38,5 @@ const ReactComment = ({comment, favouritedComment}) => {
         </div>
     )
 }
-
-ReactComment.propTypes = {}
 
 export default ReactComment

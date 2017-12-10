@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal';
-import TagsInput from 'react-tagsinput'
-import 'react-tagsinput/react-tagsinput.css'
+// import TagsInput from 'react-tagsinput'
+// import 'react-tagsinput/react-tagsinput.css'
 import '../class.css'
 import Autosuggest from 'react-autosuggest';
-import {userService} from "../../../services/userService";
+import {userService} from "../../../services";
 
 const customStylesModal = {
     overlay: {
@@ -93,34 +93,34 @@ class CreateClassModal extends Component {
         const {className, membersInvited} = this.state
         var modalTitle = 'Create New Group';
 
-        function autocompleteRenderInput({addTag, ...props}) {
-            const handleOnChange = (e, {newValue, method}) => {
-                if (method === 'enter') {
-                    e.preventDefault()
-                } else {
-                    props.onChange(e)
-                }
-            }
-
-            const inputValue = (props.value && props.value.trim().toLowerCase()) || ''
-            const inputLength = inputValue.length
-
-            return (
-                <Autosuggest
-                    ref={props.ref}
-                    suggestions={suggestions}
-                    shouldRenderSuggestions={(value) => value && value.trim().length > 0}
-                    getSuggestionValue={getSuggestionValue}
-                    renderSuggestion={renderSuggestion}
-                    inputProps={{...props, onChange: handleOnChange}}
-                    onSuggestionSelected={(e, {suggestion}) => {
-                        addTag(suggestion.name)
-                    }}
-                    onSuggestionsFetchRequested={props.onSuggestionsFetchRequested}
-                    onSuggestionsClearRequested={props.onSuggestionsClearRequested}
-                />
-            )
-        }
+        // function autocompleteRenderInput({addTag, ...props}) {
+        //     const handleOnChange = (e, {newValue, method}) => {
+        //         if (method === 'enter') {
+        //             e.preventDefault()
+        //         } else {
+        //             props.onChange(e)
+        //         }
+        //     }
+        //
+        //     const inputValue = (props.value && props.value.trim().toLowerCase()) || ''
+        //     const inputLength = inputValue.length
+        //
+        //     return (
+        //         <Autosuggest
+        //             ref={props.ref}
+        //             suggestions={suggestions}
+        //             shouldRenderSuggestions={(value) => value && value.trim().length > 0}
+        //             getSuggestionValue={getSuggestionValue}
+        //             renderSuggestion={renderSuggestion}
+        //             inputProps={{...props, onChange: handleOnChange}}
+        //             onSuggestionSelected={(e, {suggestion}) => {
+        //                 addTag(suggestion.name)
+        //             }}
+        //             onSuggestionsFetchRequested={props.onSuggestionsFetchRequested}
+        //             onSuggestionsClearRequested={props.onSuggestionsClearRequested}
+        //         />
+        //     )
+        // }
 
         return (
             <Modal

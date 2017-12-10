@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
 import Modal from 'react-modal';
 import FileInput from '@ranyefet/react-file-input'
 import Datetime from 'react-datetime'

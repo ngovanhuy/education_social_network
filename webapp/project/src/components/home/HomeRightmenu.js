@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import BigCalendar from 'react-big-calendar'
-import moment from 'moment';
 import HomeCalendar from "./views/HomeCalendar";
 import HomeAnnouncementsNewest from "./views/HomeAnnouncementsNewest";
 import HomeSchoolAbout from "./views/HomeSchoolAbout";

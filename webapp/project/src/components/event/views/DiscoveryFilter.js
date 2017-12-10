@@ -6,7 +6,6 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import {DateRangePicker} from 'react-dates';
 import {classActions, eventActions, postActions, userActions} from "../../../actions";
-import {classConstants} from "../../../constants";
 import {dateUtils} from "../../../utils";
 
 const fillUsersInfoForSelectTag = (users) => {

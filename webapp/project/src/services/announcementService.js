@@ -1,6 +1,5 @@
 import {authHeader} from '../helpers';
 import {DOMAIN_SERVICE} from '../constants'
-import axios from 'axios';
 import {stringUtils} from "../utils";
 
 export const announcementService = {

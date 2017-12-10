@@ -2,8 +2,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Autosuggest from 'react-autosuggest';
 import {connect} from 'react-redux'
-import {userService} from "../../../services/userService";
-import {classService} from "../../../services/classService";
+import {userService} from "../../../services";
 import {classActions} from "../../../actions";
 
 const getSuggestionValue = suggestion => suggestion.username;

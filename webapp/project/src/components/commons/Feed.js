@@ -1,7 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
 import Post from "./Post";
 import NewComment from "./views/NewComment";
 import Comments from "./Comments";

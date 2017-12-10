@@ -1,12 +1,9 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import FileInput from '@ranyefet/react-file-input'
-import * as fileUtil from '../../../utils/fileUtils'
 import {connect} from 'react-redux'
 import {classService} from "../../../services";
-import {classActions} from "../../../actions";
-import {userService} from "../../../services/userService";
-import {userActions} from "../../../actions/userActions";
+import {userActions, classActions} from "../../../actions";
 import {userUtils} from "../../../utils";
 import LeaveClassWarningModal from "./LeaveClassWarningModal";
 import {Redirect} from 'react-router'

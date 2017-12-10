@@ -1,13 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import UserProfileInfo from "../commons/views/UserProfileInfo";
-import FileInput from '@ranyefet/react-file-input'
-import * as FileUtil from '../../utils/fileUtils'
-import ClassMembersHeadline from "./views/ClassMembersHeadline";
-import {defaultConstants} from "../../constants/defaultConstant";
-import {fileUtils} from "../../utils/fileUtils";
-import {userUtils} from "../../utils";
+import {defaultConstants} from "../../constants";
+import {userUtils, fileUtils} from "../../utils";
 import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
 import {classActions} from "../../actions";
 import {Redirect} from 'react-router'

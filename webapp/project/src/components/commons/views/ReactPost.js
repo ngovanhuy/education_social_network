@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
-import {classActions, eventActions, postActions} from "../../../actions";
-import {postConstants} from "../../../constants";
+import {postActions} from "../../../actions";
 
 class ReactPost extends Component {
     constructor(props) {

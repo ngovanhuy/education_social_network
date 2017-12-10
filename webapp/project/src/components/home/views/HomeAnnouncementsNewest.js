@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import UserProfileInfo from "../../commons/views/UserProfileInfo";
-import {dateUtils} from "../../../utils";
 import Announcement from "../../announcement/Announcement";
-import AnnouncementInfo from "../../commons/views/AnnouncementInfo";
 
 class HomeAnnouncementsNewest extends Component{
     render(){

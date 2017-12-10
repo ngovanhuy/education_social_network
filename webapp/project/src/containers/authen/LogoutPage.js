@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {userActions} from '../../actions';
@@ -12,7 +11,6 @@ class LogoutPage extends React.Component {
     componentWillMount() {
         this.props.dispatch(userActions.logout());
         const { history } = this.props
-        // history.pushState(null, '/login')
         history.replace('/login', null)
     };
 

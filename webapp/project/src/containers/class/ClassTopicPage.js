@@ -1,15 +1,11 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import ClassLeftmenu from "../../components/class/ClassLeftmenu";
-import ClassRightMenu from "../../components/class/ClassRightMenu";
 import '../../components/class/class.css'
-import NewPost from "../../components/commons/views/NewPost";
 import Feed from "../../components/commons/Feed";
 import {classActions, postActions} from "../../actions";
 import {userUtils} from "../../utils";
-import queryString from "query-string"
 import {postConstants} from "../../constants";
 
 class ClassTopicPage extends Component {

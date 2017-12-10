@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Modal from 'react-modal';
-import TagsInput from 'react-tagsinput'
-import 'react-tagsinput/react-tagsinput.css'
+// import TagsInput from 'react-tagsinput'
+// import 'react-tagsinput/react-tagsinput.css'
 import '../class.css'
 
 const customStylesModal = {

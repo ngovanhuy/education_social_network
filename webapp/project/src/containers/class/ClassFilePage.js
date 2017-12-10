@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import ClassFiles from "../../components/class/ClassFiles";
 import {classActions} from "../../actions";
-import {classService} from "../../services/classService";
 
 class ClassFilePage extends Component{
 

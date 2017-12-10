@@ -3,11 +3,9 @@ import {connect} from 'react-redux'
 import PostAddAttachment from "./PostAddAttachment";
 import NewPostFooter from "./NewPostFooter";
 import {defaultConstants} from "../../../constants/defaultConstant";
-import {fileUtils} from "../../../utils/fileUtils";
-import {classActions} from "../../../actions/classActions";
+import {fileUtils} from "../../../utils";
 import {postConstants} from "../../../constants";
-import {postActions} from "../../../actions";
-import {userUtils} from "../../../utils";
+import {postActions, classActions} from "../../../actions";
 
 class PostCreateAnnouncement extends Component {
     constructor(props) {

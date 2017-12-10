@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
 import PostCreateAnnouncement from "./PostCreateAnnouncement";
 import PostCreateAssignment from "./PostCreateAssignment";
-import PostAddAttachment from "./PostAddAttachment";
-import NewPostFooter from "./NewPostFooter";
 import CreateEventModal from "../../event/views/CreateEventModal";
 import {eventActions} from "../../../actions";
 import {connect} from "react-redux";

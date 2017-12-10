@@ -3,14 +3,10 @@ import {Link} from 'react-router-dom'
 import ClassProfileInfo from "../commons/views/ClassProfileInfo";
 import {defaultConstants} from "../../constants/defaultConstant";
 import {fileUtils} from "../../utils/fileUtils";
-import {classConstants} from "../../constants/classConstants";
-import {userService} from "../../services/userService";
+import {classConstants} from "../../constants";
 import {connect} from 'react-redux'
-import {userActions} from "../../actions/userActions";
-import {classActions} from "../../actions/classActions";
+import {userActions, classActions} from "../../actions";
 import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
-import {classService} from "../../services";
-import {history} from "../../helpers/history";
 import {Redirect} from 'react-router'
 
 class Classes extends Component {

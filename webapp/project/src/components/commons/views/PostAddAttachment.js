@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
 import FileInput from '@ranyefet/react-file-input'
 import {fileUtils} from '../../../utils'
 import PostAttachmentsPreviewer from "./PostAttachmentsPreviewer";

@@ -1,15 +1,13 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import UserProfileInfo from './views/UserProfileInfo'
-import {appUtils, dateUtils, fileUtils, userUtils} from '../../utils'
+import {dateUtils, fileUtils, userUtils} from '../../utils'
 import './common.css'
 import Attachment from "./views/Attachment";
 import ReactPost from "./views/ReactPost";
-import Comment from "./views/Comment";
-import {defaultConstants, postConstants} from "../../constants";
-import {classActions, eventActions, postActions, userActions} from "../../actions";
+import {postConstants} from "../../constants";
+import {postActions} from "../../actions";
 import ClassProfileInfo from "./views/ClassProfileInfo";
 
 class Post extends Component {

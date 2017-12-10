@@ -1,6 +1,5 @@
-import {classService, postService} from "../services";
+import {postService} from "../services";
 import {classConstants, postConstants, userConstants} from "../constants";
-import {history} from "../helpers/history";
 
 export const postActions = {
     getPostsByUserId,

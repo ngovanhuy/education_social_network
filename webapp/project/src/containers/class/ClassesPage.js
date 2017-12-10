@@ -71,7 +71,6 @@ class ClassesPage extends Component {
         this.props.dispatch(classActions.insert(currentUser.id, className));
     }
 
-
     render() {
         const {classes, classUserJoined, classUserRequest, currentUser} = this.props
         const isTeacher = userUtils.checkIsTeacher(currentUser)

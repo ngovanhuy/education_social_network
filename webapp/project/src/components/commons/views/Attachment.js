@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
 import {fileUtils} from "../../../utils";
 
 const Attachment = ({attachment}) => {
