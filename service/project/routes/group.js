@@ -41,12 +41,14 @@ router.route('/search').get(groupController.searchGroupByName);
 router.route('/post/:groupID').get(groupController.checkGroupRequest, groupController.getAllPosts);
 router.route('/post/:groupID/:userID')
     .get(userController.checkUserRequest, groupController.checkGroupRequest, groupController.getPosts)
-    .post(fileController.arrayFileUpload, userController.checkUserRequest, groupController.checkGroupRequest, fileController.postFilesIfHave, postController.addPost, postController.getPost);
+    .post(fileController.arrayFileUpload, userController.checkUserRequest, groupController.checkGroupRequest, groupController.checkMemberInGroup, fileController.postFilesIfHave, postController.addPost, postController.getPost);
+
+// router.route('/topic/:groupID/:userID').get(userController.checkUserRequestIfHave, groupController.checkGroupRequest, postController.getPostsInTopic)
 router.route('/topic/:groupID')
-    .get(groupController.checkGroupRequest, postController.getPostsInTopic)
-    .post(groupController.checkGroupRequest, groupController.addTopic)
-    .put(groupController.checkGroupRequest, groupController.addTopic)
-    .delete(groupController.checkGroupRequest, groupController.removeTopic);
+    .get(groupController.checkGroupRequest, groupController.getTopics)
+    .post(userController.checkUserRequest, groupController.checkGroupRequest, groupController.addTopic)
+    .put(userController.checkUserRequest, groupController.checkGroupRequest,  groupController.addTopic)
+    .delete(userController.checkUserRequest, groupController.checkGroupRequest, groupController.removeTopic);
 router.route('/addtopics/:groupID').post(groupController.checkGroupRequest, groupController.addTopics);
 
 module.exports = router;

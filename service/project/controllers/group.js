@@ -609,34 +609,14 @@ async function getPosts(req, res) {
         let group = req.groups.group_request;
         let user = req.users.user_request;
         let postIDs = group.getPostIDForUsers(user);
-        let posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
-        let datas = posts.map(post => post.getBasicInfo());
-        // let basicPostIDs = basicPostIDs = group.getPublicScopePostID();
-        // let assigmentPostID = [];
-        // if (group.isMember(user)) {
-        //     basicPostIDs.concat(group.getProtectedScopePostID());
-        //     assigmentPostID = group.getPrivateScopePostID(user);
-        // }
-        // let datas = [];
-        // let basicPosts = [];
-        // let assigmentPosts = [];
-        // if (basicPostIDs.length > 0) {
-        //     basicPosts = await Post.find({_id: {$in: basicPostIDs}});
-        //     basicPosts = basicPosts.map(post => {
-        //         let _post = post.getBasicInfo();
-        //         _post.isAssigmentPost = false;
-        //         return _post;
-        //     });
-        // }
-        // if (assigmentPostID.length > 0) {
-        //     assigmentPosts = await Post.find({_id: {$in: assigmentPostID}});
-        //     assigmentPosts = assigmentPosts.map(post => {
-        //         let _post = post.getBasicInfo();
-        //         _post.isAssigmentPost = true;
-        //         return _post;
-        //     });
-        // }
-        // datas = basicPosts.concat(assigmentPosts);
+        let topicName = req.query.topicname;
+        let posts;
+        if (topicName) {
+            posts = await Post.find({isDeleted: false, _id: {$in: postIDs}, topics: {$elemMatch: {_id: topicName}}});
+        } else {
+            posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
+        }
+        let datas = posts.map(post => post.getBasicInfo(user));
         return res.status(200).json({
             code: 200,
             message: '',
@@ -670,7 +650,19 @@ function getTopics(req, res) {
         });
     }
 }
-
+function checkMemberInGroup(req, res, next) {
+    let group = req.groups.group_request;
+    let user = req.user.user_request;
+    if (!group.isMember(user)) {
+        return res.status(400).send({
+            code: 400,
+            message: 'User not member',
+            data: null,
+            error: error.message
+        });
+    }
+    return next();
+}
 async function addTopic(req, res) {
     try {
         let group = req.groups.group_request;
@@ -682,7 +674,7 @@ async function addTopic(req, res) {
         } else if (req.body.topicname) {
             topic = req.body.topicname;
         }
-        if (!topic) return res.status(400).json({code: 400, error: 'Topic name not exit'})
+        if (!topic) return res.status(400).json({code: 400, error: 'Topic name not exit'});
         if (!group.addTopic(topic)) {
             throw new Error("Add topic error");
         } else {
@@ -784,3 +776,4 @@ exports.addTopic = addTopic;
 exports.addTopics = addTopics;
 exports.removeTopic = removeTopic;
 exports.getAllPosts = getAllPosts;
+exports.checkMemberInGroup = checkMemberInGroup;
