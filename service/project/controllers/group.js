@@ -588,7 +588,7 @@ async function getAllPosts(req, res) {
         let user = req.users.user_request;
         let postIDs = group.getPostIDs();
         let posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
-        let datas = posts.map(post => post.getBasicInfo());
+        let datas = posts.map(post => post.getBasicInfo(user));
         return res.status(200).json({
             code: 200,
             message: '',

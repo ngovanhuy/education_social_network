@@ -195,7 +195,7 @@ async function updatePost(req, res) {
         return res.send({
             code: 200,
             message: 'Success',
-            data: post.getBasicInfo(),
+            data: post.getBasicInfo(user),
         });
     } catch (error) {
         return res.status(500).send({
@@ -401,7 +401,7 @@ async function getPostsInTopic(req, res) {
                 "group.id": group._id,
                 topics: {$elemMatch: {_id: topicName}}
             });
-            datas = posts.map(post => post.getBasicInfo());
+            datas = posts.map(post => post.getBasicInfo(user));
         }
         res.json({
             code: 200,
