@@ -652,7 +652,7 @@ function getTopics(req, res) {
 }
 function checkMemberInGroup(req, res, next) {
     let group = req.groups.group_request;
-    let user = req.user.user_request;
+    let user = req.users.user_request;
     if (!group.isMember(user)) {
         return res.status(400).send({
             code: 400,

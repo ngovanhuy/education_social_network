@@ -6,8 +6,7 @@ let userController = require('../controllers/user');
 let groupController = require('../controllers/group');
 //-------------------------POST_API---------------------//
 
-router.route('/').post(fileController.arrayFileUpload, userController.checkUserRequest, groupController.checkGroupRequest,
-    fileController.postFilesIfHave, postController.addPost, postController.getPost);
+router.route('/').post(fileController.arrayFileUpload, userController.checkUserRequest, groupController.checkGroupRequest, groupController.checkMemberInGroup, fileController.postFilesIfHave, postController.addPost, postController.getPost);
 router.route('/topic/:groupID').get(groupController.checkGroupRequest, postController.getPostsInTopic);
 
 router.route('/like/:postID')
