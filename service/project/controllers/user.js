@@ -894,12 +894,20 @@ async function searchUserByName(req, res) {
 async function getPosts(req, res) {
     try {
         let user = req.users.user_request;
-        let groups = await Groups.find({posts:{$elemMatch:{isDeleted: false, "options.members":{$elemMatch:{$eq: user._id}}}}});
+        // let groups = await Groups.find({posts:{$elemMatch:{isDeleted: false, "options.members":{$elemMatch:{$eq: user._id}}}}});
+        let groups = await Groups.find({_id: {$in: user.getClasssID()}});
         let postIDs = groups.reduce((postIDs, group) => {
             return postIDs.concat(group.getPostIDForUsers(user))
         },[]);
-        let posts = await Posts.find({_id: {$in : postIDs}});
-        let datas = posts.map(post => post.getBasicInfo());
+        // let posts = await Posts.find({_id: {$in : postIDs}});
+        let topicName = req.query.topicname;
+        let posts;
+        if (topicName) {
+            posts = await Posts.find({isDeleted: false, _id: {$in: postIDs}, topics: {$elemMatch: {_id: topicName}}});
+        } else {
+            posts = await Posts.find({isDeleted: false, _id: {$in: postIDs}});
+        }
+        let datas = posts.map(post => post.getBasicInfo(user));
         return res.send({
             code: 200,
             message: 'Success',

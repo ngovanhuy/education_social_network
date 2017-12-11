@@ -97,7 +97,7 @@ PostSchema.pre('save', function (callback) {
     return callback();
 });
 
-function getBasicInfo() {
+function getBasicInfo(user = null) {
     return {
         id: this._id,
         title: this.title,
@@ -113,6 +113,7 @@ function getBasicInfo() {
         })),
         topics: this.topics.filter(topic => topic.isDeleted === false).map(topic => topic._id),
         postType: this.postType,
+        isUserLiked: this.isUserLiked(user),
         isAssigmentPost: this.postType === 100,
         countComments: this.countComments,
         countLikes: this.countLikes,
@@ -167,6 +168,7 @@ function getLikes() {
 
 function isUserLiked(user) {
     if (!user) return false;
+    if (!this.likes) return false;
     return !!this.likes.find(like => like.isDeleted === false && like._id === user._id);
 }
 

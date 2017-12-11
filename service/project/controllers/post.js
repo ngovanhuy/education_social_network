@@ -48,10 +48,11 @@ async function checkPostRequest(req, res, next) {
 function getPost(req, res) {
     try {
         let post = req.posts.post_requested;
+        let user = req.users.user_request;
         return res.send({
             code: 200,
             message: 'Success',
-            data: post.getBasicInfo(),
+            data: post.getBasicInfo(user),
         });
     } catch (error) {
         return res.status(500).send({
@@ -67,13 +68,6 @@ async function addPost(req, res, next) {
     try {
         let group = req.groups.group_request;
         let user = req.users.user_request;
-        if (!group.isMember(user)) {
-            return res.status(400).send({
-                code: 400,
-                data: null,
-                error: 'User not member'
-            });
-        }
         let currentFiles = req.fileitems.files_saved;//req.fileitems.file_saved;
         let title = req.body.title;
         let content = req.body.content;
@@ -201,7 +195,7 @@ async function updatePost(req, res) {
         return res.send({
             code: 200,
             message: 'Success',
-            data: post.getBasicInfo(),
+            data: post.getBasicInfo(user),
         });
     } catch (error) {
         return res.status(500).send({
@@ -397,6 +391,7 @@ async function getPostsInTopic(req, res) {
     try {
         let datas = [];
         let group = req.groups.group_request;
+        let user = req.users.user_request;
         let topicName = req.query.topicname;
         if (!topicName) {
             datas = group.getTopics();
@@ -406,7 +401,7 @@ async function getPostsInTopic(req, res) {
                 "group.id": group._id,
                 topics: {$elemMatch: {_id: topicName}}
             });
-            datas = posts.map(post => post.getBasicInfo());
+            datas = posts.map(post => post.getBasicInfo(user));
         }
         res.json({
             code: 200,
