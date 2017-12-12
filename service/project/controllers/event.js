@@ -63,8 +63,8 @@ async function getEventsInfo(req, res) {
     return res.json({
         code: 200,
         message: 'Success',
-        length: events.length,
-        data: events.map(event => event.getBasicInfo()),
+        length: events ? events.length : 0,
+        data: events ? events.map(event => event.getBasicInfo()) : [],
     });
 }
 async function getEventInfo(req, res) {
