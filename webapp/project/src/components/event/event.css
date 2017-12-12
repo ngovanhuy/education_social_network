@@ -367,8 +367,8 @@
   width: 386px;
   height: 202px; }
 .create-event-modal .event-photo-preview .btn-remove-event-photo {
-  top: 10px;
-  right: 95px; }
+  top: 0px;
+  right: 50px; }
 .create-event-modal textarea {
   max-width: 454px;
   max-height: 100px; }
