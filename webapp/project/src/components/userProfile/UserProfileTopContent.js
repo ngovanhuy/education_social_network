@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import FileInput from '@ranyefet/react-file-input'
 import './userProfile.css'
-import {DOMAIN_SERVICE, defaultConstants} from "../../constants";
-import {appUtils, fileUtils, userUtils} from "../../utils";
+import {defaultConstants} from "../../constants";
+import {fileUtils, userUtils} from "../../utils";
 
 class UserProfileTopContent extends Component {
     render() {

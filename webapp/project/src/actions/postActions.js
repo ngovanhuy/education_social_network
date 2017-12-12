@@ -1,12 +1,9 @@
-import {classService, postService} from "../services";
+import {postService} from "../services";
 import {classConstants, postConstants, userConstants} from "../constants";
-import {history} from "../helpers/history";
 
 export const postActions = {
     getPostsByUserId,
-    getPostsByClassId,
     getPostsByClassIdUserId,
-    getPostsByClassIdTopicName,
     insert,
     getComments,
     insertComment,
@@ -31,27 +28,11 @@ function getPostsByUserId(userId) {
     function failure(error) { return { type: userConstants.USERS_GETPOSTS_FAILURE, error } }
 }
 
-function getPostsByClassId(classId) {
+function getPostsByClassIdUserId(classId, userId, topicName) {
     return dispatch => {
         dispatch(request());
 
-        postService.getPostsByClassId(classId)
-            .then(
-                response => dispatch(success(response.data)),
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: classConstants.CLASSES_GETPOSTS_REQUEST } }
-    function success(posts) { return { type: classConstants.CLASSES_GETPOSTS_SUCCESS, posts } }
-    function failure(error) { return { type: classConstants.CLASSES_GETPOSTS_FAILURE, error } }
-}
-
-function getPostsByClassIdUserId(classId, userId) {
-    return dispatch => {
-        dispatch(request());
-
-        postService.getPostsByClassIdUserId(classId, userId)
+        postService.getPostsByClassIdUserId(classId, userId, topicName)
             .then(
                 response => dispatch(success(response.data)),
                 error => dispatch(failure(error))
@@ -61,22 +42,6 @@ function getPostsByClassIdUserId(classId, userId) {
     function request() { return { type: classConstants.CLASSES_GETPOSTSBYUSER_REQUEST } }
     function success(posts) { return { type: classConstants.CLASSES_GETPOSTSBYUSER_SUCCESS, posts } }
     function failure(error) { return { type: classConstants.CLASSES_GETPOSTSBYUSER_FAILURE, error } }
-}
-
-function getPostsByClassIdTopicName(classId, topicName) {
-    return dispatch => {
-        dispatch(request());
-
-        postService.getPostsByTopicName(classId, topicName)
-            .then(
-                response => dispatch(success(response.data)),
-                error => dispatch(failure(error))
-            );
-    };
-
-    function request() { return { type: classConstants.CLASSES_GETPOSTSBYTOPIC_REQUEST } }
-    function success(posts) { return { type: classConstants.CLASSES_GETPOSTSBYTOPIC_SUCCESS, posts } }
-    function failure(error) { return { type: classConstants.CLASSES_GETPOSTSBYTOPIC_FAILURE, error } }
 }
 
 function insert(classId, userId, title, content, fileUpload, scopeType, topic, isSchedule, members, startTime, endTime) {

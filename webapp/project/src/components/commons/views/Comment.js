@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import UserProfileInfo from "./UserProfileInfo";
 import ReactComment from "./ReactComment";
 import NewComment from "./NewComment";
-import {dateUtils, fileUtils, userUtils} from "../../../utils";
-import {defaultConstants, userConstants} from "../../../constants";
+import {dateUtils, fileUtils} from "../../../utils";
+import {defaultConstants} from "../../../constants";
 
 class Comment extends Component {
     render() {

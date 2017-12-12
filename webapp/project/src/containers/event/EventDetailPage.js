@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import '../../components/class/class.css'
@@ -8,7 +7,6 @@ import EventTopContent from "../../components/event/EventTopContent";
 import UserProfileInfo from "../../components/commons/views/UserProfileInfo";
 import {classActions, eventActions} from "../../actions";
 import {appUtils, fileUtils, userUtils} from "../../utils";
-import {defaultConstants} from "../../constants";
 import PageNotFound from "../../components/commons/PageNotFound";
 
 class EventDetailPage extends Component {

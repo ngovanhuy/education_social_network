@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import * as FileUtil from '../../../utils/fileUtils'
 
 class PostAttachmentsPreviewer extends Component{
     constructor(props) {

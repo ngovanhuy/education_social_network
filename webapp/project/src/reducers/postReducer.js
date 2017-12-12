@@ -1,4 +1,4 @@
-import {classConstants, postConstants, userConstants} from '../constants'
+import {postConstants} from '../constants'
 
 function normalizePost(posts, state) {
     return posts.reduce((rs, post) => {

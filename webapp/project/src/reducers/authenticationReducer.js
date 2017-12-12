@@ -1,4 +1,4 @@
-import {classConstants, userConstants} from '../constants';
+import {userConstants} from '../constants';
 
 export function authentication(state = {}, action) {
     switch (action.type) {

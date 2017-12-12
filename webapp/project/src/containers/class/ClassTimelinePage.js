@@ -20,6 +20,9 @@ class ClassTimelinePage extends Component {
         const {classId, currentUser} = this.props;
         if (currentUser) {
             this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
+        } else {
+            var currentUserId = userUtils.getCurrentUserId();
+            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUserId));
         }
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
@@ -41,8 +44,11 @@ class ClassTimelinePage extends Component {
     }
 
     render() {
-        const {classDetail, classId, currentUser, loading, eventsUpcommingOfClass, postsByUser, topics} = this.props
-        const recentFiles = (classDetail && classDetail.files) ? classDetail.files.slice(0, 3) : []
+        const {classDetail, classId, currentUser, loading, eventsUpcommingOfClass, postsByUser, topics, files} = this.props
+        var recentFiles = (files) ? files : []
+        recentFiles = (recentFiles && recentFiles.length > 0) && recentFiles.sort(function (a, b) {
+            return new Date(b.createDate) - new Date(a.createDate);
+        });
         const isTeacher = userUtils.checkIsTeacher(currentUser)
 
         var posts = []
@@ -99,7 +105,7 @@ class ClassTimelinePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail, postsByUser, topics} = state.classes
+    const {classDetail, postsByUser, topics, files} = state.classes
     const {currentUser} = state.authentication
     const {eventsUpcommingOfClass} = state.events
     var loading = appUtils.checkLoading(state)
@@ -110,6 +116,7 @@ const mapStateToProps = (state, ownProps) => {
         postsByUser,
         currentUser,
         eventsUpcommingOfClass,
+        files,
         loading
     }
 }

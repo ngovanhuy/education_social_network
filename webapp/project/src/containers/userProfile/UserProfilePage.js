@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import IntroProfiles from "../../components/userProfile/IntroProfiles";
 import Feed from "../../components/commons/Feed";
 import {postActions, userActions} from "../../actions";
-import {userService} from "../../services";
 import {postConstants} from "../../constants";
 import PageNotFound from "../../components/commons/PageNotFound";
 import {appUtils} from "../../utils";

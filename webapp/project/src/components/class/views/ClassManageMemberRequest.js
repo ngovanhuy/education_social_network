@@ -2,11 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import UserProfileInfo from "../../commons/views/UserProfileInfo";
 import {classActions} from "../../../actions";
-import {defaultConstants} from "../../../constants/defaultConstant";
-import {fileUtils} from "../../../utils/fileUtils";
-import {userService} from "../../../services/userService";
-import {userActions} from "../../../actions/userActions";
-import {userUtils} from "../../../utils";
+import {userUtils, fileUtils} from "../../../utils";
+import {userActions} from "../../../actions";
 import {userConstants} from "../../../constants";
 
 class ClassManageMemberRequest extends Component {
@@ -61,7 +58,7 @@ class ClassManageMemberRequest extends Component {
     }
 
     render() {
-        const {classDetail} = this.props
+        const {classDetail, requests} = this.props
         return (
             <div>
                 <div className="row">
@@ -72,9 +69,9 @@ class ClassManageMemberRequest extends Component {
                             </div>
                             <div className="ui-box-content">
                                 {
-                                    (classDetail.requests && classDetail.requests.length > 0) ?
+                                    (requests && requests.length > 0) ?
                                         (
-                                            classDetail.requests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, classDetail.id, index))
+                                            requests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, classDetail.id, index))
                                         ) : ''
                                 }
                             </div>
@@ -87,9 +84,10 @@ class ClassManageMemberRequest extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {classDetail} = state.classes
+    const {classDetail, requests} = state.classes
     return {
-        classDetail
+        classDetail,
+        requests
     }
 }
 

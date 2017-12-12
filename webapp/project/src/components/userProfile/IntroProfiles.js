@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
 import {dateUtils, userUtils} from "../../utils";
 
 // const renderIntro = (intro, index) => {

@@ -1,7 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
-
 import './event.css'
 import ClassProfileInfo from "../commons/views/ClassProfileInfo";
 import UserProfileInfo from "../commons/views/UserProfileInfo";

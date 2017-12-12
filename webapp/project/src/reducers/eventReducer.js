@@ -190,6 +190,23 @@ export function events(state = {loading: false, filters:{}, items: [], eventsUpc
                 eventDetail: {},
                 error: action.error
             };
+        case eventConstants.EVENTS_INSERTMULTI_REQUEST:
+            return {
+                ...state,
+            };
+        case eventConstants.EVENTS_INSERTMULTI_SUCCESS:
+            return {
+                ...state,
+                items: [
+                    ...state.items,
+                    action.events
+                ]
+            };
+        case eventConstants.EVENTS_INSERTMULTI_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            };
         default:
             return state
     }

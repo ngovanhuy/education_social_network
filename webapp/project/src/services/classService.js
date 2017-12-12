@@ -66,11 +66,17 @@ function getFiles(classId) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function insert(userId, name) {
+function insert(userId, name, membersInvited) {
+    var members = []
+    if (membersInvited && membersInvited.length > 0) {
+        for (var i = 0; i < membersInvited.length; i++) {
+            members.push(membersInvited[i].id)
+        }
+    }
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
-        body: JSON.stringify({name})
+        body: JSON.stringify({name, members})
     };
     const url = DOMAIN_SERVICE + '/groups/create/' + userId;
     return fetch(url, requestOptions)
@@ -149,10 +155,14 @@ function deleteClass(classId, userId) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function insertTopic(classId, topicName) {
+function insertTopic(classId, userId, topicName) {
     const requestOptions = {
         method: 'POST',
-        headers: authHeader()
+        headers: authHeader(),
+        body: JSON.stringify({
+            "userID": userId
+        })
+
     };
     const url = DOMAIN_SERVICE + '/groups/topic/' + classId + "?topicname=" + topicName;
     return fetch(url, requestOptions)

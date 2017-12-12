@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
 import Comment from "./views/Comment";
 import './common.css';
 import {postActions} from "../../actions";

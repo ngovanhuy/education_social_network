@@ -5,6 +5,7 @@ export const userUtils = {
     renderFullName,
     renderSourceProfilePictureDefault,
     renderProfileImageOfUser,
+    getCurrentUserId,
 }
 
 function checkIsTeacher(user) {
@@ -35,4 +36,12 @@ function renderProfileImageOfUser(userId) {
     if (userId)
         return DOMAIN_SERVICE + "/users/profileImage/" + userId;
     return defaultConstants.USER_PROFILE_PICTURE_URL_NONE;
+}
+
+function getCurrentUserId() {
+    let user = JSON.parse(localStorage.getItem('user'))
+    if (user) {
+        return user.id
+    }
+    return 0
 }

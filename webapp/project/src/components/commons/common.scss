@@ -68,6 +68,36 @@ ul.nav {
 .post-detail {
   padding: 10px 10px 0 10px;
   .post-context {
+    .post-context-left{
+      float: left;
+      display: flex;
+      .post-is-assignment{
+        -webkit-align-items: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-shrink: 0;
+        flex-shrink: 0;
+        -webkit-justify-content: center;
+        justify-content: center;
+        height: 5rem;
+        width: 5rem;
+        margin-right: 15px;
+        background-color: $main-color;
+        .post-assignment-image{
+          background-position: -7.5rem -88.1rem;
+          height: 2.4rem;
+          width: 2.4rem;
+          background-image: url('/images/images.svg');
+          background-repeat: no-repeat;
+          background-size: 10.5rem,121.4rem;
+          flex-shrink: 0;
+        }
+      }
+    }
     .post-user-profile-picture {
       width: 50px;
       height: 50px;

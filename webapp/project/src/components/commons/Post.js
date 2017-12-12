@@ -1,15 +1,13 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import UserProfileInfo from './views/UserProfileInfo'
-import {appUtils, dateUtils, fileUtils, userUtils} from '../../utils'
+import {dateUtils, fileUtils, userUtils} from '../../utils'
 import './common.css'
 import Attachment from "./views/Attachment";
 import ReactPost from "./views/ReactPost";
-import Comment from "./views/Comment";
-import {defaultConstants, postConstants} from "../../constants";
-import {classActions, eventActions, postActions, userActions} from "../../actions";
+import {postConstants} from "../../constants";
+import {postActions} from "../../actions";
 import ClassProfileInfo from "./views/ClassProfileInfo";
 
 class Post extends Component {
@@ -62,8 +60,16 @@ class Post extends Component {
         return (
             <div className="post-detail">
                 <div className="post-context clearfix">
-                    <img className="post-user-profile-picture img-circle"
-                         src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}></img>
+                    <div className="post-context-left">
+                        {
+                            post.isAssigmentPost &&
+                                <div className="post-is-assignment">
+                                    <div className="post-assignment-image"></div>
+                                </div>
+                        }
+                        <img className="post-user-profile-picture img-circle"
+                             src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}></img>
+                    </div>
                     <div className="post-context-content">
                         <span className="post-context-user-group">
                             <span className="post-context-user">

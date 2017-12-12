@@ -115,7 +115,7 @@ $main-color: rgba(146, 181, 88, 1);
   //}
   .event-photo {
     float: left;
-    img{
+    img {
       width: 100px;
       height: 70px;
     }
@@ -130,12 +130,12 @@ $main-color: rgba(146, 181, 88, 1);
     .event-location {
       margin: 5px 0;
       color: rgba(0, 0, 0, 0.55);
-      i.fa{
+      i.fa {
         margin-right: 15px;
       }
     }
-    .event-start{
-      i.fa{
+    .event-start {
+      i.fa {
         margin-right: 10px;
       }
     }
@@ -166,8 +166,8 @@ $main-color: rgba(146, 181, 88, 1);
     i {
       margin-right: 8px;
     }
-    .event-location{
-      i.fa{
+    .event-location {
+      i.fa {
         margin-right: 15px;
       }
     }
@@ -197,7 +197,7 @@ $main-color: rgba(146, 181, 88, 1);
     padding: 10px 0;
     font-size: 16px;
     color: #000;
-    .events-header-title{
+    .events-header-title {
       margin-right: 100px;
       font-weight: bold;
     }
@@ -209,8 +209,8 @@ $main-color: rgba(146, 181, 88, 1);
         .show-filter-content-button {
           height: 34px;
         }
-        .controls{
-          .input-group{
+        .controls {
+          .input-group {
             width: 450px;
           }
         }
@@ -234,12 +234,12 @@ $main-color: rgba(146, 181, 88, 1);
             &:first-of-type {
               margin-top: 10px;
             }
-            .DateRangePicker{
-              .DateInput{
+            .DateRangePicker {
+              .DateInput {
                 font-size: 16px;
                 line-height: 20px;
                 width: 110px;
-                .DateInput_input{
+                .DateInput_input {
                   font-size: 16px;
                   line-height: 20px;
                   padding: 8px;
@@ -247,11 +247,11 @@ $main-color: rgba(146, 181, 88, 1);
               }
             }
           }
-          .form-bottom{
+          .form-bottom {
             margin-bottom: 15px;
             margin-right: 33px;
-            .btn{
-              &:first-of-type{
+            .btn {
+              &:first-of-type {
                 margin-right: 10px;
               }
             }
@@ -265,7 +265,7 @@ $main-color: rgba(146, 181, 88, 1);
     .change-view-style {
       float: right;
       display: inline-block;
-      .current{
+      .current {
         background: #E6ECF0;
       }
     }
@@ -472,12 +472,12 @@ $main-color: rgba(146, 181, 88, 1);
         margin: 10px;
       }
       .event-location {
-        i.fa{
+        i.fa {
           margin-right: 15px;
         }
       }
-      .event-start{
-        i.fa{
+      .event-start {
+        i.fa {
           margin-right: 10px;
         }
       }
@@ -540,5 +540,13 @@ $main-color: rgba(146, 181, 88, 1);
   textarea {
     max-width: 454px;
     max-height: 100px;
+  }
+  .frequency-weekly {
+    .frequency-weekly-days-select {
+      .day-select {
+        display: inline-block;
+        width: 50px;
+      }
+    }
   }
 }

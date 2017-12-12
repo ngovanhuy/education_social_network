@@ -14,6 +14,7 @@ export const eventService = {
     getById,
     insert,
     update,
+    insertMulti,
     delete: _delete,
 };
 
@@ -129,6 +130,32 @@ function update(userId, classId, imageUpload, title, content, location, context,
     data.append("startTime", startTime)
     data.append("endTime", endTime)
     return axios.put(url, data);
+}
+
+function insertMulti(classId, userId, imageUpload, title, location, content, startTime, endTime, periods) {
+    const url = DOMAIN_SERVICE + '/events/create'
+    const data = new FormData();
+    if (imageUpload) {
+        data.append('imageUpload', imageUpload);
+    }
+    data.append("userID", userId)
+    var context = eventConstants.EVENT_CONTEXT.SYSTEM
+    if (classId && classId > 0) {
+        data.append("groupID", classId)
+        context = eventConstants.EVENT_CONTEXT.GROUP
+    }
+    data.append("title", title)
+    data.append("content", content)
+    data.append("location", location)
+    data.append("context", context)
+    data.append("startTime", startTime)
+    data.append("endTime", endTime)
+    if(periods && periods.length > 0){
+        for(var i = 0; i < periods.length; i++){
+            data.append("periods", periods[i])
+        }
+    }
+    return axios.post(url, data);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

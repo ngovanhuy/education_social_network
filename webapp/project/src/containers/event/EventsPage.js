@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import '../../components/class/class.css'
-import EventRightmenu from "../../components/event/EventRightmenu";
 import EventLeftmenu from "../../components/event/EventLeftmenu";
 import EventsAgenda from "../../components/event/views/EventsAgenda";
 import {eventActions} from "../../actions";

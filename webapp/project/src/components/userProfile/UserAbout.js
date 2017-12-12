@@ -145,7 +145,7 @@ class UserAbout extends Component {
                             <div className="col-sm-4">
                                 <div className="form-group">
                                     <label htmlFor="birthday">Birthday</label>
-                                    <Datetime timeFormat={false} inputFormat="MM/DD/YYYY"
+                                    <Datetime inputProps={{readOnly:true}} timeFormat={false} inputFormat="MM/DD/YYYY"
                                               value={birthday}
                                               onChange={(data) => this.setState({birthday: Datetime.moment(data).format("MM/DD/YYYY")})}/>
                                 </div>

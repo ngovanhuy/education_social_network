@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux";
-import {classService} from "../../../services";
-import {history} from "../../../helpers/history";
 import {classActions} from "../../../actions";
 import Modal from 'react-modal';
 

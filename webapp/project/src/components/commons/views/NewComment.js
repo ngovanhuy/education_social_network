@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import FileInput from '@ranyefet/react-file-input'
 import '../common.css'
-import {fileUtils, userUtils} from "../../../utils";
-import {defaultConstants, postConstants} from "../../../constants";
+import {fileUtils} from "../../../utils";
+import {defaultConstants} from "../../../constants";
 import {postActions} from "../../../actions";
-
 
 class NewComment extends Component {
     constructor(props) {

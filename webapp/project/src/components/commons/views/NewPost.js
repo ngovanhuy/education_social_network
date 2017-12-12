@@ -2,12 +2,11 @@ import React, {Component} from 'react'
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
 import PostCreateAnnouncement from "./PostCreateAnnouncement";
 import PostCreateAssignment from "./PostCreateAssignment";
-import PostAddAttachment from "./PostAddAttachment";
-import NewPostFooter from "./NewPostFooter";
 import CreateEventModal from "../../event/views/CreateEventModal";
 import {eventActions} from "../../../actions";
 import {connect} from "react-redux";
 import {dateUtils, userUtils} from "../../../utils";
+import {eventConstants} from "../../../constants";
 
 class NewPost extends Component {
     constructor() {
@@ -27,11 +26,26 @@ class NewPost extends Component {
         this.setState({modalIsOpen: false});
     }
 
-    handleCreateEvent = (imageUpload, title, location, content, start, end) => {
+    handleCreateEvent = (imageUpload, title, location, content, start, end, frequencyValue, frequencies) => {
         this.setState({modalCreateEventIsOpen: false});
         const {user, classDetail} = this.props
-        this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location,
-            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
+        if(frequencyValue == eventConstants.FREQUENCY.ONCE){
+            this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location,
+                content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
+        } else {
+            var periods = dateUtils.convertFrequencyInfoToEventTimes(frequencyValue, frequencies)
+            // console.log(periods)
+            var eventStartRequest = {}, eventEndRequest = {}
+            if(frequencyValue == eventConstants.FREQUENCY.DAILY){
+                eventStartRequest = frequencies.daily.startDate
+                eventEndRequest = frequencies.daily.endDate
+            } else if(frequencyValue == eventConstants.FREQUENCY.WEEKLY){
+                eventStartRequest = frequencies.weekly.startDate
+                eventEndRequest = frequencies.weekly.endDate
+            }
+            this.props.dispatch(eventActions.insertMulti(classDetail.id, user.id, imageUpload, title, location, content,
+                dateUtils.convertDateTimeToISO(eventStartRequest), dateUtils.convertDateTimeToISO(eventEndRequest), periods));
+        }
     }
 
     render() {

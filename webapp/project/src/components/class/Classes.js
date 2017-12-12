@@ -3,14 +3,10 @@ import {Link} from 'react-router-dom'
 import ClassProfileInfo from "../commons/views/ClassProfileInfo";
 import {defaultConstants} from "../../constants/defaultConstant";
 import {fileUtils} from "../../utils/fileUtils";
-import {classConstants} from "../../constants/classConstants";
-import {userService} from "../../services/userService";
+import {classConstants} from "../../constants";
 import {connect} from 'react-redux'
-import {userActions} from "../../actions/userActions";
-import {classActions} from "../../actions/classActions";
+import {userActions, classActions} from "../../actions";
 import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
-import {classService} from "../../services";
-import {history} from "../../helpers/history";
 import {Redirect} from 'react-router'
 
 class Classes extends Component {
@@ -41,20 +37,17 @@ class Classes extends Component {
         this.props.dispatch(userActions.deleteClassRequest(userId, classId))
     }
 
-    handleLeaveClass = (classDetail, userId) => {
-        var linkRedirect = '/classes'
-        this.setState({
-            fireRedirect: true,
-            linkRedirect: linkRedirect
-        })
-        this.props.dispatch(classActions.deleteMember(classDetail.id, userId))
-        this.props.dispatch(userActions.getClassJoined(userId))
-        if (classDetail.memberCount > 1) {
-            this.props.dispatch(classActions.getMembers(classDetail.id))
-        } else {
-            this.props.dispatch(classActions.deleteClass(classDetail.id, userId))
-        }
-    }
+    // handleLeaveClass = (classDetail, userId) => {
+    //     const {currentUser} = this.props
+    //     this.props.dispatch(classActions.deleteMember(classDetail.id, userId, currentUser.id))
+    //     this.props.dispatch(userActions.getClassJoined(currentUser.id))
+    //     var linkRedirect = '/'
+    //     this.setState({
+    //         modalLeaveClassWarningIsOpen: false,
+    //         fireRedirect: true,
+    //         linkRedirect: linkRedirect
+    //     })
+    // }
 
     renderButtonOfUserWithClass(classDetail) {
         const {currentUser} = this.props
@@ -81,14 +74,13 @@ class Classes extends Component {
         } else if (classDetail.statusOfCurrentUser == classConstants.STATUS_OF_USER_IN_CLASS.JOINED) {
             return (
                 <div className="button-cancel-request">
-                    <a className="btn btn-white" onClick={this.openModalLeaveClass}>
-                        <i className="fa fa-times"></i>
-                        Leave Class
+                    <a className="btn btn-white">
+                        Joined
                     </a>
-                    <LeaveClassWarningModal modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
-                                            closeModal={this.closeModalLeaveClass}
-                                            onSubmit={() => this.handleLeaveClass(classDetail, currentUser.id)}
-                                            classDetail={classDetail}/>
+                    {/*<LeaveClassWarningModal modalIsOpen={this.state.modalLeaveClassWarningIsOpen}*/}
+                                            {/*closeModal={this.closeModalLeaveClass}*/}
+                                            {/*onSubmit={() => this.handleLeaveClass(classDetail, currentUser.id)}*/}
+                                            {/*classDetail={classDetail}/>*/}
                 </div>
             )
         }

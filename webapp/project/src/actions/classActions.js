@@ -119,7 +119,7 @@ function insert(userId, name, membersInvited) {
     return dispatch => {
         dispatch(request());
 
-        classService.insert(userId, name)
+        classService.insert(userId, name, membersInvited)
             .then(
                 response => {
                     dispatch(success(response.data));
@@ -249,11 +249,11 @@ function uploadFile(classId, file, userId) {
     function failure(error) { return { type: classConstants.CLASSES_UPLOADFILE_FAILURE, error } }
 }
 
-function insertTopic(classId, topicName) {
+function insertTopic(classId, userId, topicName) {
     return dispatch => {
         dispatch(request());
 
-        classService.insertTopic(classId, topicName)
+        classService.insertTopic(classId, userId, topicName)
             .then(
                 response => {
                     dispatch(success());

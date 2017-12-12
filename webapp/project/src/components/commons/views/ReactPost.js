@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
-import {classActions, eventActions, postActions} from "../../../actions";
-import {postConstants} from "../../../constants";
+import {postActions} from "../../../actions";
 
 class ReactPost extends Component {
     constructor(props) {
@@ -35,17 +32,20 @@ class ReactPost extends Component {
             <div className="post-reacts clearfix">
                 <div className="post-react favourite">
                     {
-                        favouritedPost ? (
-                            <a href="javascript:;" className="favourited"
-                               onClick={() => this.handleUnFavouritePost(post.id, currentUser.id)}>
-                                <i className="fa fa-heart-o"></i>
-                                <span>Unfavourite</span>
-                            </a>
-                        ) : (
-                            <a href="javascript:;" onClick={() => this.handleFavouritePost(post.id, currentUser.id)}>
-                                <i className="fa fa-heart-o"></i>
-                                <span>Favourite</span>
-                            </a>
+                        post &&
+                        (
+                            (post.isUserLiked || favouritedPost) ? (
+                                <a href="javascript:;" className="favourited"
+                                   onClick={() => this.handleUnFavouritePost(post.id, currentUser.id)}>
+                                    <i className="fa fa-heart-o"></i>
+                                    <span>Unfavourite</span>
+                                </a>
+                            ) : (
+                                <a href="javascript:;" onClick={() => this.handleFavouritePost(post.id, currentUser.id)}>
+                                    <i className="fa fa-heart-o"></i>
+                                    <span>Favourite</span>
+                                </a>
+                            )
                         )
                     }
                     <span className="badge badge-primary badge-small">{post.countLikes}</span>

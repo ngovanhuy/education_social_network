@@ -4,8 +4,6 @@ import axios from 'axios';
 
 export const postService = {
     getPostsByUserId,
-    getPostsByClassId,
-    getPostsByTopicName,
     getPostsByClassIdUserId,
     insert,
     getComments,
@@ -25,30 +23,15 @@ function getPostsByUserId(userId) {
     return fetch(url, requestOptions).then(handleResponse);
 }
 
-function getPostsByClassId(classId) {
+function getPostsByClassIdUserId(classId, userId, topicName) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
-    const url = DOMAIN_SERVICE + '/groups/post/' + classId;
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-function getPostsByTopicName(classId, topicName) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-    const url = DOMAIN_SERVICE + '/groups/topic/' + classId + "?topicname=" + topicName;
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-function getPostsByClassIdUserId(classId, userId) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-    const url = DOMAIN_SERVICE + '/groups/post/' + classId + "/" + userId;
+    var url = DOMAIN_SERVICE + '/groups/post/' + classId + "/" + userId;
+    if(topicName){
+        url += "?topicname=" + topicName
+    }
     return fetch(url, requestOptions).then(handleResponse);
 }
 

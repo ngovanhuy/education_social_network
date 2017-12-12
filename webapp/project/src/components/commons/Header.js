@@ -1,14 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
-
 import './common.css';
 import CreateClassModal from "../class/views/CreateClassModal";
-import {defaultConstants} from "../../constants";
-import {classActions} from "../../actions/classActions";
-import {fileUtils} from "../../utils/fileUtils";
-import {userUtils} from "../../utils/userUtils";
+import {classActions} from "../../actions";
+import {fileUtils, userUtils} from "../../utils";
 
 class Header extends Component {
     constructor() {
@@ -31,7 +27,7 @@ class Header extends Component {
     handleCreateClass = (className, membersInvited) => {
         const {currentUser} = this.props
         this.setState({modalIsOpen: false});
-        this.props.dispatch(classActions.insert(currentUser.id, className));
+        this.props.dispatch(classActions.insert(currentUser.id, className, membersInvited));
     }
 
     render() {

@@ -178,25 +178,6 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 postsByUser: [],
                 error: action.error
             };
-        case classConstants.CLASSES_GETPOSTSBYTOPIC_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: ''
-            };
-        case classConstants.CLASSES_GETPOSTSBYTOPIC_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                postsByTopic: action.posts
-            };
-        case classConstants.CLASSES_GETPOSTSBYTOPIC_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                postsByTopic: [],
-                error: action.error
-            };
         case classConstants.CLASSES_GETEVENTS_REQUEST:
             return {
                 ...state,
@@ -290,15 +271,6 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                             } : post
                         )
                     ) : [],
-                postsByTopic: (state.postsByTopic && state.postsByTopic.length > 0) ?
-                    (
-                        state.postsByTopic.map(post => post.id == action.data.post.postID ?
-                            {
-                                ...post,
-                                comments: action.data.comments
-                            } : post
-                        )
-                    ) : []
             };
         case classConstants.CLASSES_GETCOMMENTS_FAILURE:
             return {
@@ -319,15 +291,6 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 postsByUser: (state.postsByUser && state.postsByUser.length > 0) ?
                     (
                         state.postsByUser.map(post => post.id == action.data.post.postID ?
-                            {
-                                ...post,
-                                favourites: action.data.likes
-                            } : post
-                        )
-                    ) : [],
-                postsByTopic: (state.postsByTopic && state.postsByTopic.length > 0) ?
-                    (
-                        state.postsByTopic.map(post => post.id == action.data.post.postID ?
                             {
                                 ...post,
                                 favourites: action.data.likes
@@ -364,15 +327,6 @@ export function classes(state = {loading: false, items: [], classDetail: {}}, ac
                 postsByUser: (state.postsByUser && state.postsByUser.length > 0) &&
                 (
                     state.postsByUser.map(post => post.id == action.postDetail.id ?
-                        {
-                            ...post,
-                            ...action.postDetail,
-                        } : post
-                    )
-                ),
-                postsByTopic: (state.postsByTopic && state.postsByTopic.length > 0) &&
-                (
-                    state.postsByTopic.map(post => post.id == action.postDetail.id ?
                         {
                             ...post,
                             ...action.postDetail,

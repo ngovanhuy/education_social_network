@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/event/event.css'
 import ClassEvents from "../../components/class/ClassEvents";
 import {classActions, eventActions} from "../../actions";
-import {eventUtils} from "../../utils";
 
 class ClassEventPage extends Component {
     componentWillMount() {

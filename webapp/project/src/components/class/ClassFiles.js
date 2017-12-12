@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { connect } from 'react-redux'
 import UserProfileInfo from "../commons/views/UserProfileInfo";
 import FileInput from '@ranyefet/react-file-input'
 import {dateUtils, fileUtils} from "../../utils";
@@ -35,7 +34,7 @@ class ClassFiles extends Component{
                                 </div>
                             ) : ''
                     }
-                    <div className="file-create-time">{dateUtils.convertISOToLocaleDateString(file.createDate)}</div>
+                    <div className="file-create-time">{dateUtils.convertISOToLocaleString(file.createDate)}</div>
                 </div>
                 <div className="dropdown pull-right action-with-file">
                     <a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">
