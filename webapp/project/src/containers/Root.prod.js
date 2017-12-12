@@ -24,6 +24,7 @@ import AnnouncementsPage from "./announcement/AnnouncementsPage";
 import ClassCalendarPage from "./class/ClassCalendarPage";
 import {RegisterPage} from "./authen/RegisterPage";
 import UserProfilePage from "./userProfile/UserProfilePage";
+import {PrivateRoute} from "../components/commons/PrivateRoute";
 
 const Root = ({ store }) => (
   <Provider store={store}>
