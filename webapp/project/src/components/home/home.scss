@@ -73,6 +73,9 @@ $screen-lg-min: 1200px;
   .school-profile-picture {
     img {
       width: 100%;
+      @media (min-width: $screen-sm-min) {
+        height: 250px;
+      }
     }
   }
   .home-feed {
@@ -82,6 +85,20 @@ $screen-lg-min: 1200px;
       }
       .feed-content {
         margin-top: 20px;
+        .post-detail {
+          .post-content-info {
+            .files {
+              .file {
+                .file-content {
+                  @media (max-width: $screen-xs-max) {
+                    width: 40%;
+                    max-width: 50%;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -112,13 +129,6 @@ $screen-lg-min: 1200px;
           .user-profile-info {
             display: inline-block;
           }
-        }
-      }
-    }
-    .home-calendar {
-      @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-        .rbc-toolbar {
-          font-size: 12px;
         }
       }
     }

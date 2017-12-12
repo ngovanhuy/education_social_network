@@ -9,9 +9,9 @@ import {userConstants} from "../../../constants";
 class ClassManageMemberRequest extends Component {
 
     componentWillMount() {
-        const {classDetail} = this.props;
-        this.props.dispatch(classActions.getById(classDetail.id));
-        this.props.dispatch(classActions.getRequests(classDetail.id));
+        const {classId} = this.props;
+        this.props.dispatch(classActions.getById(classId));
+        this.props.dispatch(classActions.getRequests(classId));
     }
 
     renderMemberRequest = (memberRequest, classId, index) => {
@@ -58,7 +58,7 @@ class ClassManageMemberRequest extends Component {
     }
 
     render() {
-        const {classDetail, requests} = this.props
+        const {classId, requests} = this.props
         return (
             <div>
                 <div className="row">
@@ -71,7 +71,7 @@ class ClassManageMemberRequest extends Component {
                                 {
                                     (requests && requests.length > 0) ?
                                         (
-                                            requests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, classDetail.id, index))
+                                            requests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, classId, index))
                                         ) : ''
                                 }
                             </div>
@@ -84,9 +84,8 @@ class ClassManageMemberRequest extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {classDetail, requests} = state.classes
+    const {requests} = state.classes
     return {
-        classDetail,
         requests
     }
 }

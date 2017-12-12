@@ -8,7 +8,7 @@ class EventsPinboard extends Component {
 
     renderEventDetail = (event, index) => {
         return (
-            <div key={index} className="col-sm-3">
+            <div key={index} className="col-sm-4 col-md-3">
                 <div className="event-pinboard clearfix">
                     <div className="event-photo">
                         <img

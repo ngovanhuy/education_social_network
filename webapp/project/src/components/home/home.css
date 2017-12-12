@@ -42,10 +42,17 @@
       margin-left: 5px; }
 .home-page .school-profile-picture img {
   width: 100%; }
+  @media (min-width: 768px) {
+    .home-page .school-profile-picture img {
+      height: 250px; } }
 .home-page .home-feed .feed .no-post {
   margin: 20px 0px; }
 .home-page .home-feed .feed .feed-content {
   margin-top: 20px; }
+  @media (max-width: 767px) {
+    .home-page .home-feed .feed .feed-content .post-detail .post-content-info .files .file .file-content {
+      width: 40%;
+      max-width: 50%; } }
 .home-page .home-school-about .school-map img {
   height: 100px;
   width: 100%; }
@@ -61,8 +68,5 @@
     border-bottom: none; }
   .home-page .home-rightmenu .home-announcements .announcement-detail .announcement-time-user .user-profile-info {
     display: inline-block; }
-@media (min-width: 992px) and (max-width: 1199px) {
-  .home-page .home-rightmenu .home-calendar .rbc-toolbar {
-    font-size: 12px; } }
 
 /*# sourceMappingURL=home.css.map */

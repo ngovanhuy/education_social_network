@@ -85,7 +85,7 @@ class ClassTimelinePage extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-xs-12">
-                                        <div className="class-feed">
+                                        <div className="class-feed clearfix">
                                             <Feed feed={posts} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
                                         </div>
                                     </div>

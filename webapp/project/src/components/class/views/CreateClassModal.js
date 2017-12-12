@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Modal from 'react-modal';
+import Modal from 'react-responsive-modal';
 // import TagsInput from 'react-tagsinput'
 // import 'react-tagsinput/react-tagsinput.css'
 import '../class.css'
@@ -8,31 +8,6 @@ import {userService} from "../../../services";
 import Select from 'react-select';
 import fetch from 'isomorphic-fetch'
 import {DOMAIN_SERVICE} from "../../../constants";
-
-const customStylesModal = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.75)'
-    },
-    content: {
-        position: 'absolute',
-        top: '25%',
-        left: '25%',
-        right: '25%',
-        bottom: 'unset',
-        border: '1px solid #ccc',
-        background: '#fff',
-        overflow: 'auto',
-        WebkitOverflowScrolling: 'touch',
-        borderRadius: '4px',
-        outline: 'none',
-        padding: '20px'
-    }
-};
 
 const customTagsInput = {
     inputProps: {
@@ -66,19 +41,19 @@ class CreateClassModal extends Component {
         this.setState({[name]: value});
     }
 
-    onChangeValue (value) {
+    onChangeValue(value) {
         this.setState({
             membersInvited: value,
         });
     }
 
-    gotoUser (value, event) {
+    gotoUser(value, event) {
         window.open(`/users/${value.id}`);
     }
 
-    getUsers (input, callback) {
+    getUsers(input, callback) {
         if (!input) {
-            return Promise.resolve({ options: [] });
+            return Promise.resolve({options: []});
         }
         return userService.searchByUsername(input)
             .then((response) => {
@@ -94,15 +69,9 @@ class CreateClassModal extends Component {
         var modalTitle = 'Create New Group';
 
         return (
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={this.props.closeModal}
-                style={customStylesModal}
-                contentLabel="Create Class Modal">
-                <h2>{modalTitle}</h2>
-                <a href='#' className="mm-popup__close"
-                   data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
-                   onClick={this.props.closeModal}>×</a>
+            <Modal open={modalIsOpen}
+                   onClose={this.props.closeModal} little>
+                <h2 className="title-modal">{modalTitle}</h2>
                 <form className="create-class-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Name your class</label>
@@ -118,7 +87,7 @@ class CreateClassModal extends Component {
                             <AsyncComponent multi={true} value={membersInvited}
                                             onChange={this.onChangeValue} onValueClick={this.gotoUser}
                                             valueKey="id" labelKey="username" loadOptions={this.getUsers}
-                                            backspaceRemoves={true} />
+                                            backspaceRemoves={true}/>
                         </div>
                     </div>
                     <div className="modal-bottom clearfix">

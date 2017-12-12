@@ -4,8 +4,8 @@ import {withRouter} from 'react-router-dom'
 import Classes from "../../components/class/Classes";
 import CreateClassModal from "../../components/class/views/CreateClassModal";
 import {userActions, classActions} from "../../actions";
-import {classConstants} from "../../constants/classConstants";
-import {userUtils} from "../../utils/userUtils";
+import {classConstants} from "../../constants";
+import {userUtils} from "../../utils";
 
 const updateStatusOfClass = (classDetail, classUserJoined, classUserRequest) => {
     var classNewDetail = {
@@ -58,11 +58,15 @@ class ClassesPage extends Component {
 
     componentWillMount() {
         this.props.dispatch(classActions.getAll());
-        const {user} = this.props
-        if (user) {
-            this.props.dispatch(userActions.getClassJoined(user.id));
-            this.props.dispatch(userActions.getClassRequest(user.id));
+        const {currentUser} = this.props
+        var currentUserId = 0
+        if (currentUser) {
+            currentUserId = currentUser.id
+        } else {
+            currentUserId = userUtils.getCurrentUserId();
         }
+        this.props.dispatch(userActions.getClassJoined(currentUserId));
+        this.props.dispatch(userActions.getClassRequest(currentUserId));
     }
 
     handleCreateClass = (className, membersInvited) => {
@@ -118,11 +122,10 @@ class ClassesPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const classes = state.classes.items
     const {currentUser} = state.authentication
-    const {user, classUserJoined, classUserRequest} = state.users
+    const {classUserJoined, classUserRequest} = state.users
     return {
         currentUser,
         classes,
-        user,
         classUserJoined,
         classUserRequest,
     }

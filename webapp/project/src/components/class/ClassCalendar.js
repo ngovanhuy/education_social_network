@@ -16,7 +16,11 @@ let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 class ClassCalendar extends Component {
     constructor(props) {
         super(props)
-        this.state = {modalIsOpen: false}
+        this.state = {
+            modalIsOpen: false,
+            startTimeSelected: {},
+            endTimeSelected: {}
+        }
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleCreateEvent = this.handleCreateEvent.bind(this);
@@ -36,19 +40,19 @@ class ClassCalendar extends Component {
     }
 
     handleCreateEvent = (imageUpload, title, location, content, start, end, frequencyValue, frequencies) => {
-        this.setState({modalCreateEventIsOpen: false});
+        this.setState({modalIsOpen: false});
         const {currentUser, classDetail} = this.props
-        if(frequencyValue == eventConstants.FREQUENCY.ONCE){
+        if (frequencyValue == eventConstants.FREQUENCY.ONCE) {
             this.props.dispatch(eventActions.insert(classDetail.id, currentUser.id, imageUpload, title, location,
                 content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
         } else {
             var periods = dateUtils.convertFrequencyInfoToEventTimes(frequencyValue, frequencies)
             // console.log(periods)
             var eventStartRequest = {}, eventEndRequest = {}
-            if(frequencyValue == eventConstants.FREQUENCY.DAILY){
+            if (frequencyValue == eventConstants.FREQUENCY.DAILY) {
                 eventStartRequest = frequencies.daily.startDate
                 eventEndRequest = frequencies.daily.endDate
-            } else if(frequencyValue == eventConstants.FREQUENCY.WEEKLY){
+            } else if (frequencyValue == eventConstants.FREQUENCY.WEEKLY) {
                 eventStartRequest = frequencies.weekly.startDate
                 eventEndRequest = frequencies.weekly.endDate
             }
@@ -61,8 +65,11 @@ class ClassCalendar extends Component {
         const {events, classDetail} = this.props
         return (
             <div className="class-calendar">
-                <CreateEventModal classDetail={classDetail} closeModal={this.closeModal} modalIsOpen={this.state.modalIsOpen}
-                                  onSubmit={this.handleCreateEvent}/>
+                <CreateEventModal classDetail={classDetail} closeModal={this.closeModal}
+                                  modalIsOpen={this.state.modalIsOpen}
+                                  onSubmit={this.handleCreateEvent}
+                                  startTimeSelected={this.state.startTimeSelected}
+                                  endTimeSelected={this.state.endTimeSelected}/>
                 <ClassEventsCalendarHeadline classDetail={classDetail} currentPage="calendar" openModal={this.openModal}
                                              onSubmit={this.handleCreateEvent}/>
                 <BigCalendar
@@ -73,11 +80,13 @@ class ClassCalendar extends Component {
                     step={60}
                     defaultDate={new Date()}
                     onSelectEvent={event => this.handleClickEvent(event)}
-                    onSelectSlot={(slotInfo) => alert(
-                        `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-                        `\nend: ${slotInfo.end.toLocaleString()}` +
-                        `\naction: ${slotInfo.action}`
-                    )}
+                    onSelectSlot={(slotInfo) => {
+                        this.setState({
+                            startTimeSelected: new Date(slotInfo.start.toLocaleString()),
+                            endTimeSelected: new Date(slotInfo.end.toLocaleString()),
+                            modalIsOpen: true
+                        })
+                    }}
                 />
             </div>
         )

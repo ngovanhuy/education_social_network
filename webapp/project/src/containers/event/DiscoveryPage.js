@@ -37,7 +37,7 @@ class DiscoveryPage extends Component {
                         <div className="row">
                             <div className="events clearfix">
                                 <div className="events-header clearfix">
-                                    <span className="events-header-title">Events in school</span>
+                                    <span className="events-header-title events-filter-title">Events in school</span>
                                     <DiscoveryFilter/>
                                     <div className="change-view-style">
                                         <div className="btn-group">

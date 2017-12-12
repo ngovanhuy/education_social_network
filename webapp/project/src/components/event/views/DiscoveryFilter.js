@@ -2,10 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
-import {DateRangePicker} from 'react-dates';
-import {classActions, eventActions, postActions, userActions} from "../../../actions";
+import Datetime from 'react-datetime'
+import 'react-datetime/css/react-datetime.css'
+import {classActions, eventActions, userActions} from "../../../actions";
 import {dateUtils} from "../../../utils";
 
 const fillUsersInfoForSelectTag = (users) => {
@@ -69,6 +68,7 @@ class DiscoveryFilter extends Component {
             dateUtils.convertDateTimeToISO(startDate), dateUtils.convertDateTimeToISO(endDate)))
         this.props.dispatch(classActions.getAll())
         this.props.dispatch(userActions.getAll())
+        document.addEventListener('click', this.hideFilterContent, false);
     }
 
     showFilterContent(event) {
@@ -77,10 +77,15 @@ class DiscoveryFilter extends Component {
         })
     }
 
-    hideFilterContent(event) {
-        this.setState({
-            showFilterContent: false
-        })
+    hideFilterContent(e) {
+        let buttonDropdown = this.refs.buttonDropdown;
+        let showMenu = this.refs.showMenu;
+
+        if (showMenu !== undefined && showMenu !== null && !showMenu.contains(e.target) && !buttonDropdown.contains(e.target)) {
+            this.setState({
+                showFilterContent: false
+            })
+        }
     }
 
     handleChange(e) {
@@ -160,13 +165,15 @@ class DiscoveryFilter extends Component {
                                    onKeyPress={this.onKeyPress}/>
                             <div className="input-group-btn">
                                 <a className="show-filter-content-button btn btn-white" href="javascript:;"
-                                   onClick={this.showFilterContent}>
+                                   onClick={this.showFilterContent}
+                                   ref="buttonDropdown">
                                     <b className="caret"></b>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div className={'discovery-filter-content' + (!showFilterContent ? ' hide-filter-content ' : '')}>
+                    <div ref="showMenu"
+                         className={'discovery-filter-content' + (!showFilterContent ? ' hide-filter-content ' : '')}>
                         <div className="clearfix form-group filter-content-detail">
                             <label className="col-sm-4 control-label">Search in Class</label>
                             <div className="col-sm-8">
@@ -192,17 +199,45 @@ class DiscoveryFilter extends Component {
                         <div className="clearfix form-group filter-content-detail">
                             <label className="col-sm-4 control-label">Date</label>
                             <div className='col-sm-8'>
-                                <DateRangePicker
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    onDatesChange={({startDate, endDate}) => {
-                                        this.setState({startDate, endDate})
-                                    }}
-                                    focusedInput={focusedInput}
-                                    onFocusChange={(focusedInput) => {
-                                        this.setState({focusedInput})
-                                    }}
-                                />
+                                {/*<DateRangePicker*/}
+                                {/*startDate={startDate}*/}
+                                {/*endDate={endDate}*/}
+                                {/*onDatesChange={({startDate, endDate}) => {*/}
+                                {/*this.setState({startDate, endDate})*/}
+                                {/*}}*/}
+                                {/*focusedInput={focusedInput}*/}
+                                {/*onFocusChange={(focusedInput) => {*/}
+                                {/*this.setState({focusedInput})*/}
+                                {/*}}*/}
+                                {/*/>*/}
+
+                                <div className='row'>
+                                    <div className='col-sm-6'>
+                                        <Datetime inputProps={{readOnly: true}} timeFormat={false}
+                                                  inputFormat="DD/MM/YYYY"
+                                                  value={startDate}
+                                                  onChange={(event) => {
+                                                      this.setState({
+                                                          startDate: (new Date(event.format("YYYY-MM-DD")).setHours(0,0,0,0))
+                                                      })
+                                                  }}
+                                        />
+                                    </div>
+                                    <div className='col-sm-6'>
+                                        <Datetime inputProps={{readOnly: true}} timeFormat={false}
+                                                  inputFormat="DD/MM/YYYY"
+                                                  value={endDate}
+                                                  onChange={(event) => {
+                                                      this.setState({
+                                                          endDate: (new Date(event.format("YYYY-MM-DD"))).setHours(0,0,0,0)
+                                                      })
+                                                  }}
+                                                  isValidDate={(current) => {
+                                                      return current.isAfter(Datetime.moment(startDate));
+                                                  }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="form-bottom pull-right clearfix">

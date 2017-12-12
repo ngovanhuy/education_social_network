@@ -1,32 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux";
 import {classActions} from "../../../actions";
-import Modal from 'react-modal';
-
-const customStylesModal = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.75)'
-    },
-    content: {
-        position: 'absolute',
-        top: '25%',
-        left: '25%',
-        right: '25%',
-        bottom: 'unset',
-        border: '1px solid #ccc',
-        background: '#fff',
-        overflow: 'auto',
-        WebkitOverflowScrolling: 'touch',
-        borderRadius: '4px',
-        outline: 'none',
-        padding: '20px'
-    }
-};
+import Modal from 'react-responsive-modal';
 
 class DeleteClass extends Component {
     constructor(props) {
@@ -58,19 +33,11 @@ class DeleteClass extends Component {
                 <div className="ui-box-title">
                     <span>Delete This Class</span>
                 </div>
-
                 <div className="ui-box-content">
                     <a className="btn btn-danger" onClick={() => this.openModal()}>Confirm delete</a>
-                    <Modal
-                        isOpen={this.state.showModalWarning}
-                        onRequestClose={this.closeModal}
-                        style={customStylesModal}
-                        contentLabel="Delete This Class?">
-                        <h2>Delete This Group?</h2>
-                        <a href="#" className="mm-popup__close"
-                           data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
-                           onClick={this.closeModal}>×
-                        </a>
+                    <Modal open={this.state.showModalWarning}
+                           onClose={this.closeModal} little>
+                        <h2 className="title-modal">Delete This Group?</h2>
                         <form className="form-horizontal" role="form">
                             <div className="form-group">
                                 <div className="col-sm-12">

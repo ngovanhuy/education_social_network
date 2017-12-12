@@ -34,36 +34,39 @@ class EventDetailPage extends Component {
                                     <EventLeftmenu currentPage="eventDetail" eventDetailTitle={eventDetail.title}/>
                                 </div>
                             </div>
-                            <div className="col-sm-7 event-main-content">
-                                <EventTopContent eventDetail={eventDetail}/>
-                                <div className="ui-box has-border-radius event-description clearfix">
-                                    <div className="ui-box-title">
-                                        <span>Details</span>
-                                    </div>
-                                    <div className="ui-box-content">
-                                        {eventDetail.content}
+                            <div className="col-sm-7">
+                                <div className="row">
+                                    <div className="event-main-content clearfix">
+                                        <EventTopContent eventDetail={eventDetail}/>
+                                        <div className="ui-box has-border-radius event-description clearfix">
+                                            <div className="ui-box-title">
+                                                <span>Details</span>
+                                            </div>
+                                            <div className="ui-box-content">
+                                                {eventDetail.content}
+                                            </div>
+                                        </div>
+                                        {
+                                            eventDetail.userCreate ?
+                                                (
+                                                    <div className="ui-box has-border-radius event-about-user clearfix">
+                                                        <div className="ui-box-title">
+                                                            <span>About {userUtils.renderFullName(eventDetail.userCreate.firstName, eventDetail.userCreate.lastName)}</span>
+                                                        </div>
+                                                        <div className="ui-box-content clearfix">
+                                                            <div className="user-profile-picture img-circle">
+                                                                <img className="img-circle"
+                                                                     src={eventDetail.userCreate && fileUtils.renderFileSource(eventDetail.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(eventDetail.userCreate.gender))}/>
+                                                            </div>
+                                                            <div className="user-detail">
+                                                                <UserProfileInfo user={eventDetail.userCreate}/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : ''
+                                        }
                                     </div>
                                 </div>
-                                {
-                                    eventDetail.userCreate ?
-                                        (
-                                            <div className="ui-box has-border-radius event-about-user clearfix">
-                                                <div className="ui-box-title">
-                                                    <span>About {userUtils.renderFullName(eventDetail.userCreate.firstName, eventDetail.userCreate.lastName)}</span>
-                                                </div>
-                                                <div className="ui-box-content clearfix">
-                                                    <div className="user-profile-picture img-circle">
-                                                        <img className="img-circle"
-                                                             src={eventDetail.userCreate && fileUtils.renderFileSource(eventDetail.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(eventDetail.userCreate.gender))}/>
-                                                    </div>
-                                                    <div className="user-detail">
-                                                        <UserProfileInfo user={eventDetail.userCreate}/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) : ''
-                                }
-
                             </div>
                         </div>
                         : <PageNotFound loading={loading}/>

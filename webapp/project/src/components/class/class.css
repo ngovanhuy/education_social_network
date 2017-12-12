@@ -97,6 +97,10 @@
   @media (max-width: 767px) {
     .class-feed .feed .feed-content {
       margin: 10px 0; } }
+  @media (max-width: 767px) {
+    .class-feed .feed .feed-content .post-detail .post-content-info .files .file .file-content {
+      width: 40%;
+      max-width: 50%; } }
 
 .class-events-upcomming {
   padding: 10px;
@@ -209,9 +213,6 @@
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px; }
-  @media (max-width: 991px) {
-    .class-calendar .rbc-calendar .rbc-toolbar .rbc-btn-group:last-of-type {
-      display: none; } }
 
 .class-events-calendar-headline {
   border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
@@ -323,27 +324,33 @@
       justify-content: flex-start;
       overflow: hidden;
       width: 60%;
-      margin-left: 10%; }
+      margin-left: 5%; }
       .classes .classes-content .class-detail .class-detail-left .class-profile-picture img {
         width: 80px;
         height: 80px;
         border-radius: 50%;
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); }
+        @media (max-width: 991px) {
+          .classes .classes-content .class-detail .class-detail-left .class-profile-picture img {
+            width: 50px;
+            height: 50px; } }
       .classes .classes-content .class-detail .class-detail-left .class-info {
         margin: 0 10px; }
         .classes .classes-content .class-detail .class-detail-left .class-info .class-full-name {
           display: inline-block;
           max-width: 250px;
           overflow: hidden;
-          padding-left: 0;
-          -o-text-overflow: ellipsis;
-          text-overflow: ellipsis;
-          white-space: nowrap; }
+          padding-left: 0; }
           @media (max-width: 767px) {
             .classes .classes-content .class-detail .class-detail-left .class-info .class-full-name {
               max-width: 100px; } }
     .classes .classes-content .class-detail .buttons {
-      width: 30%; }
+      width: 35%; }
+      .classes .classes-content .class-detail .buttons .button-cancel-request {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        word-break: break-all; }
 
 .class-manage .class-manage-leftmenu {
   padding: 10px 0; }
@@ -378,9 +385,9 @@
       display: inline-block;
       vertical-align: middle;
       margin-left: 20px; }
-      @media (max-width: 767px) {
+      @media (max-width: 991px) {
         .class-manage .class-manage-main-content .member-request .member-info .member-info-content {
-          width: 80%;
+          width: 75%;
           margin-bottom: 10px; } }
     .class-manage .class-manage-main-content .member-request .member-info .btn-group {
       vertical-align: middle; }

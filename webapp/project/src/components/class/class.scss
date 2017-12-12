@@ -150,6 +150,20 @@ $screen-lg-min: 1200px;
       @media (max-width: $screen-xs-max) {
         margin: 10px 0;
       }
+      .post-detail {
+        .post-content-info {
+          .files {
+            .file {
+              .file-content {
+                @media (max-width: $screen-xs-max) {
+                  width: 40%;
+                  max-width: 50%;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -321,17 +335,6 @@ $screen-lg-min: 1200px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px;
-  .rbc-calendar {
-    .rbc-toolbar {
-      @media (max-width: $screen-sm-max) {
-        .rbc-btn-group {
-          &:last-of-type {
-            display: none;
-          }
-        }
-      }
-    }
-  }
 }
 
 .class-events-calendar-headline {
@@ -484,13 +487,17 @@ $screen-lg-min: 1200px;
         justify-content: flex-start;
         overflow: hidden;
         width: 60%;
-        margin-left: 10%;
+        margin-left: 5%;
         .class-profile-picture {
           img {
             width: 80px;
             height: 80px;
             border-radius: 50%;
             box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15);
+            @media (max-width: $screen-sm-max) {
+              width: 50px;
+              height: 50px;
+            }
           }
         }
         .class-info {
@@ -500,9 +507,6 @@ $screen-lg-min: 1200px;
             max-width: 250px;
             overflow: hidden;
             padding-left: 0;
-            -o-text-overflow: ellipsis;
-            text-overflow: ellipsis;
-            white-space: nowrap;
             @media (max-width: $screen-xs-max) {
               max-width: 100px;
             }
@@ -510,7 +514,13 @@ $screen-lg-min: 1200px;
         }
       }
       .buttons {
-        width: 30%;
+        width: 35%;
+        .button-cancel-request {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          word-break: break-all;
+        }
       }
     }
   }
@@ -563,8 +573,8 @@ $screen-lg-min: 1200px;
           display: inline-block;
           vertical-align: middle;
           margin-left: 20px;
-          @media (max-width: $screen-xs-max) {
-            width: 80%;
+          @media (max-width: $screen-sm-max) {
+            width: 75%;
             margin-bottom: 10px;
           }
         }

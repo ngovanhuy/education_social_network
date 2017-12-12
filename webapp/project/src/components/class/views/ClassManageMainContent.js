@@ -5,12 +5,13 @@ import DeleteClass from "./DeleteClass";
 
 class ClassManageMainContent extends Component{
     renderMainContent = (currentViewLink) => {
+        const {classId} = this.props
         if(currentViewLink === "memberRequests"){
-            return <ClassManageMemberRequest/>
+            return <ClassManageMemberRequest classId={classId}/>
         } else if(currentViewLink === "changeClassDetail"){
-            return <ClassManageChangeDetail/>;
+            return <ClassManageChangeDetail classId={classId}/>;
         } else if(currentViewLink === "deleteClass"){
-            return <DeleteClass/>;
+            return <DeleteClass classId={classId}/>;
         }
     }
     render(){

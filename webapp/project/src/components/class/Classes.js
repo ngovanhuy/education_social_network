@@ -73,7 +73,7 @@ class Classes extends Component {
             )
         } else if (classDetail.statusOfCurrentUser == classConstants.STATUS_OF_USER_IN_CLASS.JOINED) {
             return (
-                <div className="button-cancel-request">
+                <div>
                     <a className="btn btn-white">
                         Joined
                     </a>

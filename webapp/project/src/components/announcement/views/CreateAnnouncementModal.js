@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Modal from 'react-modal';
+import Modal from 'react-responsive-modal';
 import '../announcement.css'
 
 const customStylesModal = {
@@ -47,15 +47,9 @@ class CreateAnnouncementModal extends Component {
         const {title, content} = this.state
         var modalTitle = 'Create New Announcement';
         return (
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={this.props.closeModal}
-                style={customStylesModal}
-                contentLabel="Create Announcement Modal">
-                <h2>{modalTitle}</h2>
-                <a href='#' className="mm-popup__close"
-                   data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
-                   onClick={this.props.closeModal}>×</a>
+            <Modal open={modalIsOpen}
+                   onClose={this.props.closeModal} little>
+                <h2 className="title-modal">{modalTitle}</h2>
                 <form className="create-announcement-modal form-horizontal" role="form">
                     <div className="form-group">
                         <label className="col-sm-3 control-label">Title</label>

@@ -5,8 +5,9 @@ import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import Feed from "../../components/commons/Feed";
 import {classActions, postActions} from "../../actions";
-import {userUtils} from "../../utils";
+import {appUtils, userUtils} from "../../utils";
 import {postConstants} from "../../constants";
+import PageNotFound from "../../components/commons/PageNotFound";
 
 class ClassTopicPage extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class ClassTopicPage extends Component {
     componentWillMount() {
         const {classId, topicName, currentUser} = this.props;
         var currentUserId = 0
-        if(currentUser){
+        if (currentUser) {
             currentUserId = currentUser.id
         } else {
             currentUserId = userUtils.getCurrentUserId();
@@ -37,7 +38,7 @@ class ClassTopicPage extends Component {
     }
 
     render() {
-        const {classDetail, classId, currentUser, topicName, postsByUser, topics, eventsByUser} = this.props
+        const {classDetail, classId, currentUser, topicName, postsByUser, topics, eventsByUser, loading} = this.props
         const isTeacher = userUtils.checkIsTeacher(currentUser)
 
         var posts = (postsByUser) ? postsByUser : []
@@ -50,23 +51,30 @@ class ClassTopicPage extends Component {
         return (
             <div>
                 <div className="container">
-                    <div className="col-sm-2">
-                        <div className="row">
-                            <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           classId={classId} currentPage="discussion"
-                                           currentTopic={topicName}/>
-                        </div>
-                    </div>
-                    <div className="col-sm-7 class-main-content">
-                        {/*<div className="row">*/}
-                        {/*<NewPost classDetail={classDetail} isTeacher={isTeacher}/>*/}
-                        {/*</div>*/}
-                        <div className="row">
-                            <div className="class-feed">
-                                <Feed feed={posts} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
+                    {
+                        (classDetail && classDetail.id) ?
+                            <div>
+                                <div className="col-sm-4 col-md-3">
+                                    <ClassLeftmenu classDetail={classDetail} topics={topics}
+                                                   classId={classId} currentPage="discussion"
+                                                   currentTopic={topicName}/>
+                                </div>
+                                <div className="col-sm-8 col-md-6 class-main-content">
+                                    {/*<div className="row">*/}
+                                    {/*<NewPost classDetail={classDetail} isTeacher={isTeacher}/>*/}
+                                    {/*</div>*/}
+                                    <div className="row">
+                                        <div className="col-xs-12">
+                                            <div className="class-feed clearfix">
+                                                <Feed feed={posts}
+                                                      contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                            : <PageNotFound loading={loading}/>
+                    }
                 </div>
             </div>
         )
@@ -78,6 +86,7 @@ const mapStateToProps = (state, ownProps) => {
     const topicName = ownProps.match.params.topicName
     const {classDetail, postsByUser, topics, eventsByUser} = state.classes
     const {currentUser} = state.authentication
+    var loading = appUtils.checkLoading(state)
     return {
         classId,
         topicName,
@@ -85,7 +94,8 @@ const mapStateToProps = (state, ownProps) => {
         classDetail,
         postsByUser,
         eventsByUser,
-        currentUser
+        currentUser,
+        loading
     }
 }
 

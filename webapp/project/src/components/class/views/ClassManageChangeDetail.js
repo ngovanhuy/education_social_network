@@ -18,10 +18,12 @@ class ClassManageChangeDetail extends Component {
     }
 
     componentWillMount() {
+        const {classDetail, classId} = this.props
+        this.props.dispatch(classActions.getById(classId))
         this.setState({
-            name: this.props.classDetail.name,
-            about: this.props.classDetail.about,
-            location: this.props.classDetail.location,
+            name: classDetail.name,
+            about: classDetail.about,
+            location: classDetail.location,
         });
     }
 

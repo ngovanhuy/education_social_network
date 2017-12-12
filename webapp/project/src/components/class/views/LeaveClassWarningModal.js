@@ -1,47 +1,15 @@
 import React, {Component} from 'react'
-import Modal from 'react-modal';
+import Modal from 'react-responsive-modal';
 import '../class.css'
-
-const customStylesModal = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.75)'
-    },
-    content: {
-        position: 'absolute',
-        top: '25%',
-        left: '25%',
-        right: '25%',
-        bottom: 'unset',
-        border: '1px solid #ccc',
-        background: '#fff',
-        overflow: 'auto',
-        WebkitOverflowScrolling: 'touch',
-        borderRadius: '4px',
-        outline: 'none',
-        padding: '20px'
-    }
-};
 
 class LeaveClassWarningModal extends Component {
     render() {
         const {userFullNameLeave, classDetail, modalIsOpen, onSubmit} = this.props
         var modalTitle = 'Leave This Group?';
         return (
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={this.props.closeModal}
-                style={customStylesModal}
-                contentLabel="Leave This Class?">
-                <h2>{modalTitle}</h2>
-                <a href="#" className="mm-popup__close"
-                   data-toggle="tooltip" data-placement="bottom" data-original-title="Close Modal"
-                   onClick={this.props.closeModal}>×
-                </a>
+            <Modal open={modalIsOpen}
+                   onClose={this.props.closeModal} little>
+                <h2 className="title-modal">{modalTitle}</h2>
                 <form className="form-horizontal" role="form">
                     <div className="form-group">
                         <div className="col-sm-12">

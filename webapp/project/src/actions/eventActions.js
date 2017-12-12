@@ -1,6 +1,7 @@
 import {eventConstants} from '../constants';
 import {eventService} from '../services';
 import {history} from "../helpers/history";
+import {classActions} from "./classActions";
 
 export const eventActions = {
     getAll,
@@ -270,7 +271,13 @@ function insertMulti(classId, userId, imageUpload, title, location, content, sta
             .then(
                 response => {
                     dispatch(success(response.data));
-                    history.push(`/events/calendar`);
+                    if(classId && classId > 0){
+                        dispatch(getEventsByClassId(classId))
+                        history.push(`/classes/${classId}/calendar`);
+                    }else {
+                        dispatch(getAll())
+                        history.push(`/events/calendar`);
+                    }
                 },
                 error => dispatch(failure(error))
             );
