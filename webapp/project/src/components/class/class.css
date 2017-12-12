@@ -90,10 +90,13 @@
   .class-topics .dropdown {
     float: left; }
   .class-topics .class-add-topic {
-    margin-top: 10px; }
+    margin-right: 5px; }
 
 .class-feed .feed .feed-content {
-  margin: 20px 15px; }
+  margin: 10px 0; }
+  @media (max-width: 767px) {
+    .class-feed .feed .feed-content {
+      margin: 10px 0; } }
 
 .class-events-upcomming {
   padding: 10px;
@@ -127,10 +130,23 @@
     font-size: 14px; }
 .add-member .form-control {
   font-size: 12px; }
+@media (min-width: 768px) and (max-width: 991px) {
+  .add-member .controls {
+    width: 100%; }
+    .add-member .controls .input-group {
+      width: 100%; } }
 .add-member .react-autosuggest__container .react-autosuggest__input {
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
-  border: 1px solid #ccc; }
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 100%; }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .add-member .react-autosuggest__container .react-autosuggest__input {
+      font-size: 14px;
+      padding-left: 5px;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px; } }
 
 .class-recent-files {
   margin-top: 20px;
@@ -138,10 +154,20 @@
   background-color: #fff; }
   .class-recent-files h3 {
     font-size: 16px; }
+  .class-recent-files .file .preview-file img {
+    width: 70px;
+    height: 70px; }
+  .class-recent-files .file .preview-file .document img {
+    padding: 20px; }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .class-recent-files .file .preview-file img {
+      width: 50px;
+      height: 50px; }
+    .class-recent-files .file .preview-file .document img {
+      padding: 10px; } }
 
 .class-files {
-  margin-left: 20px;
-  padding: 0px 10px 30px 10px;
+  padding: 0px 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px; }
@@ -159,124 +185,114 @@
           margin-right: 10px; }
   .class-files .file {
     margin-top: 10px; }
+    @media (max-width: 991px) {
+      .class-files .file .file-content-name {
+        width: 20%; } }
+    @media (max-width: 767px) {
+      .class-files .file .file-content-name {
+        width: 40%; } }
+    .class-files .file .preview-file img {
+      width: 70px;
+      height: 70px; }
+    .class-files .file .preview-file .document img {
+      padding: 20px; }
+    @media (min-width: 992px) and (max-width: 1199px) {
+      .class-files .file .preview-file img {
+        width: 50px;
+        height: 50px; }
+      .class-files .file .preview-file .document img {
+        padding: 10px; } }
 
 .class-calendar {
-  margin-left: 20px;
-  margin-top: 10px;
-  padding: 0px 10px 30px 10px;
-  background-color: #fff;
-  border: 0.1rem solid rgba(0, 0, 0, 0.12);
-  border-radius: 5px; }
-  .class-calendar .class-events-calendar-headline {
-    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
-    margin-bottom: 10px;
-    margin-top: 10px;
-    padding: 5px 0; }
-    .class-calendar .class-events-calendar-headline li span {
-      font-size: 16px;
-      margin-right: 10px; }
-    .class-calendar .class-events-calendar-headline li .btn:first-of-type {
-      margin-right: 10px; }
-    .class-calendar .class-events-calendar-headline li .btn .fa {
-      margin-right: 5px; }
-    .class-calendar .class-events-calendar-headline a {
-      color: #000; }
-      .class-calendar .class-events-calendar-headline a:hover {
-        text-decoration: none; }
-    .class-calendar .class-events-calendar-headline .current {
-      padding-bottom: 12px;
-      border-bottom: 4px solid blue; }
-    .class-calendar .class-events-calendar-headline ul {
-      margin: 0;
-      padding: 0;
-      white-space: nowrap;
-      list-style: none; }
-      .class-calendar .class-events-calendar-headline ul li {
-        display: inline-block;
-        list-style-type: none;
-        max-width: 100%;
-        position: relative;
-        vertical-align: middle; }
-
-.class-events {
-  margin-left: 20px;
   margin-top: 10px;
   padding: 0px 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12);
   border-radius: 5px; }
-  .class-events .class-events-calendar-headline {
-    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
-    margin-bottom: 10px;
-    margin-top: 10px;
-    padding: 5px 0; }
-    .class-events .class-events-calendar-headline li span {
-      font-size: 16px;
-      margin-right: 10px; }
-    .class-events .class-events-calendar-headline li .btn:first-of-type {
-      margin-right: 10px; }
-    .class-events .class-events-calendar-headline li .btn .fa {
-      margin-right: 5px; }
-    .class-events .class-events-calendar-headline a {
-      color: #000; }
-      .class-events .class-events-calendar-headline a:hover {
-        text-decoration: none; }
-    .class-events .class-events-calendar-headline .current {
-      padding-bottom: 12px;
-      border-bottom: 4px solid blue; }
-    .class-events .class-events-calendar-headline ul {
-      margin: 0;
-      padding: 0;
-      white-space: nowrap;
-      list-style: none; }
-      .class-events .class-events-calendar-headline ul li {
-        display: inline-block;
-        list-style-type: none;
-        max-width: 100%;
-        position: relative;
-        vertical-align: middle; }
+  @media (max-width: 991px) {
+    .class-calendar .rbc-calendar .rbc-toolbar .rbc-btn-group:last-of-type {
+      display: none; } }
 
-.class-members .class-members-headline {
-  margin: 10px 38px;
-  background-color: #fff;
-  border: 0.1rem solid rgba(0, 0, 0, 0.12);
-  border-radius: 5px; }
-  .class-members .class-members-headline div {
-    margin-top: 10px;
-    padding: 5px 0; }
-  .class-members .class-members-headline li span {
+.class-events-calendar-headline {
+  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 5px 0; }
+  .class-events-calendar-headline li span {
     font-size: 16px;
     margin-right: 10px; }
-  .class-members .class-members-headline li .btn:first-of-type {
+  .class-events-calendar-headline li .btn:first-of-type {
     margin-right: 10px; }
-  .class-members .class-members-headline li .btn .fa {
+  .class-events-calendar-headline li .btn .fa {
     margin-right: 5px; }
-  .class-members .class-members-headline a {
+  .class-events-calendar-headline a {
     color: #000; }
-    .class-members .class-members-headline a:hover, .class-members .class-members-headline a:focus {
+    .class-events-calendar-headline a:hover {
       text-decoration: none; }
-  .class-members .class-members-headline .current {
-    padding-bottom: 3px;
+  .class-events-calendar-headline .current {
+    padding-bottom: 12px;
     border-bottom: 4px solid blue; }
-  .class-members .class-members-headline ul {
+  .class-events-calendar-headline ul {
     margin: 0;
     padding: 0;
     white-space: nowrap;
     list-style: none; }
-    .class-members .class-members-headline ul li {
-      display: inline-block;
+    .class-events-calendar-headline ul li {
+      display: inline-flex;
       list-style-type: none;
       max-width: 100%;
       position: relative;
       vertical-align: middle; }
-.class-members .class-members-content .panel-member .panel-body {
-  display: flex; }
-  .class-members .class-members-content .panel-member .panel-body .dropdown {
-    margin: auto; }
-.class-members .class-members-content .panel-member .panel-member-col {
-  float: left; }
-  .class-members .class-members-content .panel-member .panel-member-col img {
-    width: 70px; }
+
+.class-events {
+  margin-top: 10px;
+  padding: 0px 10px;
+  background-color: #fff;
+  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  border-radius: 5px; }
+  .class-events .event-agenda:last-of-type {
+    border-bottom: none; }
+
+.class-members {
+  margin: 10px 0px;
+  padding-bottom: 15px;
+  background-color: #fff;
+  border: 0.1rem solid rgba(0, 0, 0, 0.12);
+  border-radius: 5px; }
+  .class-members .title {
+    margin: 10px 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px; }
+  .class-members .class-member {
+    background-color: rgba(0, 0, 0, 0.12);
+    padding: 10px;
+    display: inline-flex;
+    border-radius: 4px; }
+    .class-members .class-member .panel-member-col {
+      float: right;
+      margin: auto 0;
+      margin-left: 10px; }
+    @media (max-width: 767px) {
+      .class-members .class-member .member-info {
+        font-size: 14px; }
+      .class-members .class-member .panel-member-col {
+        margin-left: 0; } }
+  .class-members img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; }
+  .class-members .class-no-member {
+    margin: 0 15px; }
+
+.class-member-page .add-member {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px; }
+  .class-member-page .add-member .title {
+    margin-top: 0px;
+    font-size: 16px; }
 
 .create-class-modal .react-tagsinput .react-tagsinput-input {
   width: 150px; }
@@ -306,7 +322,7 @@
       display: flex;
       justify-content: flex-start;
       overflow: hidden;
-      width: 65%;
+      width: 60%;
       margin-left: 10%; }
       .classes .classes-content .class-detail .class-detail-left .class-profile-picture img {
         width: 80px;
@@ -323,8 +339,11 @@
           -o-text-overflow: ellipsis;
           text-overflow: ellipsis;
           white-space: nowrap; }
+          @media (max-width: 767px) {
+            .classes .classes-content .class-detail .class-detail-left .class-info .class-full-name {
+              max-width: 100px; } }
     .classes .classes-content .class-detail .buttons {
-      width: 25%; }
+      width: 30%; }
 
 .class-manage .class-manage-leftmenu {
   padding: 10px 0; }
@@ -359,6 +378,10 @@
       display: inline-block;
       vertical-align: middle;
       margin-left: 20px; }
+      @media (max-width: 767px) {
+        .class-manage .class-manage-main-content .member-request .member-info .member-info-content {
+          width: 80%;
+          margin-bottom: 10px; } }
     .class-manage .class-manage-main-content .member-request .member-info .btn-group {
       vertical-align: middle; }
 

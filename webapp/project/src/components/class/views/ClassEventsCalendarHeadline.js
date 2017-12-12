@@ -19,7 +19,7 @@ class ClassEventsCalendarHeadline extends Component {
                         </Link>
                     </li>
                     <li className="pull-right">
-                        <button className="btn btn-white">
+                        <button className="btn btn-white visible-lg">
                             <i className="fa fa-plus"></i>
                             Import Calendar
                         </button>

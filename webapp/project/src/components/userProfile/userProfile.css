@@ -1,17 +1,20 @@
 .top-content-user-profile .cover-photo {
   display: block;
   position: relative; }
+  @media (min-width: 1200px) {
+    .top-content-user-profile .cover-photo:hover .cover-cover-photo {
+      display: block; } }
   .top-content-user-profile .cover-photo img {
-    width: 100%;
-    height: 315px; }
+    width: 100%; }
+    @media (min-width: 768px) {
+      .top-content-user-profile .cover-photo img {
+        height: 315px; } }
   .top-content-user-profile .cover-photo .cover-cover-photo {
     display: none;
     top: 45px;
     left: 45px;
     z-index: 3;
     position: absolute; }
-  .top-content-user-profile .cover-photo:hover .cover-cover-photo {
-    display: block; }
 .top-content-user-profile .profile-picture {
   z-index: 4;
   top: 175px;
@@ -22,10 +25,20 @@
   padding: 1px;
   position: absolute;
   box-shadow: none; }
+  @media (min-width: 1200px) {
+    .top-content-user-profile .profile-picture:hover .cover-profile-picture {
+      display: block; } }
   .top-content-user-profile .profile-picture img {
     width: 175px;
     height: 175px;
-    background-color: #fff; }
+    background-color: #fff;
+    border: 4px solid #fff;
+    border-radius: 50%; }
+    @media (max-width: 767px) {
+      .top-content-user-profile .profile-picture img {
+        border: 2px solid #fff;
+        width: 100px;
+        height: 100px; } }
   .top-content-user-profile .profile-picture .cover-profile-picture {
     display: none;
     background-color: #CCCCCC;
@@ -42,14 +55,15 @@
       position: absolute;
       left: -25px;
       bottom: 15px; }
-  .top-content-user-profile .profile-picture:hover .cover-profile-picture {
-    display: block; }
 
 .timeline-headline {
   overflow: auto;
   clear: both;
   padding-left: 200px;
   background-color: #fff; }
+  @media (max-width: 767px) {
+    .timeline-headline {
+      padding-left: 120px; } }
   .timeline-headline ul li a {
     border-right: 1px solid #e9eaed;
     float: left;

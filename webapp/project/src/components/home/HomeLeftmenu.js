@@ -103,7 +103,7 @@ class HomeLeftmenu extends Component {
         return (
             <div className="home-leftmenu clearfix">
                 <div className="row">
-                    <div className="col-sm-12">
+                    <div className="hidden-xs col-sm-12">
                         <div className="school-logo">
                             <img src={schoolDetail.schoolLogoUrl}/>
                         </div>

@@ -70,18 +70,17 @@ class AddMember extends Component {
                 {
                     classDetail &&
                     <div className="add-member">
-                        <h3>
+                        <h3 className="title">
                             Add members
                             <Link to={`/classes/${classDetail.id}/members`}>
                                 <span className="pull-right">{classDetail.memberCount} members</span>
                             </Link>
                         </h3>
-
                         <div className="controls">
                             <div className="input-group">
-                            <span className="input-group-addon">
-                                <i className="fa fa-plus"></i>
-                            </span>
+                                <span className="input-group-addon hidden-sm">
+                                    <i className="fa fa-plus"></i>
+                                </span>
                                 {/*<input type="text" className="form-control" placeholder="Enter name or email"/>*/}
                                 <Autosuggest
                                     suggestions={suggestions}

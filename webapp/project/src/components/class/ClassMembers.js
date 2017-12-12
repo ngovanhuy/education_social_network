@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import {defaultConstants} from "../../constants";
 import {userUtils, fileUtils} from "../../utils";
 import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
-import {classActions} from "../../actions";
+import {classActions, postActions} from "../../actions";
 import {Redirect} from 'react-router'
 
 
@@ -55,6 +55,7 @@ class ClassMembers extends Component {
     }
 
     renderMember = (member, index) => {
+        const {membersIsTeacher} = this.props
         const {currentUser, classDetail} = this.props
         const isTeacher = userUtils.checkIsTeacher(currentUser)
         var userFullNameLeave = userUtils.renderFullName(member.firstName, member.lastName);
@@ -62,85 +63,71 @@ class ClassMembers extends Component {
             userFullNameLeave = ""
         }
         return (
-            <div key={index} className="col-sm-6 col-md-4 col-lg-3">
-                <div className="panel panel-default panel-member">
-                    <div className="panel-body">
-                        <Link to={`/users/${member.id}`}>
-                            <div className="text-center panel-member-col">
-                                <img
-                                    src={member && fileUtils.renderFileSource(member.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}
-                                    className="img-circle" alt="No Image"/>
-                                <h4 className="thin">
-                                    {userUtils.renderFullName(member.firstName, member.lastName)}
-                                </h4>
+            <div key={index} className={membersIsTeacher ? "col-xs-6 col-sm-6 col-md-4" : "col-xs-6 col-sm-4"}>
+                <div className="class-member">
+                    <Link to={`/users/${member.id}`}>
+                        <div className="text-center panel-member-col">
+                            <img
+                                src={member && fileUtils.renderFileSource(member.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}
+                                className="img-circle" alt="No Image"/>
+                            <div className="member-info">
+                                {userUtils.renderFullName(member.firstName, member.lastName)}
                             </div>
-                        </Link>
-                        {
-                            (isTeacher || member.id == currentUser.id) &&
-                            (
-                                <div className="dropdown panel-member-col">
-                                    <button data-toggle="dropdown" className="btn btn-white dropdown-toggle"
-                                            type="button">
-                                        <span className="fa fa-cog"></span>
-                                        <span className="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <ul role="menu" className="dropdown-menu pull-right-xs">
-                                        <li>
-                                            <a href="javascript:;" onClick={this.openModalLeaveClass}>
-                                                {
-                                                    (member.id == currentUser.id) ? "Leave This Class" : "Remove from Class"
-                                                }
-                                            </a>
-                                            <LeaveClassWarningModal
-                                                modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
-                                                closeModal={this.closeModalLeaveClass}
-                                                onSubmit={
-                                                    () => this.handleDeleteMember(classDetail, member.id)
-                                                }
-                                                classDetail={classDetail}
-                                                userFullNameLeave={userFullNameLeave}/>
-                                        </li>
-                                    </ul>
-                                </div>
-                            )
-                        }
-                    </div>
+                        </div>
+                    </Link>
+                    {
+                        (isTeacher || member.id == currentUser.id) &&
+                        (
+                            <div className="dropdown panel-member-col">
+                                <button data-toggle="dropdown" className="btn btn-white dropdown-toggle"
+                                        type="button">
+                                    <span className="fa fa-cog"></span>
+                                    <span className="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul role="menu" className="dropdown-menu pull-right-xs">
+                                    <li>
+                                        <a href="javascript:;" onClick={this.openModalLeaveClass}>
+                                            {
+                                                (member.id == currentUser.id) ? "Leave This Class" : "Remove from Class"
+                                            }
+                                        </a>
+                                        <LeaveClassWarningModal
+                                            modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
+                                            closeModal={this.closeModalLeaveClass}
+                                            onSubmit={
+                                                () => this.handleDeleteMember(classDetail, member.id)
+                                            }
+                                            classDetail={classDetail}
+                                            userFullNameLeave={userFullNameLeave}/>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         )
     }
 
     render() {
-        const {members, classMemberTitle} = this.props
+        const {members, membersIsTeacher} = this.props
+        var classMemberTitle = "Students"
+        if (membersIsTeacher) {
+            classMemberTitle = "Teachers"
+        }
         return (
-            <div className="class-members">
+            <div className="class-members clearfix">
                 {/*<ClassMembersHeadline currentHeadline="members" className={className}/>*/}
-                <div className="class-members-headline container-fluid-md clearfix">
-                    <div className="clearfix col-sm-12">
-                        <ul className="clearfix">
-                            <li>
-                                <span className='current'>{classMemberTitle}</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="class-members-content container-fluid-md clearfix">
-                    {
-                        members && members.length > 0 ?
-                            (
-                                members.map((member, index) => this.renderMember(member, index))
-                            ) :
-                            (
-                                <div className="col-sm-6 col-md-4 col-lg-3">
-                                    <div className="panel panel-default panel-member">
-                                        <div className="panel-body">
-                                            <p>No members</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                    }
-                </div>
+                <h3 className='title'>{classMemberTitle}</h3>
+                {
+                    members && members.length > 0 ?
+                        (
+                            members.map((member, index) => this.renderMember(member, index))
+                        ) :
+                        (
+                            <p className="class-no-member">No members</p>
+                        )
+                }
                 {this.state.fireRedirect && (
                     <Redirect to={this.state.linkRedirect}/>
                 )}

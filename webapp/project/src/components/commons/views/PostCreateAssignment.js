@@ -188,12 +188,12 @@ class PostCreateAssignment extends Component {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="control-label col-sm-1">Due</label>
-                                <div className='post-end-date col-sm-4'>
+                                <label className="control-label col-xs-12 col-sm-1">Due</label>
+                                <div className='post-end-date col-xs-8 col-sm-4'>
                                     <Datetime inputProps={{readOnly:true}} timeFormat={false} inputFormat="DD/MM/YYYY" value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
-                                <div className='post-end-time col-sm-3'>
+                                <div className='post-end-time col-xs-4 col-sm-3'>
                                     <Datetime inputProps={{readOnly:true}} dateFormat={false} value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>

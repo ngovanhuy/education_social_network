@@ -59,7 +59,7 @@ class NewPost extends Component {
                             <Tab>
                                 <div className="new-post-headline-content">
                                     <i className="fa fa-edit"></i>
-                                    Create announcement
+                                    <span>Announcement</span>
                                 </div>
                             </Tab>
                             {
@@ -68,7 +68,7 @@ class NewPost extends Component {
                                     <Tab>
                                         <div className="new-post-headline-content">
                                             <i className="fa fa-tasks"></i>
-                                            Create assignment
+                                            <span>Assignment</span>
                                         </div>
                                     </Tab>
                                 )

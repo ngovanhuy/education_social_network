@@ -83,9 +83,16 @@
     .event-agenda .event-photo img {
       width: 100px;
       height: 70px; }
+      @media (max-width: 991px) {
+        .event-agenda .event-photo img {
+          width: 50px;
+          height: 30px; } }
   .event-agenda .event-detail {
     float: left;
     margin-left: 10px; }
+    @media (max-width: 991px) {
+      .event-agenda .event-detail {
+        width: 70%; } }
     .event-agenda .event-detail .event-name {
       font-weight: bold;
       font-size: 16px; }

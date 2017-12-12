@@ -9,6 +9,8 @@ import {userActions, eventActions, postActions, announcementActions} from "../..
 import {appUtils, eventUtils} from "../../utils";
 import {postConstants} from "../../constants";
 import PageNotFound from "../../components/commons/PageNotFound";
+import HomeAnnouncementsNewest from "../../components/home/views/HomeAnnouncementsNewest";
+import HomeCalendar from "../../components/home/views/HomeCalendar";
 
 class HomePage extends Component {
     static defaultProps = {
@@ -58,10 +60,10 @@ class HomePage extends Component {
                     (user && user.id) ?
                         <div>
                             <div className="home-page clearfix">
-                                <div className="col-sm-2">
+                                <div className="col-xs-12 col-sm-3 col-md-2">
                                     <HomeLeftmenu schoolDetail={schoolDetail} classes={classUserJoined}/>
                                 </div>
-                                <div className="col-sm-10">
+                                <div className="col-xs-12 col-sm-9 col-md-10">
                                     <div className="row">
                                         <div className="col-sm-12">
                                             <div className="school-profile-picture">
@@ -70,13 +72,19 @@ class HomePage extends Component {
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-sm-8">
+                                        <div className="visible-sm col-sm-12">
+                                            <div className="home-rightmenu">
+                                                <HomeAnnouncementsNewest announcements={announcementsNewest}/>
+                                                <HomeCalendar events={eventsByUserAfterUpdateInfo}/>
+                                            </div>
+                                        </div>
+                                        <div className="col-xs-12 col-sm-12 col-md-8">
                                             <div className="home-feed">
                                                 <Feed feed={posts} user={user}
                                                       contextView={postConstants.CONTEXT_VIEW.IN_HOME_PAGE}/>
                                             </div>
                                         </div>
-                                        <div className="col-sm-4">
+                                        <div className="col-xs-12 hidden-sm col-md-4">
                                             <HomeRightmenu events={eventsByUserAfterUpdateInfo}
                                                            announcements={announcementsNewest}
                                                            schoolDetail={schoolDetail}/>

@@ -8,7 +8,7 @@ class EventsAgenda extends Component{
 
     renderEventDetail = (event, index) => {
         return (
-            <div key={index} className="col-sm-12">
+            <div key={index}>
                 <div className="event-agenda clearfix">
                     <div className="event-photo">
                         <img src={event && fileUtils.renderFileSource(event.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>

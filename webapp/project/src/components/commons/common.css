@@ -1,5 +1,80 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: url("/fonts/OpenSans/OpenSans-Light.ttf");
+  font-weight: 300;
+  font-style: normal; }
+@font-face {
+  font-family: 'Open Sans';
+  src: url("/fonts/OpenSans/OpenSans-LightItalic.ttf");
+  font-weight: 300;
+  font-style: italic; }
+@font-face {
+  font-family: 'Open Sans';
+  src: url("/fonts/OpenSans/OpenSans-Regular.ttf");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'Open Sans';
+  src: url("/fonts/OpenSans/OpenSans-Semibold.ttf");
+  font-weight: 500;
+  font-style: normal; }
+@font-face {
+  font-family: 'Open Sans';
+  src: url("/fonts/OpenSans/OpenSans-Bold.ttf");
+  font-weight: 700;
+  font-style: normal; }
+@font-face {
+  font-family: 'Roboto';
+  src: url("/fonts/Roboto/Roboto-Light.ttf");
+  font-weight: 300;
+  font-style: normal; }
+@font-face {
+  font-family: 'Roboto';
+  src: url("/fonts/Roboto/Roboto-Regular.ttf");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: 'Roboto';
+  src: url("/fonts/Roboto/Roboto-Bold.ttf");
+  font-weight: 700;
+  font-style: normal; }
+@keyframes animationFrames {
+  0% {
+    transform: translate(0px, 0px); }
+  50% {
+    transform: translate(0px, 12px); }
+  100% {
+    transform: translate(0px, 0px); } }
+@-moz-keyframes animationFrames {
+  0% {
+    -moz-transform: translate(0px, 0px); }
+  50% {
+    -moz-transform: translate(0px, 12px); }
+  100% {
+    -moz-transform: translate(0px, 0px); } }
+@-webkit-keyframes animationFrames {
+  0% {
+    -webkit-transform: translate(0px, 0px); }
+  50% {
+    -webkit-transform: translate(0px, 12px); }
+  100% {
+    -webkit-transform: translate(0px, 0px); } }
+@-o-keyframes animationFrames {
+  0% {
+    -o-transform: translate(0px, 0px); }
+  50% {
+    -o-transform: translate(0px, 12px); }
+  100% {
+    -o-transform: translate(0px, 0px); } }
+@-ms-keyframes animationFrames {
+  0% {
+    -ms-transform: translate(0px, 0px); }
+  50% {
+    -ms-transform: translate(0px, 12px); }
+  100% {
+    -ms-transform: translate(0px, 0px); } }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Roboto';
   font-weight: 400;
   font-size: 14px;
   background-color: #e6ecf0;
@@ -62,24 +137,33 @@ ul.nav li .user_full_name {
       flex-shrink: 0;
       -webkit-justify-content: center;
       justify-content: center;
+      background-color: #92b558;
       height: 5rem;
       width: 5rem;
-      margin-right: 15px;
-      background-color: #92b558; }
+      margin-right: 15px; }
+      @media (max-width: 767px) {
+        .post-detail .post-context .post-context-left .post-is-assignment {
+          height: 3rem;
+          width: 3rem;
+          margin-right: 5px; } }
       .post-detail .post-context .post-context-left .post-is-assignment .post-assignment-image {
         background-position: -7.5rem -88.1rem;
-        height: 2.4rem;
-        width: 2.4rem;
         background-image: url("/images/images.svg");
         background-repeat: no-repeat;
-        background-size: 10.5rem,121.4rem;
-        flex-shrink: 0; }
+        background-size: 10.5rem, 121.4rem;
+        flex-shrink: 0;
+        height: 2.4rem;
+        width: 2.4rem; }
   .post-detail .post-context .post-user-profile-picture {
     width: 50px;
     height: 50px;
     float: left;
     margin-right: 10px;
     border: 1px rgba(0, 0, 0, 0.3); }
+    @media (max-width: 767px) {
+      .post-detail .post-context .post-user-profile-picture {
+        height: 30px;
+        width: 30px; } }
   .post-detail .post-context .post-context-content {
     float: left; }
     .post-detail .post-context .post-context-content .post-context-user-group .post-context-image {
@@ -138,8 +222,6 @@ ul.nav li .user_full_name {
   float: left;
   margin-top: 0px;
   margin-bottom: 0px; }
-  .new-comment .navbar-form .form-control {
-    width: 400px; }
   .new-comment .navbar-form .fa {
     font-size: 14px; }
 
@@ -156,10 +238,16 @@ ul.nav li .user_full_name {
   .post-new-comment .new-comment .navbar-form {
     float: left;
     margin-top: 0px;
-    margin-bottom: 0px; }
+    margin-bottom: 0px;
+    width: 90%; }
+    @media (max-width: 767px) {
+      .post-new-comment .new-comment .navbar-form {
+        padding: 0 30px; } }
     .post-new-comment .new-comment .navbar-form .form-control {
-      width: 400px;
       height: 35px; }
+      @media (max-width: 1199px) {
+        .post-new-comment .new-comment .navbar-form .form-control {
+          width: 100%; } }
     .post-new-comment .new-comment .navbar-form .fa {
       font-size: 16px; }
 
@@ -182,8 +270,6 @@ ul.nav li .user_full_name {
         padding: 30px; }
     .files .file .file-content {
       float: left;
-      width: 50%;
-      height: 50%;
       margin: auto;
       margin-left: 15px; }
       .files .file .file-content .file-file-name {
@@ -191,17 +277,29 @@ ul.nav li .user_full_name {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        word-break: break-all; }
+        word-break: break-all;
+        max-width: 100%; }
+        @media (max-width: 767px) {
+          .files .file .file-content .file-file-name {
+            width: 60%; } }
       .files .file .file-content .file-type {
-        color: rgba(0, 0, 0, 0.55); }
+        color: rgba(0, 0, 0, 0.55);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        word-break: break-all; }
       .files .file .file-content .button-actions {
-        margin-top: 5px; }
+        margin-top: 5px;
+        position: relative; }
         .files .file .file-content .button-actions a.btn {
           line-height: 10px; }
+    .files .file .file-content-name {
+      width: 30%; }
+    .files .file .file-content-type {
+      width: 10%; }
     .files .file .action-with-file {
-      width: 50%;
-      height: 50%;
       margin: auto;
+      position: relative;
       text-align: right; }
 
 .comments {
@@ -217,6 +315,9 @@ ul.nav li .user_full_name {
       float: left;
       margin-left: 10px;
       width: 90%; }
+      @media (max-width: 767px) {
+        .comments .comment .comment-content-info {
+          width: 80%; } }
       .comments .comment .comment-content-info .comment-user a {
         color: #365899;
         cursor: pointer;
@@ -237,14 +338,26 @@ ul.nav li .user_full_name {
               text-decoration: none; }
 
 .new-post {
-  margin: 10px 15px;
+  margin: 10px 0;
   padding: 10px;
   background-color: #fff;
   border: 0.1rem solid rgba(0, 0, 0, 0.12); }
+  @media (max-width: 767px) {
+    .new-post {
+      margin: 10px 0px; } }
   .new-post .new-post-headline .new-post-headline-content i.fa {
     margin-right: 5px; }
   .new-post .new-post-headline .new-post-headline-content:last-of-type {
     top: -5px; }
+  @media (max-width: 767px) {
+    .new-post .new-post-headline .new-post-headline-content span {
+      display: inline-block;
+      overflow: hidden;
+      padding-left: 0;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 70px; } }
   .new-post .new-post-content .user-create-post {
     float: left;
     margin-right: 10px; }
@@ -253,10 +366,16 @@ ul.nav li .user_full_name {
       height: 35px;
       border-radius: 50%; }
   .new-post .new-post-content .new-post-message {
-    float: left; }
+    float: left;
+    max-width: 100%;
+    width: 100%; }
+    @media (min-width: 992px) {
+      .new-post .new-post-content .new-post-message {
+        width: 90%; } }
   .new-post .new-post-content .announcement {
     width: 550px;
-    margin-top: 10px; }
+    margin-top: 10px;
+    max-width: 100%; }
   .new-post .new-post-content textarea {
     resize: vertical;
     min-height: 34px;

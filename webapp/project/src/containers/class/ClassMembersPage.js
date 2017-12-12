@@ -6,12 +6,18 @@ import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import ClassMembers from "../../components/class/ClassMembers";
 import AddMember from "../../components/class/views/AddMember";
-import {classActions} from "../../actions";
+import {classActions, postActions} from "../../actions";
 import {userUtils} from "../../utils";
 
 class ClassMembersPage extends Component {
     componentWillMount() {
-        const {classId} = this.props;
+        const {classId, currentUser} = this.props;
+        if (currentUser) {
+            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id));
+        } else {
+            var currentUserId = userUtils.getCurrentUserId();
+            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUserId));
+        }
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
         this.props.dispatch(classActions.getMembers(classId));
@@ -36,39 +42,31 @@ class ClassMembersPage extends Component {
             return member.isAdmin == true
         }) : [];
         return (
-            <div>
+            <div className="class-member-page clearfix">
                 <div className="container">
-                    <div className="col-sm-2">
-                        <div className="row">
-                            <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           classId={classId} currentPage="members"/>
-                        </div>
+                    <div className="col-sm-4 col-md-3">
+                        <ClassLeftmenu classDetail={classDetail} topics={topics}
+                                       classId={classId} currentPage="members"/>
                     </div>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8 col-md-9">
                         <div className="row">
-                            <div className="col-sm-9">
-                                <div className="row">
-                                    <ClassMembers members={membersRoleIsTeacher} classDetail={classDetail}
-                                                  classMemberTitle="Teachers"/>
-                                </div>
+                            <div className={isTeacher ? "col-sm-8" : "col-sm-12"}>
+                                <ClassMembers members={membersRoleIsTeacher} classDetail={classDetail}
+                                              membersIsTeacher={true}/>
                             </div>
                             {
                                 isTeacher &&
                                 (
-                                    <div className="col-sm-3 add-member-and-description">
-                                        <div className="row">
-                                            <div className="container-fluid-md">
-                                                <AddMember memberCount={classDetail.memberCount}
-                                                           classDetail={classDetail}/>
-                                            </div>
-                                        </div>
+                                    <div className="col-sm-4">
+                                            <AddMember memberCount={classDetail.memberCount}
+                                                       classDetail={classDetail}/>
                                     </div>
                                 )
                             }
-                        </div>
-                        <div className="row">
-                            <ClassMembers members={membersRoleIsMember} classDetail={classDetail}
-                                          classMemberTitle="Members"/>
+                            <div className="col-sm-12">
+                                <ClassMembers members={membersRoleIsMember} classDetail={classDetail}
+                                              membersIsTeacher={false}/>
+                            </div>
                         </div>
                     </div>
                 </div>

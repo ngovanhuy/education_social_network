@@ -6,7 +6,7 @@ class ClassManage extends Component{
     render(){
         const {currentViewLink, classId} = this.props
         return(
-            <div className="class-manage">
+            <div className="class-manage row">
                 <div className="col-sm-3">
                     <ClassManageLeftmenu currentViewLink={currentViewLink} classId={classId}/>
                 </div>

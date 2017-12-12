@@ -20,12 +20,12 @@ class ClassRecentFiles extends Component{
                             </div>
                     }
                 </div>
-                <div className="file-content">
+                <div className="file-content file-content-name">
                     <div className="file-file-name">{file.name}</div>
                     <div className="file-type">{file.type}</div>
                 </div>
                 <div className="dropdown pull-right action-with-file">
-                    <a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">
+                    <a data-toggle="dropdown" className="btn btn-white dropdown-toggle" href="javascript:;">
                         <span className="fa fa-ellipsis-v"></span>
                         <span className="sr-only">Toggle Dropdown</span>
                     </a>

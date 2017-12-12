@@ -1,5 +1,5 @@
 .home-page .home-leftmenu .school-logo img {
-  height: 160px; }
+  width: 100%; }
 .home-page .home-leftmenu .user-info {
   margin-top: 10px; }
   .home-page .home-leftmenu .user-info img {
@@ -41,7 +41,6 @@
     .home-page .home-leftmenu ul.home-leftmenu-list li .user-profile-info .user-fullname {
       margin-left: 5px; }
 .home-page .school-profile-picture img {
-  height: 310px;
   width: 100%; }
 .home-page .home-feed .feed .no-post {
   margin: 20px 0px; }
@@ -62,5 +61,8 @@
     border-bottom: none; }
   .home-page .home-rightmenu .home-announcements .announcement-detail .announcement-time-user .user-profile-info {
     display: inline-block; }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .home-page .home-rightmenu .home-calendar .rbc-toolbar {
+    font-size: 12px; } }
 
 /*# sourceMappingURL=home.css.map */

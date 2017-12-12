@@ -49,7 +49,7 @@ class UserProfileTopContent extends Component {
                                 </div>
                             </div>
                             <div className="timeline-headline">
-                                <ul className="timeline-nav-top nav navbar-nav">
+                                <ul className="timeline-nav-top nav">
                                     <li className={currentLink=="timeline" && "current"}><Link to={`/users/${user.id}`}>Timeline</Link></li>
                                     {
                                         isCurrentUser &&

@@ -72,28 +72,28 @@ class ClassTimelinePage extends Component {
                 {
                     (classDetail && classDetail.id) ?
                         <div>
-                            <div className="col-sm-2">
-                                <div className="row">
-                                    <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                                   classId={classId} currentPage="discussion"
-                                                   currentTopic={topicName}/>
-                                </div>
+                            <div className="col-sm-4 col-md-3">
+                                <ClassLeftmenu classDetail={classDetail} topics={topics}
+                                               classId={classId} currentPage="discussion"
+                                               currentTopic={topicName}/>
                             </div>
-                            <div className="col-sm-7 class-main-content">
+                            <div className="col-sm-8 col-md-6 class-main-content">
                                 <div className="row">
-                                    <NewPost classDetail={classDetail}/>
+                                    <div className="col-xs-12">
+                                        <NewPost classDetail={classDetail}/>
+                                    </div>
                                 </div>
                                 <div className="row">
-                                    <div className="class-feed">
-                                        <Feed feed={posts} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
+                                    <div className="col-xs-12">
+                                        <div className="class-feed">
+                                            <Feed feed={posts} contextView={postConstants.CONTEXT_VIEW.IN_CLASS_PAGE}/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-3">
-                                <div className="row">
-                                    <ClassRightMenu classDetail={classDetail} events={eventsUpcomming}
-                                                    recentFiles={recentFiles}/>
-                                </div>
+                            <div className="col-sm-8 col-sm-offset-4 col-md-3 col-md-offset-0">
+                                <ClassRightMenu classDetail={classDetail} events={eventsUpcomming}
+                                                recentFiles={recentFiles}/>
                             </div>
                         </div>
                         : <PageNotFound loading={loading}/>

@@ -19,13 +19,13 @@ class ClassFiles extends Component{
                             </div>
                     }
                 </div>
-                <div className="file-content">
+                <div className="file-content file-content-name">
                     <div className="file-file-name">{file.name}</div>
                 </div>
-                <div className="file-content">
+                <div className="file-content file-content-type hidden-xs">
                     <div className="file-type">{file.type}</div>
                 </div>
-                <div className="file-content">
+                <div className="file-content hidden-xs">
                     {
                         (file.user) ?
                             (

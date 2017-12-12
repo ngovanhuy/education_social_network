@@ -1,10 +1,17 @@
 $main-color: rgba(146, 181, 88, 1);
+$screen-xs-max: 767px;
+$screen-sm-min: 768px;
+$screen-sm-max: 991px;
+$screen-md-min: 992px;
+$screen-md-max: 1199px;
+$screen-lg-min: 1200px;
+
 .home-page {
   .home-leftmenu {
     //position: fixed;
     .school-logo {
       img {
-        height: 160px;
+        width: 100%;
       }
     }
     .user-info {
@@ -30,20 +37,20 @@ $main-color: rgba(146, 181, 88, 1);
         line-height: 28px;
         position: relative;
         z-index: 0;
-        &:hover{
+        &:hover {
           background-color: #F6F7F9;
         }
-        i{
+        i {
           font-size: 18px;
         }
-        .group-icon{
+        .group-icon {
           margin-top: 4px;
           max-height: 20px;
           max-width: 20px;
           position: absolute;
           background-position: 0 -383px;
         }
-        .group-label{
+        .group-label {
           margin-left: 25px;
         }
         a {
@@ -51,12 +58,12 @@ $main-color: rgba(146, 181, 88, 1);
           &:hover {
             text-decoration: none;
           }
-          span{
+          span {
             margin-left: 10px;
           }
         }
-        .user-profile-info{
-          .user-fullname{
+        .user-profile-info {
+          .user-fullname {
             margin-left: 5px;
           }
         }
@@ -65,13 +72,12 @@ $main-color: rgba(146, 181, 88, 1);
   }
   .school-profile-picture {
     img {
-      height: 310px;
       width: 100%;
     }
   }
   .home-feed {
     .feed {
-      .no-post{
+      .no-post {
         margin: 20px 0px;
       }
       .feed-content {
@@ -79,33 +85,40 @@ $main-color: rgba(146, 181, 88, 1);
       }
     }
   }
-  .home-school-about{
-    .school-map{
-      img{
+  .home-school-about {
+    .school-map {
+      img {
         height: 100px;
         width: 100%;
       }
     }
-    .school-about-detail{
+    .school-about-detail {
       margin: 5px 0;
-      i.fa{
+      i.fa {
         margin-right: 10px;
       }
     }
   }
-  .home-rightmenu{
-    .home-announcements{
-      .announcement-detail{
+  .home-rightmenu {
+    .home-announcements {
+      .announcement-detail {
         margin-top: 5px;
         padding-bottom: 5px;
         border-bottom: .1rem solid rgba(0, 0, 0, 0.12);
-        &:last-of-type{
+        &:last-of-type {
           border-bottom: none;
         }
-        .announcement-time-user{
-          .user-profile-info{
+        .announcement-time-user {
+          .user-profile-info {
             display: inline-block;
           }
+        }
+      }
+    }
+    .home-calendar {
+      @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+        .rbc-toolbar {
+          font-size: 12px;
         }
       }
     }

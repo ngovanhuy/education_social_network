@@ -49,7 +49,7 @@ class UserProfilePage extends Component {
             <div className="container">{
                 (user && user.id) ?
                     <div>
-                        <div className="col-sm-10">
+                        <div className="col-xs-12">
                             <div className="row">
                                 <div className="col-sm-12">
                                     <UserProfileTopContent user={user} currentLink="timeline"

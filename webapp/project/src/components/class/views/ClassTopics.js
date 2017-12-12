@@ -62,7 +62,7 @@ class ClassTopics extends Component {
                     topics.map((topic, index) =>
                         this.renderTopic(topic, index, classId, currentTopic))
                 }
-                <div className="class-add-topic">
+                <div className="class-add-topic clearfix">
                     <button className="btn btn-white pull-right" onClick={this.openModalAddTopic}>
                         Add topic
                     </button>

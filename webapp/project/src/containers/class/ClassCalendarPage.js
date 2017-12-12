@@ -31,16 +31,12 @@ class ClassCalendarPage extends Component {
         return (
             <div>
                 <div className="container">
-                    <div className="col-sm-2">
-                        <div className="row">
-                            <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           classId={classId} currentPage="calendar"/>
-                        </div>
+                    <div className="col-sm-4 col-md-3">
+                        <ClassLeftmenu classDetail={classDetail} topics={topics}
+                                       classId={classId} currentPage="calendar"/>
                     </div>
-                    <div className="col-sm-10">
-                        <div className="row">
-                            <ClassCalendar events={eventsByClassAfterUpdateInfo} classDetail={classDetail}/>
-                        </div>
+                    <div className="col-sm-8 col-md-9">
+                        <ClassCalendar events={eventsByClassAfterUpdateInfo} classDetail={classDetail}/>
                     </div>
                 </div>
             </div>

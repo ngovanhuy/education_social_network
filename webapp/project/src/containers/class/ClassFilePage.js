@@ -6,7 +6,7 @@ import '../../components/class/class.css'
 import ClassFiles from "../../components/class/ClassFiles";
 import {classActions} from "../../actions";
 
-class ClassFilePage extends Component{
+class ClassFilePage extends Component {
 
     componentWillMount() {
         const {classId} = this.props;
@@ -34,22 +34,18 @@ class ClassFilePage extends Component{
         this.props.dispatch(classActions.deleteFile(fileId))
     }
 
-    render(){
+    render() {
         const {classDetail, classId, topics, files} = this.props
-        return(
+        return (
             <div>
                 <div className="container">
-                    <div className="col-sm-2">
-                        <div className="row">
-                            <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           classId={classId} currentPage="files"/>
-                        </div>
+                    <div className="col-sm-4 col-md-3">
+                        <ClassLeftmenu classDetail={classDetail} topics={topics}
+                                       classId={classId} currentPage="files"/>
                     </div>
-                    <div className="col-sm-10">
-                        <div className="row">
-                            <ClassFiles classId={classId} files={files} onUploadFile={this.handleUploadFile}
-                                onDeleteFile={this.handleDeleteFile}/>
-                        </div>
+                    <div className="col-sm-8 col-md-9">
+                        <ClassFiles classId={classId} files={files} onUploadFile={this.handleUploadFile}
+                                    onDeleteFile={this.handleDeleteFile}/>
                     </div>
                 </div>
             </div>

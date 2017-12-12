@@ -1,4 +1,11 @@
 $main-color: rgba(146, 181, 88, 1);
+$screen-xs-max: 767px;
+$screen-sm-min: 768px;
+$screen-sm-max: 991px;
+$screen-md-min: 992px;
+$screen-md-max: 1199px;
+$screen-lg-min: 1200px;
+
 .announcements-left-menu {
   .title {
     font-size: 20px;

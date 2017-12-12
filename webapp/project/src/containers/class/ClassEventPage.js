@@ -29,16 +29,12 @@ class ClassEventPage extends Component {
         return (
             <div>
                 <div className="container">
-                    <div className="col-sm-2">
-                        <div className="row">
-                            <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           classId={classId} currentPage="events"/>
-                        </div>
+                    <div className="col-sm-4 col-md-3">
+                        <ClassLeftmenu classDetail={classDetail} topics={topics}
+                                       classId={classId} currentPage="events"/>
                     </div>
-                    <div className="col-sm-10">
-                        <div className="row">
-                            <ClassEvents events={eventsByClass} classId={classId} classDetail={classDetail}/>
-                        </div>
+                    <div className="col-sm-8 col-md-9">
+                        <ClassEvents events={eventsByClass} classId={classId} classDetail={classDetail}/>
                     </div>
                 </div>
             </div>

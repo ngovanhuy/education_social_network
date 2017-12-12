@@ -37,16 +37,12 @@ class ClassManagePage extends Component {
         return (
             <div>
                 <div className="container">
-                    <div className="col-sm-2">
-                        <div className="row">
-                            <ClassLeftmenu classDetail={classDetail} topics={topics}
-                                           classId={classId} currentPage="manage_class"/>
-                        </div>
+                    <div className="col-sm-4 col-md-3">
+                        <ClassLeftmenu classDetail={classDetail} topics={topics}
+                                       classId={classId} currentPage="manage_class"/>
                     </div>
-                    <div className="col-sm-10">
-                        <div className="row">
-                            <ClassManage currentViewLink={currentViewLink} classId={classId}/>
-                        </div>
+                    <div className="col-sm-8 col-md-9">
+                        <ClassManage currentViewLink={currentViewLink} classId={classId}/>
                     </div>
                 </div>
             </div>
