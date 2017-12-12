@@ -27,7 +27,7 @@ class Header extends Component {
     handleCreateClass = (className, membersInvited) => {
         const {currentUser} = this.props
         this.setState({modalIsOpen: false});
-        this.props.dispatch(classActions.insert(currentUser.id, className));
+        this.props.dispatch(classActions.insert(currentUser.id, className, membersInvited));
     }
 
     render() {

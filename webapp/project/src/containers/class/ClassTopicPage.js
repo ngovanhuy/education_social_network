@@ -14,8 +14,14 @@ class ClassTopicPage extends Component {
     }
 
     componentWillMount() {
-        const {classId, topicName} = this.props;
-        this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
+        const {classId, topicName, currentUser} = this.props;
+        var currentUserId = 0
+        if(currentUser){
+            currentUserId = currentUser.id
+        } else {
+            currentUserId = userUtils.getCurrentUserId();
+        }
+        this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUserId, topicName));
         this.props.dispatch(classActions.getById(classId));
         this.props.dispatch(classActions.getTopics(classId));
     }
@@ -23,24 +29,24 @@ class ClassTopicPage extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.classId !== this.props.classId ||
             nextProps.topicName !== this.props.topicName) {
-            const {classId, topicName} = nextProps;
-            this.props.dispatch(postActions.getPostsByClassIdTopicName(classId, topicName));
+            const {classId, topicName, currentUser} = nextProps;
+            this.props.dispatch(postActions.getPostsByClassIdUserId(classId, currentUser.id, topicName));
             this.props.dispatch(classActions.getById(classId));
             this.props.dispatch(classActions.getTopics(classId));
         }
     }
 
     render() {
-        const {classDetail, classId, currentUser, topicName, postsByTopic, topics} = this.props
+        const {classDetail, classId, currentUser, topicName, postsByUser, topics, eventsByUser} = this.props
         const isTeacher = userUtils.checkIsTeacher(currentUser)
 
-        var posts = (postsByTopic) ? postsByTopic : []
+        var posts = (postsByUser) ? postsByUser : []
         posts = (posts && posts.length > 0) && posts.sort(function (a, b) {
             return new Date(b.timeCreate) - new Date(a.timeCreate);
         });
 
         var eventsUpcomming = []
-        eventsUpcomming = (classDetail && classDetail.eventsByUser) ? classDetail.eventsByUser.slice(0, 3) : []
+        eventsUpcomming = (eventsByUser) ? eventsByUser.slice(0, 3) : []
         return (
             <div>
                 <div className="container">
@@ -70,14 +76,15 @@ class ClassTopicPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
     const topicName = ownProps.match.params.topicName
-    const {classDetail, postsByTopic, topics} = state.classes
+    const {classDetail, postsByUser, topics, eventsByUser} = state.classes
     const {currentUser} = state.authentication
     return {
         classId,
         topicName,
         topics,
         classDetail,
-        postsByTopic,
+        postsByUser,
+        eventsByUser,
         currentUser
     }
 }

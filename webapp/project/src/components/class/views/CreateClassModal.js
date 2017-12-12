@@ -5,6 +5,9 @@ import Modal from 'react-modal';
 import '../class.css'
 import Autosuggest from 'react-autosuggest';
 import {userService} from "../../../services";
+import Select from 'react-select';
+import fetch from 'isomorphic-fetch'
+import {DOMAIN_SERVICE} from "../../../constants";
 
 const customStylesModal = {
     overlay: {
@@ -54,73 +57,41 @@ class CreateClassModal extends Component {
             membersInvited: [],
             suggestions: [],
         }
-        this.handleChange = this.handleChange.bind(this)
-        this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.onChangeValue = this.onChangeValue.bind(this);
     }
 
-    handleChange(membersInvited) {
-        this.setState({
-            membersInvited: membersInvited
-        })
+    handleChange(event) {
+        const {name, value} = event.target;
+        this.setState({[name]: value});
     }
 
-    handleChangeName(event) {
+    onChangeValue (value) {
         this.setState({
-            className: event.target.value
-        })
-    }
-
-    onSuggestionsFetchRequested = ({value}) => {
-        userService.searchByUsername(value)
-            .then(
-                response => {
-                    this.setState({
-                        suggestions: response.data
-                    });
-                }
-            )
-
-    };
-
-    onSuggestionsClearRequested = () => {
-        this.setState({
-            suggestions: []
+            membersInvited: value,
         });
-    };
+    }
+
+    gotoUser (value, event) {
+        window.open(`/users/${value.id}`);
+    }
+
+    getUsers (input, callback) {
+        if (!input) {
+            return Promise.resolve({ options: [] });
+        }
+        return userService.searchByUsername(input)
+            .then((response) => {
+                return {options: response.data};
+            })
+    }
 
     render() {
+        const AsyncComponent = Select.Async;
+
         const {modalIsOpen, onSubmit, suggestions} = this.props
         const {className, membersInvited} = this.state
         var modalTitle = 'Create New Group';
-
-        // function autocompleteRenderInput({addTag, ...props}) {
-        //     const handleOnChange = (e, {newValue, method}) => {
-        //         if (method === 'enter') {
-        //             e.preventDefault()
-        //         } else {
-        //             props.onChange(e)
-        //         }
-        //     }
-        //
-        //     const inputValue = (props.value && props.value.trim().toLowerCase()) || ''
-        //     const inputLength = inputValue.length
-        //
-        //     return (
-        //         <Autosuggest
-        //             ref={props.ref}
-        //             suggestions={suggestions}
-        //             shouldRenderSuggestions={(value) => value && value.trim().length > 0}
-        //             getSuggestionValue={getSuggestionValue}
-        //             renderSuggestion={renderSuggestion}
-        //             inputProps={{...props, onChange: handleOnChange}}
-        //             onSuggestionSelected={(e, {suggestion}) => {
-        //                 addTag(suggestion.name)
-        //             }}
-        //             onSuggestionsFetchRequested={props.onSuggestionsFetchRequested}
-        //             onSuggestionsClearRequested={props.onSuggestionsClearRequested}
-        //         />
-        //     )
-        // }
 
         return (
             <Modal
@@ -137,17 +108,19 @@ class CreateClassModal extends Component {
                         <label className="col-sm-3 control-label">Name your class</label>
                         <div className="col-sm-9 ">
                             <input type="text" className="form-control" id="className"
-                                   onChange={this.handleChangeName}/>
+                                   name="className" value={className}
+                                   onChange={this.handleChange}/>
                         </div>
                     </div>
-                    {/*<div className="form-group">*/}
-                        {/*<label className="col-sm-3 control-label">Invite members</label>*/}
-                        {/*<div className="col-sm-9">*/}
-                            {/*<TagsInput value={this.state.membersInvited} onChange={this.handleChange}*/}
-                                {/*// renderInput={autocompleteRenderInput}*/}
-                                       {/*inputProps={customTagsInput.inputProps}/>*/}
-                        {/*</div>*/}
-                    {/*</div>*/}
+                    <div className="form-group">
+                        <label className="col-sm-3 control-label">Invite members</label>
+                        <div className="col-sm-9">
+                            <AsyncComponent multi={true} value={membersInvited}
+                                            onChange={this.onChangeValue} onValueClick={this.gotoUser}
+                                            valueKey="id" labelKey="username" loadOptions={this.getUsers}
+                                            backspaceRemoves={true} />
+                        </div>
+                    </div>
                     <div className="modal-bottom clearfix">
                         <div className="pull-right">
                             <a href='#' className="btn btn-white" onClick={this.props.closeModal}>Cancel</a>

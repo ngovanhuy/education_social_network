@@ -372,5 +372,8 @@
 .create-event-modal textarea {
   max-width: 454px;
   max-height: 100px; }
+.create-event-modal .frequency-weekly .frequency-weekly-days-select .day-select {
+  display: inline-block;
+  width: 50px; }
 
 /*# sourceMappingURL=event.css.map */

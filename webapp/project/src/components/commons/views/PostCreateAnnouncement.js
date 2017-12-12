@@ -60,6 +60,7 @@ class PostCreateAnnouncement extends Component {
                 topic, false, []
             )
         )
+        this.props.dispatch(classActions.getTopics(classDetail.id))
 
         this.setState({
             ...this.state,

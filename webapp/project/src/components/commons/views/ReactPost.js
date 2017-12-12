@@ -32,17 +32,20 @@ class ReactPost extends Component {
             <div className="post-reacts clearfix">
                 <div className="post-react favourite">
                     {
-                        favouritedPost ? (
-                            <a href="javascript:;" className="favourited"
-                               onClick={() => this.handleUnFavouritePost(post.id, currentUser.id)}>
-                                <i className="fa fa-heart-o"></i>
-                                <span>Unfavourite</span>
-                            </a>
-                        ) : (
-                            <a href="javascript:;" onClick={() => this.handleFavouritePost(post.id, currentUser.id)}>
-                                <i className="fa fa-heart-o"></i>
-                                <span>Favourite</span>
-                            </a>
+                        post &&
+                        (
+                            (post.isUserLiked || favouritedPost) ? (
+                                <a href="javascript:;" className="favourited"
+                                   onClick={() => this.handleUnFavouritePost(post.id, currentUser.id)}>
+                                    <i className="fa fa-heart-o"></i>
+                                    <span>Unfavourite</span>
+                                </a>
+                            ) : (
+                                <a href="javascript:;" onClick={() => this.handleFavouritePost(post.id, currentUser.id)}>
+                                    <i className="fa fa-heart-o"></i>
+                                    <span>Favourite</span>
+                                </a>
+                            )
                         )
                     }
                     <span className="badge badge-primary badge-small">{post.countLikes}</span>

@@ -27,16 +27,14 @@ class ClassMembersPage extends Component {
     }
 
     render() {
-        const {currentUser, classId, classDetail, topics} = this.props
+        const {currentUser, classId, classDetail, topics, members} = this.props
         const isTeacher = userUtils.checkIsTeacher(currentUser)
-        const members = (classDetail.members && classDetail.members.length > 0) ?
-            classDetail.members.filter(function (member) {
-                return member.isAdmin == false
-            }) : [];
-        const teachers = (classDetail.members && classDetail.members.length > 0) ?
-            classDetail.members.filter(function (member) {
-                return member.isAdmin == true
-            }) : [];
+        const membersRoleIsMember = (members && members.length > 0) ? members.filter(function (member) {
+            return member.isAdmin == false
+        }) : [];
+        const membersRoleIsTeacher = (members && members.length > 0) ? members.filter(function (member) {
+            return member.isAdmin == true
+        }) : [];
         return (
             <div>
                 <div className="container">
@@ -50,7 +48,7 @@ class ClassMembersPage extends Component {
                         <div className="row">
                             <div className="col-sm-9">
                                 <div className="row">
-                                    <ClassMembers members={teachers} classDetail={classDetail}
+                                    <ClassMembers members={membersRoleIsTeacher} classDetail={classDetail}
                                                   classMemberTitle="Teachers"/>
                                 </div>
                             </div>
@@ -60,7 +58,8 @@ class ClassMembersPage extends Component {
                                     <div className="col-sm-3 add-member-and-description">
                                         <div className="row">
                                             <div className="container-fluid-md">
-                                                <AddMember memberCount={classDetail.memberCount} classDetail={classDetail}/>
+                                                <AddMember memberCount={classDetail.memberCount}
+                                                           classDetail={classDetail}/>
                                             </div>
                                         </div>
                                     </div>
@@ -68,7 +67,7 @@ class ClassMembersPage extends Component {
                             }
                         </div>
                         <div className="row">
-                            <ClassMembers members={members} classDetail={classDetail}
+                            <ClassMembers members={membersRoleIsMember} classDetail={classDetail}
                                           classMemberTitle="Members"/>
                         </div>
                     </div>
@@ -80,12 +79,13 @@ class ClassMembersPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail, topics} = state.classes
+    const {classDetail, topics, members} = state.classes
     const {currentUser} = state.authentication
     return {
         classId,
         topics,
         classDetail,
+        members,
         currentUser
     }
 }

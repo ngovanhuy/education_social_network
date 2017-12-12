@@ -13,6 +13,7 @@ export const eventActions = {
     getById,
     insert,
     update,
+    insertMulti,
 };
 
 function getAll() {
@@ -258,5 +259,32 @@ function update(userId, classId, name, about, location) {
 
     function failure(error) {
         return {type: eventConstants.EVENTS_UPDATE_FAILURE, error}
+    }
+}
+
+function insertMulti(classId, userId, imageUpload, title, location, content, start, end, periods) {
+    return dispatch => {
+        dispatch(request());
+
+        eventService.insertMulti(classId, userId, imageUpload, title, location, content, start, end, periods)
+            .then(
+                response => {
+                    dispatch(success(response.data));
+                    history.push(`/events/calendar`);
+                },
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() {
+        return {type: eventConstants.EVENTS_INSERTMULTI_REQUEST}
+    }
+
+    function success(events) {
+        return {type: eventConstants.EVENTS_INSERTMULTI_SUCCESS, events}
+    }
+
+    function failure(error) {
+        return {type: eventConstants.EVENTS_INSERTMULTI_FAILURE, error}
     }
 }

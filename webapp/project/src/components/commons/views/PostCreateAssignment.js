@@ -134,6 +134,7 @@ class PostCreateAssignment extends Component {
             postActions.insert(classDetail.id, currentUser.id, title, content, files, scopeType,
                 topic, isSchedule, members, dateUtils.convertDateTimeToISO(startTime), dateUtils.convertDateTimeToISO(endTime))
         )
+        this.props.dispatch(classActions.getTopics(classDetail.id))
 
         this.setState({
             title: '',
@@ -149,12 +150,9 @@ class PostCreateAssignment extends Component {
     }
 
     render() {
-        const {classDetail, topics} = this.props
+        const {classDetail, topics, members} = this.props
         const {memberSelected, title, content, endTime, topic, files} = this.state
-        // const membersOfClass = (classDetail && classDetail.members) ? classDetail.members.filter(function (member) {
-        //     return member.isAdmin == false
-        // }) : []
-        const membersOfClass = (classDetail && classDetail.members) ? classDetail.members : []
+        const membersOfClass = (members) ? members : []
         const topicsOfClass = (topics) ? topics : []
         var newPostUserFor = fillMembersInfoForSelectTag(membersOfClass)
         var newPostTopicFor = fillTopicsInfoForSelectTag(topicsOfClass)
@@ -192,11 +190,11 @@ class PostCreateAssignment extends Component {
                             <div className="form-group">
                                 <label className="control-label col-sm-1">Due</label>
                                 <div className='post-end-date col-sm-4'>
-                                    <Datetime timeFormat={false} inputFormat="DD/MM/YYYY" value={endTime}
+                                    <Datetime inputProps={{readOnly:true}} timeFormat={false} inputFormat="DD/MM/YYYY" value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
                                 <div className='post-end-time col-sm-3'>
-                                    <Datetime dateFormat={false} value={endTime}
+                                    <Datetime inputProps={{readOnly:true}} dateFormat={false} value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
                             </div>
@@ -227,10 +225,11 @@ class PostCreateAssignment extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {classDetail, topics} = state.classes
+    const {classDetail, topics, members} = state.classes
     const {currentUser} = state.authentication
     return {
         topics,
+        members,
         classDetail,
         currentUser
     }

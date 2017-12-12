@@ -32,16 +32,17 @@ class ClassMembers extends Component {
 
     handleDeleteMember(classDetail, memberId) {
         const {currentUser} = this.props
-        var linkRedirect = '/classes'
         if (classDetail.memberCount == 1 || memberId == currentUser.id) {
             this.setState({
                 modalLeaveClassWarningIsOpen: false,
                 fireRedirect: true,
-                linkRedirect: linkRedirect
+                linkRedirect: '/classes'
             })
         } else {
             this.setState({
                 modalLeaveClassWarningIsOpen: false,
+                fireRedirect: true,
+                linkRedirect: `/classes/${classDetail.id}`
             })
         }
         this.props.dispatch(classActions.deleteMember(classDetail.id, memberId))

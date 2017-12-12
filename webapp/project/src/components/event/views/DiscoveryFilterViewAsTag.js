@@ -289,7 +289,7 @@ class DiscoveryFilterViewAsTag extends Component {
                                                                     </select>
                                                                     {
                                                                         (this.state.eventStartAfter || this.state.eventStartBefore) &&
-                                                                        <Datetime timeFormat={false}
+                                                                        <Datetime inputProps={{readOnly:true}} timeFormat={false}
                                                                                   onChange={this.handleChangeStartFilterValue}
                                                                                   inputFormat="DD/MM/YYYY"/>
                                                                     }

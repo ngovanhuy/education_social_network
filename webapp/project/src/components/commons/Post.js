@@ -60,8 +60,16 @@ class Post extends Component {
         return (
             <div className="post-detail">
                 <div className="post-context clearfix">
-                    <img className="post-user-profile-picture img-circle"
-                         src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}></img>
+                    <div className="post-context-left">
+                        {
+                            post.isAssigmentPost &&
+                                <div className="post-is-assignment">
+                                    <div className="post-assignment-image"></div>
+                                </div>
+                        }
+                        <img className="post-user-profile-picture img-circle"
+                             src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}></img>
+                    </div>
                     <div className="post-context-content">
                         <span className="post-context-user-group">
                             <span className="post-context-user">

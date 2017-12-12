@@ -35,7 +35,7 @@ class ClassFilePage extends Component{
     }
 
     render(){
-        const {classDetail, classId, topics} = this.props
+        const {classDetail, classId, topics, files} = this.props
         return(
             <div>
                 <div className="container">
@@ -47,7 +47,7 @@ class ClassFilePage extends Component{
                     </div>
                     <div className="col-sm-10">
                         <div className="row">
-                            <ClassFiles classId={classId} files={classDetail.files} onUploadFile={this.handleUploadFile}
+                            <ClassFiles classId={classId} files={files} onUploadFile={this.handleUploadFile}
                                 onDeleteFile={this.handleDeleteFile}/>
                         </div>
                     </div>
@@ -59,10 +59,11 @@ class ClassFilePage extends Component{
 
 const mapStateToProps = (state, ownProps) => {
     const classId = ownProps.match.params.classId
-    const {classDetail, topics} = state.classes
+    const {classDetail, topics, files} = state.classes
     const {currentUser} = state.authentication
     return {
         topics,
+        files,
         currentUser,
         classId,
         classDetail

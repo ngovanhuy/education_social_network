@@ -34,7 +34,7 @@ class ClassFiles extends Component{
                                 </div>
                             ) : ''
                     }
-                    <div className="file-create-time">{dateUtils.convertISOToLocaleDateString(file.createDate)}</div>
+                    <div className="file-create-time">{dateUtils.convertISOToLocaleString(file.createDate)}</div>
                 </div>
                 <div className="dropdown pull-right action-with-file">
                     <a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">

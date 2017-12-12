@@ -58,7 +58,7 @@ class ClassManageMemberRequest extends Component {
     }
 
     render() {
-        const {classDetail} = this.props
+        const {classDetail, requests} = this.props
         return (
             <div>
                 <div className="row">
@@ -69,9 +69,9 @@ class ClassManageMemberRequest extends Component {
                             </div>
                             <div className="ui-box-content">
                                 {
-                                    (classDetail.requests && classDetail.requests.length > 0) ?
+                                    (requests && requests.length > 0) ?
                                         (
-                                            classDetail.requests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, classDetail.id, index))
+                                            requests.map((memberRequest, index) => this.renderMemberRequest(memberRequest, classDetail.id, index))
                                         ) : ''
                                 }
                             </div>
@@ -84,9 +84,10 @@ class ClassManageMemberRequest extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {classDetail} = state.classes
+    const {classDetail, requests} = state.classes
     return {
-        classDetail
+        classDetail,
+        requests
     }
 }
 

@@ -4,6 +4,7 @@ import CreateEventModal from "./views/CreateEventModal";
 import {eventActions} from "../../actions";
 import {connect} from "react-redux";
 import {dateUtils} from "../../utils";
+import {eventConstants} from "../../constants";
 
 class EventLeftmenu extends Component{
     constructor(props) {
@@ -29,11 +30,26 @@ class EventLeftmenu extends Component{
         return "events-headline-content";
     }
 
-    handleCreateEvent = (imageUpload, title, location, content, start, end) => {
+    handleCreateEvent = (imageUpload, title, location, content, start, end, frequencyValue, frequencies) => {
         this.setState({modalIsOpen: false});
         const {currentUser} = this.props
-        this.props.dispatch(eventActions.insert(null, currentUser.id, imageUpload, title, location,
-            content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
+        if(frequencyValue == eventConstants.FREQUENCY.ONCE){
+            this.props.dispatch(eventActions.insert(null, currentUser.id, imageUpload, title, location,
+                content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
+        } else {
+            var periods = dateUtils.convertFrequencyInfoToEventTimes(frequencyValue, frequencies)
+            // console.log(periods)
+            var eventStartRequest = {}, eventEndRequest = {}
+            if(frequencyValue == eventConstants.FREQUENCY.DAILY){
+                eventStartRequest = frequencies.daily.startDate
+                eventEndRequest = frequencies.daily.endDate
+            } else if(frequencyValue == eventConstants.FREQUENCY.WEEKLY){
+                eventStartRequest = frequencies.weekly.startDate
+                eventEndRequest = frequencies.weekly.endDate
+            }
+            this.props.dispatch(eventActions.insertMulti(null, currentUser.id, imageUpload, title, location, content,
+                dateUtils.convertDateTimeToISO(eventStartRequest), dateUtils.convertDateTimeToISO(eventEndRequest), periods));
+        }
     }
 
     render(){

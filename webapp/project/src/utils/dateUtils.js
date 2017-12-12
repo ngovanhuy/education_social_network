@@ -1,4 +1,7 @@
 import moment from 'moment';
+import {eventConstants} from "../constants";
+import {extendMoment} from 'moment-range';
+const momentRange = extendMoment(moment);
 
 export const dateUtils = {
     formatDate,
@@ -6,6 +9,7 @@ export const dateUtils = {
     convertISOToLocaleString,
     convertISOToLocaleDateString,
     convertDateTimeToISO,
+    convertFrequencyInfoToEventTimes,
 }
 
 function formatDate(timestamp) {
@@ -44,7 +48,7 @@ function sortByDateTime(datetime1, datetime2) {
 }
 
 function convertISOToLocaleString(datetime) {
-    if(datetime){
+    if (datetime) {
         var date = new Date(datetime);
         var result = date.toLocaleString();
         return result;
@@ -53,7 +57,7 @@ function convertISOToLocaleString(datetime) {
 }
 
 function convertISOToLocaleDateString(datetime) {
-    if(datetime){
+    if (datetime) {
         var date = new Date(datetime);
         var result = date.toLocaleDateString();
         return result;
@@ -62,10 +66,43 @@ function convertISOToLocaleDateString(datetime) {
 }
 
 function convertDateTimeToISO(datetime) {
-    if(datetime){
+    if (datetime) {
         var date = moment.utc(datetime).valueOf();
         var result = new Date(date).toISOString();
         return result;
     }
     return "";
+}
+
+function convertFrequencyInfoToEventTimes(frequencyValue, frequencies) {
+    var periods = []
+    if (frequencyValue == eventConstants.FREQUENCY.DAILY) {
+        if(frequencies && frequencies.daily){
+            const range = momentRange.range(frequencies.daily.startDate, frequencies.daily.endDate);
+            const days = Array.from(range.by('day'));
+            days.map(m => {
+                var dateString = m.format('YYYY-MM-DD')
+                var startTimeString = moment(frequencies.daily.startTime).format('HH:mm:ss')
+                var endTimeString = moment(frequencies.daily.endTime).format('HH:mm:ss')
+                periods.push(moment.parseZone(dateString + "T" + startTimeString+ "+07:00").utc().format())
+                periods.push(moment.parseZone(dateString + "T" + endTimeString+ "+07:00").utc().format())
+            })
+        }
+    } else if(frequencyValue == eventConstants.FREQUENCY.WEEKLY){
+        if(frequencies && frequencies.weekly){
+            const range = momentRange.range(frequencies.weekly.startDate, frequencies.weekly.endDate);
+            const days = Array.from(range.by('day'));
+            days.map(m => {
+                var dayOfWeekString = m.format('dddd')
+                var dateString = m.format('YYYY-MM-DD')
+                if(frequencies.weekly.days.indexOf(dayOfWeekString) !== -1){
+                    var startTimeString = moment(frequencies.weekly.startTime).format('HH:mm:ss')
+                    var endTimeString = moment(frequencies.weekly.endTime).format('HH:mm:ss')
+                    periods.push(moment.parseZone(dateString + "T" + startTimeString+ "+07:00").utc().format())
+                    periods.push(moment.parseZone(dateString + "T" + endTimeString+ "+07:00").utc().format())
+                }
+            })
+        }
+    }
+    return periods
 }

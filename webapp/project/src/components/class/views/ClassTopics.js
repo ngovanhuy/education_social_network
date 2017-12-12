@@ -27,7 +27,8 @@ class ClassTopics extends Component {
 
     handleAddTopic = (classId, topicName) => {
         this.setState({modalAddTopic: false});
-        this.props.dispatch(classActions.insertTopic(classId, topicName))
+        const {currentUser} = this.props
+        this.props.dispatch(classActions.insertTopic(classId, currentUser.id, topicName))
     }
 
     renderTopic(topic, index, classId, currentTopic) {
@@ -75,4 +76,11 @@ class ClassTopics extends Component {
     }
 }
 
-export default connect(null)(ClassTopics);
+const mapStateToProps = (state, ownProps) => {
+    const {currentUser} = state.authentication
+    return{
+        currentUser
+    }
+}
+
+export default connect(mapStateToProps)(ClassTopics);
