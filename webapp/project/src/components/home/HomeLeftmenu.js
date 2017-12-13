@@ -152,6 +152,12 @@ class HomeLeftmenu extends Component {
                         </div>
                         <ul className="home-leftmenu-list">
                             <li>
+                                <Link to={`/announcements`}>
+                                    <i className="fa fa-bullhorn"></i>
+                                    <span>Announcements</span>
+                                </Link>
+                            </li>
+                            <li>
                                 <Link to={`/events`}>
                                     <i className="fa fa-calendar"></i>
                                     <span>Events</span>

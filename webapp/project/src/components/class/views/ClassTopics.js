@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import ClassAddTopicModal from "./ClassAddTopicModal";
 import {classActions} from "../../../actions";
 import {classService} from "../../../services";
+import {userUtils} from "../../../utils";
 
 class ClassTopics extends Component {
     constructor() {
@@ -53,7 +54,8 @@ class ClassTopics extends Component {
     }
 
     render() {
-        const {topics, classId, currentTopic} = this.props
+        const {topics, classId, currentTopic, currentUser} = this.props
+        const isTeacher = userUtils.checkIsTeacher(currentUser)
         return (
             <div className="class-topics has-border-radius clearfix">
                 <h3>Topics</h3>
@@ -62,15 +64,18 @@ class ClassTopics extends Component {
                     topics.map((topic, index) =>
                         this.renderTopic(topic, index, classId, currentTopic))
                 }
-                <div className="class-add-topic clearfix">
-                    <button className="btn btn-white pull-right" onClick={this.openModalAddTopic}>
-                        Add topic
-                    </button>
-                    <ClassAddTopicModal classId={classId}
-                                        modalIsOpen={this.state.modalAddTopic}
-                                        closeModal={this.closeModalAddTopic}
-                                        onSubmit={this.handleAddTopic}/>
-                </div>
+                {
+                    isTeacher &&
+                    <div className="class-add-topic clearfix">
+                        <button className="btn btn-white pull-right" onClick={this.openModalAddTopic}>
+                            Add topic
+                        </button>
+                        <ClassAddTopicModal classId={classId}
+                                            modalIsOpen={this.state.modalAddTopic}
+                                            closeModal={this.closeModalAddTopic}
+                                            onSubmit={this.handleAddTopic}/>
+                    </div>
+                }
             </div>
         )
     }

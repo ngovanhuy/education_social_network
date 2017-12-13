@@ -9,6 +9,9 @@ $screen-lg-min: 1200px;
 .announcements-left-menu {
   .title {
     font-size: 20px;
+    a{
+      color: #333;
+    }
   }
   .announcements-headline{
     margin: 5px 0;

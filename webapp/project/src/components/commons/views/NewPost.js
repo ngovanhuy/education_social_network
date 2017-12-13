@@ -59,7 +59,7 @@ class NewPost extends Component {
                             <Tab>
                                 <div className="new-post-headline-content">
                                     <i className="fa fa-edit"></i>
-                                    <span>Announcement</span>
+                                    <span>Question</span>
                                 </div>
                             </Tab>
                             {

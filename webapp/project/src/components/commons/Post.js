@@ -62,9 +62,13 @@ class Post extends Component {
                 <div className="post-context clearfix">
                     <div className="post-context-left">
                         {
-                            post.isAssigmentPost &&
+                            post.isAssigmentPost ?
                                 <div className="post-is-assignment">
                                     <div className="post-assignment-image"></div>
+                                </div>
+                                :
+                                <div className="post-is-question">
+                                    <div className="post-question-image"></div>
                                 </div>
                         }
                         <img className="post-user-profile-picture img-circle"

@@ -205,6 +205,37 @@ ul.nav {
     .post-context-left {
       float: left;
       display: flex;
+      .post-is-question {
+        -webkit-align-items: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-shrink: 0;
+        flex-shrink: 0;
+        -webkit-justify-content: center;
+        justify-content: center;
+        background-color: $main-color;
+        height: 5rem;
+        width: 5rem;
+        margin-right: 15px;
+        @media (max-width: $screen-xs-max) {
+          height: 3rem;
+          width: 3rem;
+          margin-right: 5px;
+        }
+        .post-question-image {
+          background-position: -7.5rem -119rem;
+          background-image: url('/images/images-assignment-question.svg');
+          background-repeat: no-repeat;
+          background-size: 10.5rem, 121.4rem;
+          flex-shrink: 0;
+          height: 2.4rem;
+          width: 2.4rem;
+        }
+      }
       .post-is-assignment {
         -webkit-align-items: center;
         align-items: center;
@@ -228,7 +259,7 @@ ul.nav {
         }
         .post-assignment-image {
           background-position: -7.5rem -88.1rem;
-          background-image: url('/images/images.svg');
+          background-image: url('/images/images-assignment-question.svg');
           background-repeat: no-repeat;
           background-size: 10.5rem, 121.4rem;
           flex-shrink: 0;
@@ -359,9 +390,7 @@ ul.nav {
       }
       .form-control {
         height: 35px;
-        @media (max-width: $screen-md-max) {
-          width: 100%;
-        }
+        width: 100%;
       }
       .fa {
         font-size: 16px;

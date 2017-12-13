@@ -1,5 +1,7 @@
 .announcements-left-menu .title {
   font-size: 20px; }
+  .announcements-left-menu .title a {
+    color: #333; }
 .announcements-left-menu .announcements-headline {
   margin: 5px 0; }
   .announcements-left-menu .announcements-headline h1 {
