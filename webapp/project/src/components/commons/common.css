@@ -398,7 +398,7 @@ ul.nav li .user_full_name {
         width: 90%; } }
   .new-post .new-post-content .announcement {
     width: 550px;
-    margin-top: 10px;
+    margin: 10px;
     max-width: 100%; }
   .new-post .new-post-content textarea {
     resize: vertical;

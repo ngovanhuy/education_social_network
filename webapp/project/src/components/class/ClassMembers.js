@@ -63,7 +63,7 @@ class ClassMembers extends Component {
             userFullNameLeave = ""
         }
         return (
-            <div key={index} className={membersIsTeacher ? "col-xs-6 col-sm-6 col-md-4" : "col-xs-6 col-sm-4"}>
+            <div key={index} className={membersIsTeacher ? "col-xs-6 col-sm-6 col-md-4 col-lg-3" : "col-xs-6 col-sm-4 col-lg-3"}>
                 <div className="class-member">
                     <Link to={`/users/${member.id}`}>
                         <div className="text-center panel-member-col">

@@ -72,6 +72,7 @@ class PostCreateAssignment extends Component {
     componentWillMount() {
         const {classDetail} = this.props
         this.props.dispatch(classActions.getMembers(classDetail.id))
+        this.props.dispatch(classActions.getTopics(classDetail.id))
     }
 
     handleChangePostUserFor = (member) => {

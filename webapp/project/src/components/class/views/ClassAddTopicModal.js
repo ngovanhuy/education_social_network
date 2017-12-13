@@ -33,8 +33,8 @@ class ClassAddTopicModal extends Component {
                 <h2 className="title-modal">{modalTitle}</h2>
                 <form className="class-add-topic-modal form-horizontal" role="form">
                     <div className="form-group">
-                        <label className="col-sm-3 control-label">Topic Name</label>
-                        <div className="col-sm-9 ">
+                        <label className="col-xs-12">Topic Name</label>
+                        <div className="col-xs-12">
                             <input type="text" className="form-control" id="topicName" name="topicName"
                                    value={this.state.topicName}
                                    onChange={this.handleChange}/>

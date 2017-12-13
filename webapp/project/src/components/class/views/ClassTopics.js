@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import ClassAddTopicModal from "./ClassAddTopicModal";
 import {classActions} from "../../../actions";
 import {classService} from "../../../services";
-import {userUtils} from "../../../utils";
+import {appUtils, userUtils} from "../../../utils";
 
 class ClassTopics extends Component {
     constructor() {
@@ -34,28 +34,28 @@ class ClassTopics extends Component {
 
     renderTopic(topic, index, classId, currentTopic) {
         return (
-            <div key={index} className={(currentTopic && currentTopic==topic) ? 'topic clearfix current' : 'topic clearfix'}>
+            <div key={index}
+                 className={(currentTopic && currentTopic == topic) ? 'topic clearfix current' : 'topic clearfix'}>
                 <Link to={`/classes/${classId}/topics/${topic}`}
                       className={'topic-full-name'}>
                     {topic}
                 </Link>
                 {/*<div className="dropdown pull-right">*/}
-                    {/*<a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">*/}
-                        {/*<span className="fa fa-ellipsis-v"></span>*/}
-                        {/*<span className="sr-only">Toggle Dropdown</span>*/}
-                    {/*</a>*/}
-                    {/*<ul role="menu" className="dropdown-menu">*/}
-                        {/*<li><a href="javascript:;">Rename</a></li>*/}
-                        {/*<li><a href="javascript:;">Delete</a></li>*/}
-                    {/*</ul>*/}
+                {/*<a data-toggle="dropdown" className="btn dropdown-toggle" href="javascript:;">*/}
+                {/*<span className="fa fa-ellipsis-v"></span>*/}
+                {/*<span className="sr-only">Toggle Dropdown</span>*/}
+                {/*</a>*/}
+                {/*<ul role="menu" className="dropdown-menu">*/}
+                {/*<li><a href="javascript:;">Rename</a></li>*/}
+                {/*<li><a href="javascript:;">Delete</a></li>*/}
+                {/*</ul>*/}
                 {/*</div>*/}
             </div>
         )
     }
 
     render() {
-        const {topics, classId, currentTopic, currentUser} = this.props
-        const isTeacher = userUtils.checkIsTeacher(currentUser)
+        const {topics, classId, currentTopic} = this.props
         return (
             <div className="class-topics has-border-radius clearfix">
                 <h3>Topics</h3>
@@ -64,27 +64,23 @@ class ClassTopics extends Component {
                     topics.map((topic, index) =>
                         this.renderTopic(topic, index, classId, currentTopic))
                 }
-                {
-                    isTeacher &&
-                    <div className="class-add-topic clearfix">
-                        <button className="btn btn-white pull-right" onClick={this.openModalAddTopic}>
-                            Add topic
-                        </button>
-                        <ClassAddTopicModal classId={classId}
-                                            modalIsOpen={this.state.modalAddTopic}
-                                            closeModal={this.closeModalAddTopic}
-                                            onSubmit={this.handleAddTopic}/>
-                    </div>
-                }
+                <div className="class-add-topic clearfix">
+                    <button className="btn btn-white pull-right" onClick={this.openModalAddTopic}>
+                        Add topic
+                    </button>
+                    <ClassAddTopicModal classId={classId}
+                                        modalIsOpen={this.state.modalAddTopic}
+                                        closeModal={this.closeModalAddTopic}
+                                        onSubmit={this.handleAddTopic}/>
+                </div>
             </div>
         )
     }
 }
-
 const mapStateToProps = (state, ownProps) => {
     const {currentUser} = state.authentication
-    return{
-        currentUser
+    return {
+        currentUser,
     }
 }
 

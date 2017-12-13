@@ -74,16 +74,16 @@ class CreateClassModal extends Component {
                 <h2 className="title-modal">{modalTitle}</h2>
                 <form className="create-class-modal form-horizontal" role="form">
                     <div className="form-group">
-                        <label className="col-sm-3 control-label">Name your class</label>
-                        <div className="col-sm-9 ">
+                        <label className="col-xs-12">Name your class</label>
+                        <div className="col-xs-12 ">
                             <input type="text" className="form-control" id="className"
                                    name="className" value={className}
                                    onChange={this.handleChange}/>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-sm-3 control-label">Invite members</label>
-                        <div className="col-sm-9">
+                        <label className="col-xs-12">Invite members</label>
+                        <div className="col-xs-12">
                             <AsyncComponent multi={true} value={membersInvited}
                                             onChange={this.onChangeValue} onValueClick={this.gotoUser}
                                             valueKey="id" labelKey="username" loadOptions={this.getUsers}
