@@ -66,7 +66,7 @@ class CreateClassModal extends Component {
 
         const {modalIsOpen, onSubmit, suggestions} = this.props
         const {className, membersInvited} = this.state
-        var modalTitle = 'Create New Group';
+        var modalTitle = 'Create New Class';
 
         return (
             <Modal open={modalIsOpen}

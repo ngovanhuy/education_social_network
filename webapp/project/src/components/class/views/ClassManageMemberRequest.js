@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import UserProfileInfo from "../../commons/views/UserProfileInfo";
 import {classActions} from "../../../actions";
-import {userUtils, fileUtils} from "../../../utils";
+import {userUtils, fileUtils, dateUtils} from "../../../utils";
 import {userActions} from "../../../actions";
 import {userConstants} from "../../../constants";
 
@@ -31,7 +31,7 @@ class ClassManageMemberRequest extends Component {
                     <div className="member-info-content">
                         <UserProfileInfo user={user}/>
                         <div>
-                            <span>Request enter class at {memberRequest.timeCreate}</span>
+                            <span>Request enter class at {dateUtils.convertISOToLocaleDateString(memberRequest.timeCreate)}</span>
                         </div>
                     </div>
                 </div>

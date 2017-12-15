@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 
 import {userActions} from '../../actions';
 import {userConstants} from "../../constants/userConstants";
+import {alertAuthenActions} from "../../actions/alertAuthenActions";
+import {history} from "../../helpers/history";
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -26,6 +28,11 @@ class RegisterPage extends React.Component {
         this.handleChangeIsTeacher = this.handleChangeIsTeacher.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    componentWillMount() {
+        const {dispatch} = this.props;
+        dispatch(userActions.logout());
+    };
 
     handleChange(event) {
         const {name, value} = event.target;

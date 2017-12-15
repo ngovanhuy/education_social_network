@@ -5,7 +5,7 @@ import '../class.css'
 class LeaveClassWarningModal extends Component {
     render() {
         const {userFullNameLeave, classDetail, modalIsOpen, onSubmit} = this.props
-        var modalTitle = 'Leave This Group?';
+        var modalTitle = 'Leave This Class?';
         return (
             <Modal open={modalIsOpen}
                    onClose={this.props.closeModal} little>

@@ -5,53 +5,11 @@ import {defaultConstants} from "../../constants";
 import {userUtils, fileUtils} from "../../utils";
 import LeaveClassWarningModal from "./views/LeaveClassWarningModal";
 import {classActions, postActions} from "../../actions";
-import {Redirect} from 'react-router'
-
 
 class ClassMembers extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            modalLeaveClassWarningIsOpen: false,
-            fireRedirect: false,
-            linkRedirect: ''
-        }
-        this.openModalLeaveClass = this.openModalLeaveClass.bind(this);
-        this.closeModalLeaveClass = this.closeModalLeaveClass.bind(this);
         this.renderMember = this.renderMember.bind(this);
-        this.handleDeleteMember = this.handleDeleteMember.bind(this);
-    }
-
-    openModalLeaveClass() {
-        this.setState({modalLeaveClassWarningIsOpen: true});
-    }
-
-    closeModalLeaveClass() {
-        this.setState({modalLeaveClassWarningIsOpen: false});
-    }
-
-    handleDeleteMember(classDetail, memberId) {
-        const {currentUser} = this.props
-        if (classDetail.memberCount == 1 || memberId == currentUser.id) {
-            this.setState({
-                modalLeaveClassWarningIsOpen: false,
-                fireRedirect: true,
-                linkRedirect: '/classes'
-            })
-        } else {
-            this.setState({
-                modalLeaveClassWarningIsOpen: false,
-                fireRedirect: true,
-                linkRedirect: `/classes/${classDetail.id}`
-            })
-        }
-        this.props.dispatch(classActions.deleteMember(classDetail.id, memberId))
-        this.props.dispatch(classActions.getById(classDetail.id))
-        if (classDetail.memberCount > 1) {
-            this.props.dispatch(classActions.getMembers(classDetail.id))
-        } else {
-            this.props.dispatch(classActions.deleteClass(classDetail.id, currentUser.id))
-        }
     }
 
     renderMember = (member, index) => {
@@ -86,19 +44,11 @@ class ClassMembers extends Component {
                                 </button>
                                 <ul role="menu" className="dropdown-menu pull-right-xs">
                                     <li>
-                                        <a href="javascript:;" onClick={this.openModalLeaveClass}>
+                                        <a href="javascript:;" onClick={() => this.props.openModalLeaveClass(member.id, userFullNameLeave)}>
                                             {
                                                 (member.id == currentUser.id) ? "Leave This Class" : "Remove from Class"
                                             }
                                         </a>
-                                        <LeaveClassWarningModal
-                                            modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
-                                            closeModal={this.closeModalLeaveClass}
-                                            onSubmit={
-                                                () => this.handleDeleteMember(classDetail, member.id)
-                                            }
-                                            classDetail={classDetail}
-                                            userFullNameLeave={userFullNameLeave}/>
                                     </li>
                                 </ul>
                             </div>
@@ -128,9 +78,6 @@ class ClassMembers extends Component {
                             <p className="class-no-member">No members</p>
                         )
                 }
-                {this.state.fireRedirect && (
-                    <Redirect to={this.state.linkRedirect}/>
-                )}
             </div>
         )
     }

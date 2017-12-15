@@ -98,6 +98,7 @@
     margin: 20px 0; }
 
 .create-announcement-modal .announcement-content {
-  max-width: 475px; }
+  width: 550px;
+  max-width: 100; }
 
 /*# sourceMappingURL=announcement.css.map */

@@ -17,13 +17,15 @@ class LoginPage extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-
+    componentWillMount() {
         const {dispatch} = this.props;
         history.listen((location, action) => {
             dispatch(alertAuthenActions.clear());
         });
-    }
+        dispatch(userActions.logout());
+    };
 
     handleChange(e) {
         const {name, value} = e.target;
@@ -89,7 +91,7 @@ class LoginPage extends React.Component {
 
 function mapStateToProps(state) {
     const {loggingIn} = state.authentication;
-    const { alertAuthen } = state;
+    const {alertAuthen} = state;
     return {
         loggingIn,
         alertAuthen

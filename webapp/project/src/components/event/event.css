@@ -182,6 +182,12 @@
           width: 450px;
           max-width: 90%;
           z-index: 1003; }
+          @media (min-width: 992px) {
+            .events .events-header .discovery-filter .discovery-filter-form .discovery-filter-content {
+              margin-left: -10%; } }
+          @media (min-width: 768px) and (max-width: 991px) {
+            .events .events-header .discovery-filter .discovery-filter-form .discovery-filter-content {
+              right: 0; } }
           .events .events-header .discovery-filter .discovery-filter-form .discovery-filter-content .filter-content-detail {
             padding: 4px 16px; }
             .events .events-header .discovery-filter .discovery-filter-form .discovery-filter-content .filter-content-detail:first-of-type {

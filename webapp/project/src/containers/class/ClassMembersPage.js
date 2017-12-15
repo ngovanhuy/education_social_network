@@ -1,15 +1,69 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {Redirect} from 'react-router'
 import ClassLeftmenu from "../../components/class/ClassLeftmenu";
 import '../../components/class/class.css'
 import ClassMembers from "../../components/class/ClassMembers";
 import AddMember from "../../components/class/views/AddMember";
 import {classActions, postActions} from "../../actions";
 import {userUtils} from "../../utils";
+import LeaveClassWarningModal from "../../components/class/views/LeaveClassWarningModal";
+import {Redirect} from 'react-router'
 
 class ClassMembersPage extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            modalLeaveClassWarningIsOpen: false,
+            fireRedirect: false,
+            linkRedirect: '',
+            memberIdLeave: ''
+        }
+        this.openModalLeaveClass = this.openModalLeaveClass.bind(this);
+        this.closeModalLeaveClass = this.closeModalLeaveClass.bind(this);
+        this.handleDeleteMember = this.handleDeleteMember.bind(this);
+    }
+
+    openModalLeaveClass(memberId, userFullNameLeave) {
+        this.setState({
+            modalLeaveClassWarningIsOpen: true,
+            memberIdLeave: memberId,
+            userFullNameLeave: userFullNameLeave
+        });
+    }
+
+    closeModalLeaveClass() {
+        this.setState({
+            modalLeaveClassWarningIsOpen: false,
+            memberIdLeave: '',
+            userFullNameLeave: ''
+        });
+    }
+
+    handleDeleteMember(classDetail, memberId) {
+        const {currentUser} = this.props
+        if (classDetail.memberCount == 1 || memberId == currentUser.id) {
+            this.setState({
+                modalLeaveClassWarningIsOpen: false,
+                fireRedirect: true,
+                linkRedirect: '/classes'
+            })
+        } else {
+            this.setState({
+                modalLeaveClassWarningIsOpen: false,
+                fireRedirect: true,
+                linkRedirect: `/classes/${classDetail.id}`
+            })
+        }
+        this.props.dispatch(classActions.deleteMember(classDetail.id, memberId))
+        this.props.dispatch(classActions.getById(classDetail.id))
+        if (classDetail.memberCount > 1) {
+            this.props.dispatch(classActions.getMembers(classDetail.id))
+        } else {
+            this.props.dispatch(classActions.deleteClass(classDetail.id, currentUser.id))
+        }
+    }
+
     componentWillMount() {
         const {classId, currentUser} = this.props;
         if (currentUser) {
@@ -52,24 +106,35 @@ class ClassMembersPage extends Component {
                         <div className="row">
                             <div className={isTeacher ? "col-sm-8" : "col-sm-12"}>
                                 <ClassMembers members={membersRoleIsTeacher} classDetail={classDetail}
-                                              membersIsTeacher={true}/>
+                                              membersIsTeacher={true} openModalLeaveClass={this.openModalLeaveClass}/>
                             </div>
                             {
                                 isTeacher &&
                                 (
                                     <div className="col-sm-4">
-                                            <AddMember memberCount={classDetail.memberCount}
-                                                       classDetail={classDetail}/>
+                                        <AddMember memberCount={classDetail.memberCount}
+                                                   classDetail={classDetail}/>
                                     </div>
                                 )
                             }
                             <div className="col-sm-12">
                                 <ClassMembers members={membersRoleIsMember} classDetail={classDetail}
-                                              membersIsTeacher={false}/>
+                                              membersIsTeacher={false} openModalLeaveClass={this.openModalLeaveClass}/>
                             </div>
+                            <LeaveClassWarningModal
+                                modalIsOpen={this.state.modalLeaveClassWarningIsOpen}
+                                closeModal={this.closeModalLeaveClass}
+                                onSubmit={
+                                    () => this.handleDeleteMember(classDetail, this.state.memberIdLeave)
+                                }
+                                classDetail={classDetail}
+                                userFullNameLeave={this.state.userFullNameLeave}/>
                         </div>
                     </div>
                 </div>
+                {this.state.fireRedirect && (
+                    <Redirect to={this.state.linkRedirect}/>
+                )}
             </div>
         )
     }

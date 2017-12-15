@@ -188,7 +188,7 @@
         .class-files .class-files-headline h2 button .fa {
           margin-right: 10px; }
   .class-files .file {
-    margin-top: 10px; }
+    margin: 10px 0; }
     @media (max-width: 991px) {
       .class-files .file .file-content-name {
         width: 20%; } }
@@ -294,9 +294,6 @@
   .class-member-page .add-member .title {
     margin-top: 0px;
     font-size: 16px; }
-
-.create-class-modal .react-tagsinput .react-tagsinput-input {
-  width: 150px; }
 
 .classes .classes-header {
   background-color: #fff;

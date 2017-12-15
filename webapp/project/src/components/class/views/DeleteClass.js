@@ -37,7 +37,7 @@ class DeleteClass extends Component {
                     <a className="btn btn-danger" onClick={() => this.openModal()}>Confirm delete</a>
                     <Modal open={this.state.showModalWarning}
                            onClose={this.closeModal} little>
-                        <h2 className="title-modal">Delete This Group?</h2>
+                        <h2 className="title-modal">Delete This Class?</h2>
                         <form className="form-horizontal" role="form">
                             <div className="form-group">
                                 <div className="col-sm-12">
