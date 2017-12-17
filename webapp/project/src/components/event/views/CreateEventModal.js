@@ -475,6 +475,7 @@ class CreateEventModal extends Component {
                                                       value={frequencies.daily.startTime}
                                                       onChange={this.handleChangeStartTimeFrequencyDaily}/>
                                         </div>
+                                        <label className="col-sm-1 control-label" style={{textAlign: 'center'}}>to</label>
                                         <div className='col-sm-4'>
                                             <Datetime inputProps={{readOnly: true}} dateFormat={false}
                                                       value={frequencies.daily.endTime}
@@ -528,6 +529,7 @@ class CreateEventModal extends Component {
                                                       value={frequencies.weekly.startTime}
                                                       onChange={this.handleChangeStartTimeFrequencyWeekly}/>
                                         </div>
+                                        <label className="col-sm-1 control-label" style={{textAlign: 'center'}}>to</label>
                                         <div className='col-sm-3'>
                                             <Datetime inputProps={{readOnly: true}} dateFormat={false}
                                                       value={frequencies.weekly.endTime}
