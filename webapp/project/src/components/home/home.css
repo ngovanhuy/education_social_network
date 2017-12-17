@@ -5,7 +5,8 @@
   .home-page .home-leftmenu .user-info img {
     height: 30px;
     width: 30px;
-    border-radius: 50%; }
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.3); }
 .home-page .home-leftmenu .home-leftmenu-title {
   font-weight: bold;
   margin-bottom: 5px; }

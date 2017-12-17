@@ -37,7 +37,7 @@ class ReactPost extends Component {
                             (post.isUserLiked || favouritedPost) ? (
                                 <a href="javascript:;" className="favourited"
                                    onClick={() => this.handleUnFavouritePost(post.id, currentUser.id)}>
-                                    <i className="fa fa-heart-o"></i>
+                                    <i className="fa fa-heart"></i>
                                     <span>Unfavourite</span>
                                 </a>
                             ) : (

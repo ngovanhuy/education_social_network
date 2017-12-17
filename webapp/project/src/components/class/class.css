@@ -101,6 +101,8 @@
     .class-feed .feed .feed-content .post-detail .post-content-info .files .file .file-content {
       width: 40%;
       max-width: 50%; } }
+.class-feed .feed .no-post {
+  margin: 0; }
 
 .class-events-upcomming {
   padding: 10px;
