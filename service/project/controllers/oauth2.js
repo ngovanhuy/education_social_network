@@ -5,14 +5,12 @@ let Token = require('../models/token');
 let Code = require('../models/code');
 
 function uid(len) {
-    let buf = []
-        , chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-        , charlen = chars.length;
-
+    let buf = [];
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charlen = chars.length;
     for (let i = 0; i < len; ++i) {
         buf.push(chars[getRandomInt(0, charlen - 1)]);
     }
-
     return buf.join('');
 }
 
@@ -20,15 +18,12 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Create OAuth 2.0 server
 let server = oauth2orize.createServer();
 
-// Register serialialization function
 server.serializeClient(function (client, callback) {
     return callback(null, client._id);
 });
 
-// Register deserialization function
 server.deserializeClient(function (id, callback) {
     Client.findOne({ _id: id }, function (err, client) {
         if (err) {
@@ -41,7 +36,7 @@ server.deserializeClient(function (id, callback) {
 // Register authorization code grant type
 server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, callback) {
     // Create a new authorization code
-    let code = new Code({
+    let code = new Code({ 
         value: uid(16),
         clientId: client._id,
         redirectUri: redirectUri,

@@ -20,4 +20,8 @@ router.route('/:fileID')
     .post(fileController.fileUpload, fileController.checkFileRequest, fileController.updateFile, fileController.getInfoFile)
     .delete(fileController.checkFileRequest, fileController.deleteFile, fileController.getInfoFile);
 
+//---------------------AUTHENTICATION---------------------------//
+
+
+//---------------------EXPORT----------------------------------//
 module.exports = router;

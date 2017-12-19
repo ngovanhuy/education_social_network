@@ -131,6 +131,24 @@ function getShortContent(content) {
     if (content.length > 30) return content.substring(0, 30) + '...';
     return content;
 }
+
+function createError(err, httpstatus, logicCode = null, details = null, data = null) {
+    let error = typeof(err) === 'string' ? new Error(err) : err;
+    error.httpstatus = httpstatus;
+    error.logicCode = logicCode ? logicCode : error.httpstatus;
+    error.details = details;
+    error.data = data;
+    return error;
+}
+function createResponse(data = null, message = 'Success', logicCode = 200) {
+    return {
+        code: logicCode,
+        message: message,
+        data: data,
+        error: null,
+    };
+}
+exports.createError = createError;
 exports.nextInt = nextInt;
 exports.randomString = randomString;
 exports.randomStringNumber = randomStringNumber;
@@ -147,3 +165,4 @@ exports.validatePhoneNumber = validatePhoneNumber;
 exports.validateStringLength = validateStringLength;
 exports.exportDate = exportDate;
 exports.isNumber = isNumber;
+exports.createResponse = createResponse;

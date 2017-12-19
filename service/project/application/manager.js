@@ -1,9 +1,9 @@
-var dotenv = require('dotenv');
-var mongoose = require('mongoose');
+let dotenv = require('dotenv');
+let mongoose = require('mongoose');
 dotenv.config();
 //TODO: config mongoose: reconnect, readState...
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+let db = mongoose.connection;
 db.on('connecting', () => {
     console.log("Connecting to db...");
 });
@@ -40,9 +40,7 @@ function start() {
 }
 async function connectToDB() {
     try {
-        // let c = "mongodb://192.168.1.17:27017/education_social_network";
-        // await mongoose.connect(c, {
-        console.log(exports.connectString);
+        // console.log(exports.connectString);
         await mongoose.connect(exports.connectString, {//loi khi debug -> can fix.
             useMongoClient: true,
             // server: {auto_reconnect: true}//Default reconnect in 30s.
@@ -50,16 +48,12 @@ async function connectToDB() {
             reconnectInterval: 5000
         });
         firstConnectSuccess++;
-        // console.log("Connection success db");
     } catch(error) {
-        // console.log("Connection failed db:" + error);
         firstConnectSuccess = 0;
     }
 }
-//TODO: export
+
 exports.portRunning = process.env.PORT || 3000;
 exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://localhost:27017/education_social_network";
-// exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://192.168.1.17:27017/education_social_network";
-// exports.connectString = process.env.MONGODB_CONNECT_STRING || "mongodb://admin:admin@ds113636.mlab.com:13636/esservice";
 exports.connectToDB = connectToDB;
 exports.start = start;
