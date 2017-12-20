@@ -31,7 +31,7 @@ class EventTopContent extends Component {
                                         {eventDetail.title}
                                     </div>
                                     {
-                                        eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP ?
+                                        (eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP && eventDetail.contextData) ?
                                             (
                                                 <span className="event-for-class">
                                                     Event for <ClassProfileInfo classDetail={eventDetail.contextData}/>
@@ -39,7 +39,7 @@ class EventTopContent extends Component {
                                             ) : ''
                                     }
                                     {
-                                        (eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP && eventDetail.userCreate) &&
+                                        (eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP && eventDetail.contextData && eventDetail.userCreate) &&
                                             <span role="presentation" aria-hidden="true"> · </span>
                                     }
                                     {
@@ -76,15 +76,15 @@ class EventTopContent extends Component {
                                                 {/*<li><a href="javascript:;">Share in new feed</a></li>*/}
                                             {/*</ul>*/}
                                         {/*</div>*/}
-                                        <div className="btn-group">
-                                            <a data-toggle="dropdown" className="btn btn-white dropdown-toggle"
-                                               href="#">
-                                                <i className="fa fa-ellipsis-h"></i>
-                                            </a>
-                                            <ul role="menu" className="dropdown-menu pull-right">
-                                                <li><a href="javascript:;">Export event</a></li>
-                                            </ul>
-                                        </div>
+                                        {/*<div className="btn-group">*/}
+                                            {/*<a data-toggle="dropdown" className="btn btn-white dropdown-toggle"*/}
+                                               {/*href="#">*/}
+                                                {/*<i className="fa fa-ellipsis-h"></i>*/}
+                                            {/*</a>*/}
+                                            {/*<ul role="menu" className="dropdown-menu pull-right">*/}
+                                                {/*<li><a href="javascript:;">Export event</a></li>*/}
+                                            {/*</ul>*/}
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </div>

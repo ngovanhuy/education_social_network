@@ -38,12 +38,12 @@ class ReactPost extends Component {
                                 <a href="javascript:;" className="favourited"
                                    onClick={() => this.handleUnFavouritePost(post.id, currentUser.id)}>
                                     <i className="fa fa-heart"></i>
-                                    <span>Unfavourite</span>
+                                    <span>Unfavorite</span>
                                 </a>
                             ) : (
                                 <a href="javascript:;" onClick={() => this.handleFavouritePost(post.id, currentUser.id)}>
                                     <i className="fa fa-heart-o"></i>
-                                    <span>Favourite</span>
+                                    <span>Favorite</span>
                                 </a>
                             )
                         )

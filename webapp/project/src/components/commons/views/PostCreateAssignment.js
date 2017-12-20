@@ -174,15 +174,15 @@ class PostCreateAssignment extends Component {
                                 </div>
                             </div>
                             <div className="form-group controls">
-                                <div className="col-sm-12">
+                                <div className="col-sm-11 col-sm-offset-1">
                                     <textarea className="form-control" rows="1" placeholder="Title"
                                               name="title" onChange={this.handleChange}
                                               value={title}></textarea>
                                 </div>
                             </div>
                             <div className="form-group controls">
-                                <div className="col-sm-12">
-                                <textarea className="form-control" rows="1"
+                                <div className="col-sm-11 col-sm-offset-1">
+                                <textarea className="form-control content" rows="4"
                                           placeholder="Instructions (optional)" name="content"
                                           onChange={this.handleChange}
                                           value={content}></textarea>

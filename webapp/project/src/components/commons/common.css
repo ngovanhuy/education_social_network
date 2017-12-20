@@ -396,7 +396,7 @@ ul.nav li .user_full_name {
     @media (min-width: 992px) {
       .new-post .new-post-content .new-post-message {
         width: 90%; } }
-  .new-post .new-post-content .announcement {
+  .new-post .new-post-content .content {
     width: 550px;
     margin: 10px 0;
     max-width: 100%; }

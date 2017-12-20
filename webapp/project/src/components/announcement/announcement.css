@@ -99,6 +99,6 @@
 
 .create-announcement-modal .announcement-content {
   width: 550px;
-  max-width: 100; }
+  max-width: 100%; }
 
 /*# sourceMappingURL=announcement.css.map */

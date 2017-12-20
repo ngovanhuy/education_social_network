@@ -118,7 +118,7 @@ class PostCreateAnnouncement extends Component {
                         <textarea className="form-control" rows="1" placeholder="Title" name="title"
                                   value={this.state.title}
                                   onChange={this.handleChange}></textarea>
-                        <textarea className="form-control announcement" rows="4" name="content"
+                        <textarea className="form-control content" rows="4" name="content"
                                   placeholder="Write something"
                                   value={this.state.content}
                                   onChange={this.handleChange}></textarea>

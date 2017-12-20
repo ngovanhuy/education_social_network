@@ -101,10 +101,10 @@ class EventLeftmenu extends Component{
                         <i className="fa fa-plus"></i>
                         Create event
                     </a>
-                    <a href="#" className="btn btn-white hidden-xs hidden-sm hidden-md">
-                        <i className="fa fa-plus"></i>
-                        Import event
-                    </a>
+                    {/*<a href="#" className="btn btn-white hidden-xs hidden-sm hidden-md">*/}
+                        {/*<i className="fa fa-plus"></i>*/}
+                        {/*Import event*/}
+                    {/*</a>*/}
                 </div>
             </div>
         )
