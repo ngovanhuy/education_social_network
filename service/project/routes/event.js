@@ -20,6 +20,7 @@ router.route('/:eventID')
     .get(EventController.checkEventRequest, EventController.getEventInfo)
     .put(FileController.imageUpload, GroupController.checkGroupRequestIfHave, EventController.checkEventRequest, FileController.postFileIfHave, EventController.updateEvent, EventController.getEventInfo)
     .delete(EventController.checkEventRequest, EventController.removeEvent, EventController.getEventInfo);
-
+router.route('/export/:eventID')
+    .get(EventController.checkEventRequest, EventController.exportEvent)
 
 module.exports = router;

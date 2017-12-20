@@ -1,5 +1,8 @@
+import {DOMAIN_SERVICE} from "../constants";
+
 export const eventUtils = {
-    updateInfoEvents
+    updateInfoEvents,
+    getICSSource,
 }
 
 function updateInfoEvents(events) {
@@ -18,4 +21,8 @@ function _updateInfoEvent(event) {
         end: new Date(event.endTime)
     };
     return eventAfterUpdate;
+}
+
+function getICSSource(eventId) {
+    return DOMAIN_SERVICE + "/events/export/" + eventId;
 }

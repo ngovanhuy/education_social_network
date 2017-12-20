@@ -3,19 +3,60 @@ let GroupControllers = require('../controllers/group');
 let Groups = require('../models/group');
 let EventItem = require('../models/event');
 let Utils = require('../application/utils');
+let ics = require('ics')
+let fs = require('fs')
+let ICS_PATH = 'files/ics/';
+var utils = require('../application/utils');
 
 async function getEventByID(id) {
     try {
         let eventID = Number(id);
         if (isNaN(eventID)) return null;
         return await EventItem.findOne({_id: eventID});
-    } catch(error) {
+    } catch (error) {
         return null;
     }
 }
+
 async function importEvent(req, res) {
 //TODO: ImportEvent
 }
+
+async function exportEvent(req, res) {
+    let event = req.events.event_requested;
+    let eventInfo = event.getBasicInfo()
+    let randomString = utils.randomString()
+    let fileName = `${ICS_PATH}/event_${randomString}.ics`
+    let eventStart = new Date(eventInfo.startTime)
+    let eventEnd = new Date(eventInfo.endTime)
+    ics.createEvent({
+        title: eventInfo.title,
+        description: eventInfo.content,
+        location: eventInfo.location,
+        start: [eventStart.getFullYear(), eventStart.getMonth() + 1, eventStart.getDate(), eventStart.getHours(), eventStart.getMinutes()],
+        end: [eventEnd.getFullYear(), eventEnd.getMonth() + 1, eventEnd.getDate(), eventEnd.getHours(), eventEnd.getMinutes()]
+    }, (error, value) => {
+        if (error) {
+            console.log(error)
+        }
+
+        fs.writeFileSync(fileName, value)
+    })
+    let readStream = fs.createReadStream(fileName);
+    readStream.on("open", () => {
+        res.setHeader("Content-Disposition", "filename=\"event_" + randomString + ".ics\"");
+        readStream.pipe(res);
+    }).on("close", () => {
+        res.end();
+    }).on("error", err => {
+        return res.status(500).send({
+            code: 500,
+            message: 'Not exit file.',
+            data: null
+        });
+    });
+}
+
 async function findEvent(req) {
     if (req.events.event_requested) {
         return req.events.event_requested;
@@ -48,7 +89,7 @@ async function checkEventRequest(req, res, next) {
                 data: null
             });
         }
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -67,6 +108,7 @@ async function getEventsInfo(req, res) {
         data: events ? events.map(event => event.getBasicInfo()) : [],
     });
 }
+
 async function getEventInfo(req, res) {
     let event = req.events.event_requested;
     return res.json({
@@ -75,12 +117,13 @@ async function getEventInfo(req, res) {
         data: event.getBasicInfo(),
     });
 }
+
 async function getAllEvents(req, res, next) {
     try {
         let events = await EventItem.find({isDeleted: false});
         req.events.events_requested = events ? events : [];
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -89,12 +132,13 @@ async function getAllEvents(req, res, next) {
         });
     }
 }
+
 async function getSystemEvents(req, res, next) {
     try {
         let events = await EventItem.find({isDeleted: false, context: 100});
         req.events.events_requested = events ? events : [];
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -103,13 +147,14 @@ async function getSystemEvents(req, res, next) {
         });
     }
 }
+
 async function getGroupEvents(req, res, next) {
     try {
         let group = req.groups.group_request;
         let events = await EventItem.find({isDeleted: false, context: 10, 'contextData.id': group._id});
         req.events.events_requested = events ? events : [];
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -118,13 +163,14 @@ async function getGroupEvents(req, res, next) {
         });
     }
 }
+
 async function getUserEvents(req, res, next) {
     try {
         let user = req.users.user_request;
         let events = await EventItem.find({isDeleted: false, 'userCreate.id': user._id});
         req.events.events_requested = events ? events : [];
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -133,6 +179,7 @@ async function getUserEvents(req, res, next) {
         });
     }
 }
+
 async function getGroupEvent(req, res, next) {
     try {
         if (!req.params.groupEventID) {
@@ -154,7 +201,7 @@ async function getGroupEvent(req, res, next) {
         let events = await EventItem.find({isDeleted: false, groupEventID: groupEventID});
         req.events.events_requested = events ? events : [];
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -189,7 +236,7 @@ async function getEvents(req, res, next) {
         let events = await EventItem.find(findObject);
         req.events.events_requested = events ? events : [];
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -198,6 +245,7 @@ async function getEvents(req, res, next) {
         });
     }
 }
+
 async function addEvent(req, res, next) {
     try {
         let user = req.users.user_request;
@@ -247,15 +295,15 @@ async function addEvent(req, res, next) {
         if (event.setContext(context)) {//, contextID)){
             if (event.isGroupContext()) {
                 event.contextData = group ? {
-                    profileImageID : group.profileImageID,
-                    memberCount : group.memberCount,
-                    location : group.location,
-                    about : group.about,
-                    name : group.name,
-                    id : group._id,
+                    profileImageID: group.profileImageID,
+                    memberCount: group.memberCount,
+                    location: group.location,
+                    about: group.about,
+                    name: group.name,
+                    id: group._id,
                 } : null;
             } else if (event.isUserContext()) {
-                 // event.contextData = user ? user.getBasicInfo() : null;
+                // event.contextData = user ? user.getBasicInfo() : null;
             } else {
                 event.contextData = null;
             }
@@ -271,7 +319,7 @@ async function addEvent(req, res, next) {
         event = await event.save();
         req.events.event_requested = event;
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -280,6 +328,7 @@ async function addEvent(req, res, next) {
         });
     }
 }
+
 async function addEvents(req, res, next) {
     try {
         let user = req.users.user_request;
@@ -317,12 +366,12 @@ async function addEvents(req, res, next) {
         let contextData = null;
         if (context === EventItem.getGroupContext()) {
             contextData = group ? {
-                profileImageID : group.profileImageID,
-                memberCount : group.memberCount,
-                location : group.location,
-                about : group.about,
-                name : group.name,
-                id : group._id,
+                profileImageID: group.profileImageID,
+                memberCount: group.memberCount,
+                location: group.location,
+                about: group.about,
+                name: group.name,
+                id: group._id,
             } : null;
         }
         let createEventItem = function (_id, _startTime, _endTime) {
@@ -351,7 +400,7 @@ async function addEvents(req, res, next) {
             req.events.events_requested = eventSaveds;
             next();
         }).catch(error => next(error));
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -360,6 +409,7 @@ async function addEvents(req, res, next) {
         });
     }
 }
+
 async function removeEvent(req, res, next) {
     try {
         let event = await findEvent(req);
@@ -392,6 +442,7 @@ async function removeEvent(req, res, next) {
         });
     }
 }
+
 async function updateEvent(req, res, next) {
     try {
         let event = req.events.event_requested;
@@ -416,12 +467,12 @@ async function updateEvent(req, res, next) {
         if (event.setContext(context)) {//, contextID)){
             if (event.isGroupContext()) {
                 event.contextData = group ? {
-                    profileImageID : group.profileImageID,
-                    memberCount : group.memberCount,
-                    location : group.location,
-                    about : group.about,
-                    name : group.name,
-                    id : group._id,
+                    profileImageID: group.profileImageID,
+                    memberCount: group.memberCount,
+                    location: group.location,
+                    about: group.about,
+                    name: group.name,
+                    id: group._id,
                 } : null;
             } else if (event.isUserContext()) {
                 // event.contextData = user ? user.getBasicInfo() : null;
@@ -432,7 +483,7 @@ async function updateEvent(req, res, next) {
         event = await event.save();
         req.events.event_requested = event;
         return next();
-    } catch(error) {
+    } catch (error) {
         return res.status(500).send({
             code: 500,
             message: 'Server Error',
@@ -451,6 +502,7 @@ exports.removeEvent = removeEvent;
 exports.updateEvent = updateEvent;
 exports.checkEventRequest = checkEventRequest;
 exports.importEvent = importEvent;
+exports.exportEvent = exportEvent;
 exports.getGroupEvents = getGroupEvents;
 exports.getUserEvents = getUserEvents;
 exports.getEventsInfo = getEventsInfo;

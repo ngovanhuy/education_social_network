@@ -2,19 +2,20 @@ import React, {Component} from 'react'
 import './event.css'
 import ClassProfileInfo from "../commons/views/ClassProfileInfo";
 import UserProfileInfo from "../commons/views/UserProfileInfo";
-import {dateUtils, fileUtils} from "../../utils";
+import {dateUtils, eventUtils, fileUtils} from "../../utils";
 import {defaultConstants, eventConstants} from "../../constants";
 
 class EventTopContent extends Component {
     render() {
-        const {eventDetail} = this.props;
+        const {eventDetail, currentUser} = this.props;
         return (
             <div>
                 <div className="event-detail-top-content clearfix">
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="cover-photo clearfix">
-                                <img src={fileUtils.renderFileSource(eventDetail.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
+                                <img
+                                    src={fileUtils.renderFileSource(eventDetail.eventImageID, defaultConstants.EVENT_PROFILE_PICTURE_URL)}/>
                             </div>
                         </div>
                     </div>
@@ -40,7 +41,7 @@ class EventTopContent extends Component {
                                     }
                                     {
                                         (eventDetail.context == eventConstants.EVENT_CONTEXT.GROUP && eventDetail.contextData && eventDetail.userCreate) &&
-                                            <span role="presentation" aria-hidden="true"> · </span>
+                                        <span role="presentation" aria-hidden="true"> · </span>
                                     }
                                     {
                                         eventDetail.userCreate ?
@@ -58,33 +59,41 @@ class EventTopContent extends Component {
                                 <div className="buttons clearfix">
                                     <div className="btn-group pull-right">
                                         {/*<div className="btn-group">*/}
-                                        {/*<a className="btn btn-white" href="#">*/}
-                                        {/*<i className="fa fa-check"></i>*/}
-                                        {/*<span>Going</span>*/}
+                                        {/*<a data-toggle="dropdown" className="btn btn-white dropdown-toggle"*/}
+                                        {/*href="#">*/}
+                                        {/*<i className="fa fa-share"></i>*/}
+                                        {/*<span className="share-text">Share</span>*/}
+                                        {/*<i className="fa fa-caret-down"></i>*/}
                                         {/*</a>*/}
+                                        {/*<ul role="menu" className="dropdown-menu">*/}
+                                        {/*<li><a href="javascript:;">Invite Friends</a></li>*/}
+                                        {/*<li><a href="javascript:;">Share in message</a></li>*/}
+                                        {/*<li><a href="javascript:;">Share in new feed</a></li>*/}
+                                        {/*</ul>*/}
                                         {/*</div>*/}
-                                        {/*<div className="btn-group">*/}
-                                            {/*<a data-toggle="dropdown" className="btn btn-white dropdown-toggle"*/}
-                                               {/*href="#">*/}
-                                                {/*<i className="fa fa-share"></i>*/}
-                                                {/*<span className="share-text">Share</span>*/}
-                                                {/*<i className="fa fa-caret-down"></i>*/}
-                                            {/*</a>*/}
-                                            {/*<ul role="menu" className="dropdown-menu">*/}
-                                                {/*<li><a href="javascript:;">Invite Friends</a></li>*/}
-                                                {/*<li><a href="javascript:;">Share in message</a></li>*/}
-                                                {/*<li><a href="javascript:;">Share in new feed</a></li>*/}
-                                            {/*</ul>*/}
-                                        {/*</div>*/}
-                                        {/*<div className="btn-group">*/}
-                                            {/*<a data-toggle="dropdown" className="btn btn-white dropdown-toggle"*/}
-                                               {/*href="#">*/}
-                                                {/*<i className="fa fa-ellipsis-h"></i>*/}
-                                            {/*</a>*/}
-                                            {/*<ul role="menu" className="dropdown-menu pull-right">*/}
-                                                {/*<li><a href="javascript:;">Export event</a></li>*/}
-                                            {/*</ul>*/}
-                                        {/*</div>*/}
+                                        <div className="btn-group">
+                                            <a data-toggle="dropdown" className="btn btn-white dropdown-toggle"
+                                               href="#">
+                                                <i className="fa fa-ellipsis-h"></i>
+                                            </a>
+                                            <ul role="menu" className="dropdown-menu pull-right">
+                                                {
+                                                    eventDetail &&
+                                                    <li>
+                                                        <a href={eventDetail && eventUtils.getICSSource(eventDetail.id)} target="_blank" download>Export event</a>
+                                                    </li>
+                                                }
+                                                {/*{*/}
+                                                    {/*eventDetail.userCreate && eventDetail.userCreate.id == currentUser.id &&*/}
+                                                    {/*<li>*/}
+                                                        {/*<a href="javascript:;">*/}
+                                                            {/*<i className="fa fa-times"></i>*/}
+                                                            {/*<span>Delete</span>*/}
+                                                        {/*</a>*/}
+                                                    {/*</li>*/}
+                                                {/*}*/}
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

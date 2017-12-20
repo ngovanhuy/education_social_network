@@ -23,7 +23,7 @@ class EventDetailPage extends Component {
     }
 
     render() {
-        const {eventDetail, eventId, loading} = this.props
+        const {eventDetail, eventId, currentUser, loading} = this.props
         return (
             <div className="container">
                 {
@@ -37,7 +37,7 @@ class EventDetailPage extends Component {
                             <div className="col-sm-7">
                                 <div className="row">
                                     <div className="event-main-content clearfix">
-                                        <EventTopContent eventDetail={eventDetail}/>
+                                        <EventTopContent eventDetail={eventDetail} currentUser={currentUser}/>
                                         <div className="ui-box has-border-radius event-description clearfix">
                                             <div className="ui-box-title">
                                                 <span>Details</span>
@@ -79,10 +79,12 @@ class EventDetailPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const eventId = ownProps.match.params.eventId
     const {eventDetail} = state.events
+    const {currentUser} = state.authentication
     var loading = appUtils.checkLoading(state)
     return {
         eventId,
         eventDetail,
+        currentUser,
         loading
     }
 }

@@ -59,6 +59,7 @@ typings/
 
 # upload folder
 uploads/
+files/ics/
 _*
 ~*
 # IDE
