@@ -27,7 +27,7 @@ async function exportEvent(req, res) {
         let event = req.events.event_requested;
         let eventInfo = event.getBasicInfo()
         let randomString = utils.randomString()
-        let fileName = `${ICS_PATH}/event_${randomString}.ics`
+        let fileName = `${ICS_PATH}${randomString}.ics`
         let eventStart = new Date(eventInfo.startTime)
         let eventEnd = new Date(eventInfo.endTime)
         ics.createEvent({
