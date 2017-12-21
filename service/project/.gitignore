@@ -59,7 +59,7 @@ typings/
 
 # upload folder
 uploads/
-files/ics/
+files_ics/
 _*
 ~*
 # IDE

@@ -6,7 +6,7 @@ let Utils = require('../application/utils');
 let ics = require('ics')
 let fs = require('fs')
 let path = require('path');
-let ICS_PATH = 'files/ics/';
+let ICS_PATH = 'files_ics/';
 var utils = require('../application/utils');
 
 async function getEventByID(id) {
@@ -30,6 +30,9 @@ async function exportEvent(req, res) {
         let randomString = utils.randomString()
         // let fileName = `${ICS_PATH}${randomString}.ics`
         let filePath = path.join(ICS_PATH, `${randomString}.ics`)
+        if (!fs.existsSync(ICS_PATH)){
+            fs.mkdirSync(ICS_PATH);
+        }
         let eventStart = new Date(eventInfo.startTime)
         let eventEnd = new Date(eventInfo.endTime)
         ics.createEvent({
@@ -47,7 +50,7 @@ async function exportEvent(req, res) {
         })
         let readStream = fs.createReadStream(filePath);
         readStream.on("open", () => {
-            res.setHeader("Content-Disposition", "filename=\"event_" + randomString + ".ics\"");
+            res.setHeader("Content-Disposition", "filename=\"" + randomString + ".ics\"");
             readStream.pipe(res);
         }).on("close", () => {
             res.end();
