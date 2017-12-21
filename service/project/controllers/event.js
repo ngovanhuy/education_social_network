@@ -5,6 +5,7 @@ let EventItem = require('../models/event');
 let Utils = require('../application/utils');
 let ics = require('ics')
 let fs = require('fs')
+let path = require('path');
 let ICS_PATH = 'files/ics/';
 var utils = require('../application/utils');
 
@@ -27,7 +28,8 @@ async function exportEvent(req, res) {
         let event = req.events.event_requested;
         let eventInfo = event.getBasicInfo()
         let randomString = utils.randomString()
-        let fileName = `${ICS_PATH}${randomString}.ics`
+        // let fileName = `${ICS_PATH}${randomString}.ics`
+        let filePath = path.join(ICS_PATH, `${randomString}.ics`)
         let eventStart = new Date(eventInfo.startTime)
         let eventEnd = new Date(eventInfo.endTime)
         ics.createEvent({
@@ -41,9 +43,9 @@ async function exportEvent(req, res) {
                 console.log(error)
             }
 
-            fs.writeFileSync(fileName, value)
+            fs.writeFileSync(filePath, value)
         })
-        let readStream = fs.createReadStream(fileName);
+        let readStream = fs.createReadStream(filePath);
         readStream.on("open", () => {
             res.setHeader("Content-Disposition", "filename=\"event_" + randomString + ".ics\"");
             readStream.pipe(res);
