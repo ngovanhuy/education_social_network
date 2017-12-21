@@ -23,38 +23,47 @@ async function importEvent(req, res) {
 }
 
 async function exportEvent(req, res) {
-    let event = req.events.event_requested;
-    let eventInfo = event.getBasicInfo()
-    let randomString = utils.randomString()
-    let fileName = `${ICS_PATH}/event_${randomString}.ics`
-    let eventStart = new Date(eventInfo.startTime)
-    let eventEnd = new Date(eventInfo.endTime)
-    ics.createEvent({
-        title: eventInfo.title,
-        description: eventInfo.content,
-        location: eventInfo.location,
-        start: [eventStart.getFullYear(), eventStart.getMonth() + 1, eventStart.getDate(), eventStart.getHours(), eventStart.getMinutes()],
-        end: [eventEnd.getFullYear(), eventEnd.getMonth() + 1, eventEnd.getDate(), eventEnd.getHours(), eventEnd.getMinutes()]
-    }, (error, value) => {
-        if (error) {
-            console.log(error)
-        }
+    try{
+        let event = req.events.event_requested;
+        let eventInfo = event.getBasicInfo()
+        let randomString = utils.randomString()
+        let fileName = `${ICS_PATH}/event_${randomString}.ics`
+        let eventStart = new Date(eventInfo.startTime)
+        let eventEnd = new Date(eventInfo.endTime)
+        ics.createEvent({
+            title: eventInfo.title,
+            description: eventInfo.content,
+            location: eventInfo.location,
+            start: [eventStart.getFullYear(), eventStart.getMonth() + 1, eventStart.getDate(), eventStart.getHours(), eventStart.getMinutes()],
+            end: [eventEnd.getFullYear(), eventEnd.getMonth() + 1, eventEnd.getDate(), eventEnd.getHours(), eventEnd.getMinutes()]
+        }, (error, value) => {
+            if (error) {
+                console.log(error)
+            }
 
-        fs.writeFileSync(fileName, value)
-    })
-    let readStream = fs.createReadStream(fileName);
-    readStream.on("open", () => {
-        res.setHeader("Content-Disposition", "filename=\"event_" + randomString + ".ics\"");
-        readStream.pipe(res);
-    }).on("close", () => {
-        res.end();
-    }).on("error", err => {
+            fs.writeFileSync(fileName, value)
+        })
+        let readStream = fs.createReadStream(fileName);
+        readStream.on("open", () => {
+            res.setHeader("Content-Disposition", "filename=\"event_" + randomString + ".ics\"");
+            readStream.pipe(res);
+        }).on("close", () => {
+            res.end();
+        }).on("error", err => {
+            return res.status(500).send({
+                code: 500,
+                message: 'Not exit file.',
+                data: null
+            });
+        });
+    } catch (error){
         return res.status(500).send({
             code: 500,
-            message: 'Not exit file.',
-            data: null
+            message: 'Server Error',
+            data: null,
+            error: error
         });
-    });
+    }
 }
 
 async function findEvent(req) {
