@@ -1,4 +1,0 @@
-{"_id":{"$oid":"59d2fa01c958673374b0676d"},"userId":"59d2125ac9230a5870566bb6","secret":"client_secret","id":"client_id","name":"client_name","__v":0}
-{"_id":{"$oid":"59d2fa81f242261310a06bb7"},"userId":"59d21277c9230a5870566bb7","secret":"client_secret_2","id":"client_id_2","name":"client_name_2","__v":0}
-{"_id":{"$oid":"59d2fa8ef242261310a06bb8"},"userId":"59d2127bc9230a5870566bb8","secret":"client_secret_3","id":"client_id_3","name":"client_name_3","__v":0}
-{"_id":{"$oid":"59d2faa5f242261310a06bb9"},"userId":"59d2127bc9230a5870566bb8","secret":"client_secret_3_1","id":"client_id_3_1","name":"client_name_3_1","__v":0}
