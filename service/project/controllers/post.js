@@ -37,30 +37,18 @@ async function checkPostRequest(req, res, next) {
         return next();
     } else {
         req.posts.post_requested = null;
-        return res.status(400).send({
-            status: 400,
-            message: 'Post not exited or deleted',
-            data: null
-        });
+        return next(Utils.createError('Post not exited or deleted', 400));
     }
 }
 
-function getPost(req, res) {
+function getPost(req, res, next) {
     try {
         let post = req.posts.post_requested;
         let user = req.users.user_request;
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: post.getBasicInfo(user),
-        });
+        req.responses.data = Utils.createResponse(post.getBasicInfo(user));
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
@@ -73,12 +61,7 @@ async function addPost(req, res, next) {
         let content = req.body.content;
         let topic = req.body.topic;
         if (!title || !content || !topic) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: error.message
-            });
+            return next(Utils.createError('Request Invalid', 400));
         }
         let isShow = req.body.isShow ? req.body.isShow === 'true' : false;
         let isSchedule = req.body.isSchedule ? req.body.isSchedule === 'true' : false;
@@ -110,12 +93,7 @@ async function addPost(req, res, next) {
         req.posts.post_requested = post;
         return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 
@@ -126,27 +104,14 @@ async function deletePost(req, res, next) {
         req.posts.post_requested = post;
         if (post.userCreate._id !== user._id) {
             if (!user.isTeacher()) {//TODO: Check current group.
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Request Invalid. Only owner post or teacher can delete',
-                    data: null,
-                    error: 'Permit invalid'
-                });
+                return next(Utils.createError('Permit invalid', 400, 400, 'Request Invalid. Only owner post or teacher can delete'));
             }
         }
         if (!post) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Post Not Existed',
-                data: null
-            });
+            return next(Utils.createError('Post Not Existed', 400));
         }
         if (post.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Post deleted.',
-                data: null
-            });
+            return next(Utils.createError('Post deleted.', 400));
         } else {
             post.isDeleted = true;
             post = await post.save();
@@ -154,27 +119,17 @@ async function deletePost(req, res, next) {
         }
         return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function updatePost(req, res) {
+async function updatePost(req, res, next) {
     try {
         let user = req.users.user_request;
         let post = req.posts.post_requested;
         if (post.userCreate._id !== user._id) {
             if (!user.isTeacher()) {//TODO check current group
-                return res.status(400).send({
-                    code: 400,
-                    message: 'Request Invalid. Only owner post or teacher can editable.',
-                    data: null,
-                    error: 'Permit invalid'
-                });
+                return next(Utils.createError('Permit invalid', 400, 400, 'Request Invalid. Only owner post or teacher can editable.'));
             }
         }
         let title = req.body.title;
@@ -192,33 +147,21 @@ async function updatePost(req, res) {
         }
         post = await post.save();
         req.posts.post_requested = post;
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: post.getBasicInfo(user),
-        });
+        req.responses.data = Utils.createResponse(post.getBasicInfo(user));
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function addComment(req, res) {
+async function addComment(req, res, next) {
     try {
         let post = req.posts.post_requested;
         let user = req.users.user_request;
         let file = req.fileitems.file_saved;
         let content = req.body.content;
         if (!content) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                error: 'Content not found'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'Content not found'));
         }
         let comment = post.addComment(user, content, file);
         let data = null;
@@ -238,47 +181,31 @@ async function addComment(req, res) {
         } else {
             throw new Error("Add Comment error");
         }
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: data,
-        });
+        req.responses.data = Utils.createResponse(data);
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function getComments(req, res) {//bulk comments with index.
+async function getComments(req, res, next) {//bulk comments with index.
     try {
         let post = req.posts.post_requested;
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: {
-                post: {
-                    postID: post._id,
-                    groupID: post.group.id,
-                    userCreateID: post.userCreate.id,
-                },
-                comments: post.getComments(),
+        req.responses.data = Utils.createResponse({
+            post: {
+                postID: post._id,
+                groupID: post.group.id,
+                userCreateID: post.userCreate.id,
             },
+            comments: post.getComments(),
         });
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function deleteComment(req, res) {
+async function deleteComment(req, res, next) {
     try {
         let post = req.posts.post_requested;
         let commentID = null;
@@ -290,11 +217,7 @@ async function deleteComment(req, res) {
             commentID = req.body.commentID;
         }
         if (!commentID) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                error: 'CommentID not found'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'CommentID not found'));
         }
         let comment = post.deleteComment(Number(commentID));
         let data = null;
@@ -312,28 +235,16 @@ async function deleteComment(req, res) {
                 timeUpdate: Utils.exportDate(comment.timeUpdate),
             }
         } else {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                error: 'CommentID not exited'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'CommentID not exited'));
         }
-        return res.json({
-            code: 200,
-            message: 'Success',
-            data: data,
-        });
+        req.responses.data = Utils.createResponse(data);
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function updateComment(req, res) {
+async function updateComment(req, res, next) {
     try {
         let post = req.posts.post_requested;
         let user = req.users.user_request;
@@ -348,11 +259,7 @@ async function updateComment(req, res) {
             commentID = req.body.commentID;
         }
         if (!commentID) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                error: 'CommentID not found'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'CommentID not found'));
         }
         let comment = post.updateComment(Number(commentID), content, file);
         let data = null;
@@ -372,22 +279,14 @@ async function updateComment(req, res) {
         } else {
             throw new Error("Update Comment error");
         }
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: data,
-        });
+        req.responses.data = Utils.createResponse(data);
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function getPostsInTopic(req, res) {
+async function getPostsInTopic(req, res, next) {
     try {
         let datas = [];
         let group = req.groups.group_request;
@@ -403,44 +302,29 @@ async function getPostsInTopic(req, res) {
             });
             datas = posts.map(post => post.getBasicInfo(user));
         }
-        res.json({
-            code: 200,
-            message: 'Success',
-            data: datas
-        });
+        req.responses.data = Utils.createResponse(datas);
+        return next();
     } catch (error) {
-        res.status(500).json({
-            code: 500,
-            message: 'Server Error',
-            error: error.message,
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function getLikes(req, res) {
+async function getLikes(req, res, next) {
     try {
         let post = req.posts.post_requested;
         let user = req.users.user_request;
-        return res.send({
-            code: 200,
-            message: 'Success',
-            data: {
-                post: {
-                    postID: post._id,
-                    groupID: post.group.id,
-                    userCreateID: post.userCreate.id,
-                },
-                likes: post.getLikes(),
-                // isUserLiked: post.isUserLiked(user),//check req.query.user.
+        req.responses.data = Utils.createResponse({
+            post: {
+                postID: post._id,
+                groupID: post.group.id,
+                userCreateID: post.userCreate.id,
             },
+            likes: post.getLikes(),
+            // isUserLiked: post.isUserLiked(user),//check req.query.user.
         });
+        return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
@@ -456,12 +340,7 @@ async function addLike(req, res, next) {
             throw new Error("Can't add like to post");
         }
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 
@@ -477,12 +356,7 @@ async function removeLike(req, res, next) {
             throw new Error("Can't add like to post");
         }
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 

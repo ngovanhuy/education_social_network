@@ -240,6 +240,9 @@ async function deleteUser(req, res, next) {
 }
 
 function getUser(req, res, next) {
+    if (!req.users.user_request) {
+        req.users.user_request = getCurrentUser(req);
+    }
     req.responses.data = Utils.createResponse(req.users.user_request.getBasicInfo());
     return next();
 }
@@ -724,7 +727,12 @@ function checkSystemAccount(req, res, next) {
     }
     return next(Utils.createError('Not is system'));
 }
+
+function getCurrentUser(req) {
+    return req.user ? req.user : null;
+}
 /*----------------EXPORT------------------ */
+exports.getCurrentUser = getCurrentUser;
 exports.postUser = postUser;
 exports.putUser = putUser;
 exports.getUser = getUser;
@@ -742,10 +750,6 @@ exports.addRequest = addRequest;
 exports.removeRequest = removeRequest;
 
 exports.checkUserName = checkUserName;
-// exports.checkUserRequest = [
-//     authController.isAuthenticated,
-//     checkUserRequest
-// ];
 exports.checkUserRequest = checkUserRequest;
 exports.checkUserRequestIfHave = checkUserRequestIfHave;
 exports.checkEmail = checkEmail;

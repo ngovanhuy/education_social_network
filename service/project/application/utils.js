@@ -8,6 +8,20 @@ let isLog = true;
 let phoneReg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 let emailReg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+function uid(len) {
+    let buf = [];
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charlen = chars.length;
+    for (let i = 0; i < len; ++i) {
+        buf.push(chars[getRandomInt(0, charlen - 1)]);
+    }
+    return buf.join('');
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function validatePhoneNumber(phone, isRequired = false) {
     return phone ? (phoneReg.test(phone) || phoneReg.test(Number(phone))): !isRequired;
 }
@@ -166,3 +180,5 @@ exports.validateStringLength = validateStringLength;
 exports.exportDate = exportDate;
 exports.isNumber = isNumber;
 exports.createResponse = createResponse;
+exports.uid = uid;
+exports.getRandomInt = getRandomInt;

@@ -42,38 +42,22 @@ async function checkEventRequest(req, res, next) {
             return next();
         } else {
             req.events.event_requested = null;
-            return res.status(400).send({
-                status: 400,
-                message: 'Event not exited or deleted',
-                data: null
-            });
+            return next(Utils.createError('Event not exited or deleted', 400));
         }
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 
-async function getEventsInfo(req, res) {
+async function getEventsInfo(req, res, next) {
     let events = req.events.events_requested;
-    return res.json({
-        code: 200,
-        message: 'Success',
-        length: events ? events.length : 0,
-        data: events ? events.map(event => event.getBasicInfo()) : [],
-    });
+    req.responses.data = Utils.createResponse(events ? events.map(event => event.getBasicInfo()) : []);
+    return next();
 }
 async function getEventInfo(req, res) {
     let event = req.events.event_requested;
-    return res.json({
-        code: 200,
-        message: 'Success',
-        data: event.getBasicInfo(),
-    });
+    req.responses.data = Utils.createResponse(event.getBasicInfo());
+    return next();
 }
 async function getAllEvents(req, res, next) {
     try {
@@ -81,12 +65,7 @@ async function getAllEvents(req, res, next) {
         req.events.events_requested = events ? events : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function getSystemEvents(req, res, next) {
@@ -95,12 +74,7 @@ async function getSystemEvents(req, res, next) {
         req.events.events_requested = events ? events : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function getGroupEvents(req, res, next) {
@@ -110,12 +84,7 @@ async function getGroupEvents(req, res, next) {
         req.events.events_requested = events ? events : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function getUserEvents(req, res, next) {
@@ -125,42 +94,24 @@ async function getUserEvents(req, res, next) {
         req.events.events_requested = events ? events : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function getGroupEvent(req, res, next) {
     try {
         if (!req.params.groupEventID) {
-            return res.status(400).send({
-                code: 400,
-                message: 'GroupEventID not define',
-                data: null,
-            });
+            return next(Utils.createError('GroupEventID not define', 400));
         }
         let groupEventID = Number(req.params.groupEventID);
         if (isNaN(groupEventID)) {
-            return res.status(400).send({
-                code: 400,
-                message: 'GroupEventID invalid format',
-                data: null,
-            });
+            return next(Utils.createError('GroupEventID invalid format', 400));
         }
 
         let events = await EventItem.find({isDeleted: false, groupEventID: groupEventID});
         req.events.events_requested = events ? events : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 
@@ -190,12 +141,7 @@ async function getEvents(req, res, next) {
         req.events.events_requested = events ? events : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function addEvent(req, res, next) {
@@ -218,12 +164,7 @@ async function addEvent(req, res, next) {
             groupEventID = Date.now();
         }
         if (!title || !content || !location) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: 'Data not exited'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'Data not exited'));
         }
         let now = new Date();
         let event = new EventItem({
@@ -261,23 +202,13 @@ async function addEvent(req, res, next) {
             }
         }
         else {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: 'context, contextID invalid'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'context, contextID invalid'));
         }
         event = await event.save();
         req.events.event_requested = event;
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function addEvents(req, res, next) {
@@ -299,12 +230,7 @@ async function addEvents(req, res, next) {
             groupEventID = Date.now();
         }
         if (!title || !content || !location) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: 'Data not exited'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'Data not exited'));
         }
         let now = Date.now();
         let userCreate = {
@@ -352,12 +278,7 @@ async function addEvents(req, res, next) {
             next();
         }).catch(error => next(error));
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function removeEvent(req, res, next) {
@@ -365,18 +286,10 @@ async function removeEvent(req, res, next) {
         let event = await findEvent(req);
         req.events.event_requested = event;
         if (!event) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Event Existed',
-                data: null
-            });
+            return next(Utils.createError('Event Existed', 400));
         }
         if (event.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Event deleted.',
-                data: null
-            });
+            return next(Utils.createError('Event deleted', 400));
         } else {
             event.isDeleted = true;
             event = await event.save();
@@ -384,12 +297,7 @@ async function removeEvent(req, res, next) {
         }
         return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 async function updateEvent(req, res, next) {
@@ -433,12 +341,7 @@ async function updateEvent(req, res, next) {
         req.events.event_requested = event;
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 
@@ -457,5 +360,3 @@ exports.getEventsInfo = getEventsInfo;
 exports.getEventInfo = getEventInfo;
 exports.getAllEvents = getAllEvents;
 exports.getGroupEvent = getGroupEvent;
-
-

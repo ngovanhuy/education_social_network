@@ -37,28 +37,16 @@ async function checkAnnouncementRequest(req, res, next) {
             return next();
         } else {
             req.announcements.announcement_requested = null;
-            return res.status(400).send({
-                status: 400,
-                message: 'Announcement not exited or deleted',
-                data: null
-            });
+            return next(Utils.createError('Announcement not exited or deleted', 400));
         }
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
-async function getAnnouncementInfo(req, res) {
+async function getAnnouncementInfo(req, res, next) {
     let announcement = req.announcements.announcement_requested;
-    return res.json({
-        code: 200,
-        message: 'Success',
-        data: announcement.getBasicInfo(),
-    });
+    req.responses.data = Utils.createResponse(announcement.getBasicInfo());
+    return next();
 }
 async function getAllAnnouncements(req, res, next) {
     try {
@@ -66,12 +54,7 @@ async function getAllAnnouncements(req, res, next) {
         req.announcements.announcements_requested = announcements ? announcements : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 
@@ -96,12 +79,7 @@ async function getAnnouncements(req, res, next) {
         req.announcements.announcements_requested = announcements ? announcements : [];
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function addAnnouncement(req, res, next) {
@@ -110,20 +88,10 @@ async function addAnnouncement(req, res, next) {
         let title = req.body.title;
         let content = req.body.content;
         if (!user.isTeacher()) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: 'Only teacher can create/modify/delete announcement.'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'Only teacher can create/modify/delete announcement.'));
         }
         if (!title || !content) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: 'Data not exited'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'Data not exited'));
         }
         let now = new Date();
         let announcement = new Announcements({
@@ -144,40 +112,22 @@ async function addAnnouncement(req, res, next) {
         req.announcements.announcement_requested = announcement;
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
 async function removeAnnouncement(req, res, next) {
     try {
         let user = req.users.user_request;
         if (!user.isTeacher()) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: 'Only teacher can create/modify/delete announcement.'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'Only teacher can create/modify/delete announcement.'));
         }
         let announcement = await findAnnouncement(req);
         req.announcements.announcement_requested = announcement;
         if (!announcement) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Announcement Existed',
-                data: null
-            });
+            return next(Utils.createError('Announcement Existed', 400));
         }
         if (announcement.isDeleted) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Announcement deleted.',
-                data: null
-            });
+            return next(Utils.createError('Announcement deleted', 400));
         } else {
             announcement.isDeleted = true;
             announcement = await announcement.save();
@@ -185,24 +135,14 @@ async function removeAnnouncement(req, res, next) {
         }
         return next();
     } catch (error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error.message
-        });
+        return next(Utils.createError(error));
     }
 }
 async function updateAnnouncement(req, res, next) {
     try {
         let user = req.users.user_request;
         if (!user.isTeacher()) {
-            return res.status(400).send({
-                code: 400,
-                message: 'Request Invalid',
-                data: null,
-                error: 'Only teacher can create/modify/delete announcement.'
-            });
+            return next(Utils.createError('Request Invalid', 400, 400, 'Only teacher can create/modify/delete announcement.'));
         }
         let announcement = req.announcements.announcement_requested;
         let title = req.body.title;
@@ -213,21 +153,13 @@ async function updateAnnouncement(req, res, next) {
         req.announcements.announcement_requested = announcement;
         return next();
     } catch(error) {
-        return res.status(500).send({
-            code: 500,
-            message: 'Server Error',
-            data: null,
-            error: error
-        });
+        return next(Utils.createError(error));
     }
 }
-async function getAnnouncementsInfo(req, res) {
+async function getAnnouncementsInfo(req, res, next) {
     let announcements = req.announcements.announcements_requested;
-    return res.json({
-        code: 200,
-        message: 'Success',
-        data: announcements.map(announcement => announcement.getBasicInfo()),
-    });
+    req.responses.data = Utils.createResponse(announcements.map(announcement => announcement.getBasicInfo()));
+    return next();
 }
 
 exports.getAnnouncements = getAnnouncements;
