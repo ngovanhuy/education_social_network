@@ -7,6 +7,7 @@ import {userConstants} from "../../constants";
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import {dateUtils} from "../../utils";
+import {history} from "../../helpers/history";
 
 const fillGenderForSelectTag = () => {
     var genders = [
@@ -54,7 +55,7 @@ class UserAbout extends Component {
                 id: user.id,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                birthday: new Date(user.birthday),
+                birthday: user.birthday ? new Date(user.birthday) : null,
                 phone: user.phone,
                 quote: user.quote,
                 about: user.about,
@@ -72,7 +73,7 @@ class UserAbout extends Component {
                     id: user.id,
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    birthday: new Date(user.birthday),
+                    birthday: user.birthday ? new Date(user.birthday) : null,
                     phone: user.phone,
                     quote: user.quote,
                     about: user.about,
@@ -92,7 +93,7 @@ class UserAbout extends Component {
         e.preventDefault();
 
         const {id, firstName, lastName, phone, quote, about, location, gender} = this.state;
-        var birthday = dateUtils.convertDateTimeToISO(this.state.birthday)
+        var birthday = this.state.birthday ? dateUtils.convertDateTimeToISO(this.state.birthday) : null
         this.setState({submitted: true});
         this.props.dispatch(userActions.update({
             id,
@@ -105,6 +106,9 @@ class UserAbout extends Component {
             location,
             gender
         }));
+
+        var url = `/users/${id}`
+        history.push(url)
     }
 
     handleChangeGender = (gender) => {

@@ -127,7 +127,6 @@ function update(user) {
             .then(
                 response => {
                     dispatch(success(response.data))
-                    history.push(`/users/${response.data.id}`)
                 },
                 error => dispatch(failure(error))
             );

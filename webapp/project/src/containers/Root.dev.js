@@ -26,6 +26,7 @@ import ClassManagePage from "./class/ClassManagePage";
 import ClassTopicPage from "./class/ClassTopicPage";
 import AnnouncementsPage from "./announcement/AnnouncementsPage";
 import AnnouncementDetailPage from "./announcement/AnnouncementDetailPage";
+import SettingConfigPage from "./settings/SettingConfigPage";
 
 const Root = ({store}) => (
     <Provider store={store}>
@@ -56,6 +57,7 @@ const Root = ({store}) => (
                         <PrivateRoute exact path="/events/:eventId" component={EventDetailPage}/>
                         <PrivateRoute exact path="/announcements" component={AnnouncementsPage}/>
                         <PrivateRoute exact path="/announcements/:announcementId" component={AnnouncementDetailPage}/>
+                        <PrivateRoute exact path="/settings" component={SettingConfigPage}/>
                     </Switch>
                 </div>
             </Router>

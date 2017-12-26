@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom'
 import UserProfileTopContent from "../../components/userProfile/UserProfileTopContent";
 import UserAbout from "../../components/userProfile/UserAbout";
 import {userActions} from "../../actions";
+import PageNotFound from "../../components/commons/PageNotFound";
+import {appUtils} from "../../utils";
 
 class AboutPage extends Component{
 
@@ -34,24 +36,28 @@ class AboutPage extends Component{
     }
 
     render(){
-        const {user} = this.props
+        const {loading, user} = this.props
         return(
             <div>
                 <div className="container">
-                    <div className="col-xs-12">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <UserProfileTopContent user={user} currentLink="about"
-                                                       onUploadProfilePicture={this.handleUploadProfilePicture}
-                                                       onUploadCoverPhoto={this.handleUploadCoverPhoto}/>
+                    {
+                        (user && user.id) ?
+                            <div className="col-xs-12">
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <UserProfileTopContent user={user} currentLink="about"
+                                                               onUploadProfilePicture={this.handleUploadProfilePicture}
+                                                               onUploadCoverPhoto={this.handleUploadCoverPhoto}/>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <UserAbout user={user}/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <UserAbout user={user}/>
-                            </div>
-                        </div>
-                    </div>
+                            : <PageNotFound loading={loading}/>
+                    }
                 </div>
             </div>
         )
@@ -62,9 +68,11 @@ class AboutPage extends Component{
 const mapStateToProps = (state, ownProps) => {
     const userId = ownProps.match.params.userId
     const {user} = state.users
+    var loading = appUtils.checkLoading(state)
     return{
         userId,
-        user
+        user,
+        loading
     }
 }
 

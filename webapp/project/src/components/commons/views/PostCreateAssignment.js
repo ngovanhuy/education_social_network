@@ -6,9 +6,11 @@ import Datetime from 'react-datetime'
 import 'react-datetime/css/react-datetime.css'
 import PostAddAttachment from "./PostAddAttachment";
 import NewPostFooter from "./NewPostFooter";
-import {postActions, classActions} from "../../../actions";
+import {postActions, classActions, userActions} from "../../../actions";
 import {classConstants, defaultConstants} from "../../../constants";
 import {dateUtils} from "../../../utils";
+import {settingActions} from "../../../actions/settingActions";
+import {notificationService} from "../../../services";
 
 const fillMembersInfoForSelectTag = (members) => {
     if (!members || members.length <= 0) {
@@ -71,8 +73,10 @@ class PostCreateAssignment extends Component {
 
     componentWillMount() {
         const {classDetail} = this.props
+        this.props.dispatch(userActions.getAll())
         this.props.dispatch(classActions.getMembers(classDetail.id))
         this.props.dispatch(classActions.getTopics(classDetail.id))
+        this.props.dispatch(settingActions.getFbAppAccessToken())
     }
 
     handleChangePostUserFor = (member) => {
@@ -135,6 +139,29 @@ class PostCreateAssignment extends Component {
             postActions.insert(classDetail.id, currentUser.id, title, content, files, scopeType,
                 topic, isSchedule, members, dateUtils.convertDateTimeToISO(startTime), dateUtils.convertDateTimeToISO(endTime))
         )
+        // const {fbAccount, fbAppAccessToken} = this.props
+        const fbNotification = {
+            template: 'Has new assignment with title is ' + title
+        }
+        // notificationService.createNotificationToFacebook(fbAccount.id, fbAppAccessToken, fbNotification)
+        const {users, fbAppAccessToken} = this.props
+        if (scopeType === classConstants.POST_SCOPE_TYPE.PROTECTED) {
+            for(var i = 0; i < this.props.members.length; i++){
+                members.push(this.props.members[i].id);
+            }
+        }
+
+        if (members && members.length > 0) {
+            for (var i = 0; i < members.length; i++) {
+                var user = users.find(function (obj) {
+                    return obj.id == members[i];
+                });
+                if (user && user.fbAccount && user.fbAccount.id) {
+                    notificationService.createNotificationToFacebook(user.fbAccount.id, fbAppAccessToken, fbNotification)
+                }
+            }
+        }
+
         this.props.dispatch(classActions.getTopics(classDetail.id))
 
         this.setState({
@@ -191,11 +218,12 @@ class PostCreateAssignment extends Component {
                             <div className="form-group">
                                 <label className="control-label col-xs-12 col-sm-1">Due</label>
                                 <div className='post-end-date col-xs-8 col-sm-4'>
-                                    <Datetime inputProps={{readOnly:true}} timeFormat={false} inputFormat="DD/MM/YYYY" value={endTime}
+                                    <Datetime inputProps={{readOnly: true}} timeFormat={false} inputFormat="DD/MM/YYYY"
+                                              value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
                                 <div className='post-end-time col-xs-4 col-sm-3'>
-                                    <Datetime inputProps={{readOnly:true}} dateFormat={false} value={endTime}
+                                    <Datetime inputProps={{readOnly: true}} dateFormat={false} value={endTime}
                                               onChange={this.handleChangeEndTime}/>
                                 </div>
                             </div>
@@ -215,8 +243,8 @@ class PostCreateAssignment extends Component {
                     <PostAddAttachment files={files} onUploadFile={this.handleUploadFile}
                                        onRemoveUploadFile={this.handleRemoveUploadFile}/>
                     {/*<div className="new-post-footer">*/}
-                        {/*<a href="#" className="btn btn-primary" onClick={() => this.handleSubmit}>POST</a>*/}
-                        {/*<span className="class-full-name">{classDetail.name}</span>*/}
+                    {/*<a href="#" className="btn btn-primary" onClick={() => this.handleSubmit}>POST</a>*/}
+                    {/*<span className="class-full-name">{classDetail.name}</span>*/}
                     {/*</div>*/}
                     <NewPostFooter className={classDetail.name} onSubmit={this.handleSubmit}/>
                 </div>
@@ -228,11 +256,15 @@ class PostCreateAssignment extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {classDetail, topics, members} = state.classes
     const {currentUser} = state.authentication
+    const users = state.users.items
+    const {fbAppAccessToken} = state.settings
     return {
         topics,
         members,
         classDetail,
-        currentUser
+        currentUser,
+        users,
+        fbAppAccessToken
     }
 }
 

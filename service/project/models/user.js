@@ -142,6 +142,16 @@ let UserSchema = new mongoose.Schema(
             require: true,
             default: [],
         },
+        fbAccount:{
+            type: {
+                id: Number,
+                name: String,
+                email: String,
+                accessToken: String
+            },
+            require: true,
+            default: {},
+        },
         timeCreate: {
             type: Date,
             default: new Date(),
@@ -463,6 +473,7 @@ function getBasicInfo() {
         location: this.location,
         profileImageID: this.profileImageID,
         coverImageID: this.coverImageID,
+        fbAccount: this.fbAccount,
     }
 }
 

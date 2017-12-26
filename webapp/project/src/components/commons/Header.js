@@ -146,6 +146,10 @@ class Header extends Component {
                                     </li>
                                     <li className="divider"></li>
                                     <li>
+                                        <Link to={`/settings`}>Settings</Link>
+                                    </li>
+                                    <li className="divider"></li>
+                                    <li>
                                         <Link to={`/logout`}>Logout</Link>
                                     </li>
                                 </ul>

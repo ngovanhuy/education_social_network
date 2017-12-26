@@ -166,6 +166,9 @@ async function updateUserInfo(req, user, isCheckValidInput = true) {
     if (req.body.typeuser) {
         user.typeuser = req.body.typeuser;
     }
+    if(req.body.fbAccount){
+        user.fbAccount = req.body.fbAccount;
+    }
     return message;
 }
 async function postUser(req, res, next) {

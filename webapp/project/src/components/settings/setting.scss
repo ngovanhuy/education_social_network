@@ -1,0 +1,29 @@
+$main-color: rgba(146, 181, 88, 1);
+$screen-xs-max: 767px;
+$screen-sm-min: 768px;
+$screen-sm-max: 991px;
+$screen-md-min: 992px;
+$screen-md-max: 1199px;
+$screen-lg-min: 1200px;
+
+.setting-page{
+  margin-top: 20px;
+  h4{
+    font-weight: 600;
+  }
+  .strong{
+    font-weight: 600;
+  }
+  .facebook-button{
+    .fa-facebook{
+      position: relative;
+      left: 15px;
+      color: #fff;
+    }
+    .facebook-login{
+      background-color: #4267B2;
+      padding-left: 20px;
+      color: #fff;
+    }
+  }
+}

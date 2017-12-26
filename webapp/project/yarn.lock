@@ -5764,6 +5764,10 @@ react-error-overlay@^2.0.0:
     settle-promise "1.0.0"
     source-map "0.5.6"
 
+react-facebook-login-component@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/react-facebook-login-component/-/react-facebook-login-component-0.9.1.tgz#4d70c7b0ae9ae34cb07da58a17cb8b60c04fc022"
+
 react-input-autosize@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.0.1.tgz#e92190497b4026c2780ad0f2fd703c835ba03e33"

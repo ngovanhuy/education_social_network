@@ -1,0 +1,4 @@
+export const settingConstants = {
+    LOGIN_FACEBOOK_SUCCESS: 'LOGIN_FACEBOOK_SUCCESS',
+    GET_FB_APP_ACCESS_TOKEN: 'GET_FB_APP_ACCESS_TOKEN',
+}
