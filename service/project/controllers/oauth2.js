@@ -27,8 +27,15 @@ server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, d
     //     redirectUri: redirectUri,
     //     userID: user._id
     // });
-    let code = CodeController.createNewCode(user._id, client._id, redirectUri, client.scope);
-    console.log(ares);
+    // let code = CodeController.createNewCode(user._id, client._id, redirectUri, client.scope);
+    let code = new Code({
+        _id: Date.now(),
+        value: Utils.uid(16),
+        clientID: client._id,
+        redirectUri: redirectUri,
+        userID: user._id,
+        scope: client.scope,
+    });
     code.save(function (err) {
         if (err) {
             return done(err);
@@ -40,8 +47,7 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, d
     Code.findOne({ value: code }, function (err, authCode) {
         if (err) { return done(err); }
         if (authCode === undefined) { return done(null, false); }
-        if (client._id.toString() !== authCode.clientID) {
-        // if (client._id !== authCode.clientID) {
+        if (client._id !== authCode.clientID) {
             return done(null, false);
         }
         if (redirectUri !== authCode.redirectUri) {
@@ -49,12 +55,14 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, d
         }
         authCode.remove(function (err) {
             if (err) { return done(err); }
-            // let token = new Token({
-            //     value: Utils.uid(256),
-            //     clientID: authCode.clientID,
-            //     userID: authCode.userID
-            // });
-            let token = TokenController.createNewToken(authCode);
+            let token = new Token({
+                _id: Date.now(),
+                value: Utils.uid(256),
+                clientID: authCode.clientID,
+                userID: authCode.userID,
+                scope: authCode.getScopeString(),
+            });
+            // let token = TokenController.createNewToken(authCode);
             token.save(function (err) {
                 if (err) { return done(err); }
                 done(null, token);
@@ -66,7 +74,7 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, d
 // User authorization endpoint
 exports.authorization = [
     server.authorization(function (clientID, redirectUri, done) {
-        Client.findOne({ id: clientID }, function (err, client) {
+        Client.findOne({ _id: clientID, isDeleted: false}, function (err, client) {
             if (err) { return done(err); }
             return done(null, client, redirectUri);
         });

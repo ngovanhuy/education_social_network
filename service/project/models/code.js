@@ -1,11 +1,11 @@
 let mongoose = require('mongoose');
 
 let CodeSchema = new mongoose.Schema({
-    _id: {type: Number, required: true, default: getNewID},
+    _id: {type: Number, required: true, default: getNewID()},
     value: { type: String, required: true },
     redirectUri: { type: String, required: true },
-    userID: { type: String, required: true },
-    clientID: { type: String, required: true },
+    userID: { type: Number, required: true },
+    clientID: { type: Number, required: true },
     timeCreate: {type: Date, required: true, default: new Date()},
     timeExpired: {type: Date, required: false, default: null},
     scope:{type:[], require: true, default:["*"]},

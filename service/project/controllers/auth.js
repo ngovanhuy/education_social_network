@@ -8,12 +8,12 @@ let Client = require('../models/client');
 let Utils = require('../application/utils');
 
 let localStrategy = new LocalStrategy({
-        usernameField: 'username',
-        passwordField: 'password',
-        passReqToCallback : true,//false => (username, password, done)=>{}
-    },
+    usernameField: 'username',
+    passwordField: 'password',
+    passReqToCallback: true,//false => (username, password, done)=>{}
+},
     function (req, username, password, done) {//(username, password, done)
-        User.findOne({username: username, isDeleted: false}, function(err, user){
+        User.findOne({ username: username, isDeleted: false }, function (err, user) {
             if (err) return done(err);
             if (!user) return done(null, false, 'No user found.');
             user.verifyPassword(password, function (err, isMatch) {
@@ -30,7 +30,7 @@ let localStrategy = new LocalStrategy({
 
 let basicStrategy = new BasicStrategy(
     function (username, password, done) {
-        User.findOne({username: username, isDeleted: false}, function(err, user){
+        User.findOne({ username: username, isDeleted: false }, function (err, user) {
             if (err) return done(err);
             if (!user) return done(null, false, 'No user found.');
             user.verifyPassword(password, function (err, isMatch) {
@@ -46,7 +46,7 @@ let basicStrategy = new BasicStrategy(
 );
 let clientBasicStrategy = new BasicStrategy(
     function (id, secret, done) {
-        Client.findOne({_id: id, isDeleted: false}, function (err, client) {
+        Client.findOne({ _id: id, isDeleted: false }, function (err, client) {
             if (err) { return done(err); }
             if (!client) return done(null, false, 'No client found');
             if (client.secret === secret) {
@@ -64,24 +64,24 @@ let clientBasicStrategy = new BasicStrategy(
 );
 let bearerStrategy = new BearerStrategy(
     function (accessToken, done) {
-        Token.findOne({value: accessToken, isDeleted: false}, function (err, token) {
+        Token.findOne({ value: accessToken, isDeleted: false }, function (err, token) {
             if (err) { return done(err); }
-            if (!token) { return done(null, false, "No token found");}
-            User.findOne({_id: token.userID}, function (err, user) {
+            if (!token) { return done(null, false, "No token found"); }
+            User.findOne({ _id: token.userID }, function (err, user) {
                 if (err) { return done(err); }
                 if (!user) { return done(null, false, "Token invalid"); }
-                done(null, user, {scope: token.scope});
+                done(null, user, { scope: token.scope });
             });
         });
     }
 );
 
 passport.serializeUser(function (user, done) {
-    // if (user.userID) {
-    //     done(null, user.userID);//clientID.
-    // } else {
+    if (user.userID) {
+        done(null, user.userID);//clientID.
+    } else {
         done(null, user.id);//userID
-    // }
+    }
 });
 
 passport.deserializeUser(
@@ -99,10 +99,10 @@ passport.use('client-basic', clientBasicStrategy);
 passport.use('bearer', bearerStrategy);
 
 function createOutput(req, res, next) {
-    return function(err, user, info) {
+    return function (err, user, info) {
         if (err) return next(Utils.createError(err, 500));
         if (!user) return next(Utils.createError("Unauthenticate", 401));
-        req.logIn(user, function(err){
+        req.logIn(user, function (err) {
             if (err) return next(Utils.createError("Unauthenticate", 401));
             return next();
         });

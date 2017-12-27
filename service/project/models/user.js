@@ -20,8 +20,8 @@ let UserSchema = new mongoose.Schema(
         _id: { type: Number, default: getNewID },// id: { type: Number, unique: true, require: true, index: true, default: Date.now() },
         username: { type: String, unique: true, required: true, },
         password: { type: String, required: true },
-        firstName: { type: String, required: true, },
-        lastName: { type: String, required: true, },
+        firstName: { type: String, required: false, default: "NoName"},
+        lastName: { type: String, required: false, default: ""},
         typeuser: { type: Number, require: false, default: 0, min: 0, max: 1000 },
         email: { type: String, required: false, default: null },//, unique: true},
         phone: { type: String, required: false, default: null },// unique: true},
@@ -347,16 +347,16 @@ function validateInputInfo(inputInfo, checkRequired = false) {
     if (!(validateUserName(inputInfo.username, checkRequired))) {
         message.push("UserName Invalid Format");
     }
-    if (!Utils.validateStringLength(inputInfo.firstName, 2, 20, checkRequired)) {
-        message.push("FirstName Invalid Format");
-    }
-    if (!Utils.validateStringLength(inputInfo.lastName, 2, 20, checkRequired)) {
-        message.push("LastName Invalid Format");
-    }
-    if (!Utils.validateStringLength(inputInfo.password, 5, 20, checkRequired)) {
+    if (!Utils.validateStringLength(inputInfo.password, 5, 30, checkRequired)) {
         message.push("Password Invalid Format");
     }
     //------------ NOT REQUIRED ----------------
+    if (!Utils.validateStringLength(inputInfo.firstName, 0, 20, false)) {
+        message.push("FirstName Invalid Format");
+    }
+    if (!Utils.validateStringLength(inputInfo.lastName, 0, 20, false)) {
+        message.push("LastName Invalid Format");
+    }
     if (!Utils.validateStringLength(inputInfo.about, 0, 200, false)) {
         message.push("About Invalid Format");
     }
@@ -430,12 +430,14 @@ function verifyPassword(password, cb) {
     bcrypt.compare(password, this.password, (err, isMatch) => err ? cb(err) : cb(null, isMatch));
 }
 function getInfo(params) {
-    if (!params) {
+    if (!params || params.length === 0) {
         return getBasicInfo.call(this);
     }
     let o = {};
     let ignoreField = ['password', 'isDeleted', 'classs', 'friends'];
+    let count = 0;
     for (let param in params) {
+        count++;
         if (ignoreField.indexOf(param) > -1) {
             continue;
         }
@@ -443,6 +445,9 @@ function getInfo(params) {
         if (field) {
             o[param] = field;
         }
+    }
+    if (count === 0) {
+        return getBasicInfo.call(this);
     }
     return o;
 }
@@ -474,6 +479,19 @@ function isTeacher() {
 }
 function isSystem() {
     return TypeUserEnum[this.typeuser] === 'System';
+}
+
+function setNormalUser() {
+    this.typeuser = 1;
+    return this;
+}
+function setTeacherUser() {
+    this.typeuser = 10;
+    return this;
+}
+function setSystemUser() {
+    this.typeuser = 100;
+    return this;
 }
 /*-------------------------------------- */
 UserSchema.statics.GenderInfo = getGenderInfo;
@@ -514,5 +532,8 @@ UserSchema.methods.getFriends = getFriends;
 UserSchema.methods.getRequests = getRequests;
 UserSchema.methods.getRequesteds = getRequesteds;
 UserSchema.methods.getClasssID = getClasssID;
+UserSchema.methods.setNormalUser = setNormalUser;
+UserSchema.methods.setTeacherUser = setTeacherUser;
+UserSchema.methods.setSystemUser = setSystemUser;
 
 module.exports = mongoose.model('User', UserSchema); 

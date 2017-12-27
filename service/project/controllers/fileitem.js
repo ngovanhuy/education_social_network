@@ -328,7 +328,7 @@ async function getInfoFile(req, res, next) {
     try {
         let  file = req.fileitems.file_saved;
         req.responses.data = Utils.createResponse(file.getBasicInfo());
-        return nextInt();
+        return next();
     } catch (error) {
         return next(Utils.createError(error, 400, 400, 'Not exit file'));
     }

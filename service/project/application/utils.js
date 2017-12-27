@@ -1,4 +1,6 @@
 let bcrypt = require('bcrypt-nodejs');
+let debugLogger = require('./logger').Debug;
+let infoLogger = require('./logger').Info;
 let chars = "abcdefjhijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ0123456789+=-_";
 let numbers = "0123456789";
 let random = Math.random;
@@ -162,6 +164,18 @@ function createResponse(data = null, message = 'Success', logicCode = 200) {
         error: null,
     };
 }
+
+function LogE(tag, detail) {
+    console.error(exportDate(new Date()) + ':[' + tag + ']' + detail);
+    // debugLogger.error('[' + tag + ']' + detail);
+}
+
+function LogI(tag, detail) {
+    console.log(exportDate(new Date()) + ':[' + tag + ']' + detail);
+    // debugLogger.info('[' + tag + ']' + detail);
+}
+
+
 exports.createError = createError;
 exports.nextInt = nextInt;
 exports.randomString = randomString;
@@ -182,3 +196,5 @@ exports.isNumber = isNumber;
 exports.createResponse = createResponse;
 exports.uid = uid;
 exports.getRandomInt = getRandomInt;
+exports.LogE = LogE;
+exports.LogI = LogI;

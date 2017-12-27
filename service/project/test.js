@@ -1,4 +1,9 @@
-// let Utils = require('./application/utils');
+
+let Utils = require('./application/utils');
+let os = require('os');
+let application = require('./application/application');
+let config = require('config');
+// console.log(os.hostname());
 
 // createGroupEventRequest = {
 //     //Event Info of all events create
@@ -58,13 +63,5 @@
 // let s = JSON.parse(strs);
 // console.log(s);
 
-
-// periods:"[\"2017-11-20 14:44:21\",\"2017-11-20 14:44:22\",\"2017-11-20 14:44:23\",\"2017-11-20 14:44:24\",\"2017-11-20 14:44:25\",\"2017-11-20 14:44:26\"]"
-
-let GenderEnum = {
-    0: "None",
-    1: "Male",
-    2: "Female"
-};
-
-console.log(GenderEnum['1a']);
+let d = Utils.parseDate('01-01-2000Z');
+console.log(Utils.exportDate(d));

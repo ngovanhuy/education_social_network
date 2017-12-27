@@ -1,10 +1,10 @@
 let mongoose = require('mongoose');
 
 let TokenSchema = new mongoose.Schema({
-    _id: { type: Number, required: true, default: getNewID },
+    _id: { type: Number, required: true, default: getNewID() },
     value: { type: String, required: true },
     userID: { type: String, required: true },
-    clientID: { type: String, required: true },
+    clientID: { type: String, required: false },
     timeCreate: {type: Date, required: true, default: new Date()},
     timeExpired: {type: Date, required: false, default: null},
     scope:{type:String, require: true, default:"*"},
