@@ -142,6 +142,9 @@ async function addAnnouncement(req, res, next) {
         };
         announcement = await announcement.save();
         req.announcements.announcement_requested = announcement;
+        //event
+        let events = require('../application/application').events.announcement;
+        events.emit('NewAnnouncement', announcement);
         return next();
     } catch(error) {
         return res.status(500).send({

@@ -1,6 +1,11 @@
 {
     "logs": {
         "level": "debug",
-        "handleExceptions": false
+        "handleExceptions": false,
+        "file": "default.json"
+    },
+    "sendgrid": {
+        "from": "esservice@esservice.herokuapp.com",
+        "token": "input_key_here"
     }
 }
