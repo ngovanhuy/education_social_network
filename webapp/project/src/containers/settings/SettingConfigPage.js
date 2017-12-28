@@ -24,7 +24,8 @@ class SettingConfigPage extends Component {
         const {currentUser} = this.props
         if (currentUser && currentUser.fbAccount && currentUser.fbAccount.id) {
             this.setState({
-                loggedInFb: true
+                loggedInFb: true,
+                fbAccount: currentUser.fbAccount
             })
         } else{
             this.setState({
@@ -55,14 +56,15 @@ class SettingConfigPage extends Component {
         if(response.id){
             const {currentUser} = this.props
             if (currentUser) {
-                currentUser.fbAccount = response;
-                if(currentUser.gender && currentUser.gender.enum_id){
-                    currentUser.gender = currentUser.gender.enum_id
+                var tempUser = {...currentUser}
+                tempUser.fbAccount = response;
+                if(tempUser.gender && tempUser.gender.enum_id != 'undefined'){
+                    tempUser.gender = tempUser.gender.enum_id
                 }
-                if(currentUser.typeuser && currentUser.typeuser.enum_id){
-                    currentUser.typeuser = currentUser.typeuser.enum_id
+                if(tempUser.typeuser && tempUser.typeuser.enum_id != 'undefined'){
+                    tempUser.typeuser = tempUser.typeuser.enum_id
                 }
-                this.props.dispatch(userActions.update(currentUser))
+                this.props.dispatch(userActions.update(tempUser))
             }
             this.setState({
                 loggedInFb: true,
@@ -74,14 +76,15 @@ class SettingConfigPage extends Component {
     handleDisconnectFBAccount(){
         const {currentUser} = this.props
         if (currentUser) {
-            currentUser.fbAccount = {};
-            if(currentUser.gender && currentUser.gender.enum_id){
-                currentUser.gender = currentUser.gender.enum_id
+            var tempUser = {...currentUser}
+            tempUser.fbAccount = {};
+            if(tempUser.gender && tempUser.gender.enum_id){
+                tempUser.gender = tempUser.gender.enum_id
             }
-            if(currentUser.typeuser && currentUser.typeuser.enum_id){
-                currentUser.typeuser = currentUser.typeuser.enum_id
+            if(tempUser.typeuser && tempUser.typeuser.enum_id){
+                tempUser.typeuser = tempUser.typeuser.enum_id
             }
-            this.props.dispatch(userActions.update(currentUser))
+            this.props.dispatch(userActions.update(tempUser))
         }
         this.setState({
             loggedInFb: false,

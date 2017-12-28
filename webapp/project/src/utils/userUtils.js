@@ -9,8 +9,12 @@ export const userUtils = {
 }
 
 function checkIsTeacher(user) {
-    if (user && user.typeuser && user.typeuser.enum_id == userConstants.TYPE_USER_IS_TEACHER) {
-        return true;
+    if(user){
+        if ( user.isTeacher ||
+            (user.typeuser && user.typeuser.enum_id == userConstants.TYPE_USER_IS_TEACHER) ||
+            user.typeuser == userConstants.TYPE_USER_IS_SYSTEM) {
+            return true;
+        }
     }
     return false;
 }
