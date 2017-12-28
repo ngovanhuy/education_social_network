@@ -28,6 +28,11 @@ export function authentication(state = {}, action) {
             };
         case userConstants.LOGINBYUSERID_FAILURE:
             return {};
+        case userConstants.USERS_UPDATE_AUTHEN_SUCCESS:
+            return {
+                loggedIn: true,
+                currentUser: action.user
+            };
         case userConstants.LOGOUT:
             return {};
         default:

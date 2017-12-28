@@ -127,6 +127,7 @@ function update(user) {
             .then(
                 response => {
                     dispatch(success(response.data))
+                    dispatch(successUpdateAuthen(response.data))
                 },
                 error => dispatch(failure(error))
             );
@@ -134,6 +135,7 @@ function update(user) {
 
     function request() { return { type: userConstants.USERS_UPDATE_REQUEST } }
     function success(user) { return { type: userConstants.USERS_UPDATE_SUCCESS, user } }
+    function successUpdateAuthen(user) { return { type: userConstants.USERS_UPDATE_AUTHEN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.USERS_UPDATE_FAILURE, error } }
 }
 
