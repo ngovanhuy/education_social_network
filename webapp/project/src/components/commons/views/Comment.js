@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import UserProfileInfo from "./UserProfileInfo";
 import ReactComment from "./ReactComment";
 import NewComment from "./NewComment";
-import {dateUtils, fileUtils} from "../../../utils";
+import {dateUtils, fileUtils, userUtils} from "../../../utils";
 import {defaultConstants} from "../../../constants";
 
 class Comment extends Component {
@@ -20,7 +20,7 @@ class Comment extends Component {
                 <div className="comment-user-profile-picture">
                     <Link to={`/users/${user.id}`}>
                         <img className="img-circle"
-                             src={comment && fileUtils.renderFileSource(comment.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}></img>
+                             src={comment && userUtils.renderProfileImageOfUser(user.id)}></img>
                     </Link>
                 </div>
                 <div className="comment-content-info">

@@ -130,7 +130,7 @@ class HomeLeftmenu extends Component {
                                         <span>
                                             <Link to={`/users/${currentUser.id}`}>
                                                 <img src={currentUser &&
-                                                fileUtils.renderFileSource(currentUser.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}/>
+                                                userUtils.renderProfileImageOfUser(currentUser.id)}/>
                                             </Link>
                                             <UserProfileInfo user={currentUser}/>
                                         </span>

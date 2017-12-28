@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import '../../components/announcement/announcement.css'
 import {announcementActions, userActions} from "../../actions";
-import {appUtils, dateUtils, fileUtils} from "../../utils";
+import {appUtils, dateUtils, fileUtils, userUtils} from "../../utils";
 import PageNotFound from "../../components/commons/PageNotFound";
 import AnnouncementLeftmenu from '../../components/announcement/views/AnnouncementLeftmenu'
 import UserProfileInfo from "../../components/commons/views/UserProfileInfo";
@@ -44,7 +44,7 @@ class EventDetailPage extends Component {
                                 <h1 className="title">{announcementDetail.title}</h1>
                                 <div className="announcement-usercreate clearfix">
                                     <div className="user-create-image">
-                                        <img src={(announcementDetail && announcementDetail.userCreate) && fileUtils.renderFileSource(announcementDetail.userCreate.profileImageID)}/>
+                                        <img src={(announcementDetail && announcementDetail.userCreate) && userUtils.renderProfileImageOfUser(announcementDetail.userCreate.id)}/>
                                     </div>
                                     <div className="user-create-info">
                                         <UserProfileInfo user={announcementDetail && announcementDetail.userCreate}/>

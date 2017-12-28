@@ -27,7 +27,7 @@ class ClassManageMemberRequest extends Component {
             <div key={index} className="member-request clearfix">
                 <div className="member-info">
                     <img
-                        src={memberRequest && fileUtils.renderFileSource(memberRequest.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}/>
+                        src={memberRequest && userUtils.renderProfileImageOfUser(memberRequest.id)}/>
                     <div className="member-info-content">
                         <UserProfileInfo user={user}/>
                         <div>

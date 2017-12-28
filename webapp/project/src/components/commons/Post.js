@@ -72,7 +72,7 @@ class Post extends Component {
                                 </div>
                         }
                         <img className="post-user-profile-picture img-circle"
-                             src={(post && post.userCreate) && fileUtils.renderFileSource(post.userCreate.profileImageID, userUtils.renderSourceProfilePictureDefault(post.userCreate.gender))}></img>
+                             src={(post && post.userCreate) && userUtils.renderProfileImageOfUser(post.userCreate.id)}></img>
                     </div>
                     <div className="post-context-content">
                         <span className="post-context-user-group">

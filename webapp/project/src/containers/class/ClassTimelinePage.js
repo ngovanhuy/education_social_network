@@ -49,6 +49,7 @@ class ClassTimelinePage extends Component {
         recentFiles = (recentFiles && recentFiles.length > 0) && recentFiles.sort(function (a, b) {
             return new Date(b.createDate) - new Date(a.createDate);
         });
+        recentFiles = (recentFiles) ? recentFiles.slice(0, 3) : []
         const isTeacher = userUtils.checkIsTeacher(currentUser)
 
         var posts = []

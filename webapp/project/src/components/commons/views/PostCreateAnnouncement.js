@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import PostAddAttachment from "./PostAddAttachment";
 import NewPostFooter from "./NewPostFooter";
 import {defaultConstants} from "../../../constants/defaultConstant";
-import {fileUtils} from "../../../utils";
+import {fileUtils, userUtils} from "../../../utils";
 import {classConstants, postConstants} from "../../../constants";
 import {postActions, classActions} from "../../../actions";
 import Select from 'react-select'
@@ -112,7 +112,7 @@ class PostCreateAnnouncement extends Component {
                 <div className="new-post-content clearfix">
                     <div className="user-create-post">
                         <img
-                            src={currentUser && fileUtils.renderFileSource(currentUser.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}/>
+                            src={currentUser && userUtils.renderProfileImageOfUser(currentUser.id)}/>
                     </div>
                     <div className="new-post-message controls">
                         <textarea className="form-control" rows="1" placeholder="Title" name="title"

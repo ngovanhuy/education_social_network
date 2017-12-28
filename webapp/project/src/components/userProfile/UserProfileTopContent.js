@@ -35,7 +35,7 @@ class UserProfileTopContent extends Component {
                                 </div>
                                 <div className="profile-picture img-circle">
                                     <img className="img-circle"
-                                         src={user && fileUtils.renderFileSource(user.profileImageID, userUtils.renderSourceProfilePictureDefault(user.gender))}/>
+                                         src={user && userUtils.renderProfileImageOfUser(user.id)}/>
                                     {
                                         isCurrentUser &&
                                         <div className="cover-profile-picture">

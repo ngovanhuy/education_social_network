@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import '../common.css'
-import {fileUtils} from "../../../utils";
+import {fileUtils, userUtils} from "../../../utils";
 import {defaultConstants} from "../../../constants";
 import {postActions} from "../../../actions";
 
@@ -50,7 +50,7 @@ class NewComment extends Component {
         return (
             <div className="new-comment clearfix">
                 <img className="img-circle"
-                    src={currentUser && fileUtils.renderFileSource(currentUser.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}/>
+                    src={currentUser && userUtils.renderProfileImageOfUser(currentUser.id)}/>
                 <form className="navbar-form">
                     <div className="navbar-search">
                         <input type="text" placeholder="Write somthing …" className="form-control" name="content"

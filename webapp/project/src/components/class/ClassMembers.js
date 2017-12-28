@@ -26,7 +26,7 @@ class ClassMembers extends Component {
                     <Link to={`/users/${member.id}`}>
                         <div className="text-center panel-member-col">
                             <img
-                                src={member && fileUtils.renderFileSource(member.profileImageID, defaultConstants.USER_PROFILE_PICTURE_URL_NONE)}
+                                src={member && userUtils.renderProfileImageOfUser(member.id)}
                                 className="img-circle" alt="No Image"/>
                             <div className="member-info">
                                 {userUtils.renderFullName(member.firstName, member.lastName)}
