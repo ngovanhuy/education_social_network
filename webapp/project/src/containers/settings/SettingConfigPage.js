@@ -78,10 +78,10 @@ class SettingConfigPage extends Component {
         if (currentUser) {
             var tempUser = {...currentUser}
             tempUser.fbAccount = {};
-            if(tempUser.gender && tempUser.gender.enum_id){
+            if(tempUser.gender && tempUser.gender.enum_id != 'undefined'){
                 tempUser.gender = tempUser.gender.enum_id
             }
-            if(tempUser.typeuser && tempUser.typeuser.enum_id){
+            if(tempUser.typeuser && tempUser.typeuser.enum_id != 'undefined'){
                 tempUser.typeuser = tempUser.typeuser.enum_id
             }
             this.props.dispatch(userActions.update(tempUser))
