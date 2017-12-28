@@ -1,6 +1,6 @@
 let Announcements = require('../models/announcement');
 let Utils = require('../application/utils');
-let Users = require('../controllers/user');
+let UserControllers = require('../controllers/user');
 
 async function getAnnouncementByID(id) {
     try {
@@ -12,8 +12,9 @@ async function getAnnouncementByID(id) {
     }
 }
 async function findAnnouncement(req) {
-    if (req.announcements.announcement_requested) {
-        return req.announcements.announcement_requested;
+    let announcementRequest = getAnnouncementRequest(req);
+    if (announcementRequest) {
+        return announcementRequest;
     }
     let id = null;
     if (req.query.announcementID) {
@@ -44,7 +45,7 @@ async function checkAnnouncementRequest(req, res, next) {
     }
 }
 async function getAnnouncementInfo(req, res, next) {
-    let announcement = req.announcements.announcement_requested;
+    let announcement = getAnnouncementRequest(req);
     req.responses.data = Utils.createResponse(announcement.getBasicInfo());
     return next();
 }
@@ -84,12 +85,9 @@ async function getAnnouncements(req, res, next) {
 }
 async function addAnnouncement(req, res, next) {
     try {
-        let user = req.users.user_request;
+        let user = UserControllers.getCurrentUser(req);
         let title = req.body.title;
         let content = req.body.content;
-        if (!user.isTeacher()) {
-            return next(Utils.createError('Request Invalid', 400, 400, 'Only teacher can create/modify/delete announcement.'));
-        }
         if (!title || !content) {
             return next(Utils.createError('Request Invalid', 400, 400, 'Data not exited'));
         }
@@ -117,10 +115,7 @@ async function addAnnouncement(req, res, next) {
 }
 async function removeAnnouncement(req, res, next) {
     try {
-        let user = req.users.user_request;
-        if (!user.isTeacher()) {
-            return next(Utils.createError('Request Invalid', 400, 400, 'Only teacher can create/modify/delete announcement.'));
-        }
+        let user = UserControllers.getCurrentUser(req);
         let announcement = await findAnnouncement(req);
         req.announcements.announcement_requested = announcement;
         if (!announcement) {
@@ -140,11 +135,11 @@ async function removeAnnouncement(req, res, next) {
 }
 async function updateAnnouncement(req, res, next) {
     try {
-        let user = req.users.user_request;
-        if (!user.isTeacher()) {
-            return next(Utils.createError('Request Invalid', 400, 400, 'Only teacher can create/modify/delete announcement.'));
+        let user = UserControllers.getCurrentUser(req);
+        let announcement = getAnnouncementRequest(req);
+        if (user._id !== announcement.userCreate.id) {
+            return next(Utils.createError('User not permit', 400));
         }
-        let announcement = req.announcements.announcement_requested;
         let title = req.body.title;
         let content = req.body.content;
         if (title) announcement.title = title;
@@ -162,6 +157,10 @@ async function getAnnouncementsInfo(req, res, next) {
     return next();
 }
 
+function getAnnouncementRequest(req) {
+    return req.announcements.announcement_requested;
+}
+
 exports.getAnnouncements = getAnnouncements;
 exports.addAnnouncement = addAnnouncement;
 exports.removeAnnouncement = removeAnnouncement;
@@ -170,6 +169,7 @@ exports.checkAnnouncementRequest = checkAnnouncementRequest;
 exports.getAnnouncementInfo = getAnnouncementInfo;
 exports.getAllAnnouncements = getAllAnnouncements;
 exports.getAnnouncementsInfo = getAnnouncementsInfo;
+exports.getAnnouncementRequest = getAnnouncementRequest;
 
 
 

@@ -278,7 +278,11 @@ function removeRequested(user) {
     return removeUserFromArray(user, this.requesteds) ? user : null;
 }
 function confirmRequested(user) {
-    return (addFriend(user, true) && removeRequested(user)) ? user : null;
+    let requestedUser = this.requesteds.find(u => u.isRemoved === false && u._id === user._id);
+    if (!requestedUser) {
+        return null;
+    }
+    return (addFriend.call(this, user, true) && removeRequested.call(this, user)) ? user : null;
 }
 function getClassRequests() {
     return this.classrequests.filter(request => request.isRemoved === false).map(request => ({
@@ -453,7 +457,7 @@ function getInfo(params) {
 }
 function getBasicInfo() {
     return {
-        id: this.id,
+        id: this._id,
         username: this.username,
         firstName: this.firstName,
         lastName: this.lastName,

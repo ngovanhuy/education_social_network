@@ -1,5 +1,6 @@
 let PostItem = require('../models/post');
-let Groups = require('../controllers/group');
+let GroupControllers = require('../controllers/group');
+let UserController = require('../controllers/user');
 let Utils = require('../application/utils');
 
 async function getPostByID(id) {
@@ -13,8 +14,9 @@ async function getPostByID(id) {
 }
 
 async function findPost(req) {
-    if (req.posts.post_requested) {
-        return req.posts.post_requested;
+    let postRequest = getPostRequest(req);
+    if (postRequest) {
+        return postRequest;
     }
     let id = null;
     if (req.query.postID) {
@@ -43,8 +45,8 @@ async function checkPostRequest(req, res, next) {
 
 function getPost(req, res, next) {
     try {
-        let post = req.posts.post_requested;
-        let user = req.users.user_request;
+        let post = getPostRequest(req);
+        let user = UserController.getCurrentUser(req);
         req.responses.data = Utils.createResponse(post.getBasicInfo(user));
         return next();
     } catch (error) {
@@ -54,8 +56,8 @@ function getPost(req, res, next) {
 
 async function addPost(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        let user = req.users.user_request;
+        let group = GroupControllers.getGroupRequest(req);
+        let user = UserController.getCurrentUser(req);
         let currentFiles = req.fileitems.files_saved;//req.fileitems.file_saved;
         let title = req.body.title;
         let content = req.body.content;
@@ -99,7 +101,7 @@ async function addPost(req, res, next) {
 
 async function deletePost(req, res, next) {
     try {
-        let user = req.users.user_request;
+        let user = UserController.getCurrentUser(req);
         let post = await findPost(req);
         req.posts.post_requested = post;
         if (post.userCreate._id !== user._id) {
@@ -246,8 +248,8 @@ async function deleteComment(req, res, next) {
 
 async function updateComment(req, res, next) {
     try {
-        let post = req.posts.post_requested;
-        let user = req.users.user_request;
+        let post = getPostRequest(req);
+        let user = UserController.getCurrentUser(req);
         let file = req.fileitems.file_saved;
         let content = req.body.content;
         let commentID = null;
@@ -289,8 +291,8 @@ async function updateComment(req, res, next) {
 async function getPostsInTopic(req, res, next) {
     try {
         let datas = [];
-        let group = req.groups.group_request;
-        let user = req.users.user_request;
+        let group = GroupControllers.getGroupRequest(req);
+        let user = UserController.getCurrentUser(req);
         let topicName = req.query.topicname;
         if (!topicName) {
             datas = group.getTopics();
@@ -311,8 +313,8 @@ async function getPostsInTopic(req, res, next) {
 
 async function getLikes(req, res, next) {
     try {
-        let post = req.posts.post_requested;
-        let user = req.users.user_request;
+        let post = getPostRequest(req);
+        let user = UserController.getCurrentUser(req);
         req.responses.data = Utils.createResponse({
             post: {
                 postID: post._id,
@@ -320,7 +322,6 @@ async function getLikes(req, res, next) {
                 userCreateID: post.userCreate.id,
             },
             likes: post.getLikes(),
-            // isUserLiked: post.isUserLiked(user),//check req.query.user.
         });
         return next();
     } catch (error) {
@@ -330,8 +331,8 @@ async function getLikes(req, res, next) {
 
 async function addLike(req, res, next) {
     try {
-        let post = req.posts.post_requested;
-        let user = req.users.user_request;
+        let post = getPostRequest(req);
+        let user = UserController.getCurrentUser(req);
         if (post.addLike(user)) {
             post = await post.save();
             req.posts.post_requested = post;
@@ -346,8 +347,8 @@ async function addLike(req, res, next) {
 
 async function removeLike(req, res, next) {
     try {
-        let post = req.posts.post_requested;
-        let user = req.users.user_request;
+        let post = getPostRequest(req);
+        let user = UserController.getCurrentUser(req);
         if (post.removeLike(user)) {
             post = await post.save();
             req.posts.post_requested = post;
@@ -400,6 +401,10 @@ function createNewPost(user, group, title, content, topic, files = null) {
         post.addFile(files)
     }
     return post;
+}
+
+function getPostRequest(req) {
+    return req.posts.post_requested;
 }
 
 //------------------EXPORT---------------------

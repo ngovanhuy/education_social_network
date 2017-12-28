@@ -4,6 +4,8 @@ let fs = require('fs');
 let path = require('path');
 let UPLOAD_PATH = 'uploads/';
 let Utils = require('../application/utils');
+let userController = require('../controllers/user');
+let groupController = require('../controllers/group');
 // let MAX_FILE_SIZE = 1 << 26;// 64M
 // let MAX_IMAGE_SIZE = 1 << 23; //8M
 let file_upload = multer({// let storage = multer.memoryStorage();
@@ -98,8 +100,8 @@ async function postFiles(req, res, next) {
         }
         let current_user = null;
         let current_group = null;
-        let user = req.users.user_request;
-        let group = req.groups.group_request;
+        let user = userController.getCurrentUser(req);
+        let group = groupController.getGroupRequest(req);
         current_user = user ? {
             id: user._id,
             firstName: user.firstName,
@@ -143,8 +145,8 @@ async function postFilesIfHave(req, res, next) {
 
         let current_user = null;
         let current_group = null;
-        let user = req.users.user_request;
-        let group = req.groups.group_request;
+        let user = userController.getCurrentUser(req);
+        let group = groupController.getGroupRequest(req);
         current_user = user ? {
             id: user._id,
             firstName: user.firstName,
@@ -181,8 +183,8 @@ async function postOrUpdateFile(req, res, next) {
     try {
         let file = req.fileitems.file_saved = null;
         let file_id = req.fileitems.file_selected_id;
-        let user = req.users.user_request;
-        let group = req.groups.group_request;
+        let user = userController.getCurrentUser(req);
+        let group = groupController.getGroupRequest(req);
         if (!req.file) {
             throw new Error("Input file null");
         }
@@ -217,8 +219,8 @@ async function postFile(req, res, next) {
     try {
         req.fileitems.file_saved = null;
         req.fileitems.file_selected_id = null;
-        let user = req.users.user_request;
-        let group = req.groups.group_request;
+        let user = userController.getCurrentUser(req);
+        let group = groupController.getGroupRequest(req);
         if (!req.file) {
             throw new Error("Input file null");
         }
@@ -251,8 +253,8 @@ async function postFileIfHave(req, res, next) {
     try {
         req.fileitems.file_saved = null;
         req.fileitems.file_selected_id = null;
-        let user = req.users.user_request;
-        let group = req.groups.group_request;
+        let user = userController.getCurrentUser(req);
+        let group = groupController.getGroupRequest(req);
         if (!req.file) {
             return next();
         }
@@ -284,8 +286,8 @@ async function postFileIfHave(req, res, next) {
 async function updateFile(req, res, next) {
     try {
         let file = req.fileitems.file_saved;
-        let user = req.users.user_request;
-        let group = req.groups.group_request;
+        let user = userController.getCurrentUser(req);
+        let group = groupController.getGroupRequest(req);
         if (!req.file) {
             throw new Error("Input file null");
         }

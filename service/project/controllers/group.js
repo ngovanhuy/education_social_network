@@ -20,8 +20,9 @@ async function getGroupByID(id) {
     }
 }
 async function findGroup(req) {
-    if (req.groups.group_request) {
-        return req.groups.group_request;
+    let groupRequest = getGroupRequest(req);
+    if (groupRequest) {
+        return groupRequest;
     }
     let groupFind = null;
     if (req.params.groupID) {
@@ -40,12 +41,8 @@ async function findGroup(req) {
 }
 async function addMember(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        let userID = req.params.userID ? req.params.userID : req.body.userID;
-        let user = await UserControllers.getUserByID(userID);
-        if (!user) {
-            return next(Utils.createError('UserID Invalid', 400));
-        }
+        let group = getGroupRequest(req);
+        let user = UserControllers.getRequestUser(req);
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
         if (group.addMember(user, typeMember)) {
             group = await group.save();
@@ -65,12 +62,8 @@ async function addMember(req, res, next) {
 }
 async function removeMember(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        let userID = req.params.userID ? req.params.userID : req.body.userID;
-        let user = await UserControllers.getUserByID(userID);
-        if (!user) {
-            return next(Utils.createError('UserID Invalid', 400));
-        }
+        let group = getGroupRequest(req);
+        let user = UserControllers.getRequestUser(req);
         if (group.removeMember(user)) {
             group = await group.save();
             user = await user.save();
@@ -87,12 +80,8 @@ async function removeMember(req, res, next) {
 }
 async function updateMember(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        let userID = req.params.userID ? req.params.userID : req.body.userID;
-        let user = await UserControllers.getUserByID(userID);
-        if (!user) {
-            return next(Utils.createError('UserID Invalid', 400));
-        }
+        let group = getGroupRequest(req);
+        let user = UserControllers.getRequestUser(req);
         let typeMember = req.body.typeMember ? req.body.typeMember : 1;
         if (group.updateMember(user, typeMember)) {
             group = await group.save();
@@ -113,7 +102,7 @@ async function updateMember(req, res, next) {
 async function getRequesteds(req, res, next) {
     try {
         //TODO: Check current user.
-        let group = req.groups.group_request;
+        let group = getGroupRequest(req);
         if (!group) throw new Error();
         req.responses.data = Utils.createResponse(group.getRequesteds());
         return next();
@@ -123,13 +112,8 @@ async function getRequesteds(req, res, next) {
 }
 async function removeRequested(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        if (!group) throw new Error();
-        let user = await UserControllers.findUser(req, false);
-        //req.users.user_request = user;
-        if (!user) {
-            return next(Utils.createError('UserID Invalid', 400));
-        }
+        let group = getGroupRequest(req);
+        let user = UserControllers.getRequestUser(req);
         if (group.removeRequested(user, true)) {
             group = await group.save();
             user = await user.save();
@@ -145,17 +129,13 @@ async function removeRequested(req, res, next) {
 }
 async function confirmRequested(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        if (!group) throw new Error();
-        let user = await UserControllers.findUser(req, false); //req.users.user_request = user;
-        if (!user) {
-            return next(Utils.createError('UserID Invalid', 400));
-        }
+        let group = getGroupRequest(req);
+        let user = UserControllers.getRequestUser(req);
         if (group.confirmRequested(user)) {
             group = await group.save();
             user = await user.save();
         } else {
-            //throw new Error();
+            throw new Error('user not requested to group');
         }
         req.responses.data = Utils.createResponse({
             user_id: user._id,
@@ -199,16 +179,14 @@ function updateGroupInfo(req, group, isCheckValidInput = true) {
 }
 async function postGroup(req, res, next) {
     try {
-        let userCreate = req.users.user_request;
-        if (!userCreate.isTeacher()) {
-            return next(Utils.createError('Only teacher can create group.', 400));
-        }
+        let userCreate = UserControllers.getCurrentUser(req);
         req.groups.group_request = null;
         let message = Group.validateInputInfo(req.body, true);
         if (!message || message.length > 0) {
             return next(Utils.createError('Request Invalid', 400));
         }
         let group = new Group({
+            _id: Date.now(),
             name: req.body.name,
             isDeleted: false,
             dateCreated: new Date(),
@@ -256,11 +234,8 @@ async function postGroup(req, res, next) {
 }
 async function putGroup(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        let user = await UserControllers.findUser(req);
-        if (!user || !group.isAdmin(user)) {
-            return next(Utils.createError('User not permit', 400));
-        }
+        let group = getGroupRequest(req);
+        let user = UserControllers.getCurrentUser(req);
         let message = Group.validateInputInfo(req.body, false);
         if (message && message.length === 0) {
             message = updateGroupInfo(req, group, false);
@@ -278,12 +253,7 @@ async function putGroup(req, res, next) {
 }
 async function deleteGroup(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        if (!group) throw new Error();
-        let user = await UserControllers.findUser(req);
-        if (!user || !group.isAdmin(user)) {
-            return next(Utils.createError('User not permit', 400));
-        }
+        let group = getGroupRequest(req);
         group.isDeleted = true;
         group = await group.save();
         //TODO: Remove all member in group.
@@ -295,8 +265,7 @@ async function deleteGroup(req, res, next) {
 }
 async function getGroup(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        if (!group) throw new Error();
+        let group = getGroupRequest(req);
         req.responses.data = Utils.createResponse(group.getBasicInfo());
         return next();
     } catch (error) {
@@ -304,13 +273,18 @@ async function getGroup(req, res, next) {
     }
 }
 async function getProfileImageID(req, res, next) {
-    let group = req.groups.group_request;
-    req.fileitems.file_selected_id = group ? group.profileImageID : null;
+    let group = getGroupRequest(req);
+    if (group) {
+        req.fileitems.file_selected_id = group.profileImageID;
+    } else {
+        //TODO default gorupProfileID
+        req.fileitems.file_selected_id = null;
+    }
     return next();
 }
 async function putProfileImage(req, res, next) {
     try {
-        let group = req.groups.group_request;
+        let group = getGroupRequest(req);
         let currentFile = req.fileitems.file_saved;
         group.profileImageID = currentFile._id;
         group = await group.save();
@@ -321,18 +295,20 @@ async function putProfileImage(req, res, next) {
     }
 }
 async function getCoverImageID(req, res, next) {
-    req.fileitems.file_selected_id = req.groups.group_request ? req.groups.group_request.coverImageID : null;
+    let group = getGroupRequest(req);
+    if (group) {
+        req.fileitems.file_selected_id = group.coverImageID;
+    } else {
+        //TODO setGroupDefaultCoverImage
+        req.fileitems.file_selected_id = null;
+    }
     return next();
 }
 async function putCoverImage(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        if (!group) throw new Error();
-        if (!req.fileitems.file_saved) {
-            throw new Error("Upload file Error");
-        }
+        let group = getGroupRequest(req);
         let currentFile = req.fileitems.file_saved;
-        group.coverImageID = String(currentFile._id);
+        group.coverImageID = currentFile._id;
         group = await group.save();
         req.responses.data = Utils.createResponse(currentFile.getBasicInfo());
         return next();
@@ -342,8 +318,7 @@ async function putCoverImage(req, res, next) {
 }
 async function getMembers(req, res, next) {
     try {
-        let group = req.groups.group_request;
-        if (!group) throw new Error();
+        let group = getGroupRequest(req);
         req.responses.data = Utils.createResponse(group.getMembersInfo());
         return next();
     } catch (error) {
@@ -379,10 +354,10 @@ async function getGroups(req, res, next) {
     } catch (error) {
         return next(Utils.createError(error));
     }
-};
+}
 async function getFiles(req, res, next) {
     try {
-        let group = req.groups.group_request;
+        let group = getGroupRequest(req);
         let files = await Files.find({
             isDeleted: false,
             'group.id': group._id,
@@ -399,7 +374,7 @@ async function searchGroupByName(req, res, next) {
         if (!key) {
             return next(Utils.createError('', 400, 400, '', []));
         }
-        let groups = await Group.find({name: {$regex: key}});
+        let groups = await Group.find({isDeleted: false, name: {$regex: key}});
         req.responses.data = Utils.createResponse(groups.map(group => group.getBasicInfo()));
         return next();
     } catch (error) {
@@ -409,7 +384,7 @@ async function searchGroupByName(req, res, next) {
 async function getAllPosts(req, res, next) {
     try {
         //TODO page paging : top, start...
-        let group = req.groups.group_request;
+        let group = getGroupRequest(req);
         let user = req.users.user_request;
         let postIDs = group.getPostIDs();
         let posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
@@ -423,8 +398,8 @@ async function getAllPosts(req, res, next) {
 async function getPosts(req, res, next) {
     try {
         //TODO page paging : top, start...
-        let group = req.groups.group_request;
-        let user = req.users.user_request;
+        let group = getGroupRequest(req);
+        let user = UserControllers.getRequestUser(req);
         let postIDs = group.getPostIDForUsers(user);
         let topicName = req.query.topicname;
         let posts;
@@ -442,24 +417,49 @@ async function getPosts(req, res, next) {
 }
 function getTopics(req, res, next) {
     try {
-        let group = req.groups.group_request;
+        let group = getGroupRequest(req);
         req.responses.data = Utils.createResponse(group.getTopics());
         return next();
     } catch (error) {
         return next(Utils.createError(error));
     }
 }
+function checkSystemOrMemberInGroupAccount(req, res, next) {
+    let group = getGroupRequest(req);
+    let user = UserControllers.getCurrentUser(req);
+    if (!group.isMember(user) && !user.isSystem()) {
+        return next(Utils.createError('User not permit', 400));
+    }
+    return next();
+}
 function checkMemberInGroup(req, res, next) {
-    let group = req.groups.group_request;
+    let group = getGroupRequest(req);
     let user = req.users.user_request;
     if (!group.isMember(user)) {
         return next(Utils.createError('User not member', 400));
     }
     return next();
 }
+function checkSystemOrAdminInGroupAccount(req, res, next) {
+    let group = getGroupRequest(req);
+    let user = UserControllers.getCurrentUser(req);
+    if (!group.isAdmin(user) && !user.isSystem()) {
+        return next(Utils.createError('User not permit', 400));
+    }
+    return next();
+}
+function checkAdminInGroupAccount(req, res, next) {
+    let group = getGroupRequest(req);
+    let user = UserControllers.getCurrentUser(req);
+    if (!group.isAdmin(user)) {
+        return next(Utils.createError('User not permit', 400));
+    }
+    return next();
+}
 async function addTopic(req, res, next) {
     try {
-        let group = req.groups.group_request;
+        let user = UserControllers.getCurrentUser(req);
+        let group = getGroupRequest(req);
         let topic = null;
         if (req.query.topicname) {
             topic = req.query.topicname;
@@ -483,7 +483,7 @@ async function addTopic(req, res, next) {
 }
 async function addTopics(req, res, next) {
     try {
-        let group = req.groups.group_request;
+        let group = getGroupRequest(req);
         if (!req.body.topics) {
             return next(Utils.createError('Topic name not exit', 400));
         }
@@ -502,7 +502,7 @@ async function addTopics(req, res, next) {
 }
 async function removeTopic(req, res, next) {
     try {
-        let group = req.groups.group_request;
+        let group = getGroupRequest(req);
         let topic = req.query.topicname;
         if (!topic) return next(Utils.createError('Topic name not exit', 400));
         if (group.removeTopic(topic)) {
@@ -514,6 +514,14 @@ async function removeTopic(req, res, next) {
     } catch (error) {
         return next(Utils.createError(error));
     }
+}
+
+function getGroupRequest(req) {
+    return req.groups.group_request;
+}
+
+function getCurrentGroup(req) {
+    return req.groups.group_request;
 }
 
 /*----------------EXPORT------------------ */
@@ -546,3 +554,8 @@ exports.addTopics = addTopics;
 exports.removeTopic = removeTopic;
 exports.getAllPosts = getAllPosts;
 exports.checkMemberInGroup = checkMemberInGroup;
+exports.getGroupRequest = getGroupRequest;
+exports.getCurrentGroup = getCurrentGroup;
+exports.checkSystemOrAdminInGroupAccount = checkSystemOrAdminInGroupAccount;
+exports.checkSystemOrMemberInGroupAccount = checkSystemOrMemberInGroupAccount;
+exports.checkAdminInGroupAccount = checkAdminInGroupAccount;

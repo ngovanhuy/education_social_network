@@ -37,15 +37,15 @@ router.route('/files/:userID')
     .get(userController.checkUserRequest, userController.getFiles, fileController.getInfoFiles);
 router.route('/classs/:userID').get(userController.checkUserRequest, userController.getClasss);
 router.route('/classs').get(userController.putCurrentUser, userController.getClasss);
-
 router.route('/friends').get(userController.putCurrentUser, userController.getFriends);
-router.route('/friends/:userID').delete(userController.checkUserRequest, userController.removeFriend);
+router.route('/friends/:userID')
+    .get(userController.checkUserRequest, userController.getFriends)
+    .delete(userController.checkUserRequest, userController.removeFriend);
 router.route('/request').get(userController.putCurrentUser, userController.getRequests);
 router.route('/request/:userID')
     .post(userController.checkUserRequest, userController.addRequest)
     .delete(userController.checkUserRequest, userController.removeRequest);
-router.route('/requested').get(userController.checkUserRequest, userController.getRequesteds);
-router.route('/requested/:userID').get(userController.checkUserRequest, userController.getRequesteds);
+router.route('/requested').get(userController.putCurrentUser, userController.getRequesteds);
 router.route('/requested/:userID')
     .post(userController.checkUserRequest,userController.confirmRequested)
     .delete(userController.checkUserRequest, userController.removeRequested);
@@ -58,9 +58,8 @@ router.route('/classrequest/:userID/:groupID')
     .delete(userController.checkUserRequest, groupController.checkGroupRequest, userController.removeClassRequest);
 
 router.route('/import').post(userController.checkSystemAccount, userController.postUsers, userController.getUsers);
+
 router.route('/search').get(userController.searchUserByName);
-
 router.route('/all').get(userController.getUsers);
-
 //--------------------------------
 module.exports = router;

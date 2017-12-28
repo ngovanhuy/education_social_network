@@ -6,6 +6,7 @@ let Utils = require('../application/utils');
 let Posts = require('../models/post');
 let authController = require('../controllers/auth');
 let Token = require('../models/token');
+let AppEvents = require('../application/application').events;
 
 async function getUserByID(id) {
     if (!id) {
@@ -67,8 +68,9 @@ async function getUserByIDOrUserName(info) {
 }
 
 async function findUser(req, isFindWithPhoneAndEmail = true) {
-    if (req.users.user_request) {
-        return req.users.user_request;
+    let userRequest = getRequestUser(req);
+    if (userRequest) {
+        return userRequest;
     }
     if (req.params.userID) {
         return await getUserByID(req.params.userID);
@@ -218,6 +220,7 @@ async function putUser(req, res, next) {
         }
         user = await user.save();
         req.users.user_request = user;
+        AppEvents.users.emit('update', user);
         //TODO: update reference to this user.
         return next();
     } catch (error) {
@@ -244,10 +247,8 @@ async function deleteUser(req, res, next) {
 }
 
 function getUser(req, res, next) {
-    // if (!req.users.user_request) {
-    //     req.users.user_request = getCurrentUser(req);
-    // }
-    req.responses.data = Utils.createResponse(req.users.user_request.getBasicInfo());
+    let user = getRequestUser(req);
+    req.responses.data = Utils.createResponse(user.getBasicInfo());
     return next();
 }
 
@@ -265,7 +266,7 @@ async function putProfileImage(req, res, next) {
     try {
         let user = getRequestUser(req);
         let file = req.fileitems.file_saved;
-        user.profileImageID = req.fileitems.file_saved._id;
+        user.profileImageID = file._id;
         user = await user.save();
         req.users.user_request = user;
         return next();
@@ -304,7 +305,8 @@ function getUserInfo(req, res, next) {
 }
 
 function getFriends(req, res, next) {
-    req.responses.data = Utils.createResponse(req.users.user_request.getFriends());
+    let user = getRequestUser(req);
+    req.responses.data = Utils.createResponse(user.getFriends());
     return next();
 }
 
@@ -318,7 +320,7 @@ async function addFriend(req, res, next) {
         } else {
             throw new Error('Add Friend error');
         }
-        req.users.user_request = currentUser;
+        req.users.user_request = requestUser;
         req.responses.data = Utils.createResponse({
             user_id: currentUser._id,
             friend_id: requestUser._id,
@@ -337,7 +339,7 @@ async function removeFriend(req, res, next) {
             requestUser = await requestUser.save();
             currentUser = await currentUser.save();
         }
-        req.users.user_request = currentUser;
+        req.users.user_request = requestUser;
         req.responses.data = Utils.createResponse({
             user_id: currentUser._id,
             friend_id: requestUser._id,
@@ -439,7 +441,8 @@ async function removeClassRequest(req, res, next) {
 
 function getRequests(req, res, next) {
     try {
-        req.responses.data = Utils.createResponse(req.users.user_request.getRequests());
+        let user = getRequestUser(req);
+        req.responses.data = Utils.createResponse(user.getRequests());
         return next();
     } catch (error) {
         return next(Utils.createError(error));
@@ -448,17 +451,17 @@ function getRequests(req, res, next) {
 
 async function addRequest(req, res, next) {
     try {
-        let currentRequest = getCurrentUser(req);
+        let currentUser = getCurrentUser(req);
         let requestUser = getRequestUser(req);
-        if (currentRequest.addRequest(requestUser, true)) {
-            currentRequest = await currentRequest.save();
+        if (currentUser.addRequest(requestUser, true)) {
+            currentUser = await currentUser.save();
             requestUser = await requestUser.save();
         } else {
             throw new Error();
         }
-        req.users.user_request = currentRequest;
+        req.users.user_request = currentUser;
         req.responses.data = Utils.createResponse({
-            user_id: currentRequest._id,
+            user_id: currentUser._id,
             friend_id: requestUser._id,
         });
         return next();
@@ -475,7 +478,7 @@ async function removeRequest(req, res, next) {
             requestUser = await requestUser.save();
             currentUser = await currentUser.save();
         }
-        req.users.user_request = currentUser;
+        req.users.user_request = requestUser;
         req.responses.data = Utils.createResponse({
             user_id: currentUser._id,
             friend_id: requestUser._id,
@@ -487,26 +490,23 @@ async function removeRequest(req, res, next) {
 }
 
 function getRequesteds(req, res, next) {
-    req.responses.data = Utils.createResponse(req.users.user_request.getRequesteds());
+    let user = getRequestUser(req);
+    req.responses.data = Utils.createResponse(user.getRequesteds());
     return next();
 }
 
 async function removeRequested(req, res, next) {
     try {
-        let user = getRequestUser(req);
-        let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
-        let friendUser = await getUserByID(friendUserID);
-        if (!friendUser) {
-            return next(Utils.createError('friendUserID Invalid', 400));
+        let currentUser = getCurrentUser(req);
+        let requestUser = getRequestUser(req);
+        if (currentUser.removeRequested(requestUser, true)) {
+            requestUser = await requestUser.save();
+            currentUser = await currentUser.save();
         }
-        if (user.removeRequested(friendUser, true)) {
-            friendUser = await friendUser.save();
-            user = await user.save();
-        }
-        req.users.user_request = user;
+        req.users.user_request = requestUser;
         req.responses.data = Utils.createResponse({
-            user_id: user._id,
-            friend_id: friendUser._id,
+            user_id: currentUser._id,
+            friend_id: requestUser._id,
         });
         return next();
     } catch (error) {
@@ -516,22 +516,20 @@ async function removeRequested(req, res, next) {
 
 async function confirmRequested(req, res, next) {
     try {
-        let user = getRequestUser(req);
-        let friendUserID = req.params.friendUserID ? req.params.friendUserID : req.body.friendUserID;
-        let friendUser = await getUserByID(friendUserID);
-        if (!friendUser) {
-            return next(Utils.createError('friendUserID Invalid', 400));
+        let currentUser = getCurrentUser(req);
+        let requestUser = getRequestUser(req);
+        if (currentUser.confirmRequested(requestUser)) {
+            requestUser = await requestUser.save();
+            currentUser = await currentUser.save();
+            req.users.user_request = requestUser;
+            req.responses.data = Utils.createResponse({
+                user_id: currentUser._id,
+                friend_id: requestUser._id,
+            });
+            return next();
+        } else {
+            return next(Utils.createError("ConfirmRequested error", 400));
         }
-        if (user.confirmRequested(friendUser)) {
-            friendUser = await friendUser.save();
-            user = await user.save();
-            req.users.user_request = user;
-        }
-        req.responses.data = Utils.createResponse({
-            user_id: user._id,
-            friend_id: friendUser._id,
-        });
-        return next();
     } catch (error) {
         return next(Utils.createError(error));
     }
@@ -552,11 +550,10 @@ function checkUserLoginIfHave(req, res, next) {
     let user = req.isAuthenticated() ? req.user : null;
     if (user && !user.isDeleted) {
         req.users.user_request = user;
-        return next();
     } else {
         req.users.user_request = null;
-        return next();
     }
+    return next();
 }
 
 async function checkUserRequest(req, res, next) {
@@ -566,11 +563,7 @@ async function checkUserRequest(req, res, next) {
         return next();
     } else {
         req.users.user_request = null;
-        return res.status(400).send({
-            status: 400,
-            message: 'User not exited or deleted',
-            data: null
-        });
+        return next(Utils.createError("User not exited or deleted", 400));
     }
 }
 
@@ -579,7 +572,7 @@ async function checkUserRequestIfHave(req, res, next) {
     if (user && !user.isDeleted) {
         req.users.user_request = user;
     } else {
-        req.users.user_request = getCurrentUser();
+        req.users.user_request = null;
     }
     return next();
 }
@@ -647,6 +640,10 @@ async function login(req, res, next) {
 }
 
 function logout(req, res, next) {
+    let user = getCurrentUser(req);
+    if (user) {
+        //TODO token delete.
+    }
     req.logOut();
     req.session.destroy();
     req.responses.data = Utils.createResponse();
@@ -732,7 +729,7 @@ function checkTeacherAccount(req, res, next) {
     if (user && user.isTeacher()) {
         return next();
     }
-    return next(Utils.createError('Not is teacher'));
+    return next(Utils.createError('User not permit'));
 }
 
 function checkSystemAccount(req, res, next) {
@@ -740,16 +737,22 @@ function checkSystemAccount(req, res, next) {
     if (user && user.isSystem()) {
         return next();
     }
-    return next(Utils.createError('Not is system'));
+    return next(Utils.createError('User not permit'));
 }
-
+function checkSystemOrTeacherAccount(req, res, next) {
+    let user = getCurrentUser(req);//req.users.user_request
+    if (user && (user.isTeacher() || user.isSystem())) {
+        return next();
+    }
+    return next(Utils.createError('User not permit'));
+}
 function checkSystemOrCurrentAccount(req, res, next) {
     let user = getCurrentUser(req);//req.users.user_request
     let userRequest = getRequestUser(req);
     if (user && (user.isSystem() || userRequest._id === user._id)) {
         return next();
     }
-    return next(Utils.createError('Not is system/current account'));
+    return next(Utils.createError('User not permit'));
 }
 
 function putCurrentUser(req, res, next) {
@@ -815,4 +818,5 @@ exports.checkTeacherAccount = checkTeacherAccount;
 exports.checkSystemAccount = checkSystemAccount;
 exports.putCurrentUser = putCurrentUser;
 exports.checkSystemOrCurrentAccount = checkSystemOrCurrentAccount;
+exports.checkSystemOrTeacherAccount = checkSystemOrTeacherAccount;
 exports.getRequestUser = getRequestUser;
