@@ -11,6 +11,7 @@ import {postConstants} from "../../constants";
 import PageNotFound from "../../components/commons/PageNotFound";
 import HomeAnnouncementsNewest from "../../components/home/views/HomeAnnouncementsNewest";
 import HomeCalendar from "../../components/home/views/HomeCalendar";
+import {settingActions} from "../../actions/settingActions";
 
 class HomePage extends Component {
     static defaultProps = {
@@ -36,6 +37,8 @@ class HomePage extends Component {
         this.props.dispatch(eventActions.getEventsByUserId(currentUser.id));
         this.props.dispatch(announcementActions.getAnnouncementNewest());
         this.props.dispatch(announcementActions.getAll());
+        this.props.dispatch(userActions.getAll());
+        this.props.dispatch(settingActions.getFbAppAccessToken());
     }
 
     render() {

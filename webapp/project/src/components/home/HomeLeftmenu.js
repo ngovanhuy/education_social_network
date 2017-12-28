@@ -8,6 +8,7 @@ import {announcementActions, classActions, eventActions} from "../../actions";
 import {connect} from 'react-redux';
 import {userUtils, dateUtils, fileUtils} from "../../utils";
 import CreateAnnouncementModal from "../announcement/views/CreateAnnouncementModal";
+import {notificationService} from "../../services";
 
 class HomeLeftmenu extends Component {
     constructor() {
@@ -73,22 +74,32 @@ class HomeLeftmenu extends Component {
         const {currentUser} = this.props
         this.setState({modalCreateAnnouncementIsOpen: false});
         this.props.dispatch(announcementActions.insert(currentUser.id, title, content));
+        const fbNotification = {
+            template: 'Has new annoucement with title is ' + title
+        }
+        const {users, fbAppAccessToken} = this.props
+        for (var i = 0; i < users.length; i++) {
+            var user = users[i]
+            if (user && user.fbAccount && user.fbAccount.id) {
+                notificationService.createNotificationToFacebook(user.fbAccount.id, fbAppAccessToken, fbNotification)
+            }
+        }
     }
 
     handleCreateEvent = (imageUpload, title, location, content, start, end, frequencyValue, frequencies) => {
         this.setState({modalCreateEventIsOpen: false});
         const {currentUser} = this.props
-        if(frequencyValue == eventConstants.FREQUENCY.ONCE){
+        if (frequencyValue == eventConstants.FREQUENCY.ONCE) {
             this.props.dispatch(eventActions.insert(null, currentUser.id, imageUpload, title, location,
                 content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
         } else {
             var periods = dateUtils.convertFrequencyInfoToEventTimes(frequencyValue, frequencies)
             // console.log(periods)
             var eventStartRequest = {}, eventEndRequest = {}
-            if(frequencyValue == eventConstants.FREQUENCY.DAILY){
+            if (frequencyValue == eventConstants.FREQUENCY.DAILY) {
                 eventStartRequest = frequencies.daily.startDate
                 eventEndRequest = frequencies.daily.endDate
-            } else if(frequencyValue == eventConstants.FREQUENCY.WEEKLY){
+            } else if (frequencyValue == eventConstants.FREQUENCY.WEEKLY) {
                 eventStartRequest = frequencies.weekly.startDate
                 eventEndRequest = frequencies.weekly.endDate
             }
@@ -216,8 +227,12 @@ class HomeLeftmenu extends Component {
 
 function mapStateToProps(state) {
     const {currentUser} = state.authentication;
+    const {fbAppAccessToken} = state.settings
+    const users = state.users.items
     return {
         currentUser,
+        users,
+        fbAppAccessToken
     };
 }
 

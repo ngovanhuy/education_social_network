@@ -2,17 +2,20 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import '../../components/announcement/announcement.css'
-import {announcementActions} from "../../actions";
+import {announcementActions, userActions} from "../../actions";
 import {appUtils, dateUtils, fileUtils} from "../../utils";
 import PageNotFound from "../../components/commons/PageNotFound";
 import AnnouncementLeftmenu from '../../components/announcement/views/AnnouncementLeftmenu'
 import UserProfileInfo from "../../components/commons/views/UserProfileInfo";
+import {settingActions} from "../../actions/settingActions";
 
 class EventDetailPage extends Component {
     componentWillMount() {
         const {announcementId} = this.props;
         this.props.dispatch(announcementActions.getAll());
         this.props.dispatch(announcementActions.getById(announcementId));
+        this.props.dispatch(userActions.getAll());
+        this.props.dispatch(settingActions.getFbAppAccessToken());
     }
 
     componentWillReceiveProps(nextProps) {
@@ -20,6 +23,8 @@ class EventDetailPage extends Component {
             const {announcementId} = nextProps;
             this.props.dispatch(announcementActions.getAll());
             this.props.dispatch(announcementActions.getById(announcementId));
+            this.props.dispatch(userActions.getAll());
+            this.props.dispatch(settingActions.getFbAppAccessToken());
         }
     }
 

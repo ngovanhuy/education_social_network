@@ -5,6 +5,7 @@ import {announcementActions} from "../../../actions";
 import {connect} from "react-redux";
 import AnnouncementInfo from "../../commons/views/AnnouncementInfo";
 import {userUtils} from "../../../utils";
+import {notificationService} from "../../../services";
 
 class AnnouncementLeftmenu extends Component {
     constructor(props) {
@@ -27,6 +28,16 @@ class AnnouncementLeftmenu extends Component {
         this.setState({modalIsOpen: false});
         const {currentUser} = this.props
         this.props.dispatch(announcementActions.insert(currentUser.id, title, content));
+        const fbNotification = {
+            template: 'Has new annoucement with title is ' + title
+        }
+        const {users, fbAppAccessToken} = this.props
+        for (var i = 0; i < users.length; i++) {
+            var user = users[i]
+            if (user && user.fbAccount && user.fbAccount.id) {
+                notificationService.createNotificationToFacebook(user.fbAccount.id, fbAppAccessToken, fbNotification)
+            }
+        }
     }
 
     renderAnnouncement(announcementDetail, index) {
@@ -100,9 +111,13 @@ class AnnouncementLeftmenu extends Component {
 function mapStateToProps(state) {
     const {currentUser} = state.authentication;
     const announcements = state.announcements.items
+    const {fbAppAccessToken} = state.settings
+    const users = state.users.items
     return {
         currentUser,
-        announcements
+        announcements,
+        users,
+        fbAppAccessToken
     };
 }
 
