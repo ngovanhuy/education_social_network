@@ -28,9 +28,9 @@ class NewPost extends Component {
 
     handleCreateEvent = (imageUpload, title, location, content, start, end, frequencyValue, frequencies) => {
         this.setState({modalCreateEventIsOpen: false});
-        const {user, classDetail} = this.props
+        const {currentUser, classDetail} = this.props
         if(frequencyValue == eventConstants.FREQUENCY.ONCE){
-            this.props.dispatch(eventActions.insert(classDetail.id, user.id, imageUpload, title, location,
+            this.props.dispatch(eventActions.insert(classDetail.id, currentUser.id, imageUpload, title, location,
                 content, dateUtils.convertDateTimeToISO(start), dateUtils.convertDateTimeToISO(end)));
         } else {
             var periods = dateUtils.convertFrequencyInfoToEventTimes(frequencyValue, frequencies)
@@ -43,7 +43,7 @@ class NewPost extends Component {
                 eventStartRequest = frequencies.weekly.startDate
                 eventEndRequest = frequencies.weekly.endDate
             }
-            this.props.dispatch(eventActions.insertMulti(classDetail.id, user.id, imageUpload, title, location, content,
+            this.props.dispatch(eventActions.insertMulti(classDetail.id, currentUser.id, imageUpload, title, location, content,
                 dateUtils.convertDateTimeToISO(eventStartRequest), dateUtils.convertDateTimeToISO(eventEndRequest), periods));
         }
     }

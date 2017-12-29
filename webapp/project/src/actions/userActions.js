@@ -241,6 +241,7 @@ function updateProfilePicture(userId, file) {
                 response => {
                     dispatch(success())
                     dispatch(getById(userId))
+                    dispatch(loginById(userId))
                 },
                 error => dispatch(failure(error))
             );
@@ -260,6 +261,7 @@ function updateCoverPhoto(userId, file) {
                 response => {
                     dispatch(success())
                     dispatch(getById(userId))
+                    dispatch(loginById(userId))
                 },
                 error => dispatch(failure(error))
             );
