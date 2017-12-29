@@ -768,7 +768,11 @@ function getCurrentUser(req) {
 function getRequestUser(req) {
     return req.users.user_request ? req.users.user_request : null;
 }
-
+async function getAllEmails() {
+    let users = await User.find({isDeleted: false, email:{$ne: null}}, {email:1, _id: 0});
+    let emails = users.map(user => user.email);
+    return emails;
+}
 /*----------------EXPORT------------------ */
 exports.getCurrentUser = getCurrentUser;
 exports.postUser = postUser;
@@ -821,3 +825,4 @@ exports.putCurrentUser = putCurrentUser;
 exports.checkSystemOrCurrentAccount = checkSystemOrCurrentAccount;
 exports.checkSystemOrTeacherAccount = checkSystemOrTeacherAccount;
 exports.getRequestUser = getRequestUser;
+exports.getAllEmails = getAllEmails;

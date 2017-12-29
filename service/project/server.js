@@ -54,11 +54,14 @@ app.use('/posts', postRouter);
 app.use('/events', eventRouter);
 app.use('/announcements', announcementRouter);
 
-// app.use('/apis', apiRouter);
+app.use('/apis', apiRouter);
 // app.use('/tasks', taskRouter);
-// app.use('/test', testRouter);
+app.use('/test', testRouter);
 
 app.use(Application.defaultHandler);
 app.use(Application.errorHandler);
+
+
+
 app.listen(Application.manager.portRunning);
 console.log('Running at ' + Application.manager.portRunning);

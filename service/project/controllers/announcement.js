@@ -1,6 +1,7 @@
 let Announcements = require('../models/announcement');
 let Utils = require('../application/utils');
 let UserControllers = require('../controllers/user');
+let AnnouncementEvents = require('../application/application').events.announcements;
 
 async function getAnnouncementByID(id) {
     try {
@@ -108,6 +109,7 @@ async function addAnnouncement(req, res, next) {
         };
         announcement = await announcement.save();
         req.announcements.announcement_requested = announcement;
+        AnnouncementEvents.emit('NewAnnouncement', announcement);
         return next();
     } catch(error) {
         return next(Utils.createError(error));
