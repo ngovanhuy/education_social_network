@@ -369,7 +369,7 @@ async function getClasss(req, res, next) {
 async function removeFromClass(req, res, next) {
     try {
         let user = getRequestUser(req);
-        let group = req.groups.group_request;
+        let group = GroupController.getGroupRequest(req);
         if (user.removeFromClass(group)) {
             group = await group.save();
             user = await user.save();
@@ -388,7 +388,8 @@ async function removeFromClass(req, res, next) {
 
 function getClassRequests(req, res, next) {
     try {
-        req.responses.data = Utils.createResponse(req.users.user_request.getClassRequests());
+        let user = getCurrentUser(req);
+        req.responses.data = Utils.createResponse(user.getClassRequests());
         return next();
     } catch (error) {
         return next(Utils.createError(error));
@@ -397,8 +398,8 @@ function getClassRequests(req, res, next) {
 
 async function addClassRequest(req, res, next) {
     try {
-        let user = getRequestUser(req);
-        let group = req.groups.group_request;
+        let user = getCurrentUser(req);
+        let group = GroupController.getGroupRequest(req);
         if (user.addClassRequest(group, true)) {
             group = await group.save();
             user = await user.save();
@@ -419,8 +420,8 @@ async function addClassRequest(req, res, next) {
 
 async function removeClassRequest(req, res, next) {
     try {
-        let user = getRequestUser(req);
-        let group = req.groups.group_request;
+        let user = getCurrentUser(req);
+        let group = GroupController.getGroupRequest(req);
         if (user.removeClassRequest(group, true)) {
             group = await group.save();
             user = await user.save();
@@ -747,9 +748,9 @@ function checkSystemOrTeacherAccount(req, res, next) {
     return next(Utils.createError('User not permit'));
 }
 function checkSystemOrCurrentAccount(req, res, next) {
-    let user = getCurrentUser(req);//req.users.user_request
+    let currentUser = getCurrentUser(req);//req.users.user_request
     let userRequest = getRequestUser(req);
-    if (user && (user.isSystem() || userRequest._id === user._id)) {
+    if (currentUser && (currentUser.isSystem() || userRequest._id === currentUser._id)) {
         return next();
     }
     return next(Utils.createError('User not permit'));

@@ -434,7 +434,7 @@ function checkSystemOrMemberInGroupAccount(req, res, next) {
 }
 function checkMemberInGroup(req, res, next) {
     let group = getGroupRequest(req);
-    let user = req.users.user_request;
+    let user = UserControllers.getCurrentUser(req);
     if (!group.isMember(user)) {
         return next(Utils.createError('User not member', 400));
     }

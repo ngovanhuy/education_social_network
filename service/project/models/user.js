@@ -314,7 +314,6 @@ function addToClass(group) {
 }
 function removeFromClass(group) {
     return (removeGroupFromArray(group, this.classs) && group.removeMember(this, false)) ? group : null;
-    // return removeGroupFromArray(group, this.classs) ? group : null;
 }
 function getClasss() {
     return this.classs.filter(classItem => classItem.isRemoved === false).map(classItem => ({

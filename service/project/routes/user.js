@@ -14,7 +14,6 @@ router.route('/')
     .put(userController.putCurrentUser, userController.putUser, userController.getUser);
 router.route('/manager/:userID')
     .get(userController.checkUserRequest, userController.getUser)
-    // .put(userController.checkUserRequest, userController.checkSystemOrCurrentAccount, userController.putUser, userController.getUser)
     .put(userController.checkSystemAccount, userController.checkUserRequest, userController.putUser, userController.getUser)
     .delete(userController.checkSystemAccount, userController.checkUserRequest, userController.deleteUser, userController.getUser);
 router.route('/profileImage/:userID')
@@ -30,36 +29,34 @@ router.route('/coverImage')
     .post(userController.putCurrentUser, fileController.coverUpload, userController.getCoverImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, userController.putCoverImage, fileController.getInfoFile);
 router.route('/info/:userID').get(userController.checkUserRequest, userController.getUserInfo);
 router.route('/info').get(userController.putCurrentUser, userController.getUserInfo);
+router.route('/files/:userID')
+    .get(userController.checkSystemAccount, userController.checkUserRequest, userController.getFiles, fileController.getInfoFiles);
 router.route('/files')
     .get(userController.putCurrentUser, userController.getFiles, fileController.getInfoFiles)
     .post(userController.putCurrentUser, fileController.arrayFileUpload, fileController.postFiles, fileController.getInfoFiles);
-router.route('/files/:userID')
-    .get(userController.checkUserRequest, userController.getFiles, fileController.getInfoFiles);
-router.route('/classs/:userID').get(userController.checkUserRequest, userController.getClasss);
+router.route('/classs/:userID').get(userController.checkSystemAccount, userController.checkUserRequest, userController.getClasss);
 router.route('/classs').get(userController.putCurrentUser, userController.getClasss);
-router.route('/friends').get(userController.putCurrentUser, userController.getFriends);
 router.route('/friends/:userID')
     .get(userController.checkUserRequest, userController.getFriends)
     .delete(userController.checkUserRequest, userController.removeFriend);
-router.route('/request').get(userController.putCurrentUser, userController.getRequests);
+router.route('/friends').get(userController.putCurrentUser, userController.getFriends);
 router.route('/request/:userID')
     .post(userController.checkUserRequest, userController.addRequest)
     .delete(userController.checkUserRequest, userController.removeRequest);
-router.route('/requested').get(userController.putCurrentUser, userController.getRequesteds);
+router.route('/request').get(userController.putCurrentUser, userController.getRequests);
 router.route('/requested/:userID')
     .post(userController.checkUserRequest,userController.confirmRequested)
     .delete(userController.checkUserRequest, userController.removeRequested);
-
-router.route('/posts/:userID').get(userController.checkUserRequest, userController.getPosts);
-router.route('/classs/:userID/:groupID').delete(userController.checkUserRequest, groupController.checkGroupRequest , userController.removeFromClass);
-router.route('/classrequest/:userID').get(userController.checkUserRequest, userController.getClassRequests);
-router.route('/classrequest/:userID/:groupID')
-    .post(userController.checkUserRequest, groupController.checkGroupRequest ,userController.addClassRequest)
-    .delete(userController.checkUserRequest, groupController.checkGroupRequest, userController.removeClassRequest);
-
+router.route('/requested').get(userController.putCurrentUser, userController.getRequesteds);
+router.route('/posts/:userID').get(userController.checkSystemAccount, userController.checkUserRequest, userController.getPosts);
+router.route('/posts').get(userController.putCurrentUser, userController.getPosts);
+router.route('/classs/:groupID').delete(groupController.checkGroupRequest , groupController.checkMemberInGroup, userController.removeFromClass);
+router.route('/classrequest/:groupID')
+    .post(groupController.checkGroupRequest ,userController.addClassRequest)
+    .delete(groupController.checkGroupRequest, userController.removeClassRequest);
+router.route('/classrequest').get(userController.getClassRequests);
 router.route('/import').post(userController.checkSystemAccount, userController.postUsers, userController.getUsers);
-
 router.route('/search').get(userController.searchUserByName);
-router.route('/all').get(userController.getUsers);
+router.route('/all').get(userController.checkSystemAccount, userController.getUsers);
 //--------------------------------
 module.exports = router;

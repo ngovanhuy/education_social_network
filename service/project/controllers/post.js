@@ -102,23 +102,10 @@ async function addPost(req, res, next) {
 async function deletePost(req, res, next) {
     try {
         let user = UserController.getCurrentUser(req);
-        let post = await findPost(req);
+        let post = getPostRequest(req);
+        post.isDeleted = true;
+        post = await post.save();
         req.posts.post_requested = post;
-        if (post.userCreate._id !== user._id) {
-            if (!user.isTeacher()) {//TODO: Check current group.
-                return next(Utils.createError('Permit invalid', 400, 400, 'Request Invalid. Only owner post or teacher can delete'));
-            }
-        }
-        if (!post) {
-            return next(Utils.createError('Post Not Existed', 400));
-        }
-        if (post.isDeleted) {
-            return next(Utils.createError('Post deleted.', 400));
-        } else {
-            post.isDeleted = true;
-            post = await post.save();
-            req.posts.post_requested = post
-        }
         return next();
     } catch (error) {
         return next(Utils.createError(error));
@@ -127,12 +114,10 @@ async function deletePost(req, res, next) {
 
 async function updatePost(req, res, next) {
     try {
-        let user = req.users.user_request;
-        let post = req.posts.post_requested;
+        let user = UserController.getCurrentUser(req);
+        let post = getPostRequest(req);
         if (post.userCreate._id !== user._id) {
-            if (!user.isTeacher()) {//TODO check current group
-                return next(Utils.createError('Permit invalid', 400, 400, 'Request Invalid. Only owner post or teacher can editable.'));
-            }
+            return next(Utils.createError('User not permit', 400));
         }
         let title = req.body.title;
         let content = req.body.content;
@@ -158,8 +143,8 @@ async function updatePost(req, res, next) {
 
 async function addComment(req, res, next) {
     try {
-        let post = req.posts.post_requested;
-        let user = req.users.user_request;
+        let post = getPostRequest(req);
+        let user = UserController.getCurrentUser(req);
         let file = req.fileitems.file_saved;
         let content = req.body.content;
         if (!content) {
@@ -192,7 +177,7 @@ async function addComment(req, res, next) {
 
 async function getComments(req, res, next) {//bulk comments with index.
     try {
-        let post = req.posts.post_requested;
+        let post = getPostRequest(req);
         req.responses.data = Utils.createResponse({
             post: {
                 postID: post._id,
@@ -209,7 +194,7 @@ async function getComments(req, res, next) {//bulk comments with index.
 
 async function deleteComment(req, res, next) {
     try {
-        let post = req.posts.post_requested;
+        let post = getPostRequest(req);
         let commentID = null;
         if (req.query.commentID) {
             commentID = req.query.commentID;
@@ -249,7 +234,7 @@ async function deleteComment(req, res, next) {
 async function updateComment(req, res, next) {
     try {
         let post = getPostRequest(req);
-        let user = UserController.getCurrentUser(req);
+        let currentUser = UserController.getCurrentUser(req);
         let file = req.fileitems.file_saved;
         let content = req.body.content;
         let commentID = null;
@@ -266,6 +251,9 @@ async function updateComment(req, res, next) {
         let comment = post.updateComment(Number(commentID), content, file);
         let data = null;
         if (comment) {
+            if (comment.userID !== currentUser._id) {
+                return next(Utils.createError('Request Invalid', 400, 400, 'Only owner comment can editable.'));
+            }
             post = await post.save();
             req.posts.post_requested = post;
             data = {
@@ -314,7 +302,6 @@ async function getPostsInTopic(req, res, next) {
 async function getLikes(req, res, next) {
     try {
         let post = getPostRequest(req);
-        let user = UserController.getCurrentUser(req);
         req.responses.data = Utils.createResponse({
             post: {
                 postID: post._id,
@@ -332,8 +319,8 @@ async function getLikes(req, res, next) {
 async function addLike(req, res, next) {
     try {
         let post = getPostRequest(req);
-        let user = UserController.getCurrentUser(req);
-        if (post.addLike(user)) {
+        let currentUser = UserController.getCurrentUser(req);
+        if (post.addLike(currentUser)) {
             post = await post.save();
             req.posts.post_requested = post;
             return next();
@@ -403,6 +390,27 @@ function createNewPost(user, group, title, content, topic, files = null) {
     return post;
 }
 
+function putGroupRequest(req, res, next) {
+    let post = getPostRequest(req);
+    req.param.groupID = post.group.id;
+    return next();
+}
+
+function checkPermitForUser(req, res, next) {
+    let currentUser = UserController.getCurrentUser(req);
+    if (currentUser.isSystem()) {
+        return next();
+    }
+    let post = getPostRequest(req);
+    let group = GroupControllers.getGroupRequest(req);
+    let postIDs = group.getPostIDForUsers(currentUser);
+    let postFind = postIDs.find(post._id);
+    if (postFind) {
+        return next();
+    }
+    return next(Utils.createError('User not permit', 400));
+}
+
 function getPostRequest(req) {
     return req.posts.post_requested;
 }
@@ -425,6 +433,9 @@ exports.getPostsInTopic = getPostsInTopic;
 exports.getLikes = getLikes;
 exports.addLike = addLike;
 exports.removeLike = removeLike;
+
+exports.putGroupRequest = putGroupRequest;
+exports.checkPermitForUser = checkPermitForUser;
 
 
 
