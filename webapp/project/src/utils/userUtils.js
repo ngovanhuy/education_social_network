@@ -6,6 +6,8 @@ export const userUtils = {
     renderSourceProfilePictureDefault,
     renderProfileImageOfUser,
     getCurrentUserId,
+    getFirstName,
+    getLastName,
 }
 
 function checkIsTeacher(user) {
@@ -48,4 +50,24 @@ function getCurrentUserId() {
         return user.id
     }
     return 0
+}
+
+function getFirstName(string) {
+    if(string){
+        string = string.trim()
+        var pos = string.lastIndexOf(" ");
+        var res = string.slice(0, pos);
+        return res;
+    }
+    return ''
+}
+
+function getLastName(string) {
+    if(string){
+        string = string.trim()
+        var pos = string.lastIndexOf(" ");
+        var res = string.slice(pos);
+        return res;
+    }
+    return ''
 }
