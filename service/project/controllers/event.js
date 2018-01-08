@@ -45,7 +45,6 @@ async function exportEvent(req, res) {
             if (error) {
                 console.log(error)
             }
-
             fs.writeFileSync(filePath, value)
         })
         let readStream = fs.createReadStream(filePath);
@@ -423,6 +422,86 @@ async function addEvents(req, res, next) {
         });
     }
 }
+async function importEvents(req, res, next) {
+    try {
+        let user = req.users.user_request;
+        let group = req.groups.group_request;
+        let title = req.body.title;
+        let content = req.body.content;
+        let eventImageID = null;
+        let location = req.body.location ? req.body.location : '';
+        let context = req.body.context ? Number(req.body.context) : 100;
+        let isAllDay = req.body.isAllDay ? req.body.isAllDay === 'true' : false;
+        let periods = Utils.getPeriodArray(req.body.periods);
+        let groupEventID = null;
+        if (req.body.groupEventID) {
+            let n = Number(req.body.groupEventID);
+            groupEventID = isNaN(n) ? Date.now() : n;
+        } else {
+            groupEventID = Date.now();
+        }
+        if (!title || !content || !location) {
+            return res.status(400).send({
+                code: 400,
+                message: 'Request Invalid',
+                data: null,
+                error: 'Data not exited'
+            });
+        }
+        let now = Date.now();
+        let userCreate = {
+            id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImageID: user.profileImageID,
+            timeUpdate: now,
+        };
+        let contextData = null;
+        if (context === EventItem.getGroupContext()) {
+            contextData = group ? {
+                profileImageID: group.profileImageID,
+                memberCount: group.memberCount,
+                location: group.location,
+                about: group.about,
+                name: group.name,
+                id: group._id,
+            } : null;
+        }
+        let createEventItem = function (_id, _startTime, _endTime) {
+            let eventItem = new EventItem({
+                _id: _id,
+                title: title,
+                content: content,
+                eventImageID: eventImageID,
+                location: location,
+                isAllDay: isAllDay,
+                startTime: _startTime,
+                endTime: _endTime,
+                userCreate: userCreate,
+                context: context,
+                contextData: contextData,
+                groupEventID: groupEventID,
+            });
+            return eventItem;
+        };
+        let events = periods.map(period => {
+            if (!period.startTime || !period.endTime) return null;
+            return createEventItem(now++, period.startTime, period.endTime);
+        }).filter(item => item !== null);
+        Promise.all(events.map(event => event.save())
+        ).then(eventSaveds => {
+            req.events.events_requested = eventSaveds;
+            next();
+        }).catch(error => next(error));
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error
+        });
+    }
+}
 
 async function removeEvent(req, res, next) {
     try {
@@ -523,5 +602,4 @@ exports.getEventsInfo = getEventsInfo;
 exports.getEventInfo = getEventInfo;
 exports.getAllEvents = getAllEvents;
 exports.getGroupEvent = getGroupEvent;
-
-
+exports.importEvents = importEvents;

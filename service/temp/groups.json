@@ -1,0 +1,69 @@
+{
+	"default": {
+		"about": "Kì 20171",
+		"location": "B1"
+	},
+	"options": {
+    	"ignoreError": false
+	},
+	"data": [
+		{
+			"name"	: "Đại số",
+			"about": "Đại số thầy A",
+			"location": "D320x"
+		},
+		{
+			"name"	: "Kĩ thuật lập trình",
+			"about": "Kĩ thuật lập trình kì 20171",
+			"location": "D320x"
+		},
+		{
+			"name"	: "Lập trình C cơ bản"
+		},
+		{
+			"name": "Hệ điều hành",
+			"location": "UNIA",
+			"about": "Qui excepteur nisi sint ullamco ut irure excepteur est ut esse minim do. Dolore consequat tempor incididunt cillum. Est reprehenderit quis minim consequat aute quis pariatur reprehenderit et mollit ea. Aliqua ex non incididunt aliqua deserunt id deserunt fugiat dolor tempor sunt. Pariatur ex commodo est ex. Eiusmod excepteur eu ea voluptate esse. Cupidatat amet esse pariatur veniam aliquip magna sunt ex consectetur nostrud aliqua labore laboris."
+		  },
+		  {
+			"name": "Kiến trúc máy tính",
+			"location": "D1201",
+			"about": "Aliqua fugiat eiusmod ea sunt deserunt dolore. Sunt sint fugiat exercitation qui minim Lorem sint veniam consequat sunt. Nulla exercitation cillum nostrud qui aliqua mollit officia. Amet deserunt ex dolor ex magna ullamco aute ullamco duis laborum sunt eu reprehenderit exercitation. Magna ipsum dolore reprehenderit velit consectetur labore tempor nostrud quis sit culpa. Commodo exercitation aliquip minim voluptate mollit dolore aliqua."
+		  },
+		  {
+			"name": "Cấu trúc dữ liệu và giải thuật",
+			"location": "D1202",
+			"about": "Irure excepteur eu fugiat laborum id nostrud. Mollit Lorem cupidatat tempor duis consectetur dolore ut laboris veniam proident ut. Ea eiusmod elit aute minim laborum aliqua ullamco dolor cillum culpa quis esse occaecat pariatur. Velit nisi exercitation non laboris velit nisi sint."
+		  },
+		  {
+			"name": "Mạng máy tính",
+			"location": "D1203",
+			"about": "Laborum sit sint nostrud commodo proident Lorem ex laborum cillum ipsum. Amet deserunt enim veniam aute ullamco eiusmod consequat sint eiusmod ex nisi do dolore sit. Amet consectetur est adipisicing duis adipisicing non qui."
+		  },
+		  {
+			"name": "Cơ sở dữ liệu",
+			"location": "D1204",
+			"about": "Proident sunt quis sunt sint laborum deserunt officia sunt aliquip ipsum minim ad. Eu nulla eiusmod irure enim sit dolore exercitation. Deserunt duis mollit id deserunt ullamco non. Officia eiusmod amet amet laborum aute pariatur. Laborum mollit tempor qui laborum voluptate. Aliquip consequat id nulla sunt mollit laborum officia proident incididunt ea et eu deserunt. Sit excepteur aliqua ad cupidatat excepteur non sunt elit."
+		  },
+		  {
+			"name": "Cơ sở dữ liệu nâng cao",
+			"location": "D1205",
+			"about": "Est id Lorem elit minim est culpa veniam sunt. Tempor sint dolor esse laboris laborum. Ex ipsum ex commodo nostrud dolore velit cillum id dolore tempor. Magna labore cillum proident ex. Tempor sit esse ex veniam. Sunt proident laboris culpa ad officia commodo exercitation elit."
+		  },
+		  {
+			"name": "Phân tích thiết kế hệ thống",
+			"location": "D1206",
+			"about": "Nostrud labore aliqua occaecat esse qui minim reprehenderit occaecat magna duis minim esse id cupidatat. Laborum excepteur commodo cillum reprehenderit incididunt anim eu ad laboris reprehenderit officia fugiat. Pariatur quis dolor tempor veniam laborum. Id officia et sit incididunt nulla."
+		  },
+		  {
+			"name": "Toán rời rạc",
+			"location": "D1207",
+			"about": "Irure elit enim non officia irure duis veniam culpa nulla mollit nulla ullamco consectetur. Minim officia tempor mollit non ullamco. Pariatur tempor ad amet officia veniam. Duis sint ut eiusmod fugiat. Consequat eiusmod culpa nulla adipisicing aliqua aliquip aliqua officia sint. Velit fugiat eiusmod qui aute eu cupidatat elit pariatur reprehenderit et velit tempor. Enim ad nostrud proident magna fugiat commodo duis laborum esse pariatur."
+		  },
+		  {
+			"name": "Xử lý ngôn ngữ tự nhiên",
+			"location": "D1208",
+			"about": "Deserunt occaecat do fugiat excepteur sit. Occaecat consequat amet est eiusmod duis dolor. Dolor do mollit est adipisicing ut anim aliquip adipisicing enim amet est labore velit."
+		  }
+	]
+}

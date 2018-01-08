@@ -1,0 +1,81 @@
+{
+  "default": {
+    "password": {
+      "text": "hust",
+      "equalfieldName": "username"
+    },
+    "typeuser": 0,
+    "firstName": "NONE",
+    "lastname": "NONE",
+    "gender": 0,
+    "birthday": null
+  },
+  "options": {
+    "ignoreError": false
+  },
+  "data": [
+    {
+      "username": "teacherA",
+      "password": "password",
+      "email": "teacherA@esservice.edu.vn",
+      "phone": "01203466001",
+      "birthday": "01-01-2000",
+      "gender": 1,
+      "firstName": "Trung",
+      "lastName": "Nguyễn",
+      "typeuser": 10
+    },
+    {
+      "username": "namnguyen",
+      "password": "password",
+      "email": "namnguyen@esservice.edu.vn",
+      "phone": "01203466011",
+      "birthday": "01-01-2000",
+      "gender": 1,
+      "firstName": "Nam",
+      "lastName": "Nguyễn",
+      "typeuser": 10
+    },
+    {
+      "username": "huyngo",
+      "password": "password",
+      "email": "huyngo@esservice.edu.vn",
+      "phone": "01203466012",
+      "birthday": "02-02-2000",
+      "gender": 1,
+      "firstName": "Huy",
+      "lastName": "Ngô"
+    },
+    {
+      "username": "huongnguyen",
+      "password": "password",
+      "email": "huongnguyen@esservice.edu.vn",
+      "phone": "01203466013",
+      "birthday": "03-03-2000",
+      "gender": 2,
+      "firstName": "Hương",
+      "lastName": "Nguyễn",
+      "typeuser": 10
+    },
+    {
+      "username": "yenngoc",
+      "password": "password",
+      "email": "yenngoc@esservice.edu.vn",
+      "phone": "01203466014",
+      "birthday": "04-04-2000",
+      "gender": 2,
+      "firstName": "Yến",
+      "lastName": "Ngọc"
+    },
+    {
+      "username": "manhtran",
+      "password": "password",
+      "email": "manhtran@esservice.edu.vn",
+      "phone": "01203466015",
+      "birthday": "05-05-2000",
+      "gender": 1,
+      "firstName": "Mạnh",
+      "lastName": "Trần"
+    }
+  ]
+}

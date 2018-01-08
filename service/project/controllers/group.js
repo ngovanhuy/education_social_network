@@ -216,7 +216,7 @@ async function confirmRequested(req, res) {
                 data: null,
             });
         }
-        if (group.confirmRequested(user)) {
+        if (group.confirmRequested(user, true)) {
             group = await group.save();
             user = await user.save();
         } else {
@@ -339,6 +339,83 @@ async function postGroup(req, res, next) {
             req.groups.group_request = group;
             return next();
         }
+    } catch (error) {
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
+}
+
+async function postGroups(req, res, next) {
+    try {
+        let defaultConfig = req.body.default ? req.body.default : {
+            about: "Default",
+            location: "Default location"
+        } ; 
+        let datas = req.body.data ? req.body.data : [];
+        let options = req.body.options ? req.body.options : {
+            ignoreError: true
+        };
+        let groups = [];
+        req.groups.groups_request = groups;
+        if (!datas || !Array.isArray(datas) || datas.length <= 0) {
+            return next();
+        }
+        let userCreate = req.users.user_request;
+        if (!userCreate.isTeacher()) {
+            return res.status(400).send({
+                code: 400,
+                data: null,
+                error: 'Only teacher can create group.'
+            });
+        }
+        let now = new Date();
+        let groupID = now.getTime();
+        let ignoreError = (options.ignoreError === false || options.ignoreError === "false") ? false : true;
+        for (let index = 0; index < datas.length; index++) {
+            let data = datas[index];
+            let message = Group.validateInputInfo(data, true);
+            if (!message || message.length > 0) {
+                if (!ignoreError) {
+                    return res.status(400).send({
+                        code: 400,
+                        message: message,
+                        data: null,
+                        error: 'Request Invalid'
+                    });
+                }
+                continue;
+            }
+            if (!data.about) {
+                data.about = defaultConfig.about ? defaultConfig.about : "Default About"
+            }
+            if (!data.location) {
+                data.location = defaultConfig.location ? defaultConfig.location : "Default Location"
+            }
+            let group = new Group({
+                _id: groupID++,
+                name: data.name,
+                about: data.about,
+                location: data.location,
+                isDeleted: false,
+                dateCreated: now,
+            });
+            if (!group.addAdminMember(userCreate)) {
+                continue;
+            }
+            groups.push(group);
+        }
+        Promise.all(groups.map(group => group.save())).then(groups => {
+            req.groups.groups_request = groups;
+        }).catch(error => {
+            req.groups.groups_request = [];
+        });
+        userCreate = await userCreate.save();
+        req.users.user_request = userCreate;
+        return next();
     } catch (error) {
         return res.status(500).send({
             code: 500,
@@ -547,6 +624,21 @@ async function getGroups(req, res) {
     }
 };
 
+function getGroupsInfo(req, res) {
+    try {
+        let groups = req.groups.groups_request;
+        if (!groups) groups = [];
+        return res.json({
+            code: 200,
+            message: 'Success',
+            count: groups.length,
+            data: groups.map(group => group.getBasicInfo())
+        });
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+};
+
 async function getFiles(req, res, next) {
     try {
         let group = req.groups.group_request;
@@ -569,16 +661,16 @@ async function searchGroupByName(req, res) {
     try {
         let key = req.query.groupname;
         if (!key) {
-            return res.status(400).json({code: 400, message: '', data: []});
+            return res.status(400).json({ code: 400, message: '', data: [] });
         }
-        let groups = await Group.find({name: {$regex: key}});
+        let groups = await Group.find({ name: { $regex: key } });
         return res.status(200).json({
             code: 200,
             message: '',
             data: groups.map(group => group.getBasicInfo())
         });
     } catch (error) {
-        return res.status(500).json({code: 500, message: '', data: []});
+        return res.status(500).json({ code: 500, message: '', data: [] });
     }
 }
 async function getAllPosts(req, res) {
@@ -587,7 +679,7 @@ async function getAllPosts(req, res) {
         let group = req.groups.group_request;
         let user = req.users.user_request;
         let postIDs = group.getPostIDs();
-        let posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
+        let posts = await Post.find({ isDeleted: false, _id: { $in: postIDs } });
         let datas = posts.map(post => post.getBasicInfo(user));
         return res.status(200).json({
             code: 200,
@@ -612,9 +704,9 @@ async function getPosts(req, res) {
         let topicName = req.query.topicname;
         let posts;
         if (topicName) {
-            posts = await Post.find({isDeleted: false, _id: {$in: postIDs}, topics: {$elemMatch: {_id: topicName}}});
+            posts = await Post.find({ isDeleted: false, _id: { $in: postIDs }, topics: { $elemMatch: { _id: topicName } } });
         } else {
-            posts = await Post.find({isDeleted: false, _id: {$in: postIDs}});
+            posts = await Post.find({ isDeleted: false, _id: { $in: postIDs } });
         }
         let datas = posts.map(post => post.getBasicInfo(user));
         return res.status(200).json({
@@ -674,7 +766,7 @@ async function addTopic(req, res) {
         } else if (req.body.topicname) {
             topic = req.body.topicname;
         }
-        if (!topic) return res.status(400).json({code: 400, error: 'Topic name not exit'});
+        if (!topic) return res.status(400).json({ code: 400, error: 'Topic name not exit' });
         if (!group.addTopic(topic)) {
             throw new Error("Add topic error");
         } else {
@@ -700,7 +792,7 @@ async function addTopics(req, res) {
     try {
         let group = req.groups.group_request;
         if (!req.body.topics) {
-            return res.status(400).json({code: 400, error: 'Topic name not exit'})
+            return res.status(400).json({ code: 400, error: 'Topic name not exit' })
         }
         let topics = Utils.getStringArray(req.body.topics);
         if (!group.addTopics(topics)) {
@@ -727,7 +819,7 @@ async function removeTopic(req, res) {
     try {
         let group = req.groups.group_request;
         let topic = req.query.topicname;
-        if (!topic) return res.status(400).json({code: 200, error: 'Topic name not exit'})
+        if (!topic) return res.status(400).json({ code: 200, error: 'Topic name not exit' })
         if (group.removeTopic(topic)) {
             group = await group.save();
             req.groups.group_request = group;
@@ -777,3 +869,5 @@ exports.addTopics = addTopics;
 exports.removeTopic = removeTopic;
 exports.getAllPosts = getAllPosts;
 exports.checkMemberInGroup = checkMemberInGroup;
+exports.postGroups = postGroups;
+exports.getGroupsInfo = getGroupsInfo;

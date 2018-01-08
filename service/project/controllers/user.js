@@ -12,15 +12,15 @@ async function getUserByID(id) {
     let _id = Number(id);
     if (_id) {
         return await User.findOne({
-           _id: id,
+            _id: id,
         });
     } else {
         return null;
     }
 }
 async function getUserByUserName(username) {
-    if (!(User.validateUserName(username, true))) { return null;}
-    return await User.findOne({ username: username,});
+    if (!(User.validateUserName(username, true))) { return null; }
+    return await User.findOne({ username: username, });
 }
 async function getUserByPhone(phone) {
     if (!(Utils.validatePhoneNumber(phone, true))) {
@@ -41,16 +41,16 @@ async function getUserbyEmail(email) {
 async function getUserByIDOrUserName(info) {
     if (!info) {
         return null;
-    }  
+    }
     let _id = Number(info);
     if (_id) {
         return await User.findOne({
             $or: [{
-                    _id: _id
-                },
-                {
-                    username: info
-                },
+                _id: _id
+            },
+            {
+                username: info
+            },
             ],
         });
     } else {
@@ -97,16 +97,111 @@ async function findUser(req, isFindWithPhoneAndEmail = true) {
 
 async function postUsers(req, res, next) {
     try {
-
+        let defaultConfig = req.body.default ? req.body.default : {
+            password: {
+                text: "default",
+                equalfieldName: "username"
+            },
+            firstName: "NONE",
+            lastname: "NONE",
+            gender: 0,
+            birthday: null,
+            typeuser: 0,
+        };
+        let datas = req.body.data ? req.body.data : [];
+        let options = req.body.options ? req.body.options : {
+            ignoreError: true
+        };
+        let users = [];
+        req.users.users_request = users;
+        if (!datas || !Array.isArray(datas) || datas.length <= 0) {
+            return next();
+        }
+        let now = new Date();
+        let userID = now.getTime();
+        let ignoreError = (options.ignoreError === false || options.ignoreError === "false") ? false : true;
+        if (!defaultConfig.password) defaultConfig.password = {
+            text: "default",
+            equalfieldName: "username"
+        }
+        let passwordText = defaultConfig.password.text ? defaultConfig.password.text : "default";
+        let passwordEqualFieldName = defaultConfig.equalfieldName ? defaultConfig.equalfieldName : "username";
+        let getDefaultPassword = function (data) {
+            if (!data) return passwordText;
+            let password = data[passwordEqualFieldName];
+            return password ? password : passwordText;
+        }
+        for (let index = 0; index < datas.length; index++) {
+            let data = datas[index];
+            let username = data.username;
+            if (!data.password) {
+                data.password = getDefaultPassword(data);
+            }
+            if (!data.firstName) {
+                data.firstName = defaultConfig.firstName ? defaultConfig.firstName : username;
+            }
+            if (!data.lastName) {
+                data.lastName = defaultConfig.lastName ? defaultConfig.lastName : username;
+            }
+            if (!data.gender) {
+                data.gender = defaultConfig.gender ? defaultConfig.gender : 0;
+            }
+            if (!data.birthday) {
+                data.birthday = defaultConfig.birthday ? defaultConfig.birthday : null;
+            }
+            if (!data.typeuser) {
+                data.typeuser = defaultConfig.typeuser ? defaultConfig.typeuser : 0;
+            }
+            let message = User.validateInputInfo(data, true);
+            if (!message || message.length > 0) {
+                if (!ignoreError) {
+                    return res.status(400).send({
+                        code: 400,
+                        message: message,
+                        data: null,
+                        error: 'Request Invalid'
+                    });
+                }
+                continue;
+            }
+            let user = new User({
+                _id: userID++,
+                username: data.username,
+                password: data.password,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                gender: data.gender,
+                birthday: data.birthday,
+                typeuser: data.typeuser,
+                email: data.email,
+                phone: data.phone,
+                timeCreate: now,
+                isDeleted: false,
+            });
+            try {
+                user = await user.save();
+                users.push(user);
+            } catch(error) {
+                if (!ignoreError) {
+                    throw error;
+                }
+            }
+        }
+        req.users.users_request = users;
+        // Promise.all(users.map(user => user.save())).then(users => {
+        //     req.users.users_request = users;
+        // }).catch(error => {
+        //     req.users.users_request = [];
+        // });
         return next();
     } catch (error) {
-    return res.status(500).send({
-        code: 500,
-        message: 'Server Error',
-        data: null,
-        error: error.message
-    });
-}
+        return res.status(500).send({
+            code: 500,
+            message: 'Server Error',
+            data: null,
+            error: error.message
+        });
+    }
 }
 
 async function updateUserInfo(req, user, isCheckValidInput = true) {
@@ -166,7 +261,7 @@ async function updateUserInfo(req, user, isCheckValidInput = true) {
     if (req.body.typeuser) {
         user.typeuser = req.body.typeuser;
     }
-    if(req.body.fbAccount){
+    if (req.body.fbAccount) {
         user.fbAccount = req.body.fbAccount;
     }
     return message;
@@ -453,7 +548,7 @@ async function removeFriend(req, res) {
 async function getClasss(req, res) {
     try {
         let user = req.users.user_request;
-        let groups = await Groups.find({_id: {$in: user.getClasssID()}});
+        let groups = await Groups.find({ _id: { $in: user.getClasssID() } });
         let datas = groups.map(group => ({
             id: group._id,
             profileImageID: group.profileImageID,
@@ -774,11 +869,11 @@ async function checkUserRequestIfHave(req, res, next) {
 }
 async function checkUserName(req, res) {
     try {
-        let username = req.query.username ? req.query.username : 
-                            req.params.username ? req.params.username : (req.body.username ? req.body.username : null);
+        let username = req.query.username ? req.query.username :
+            req.params.username ? req.params.username : (req.body.username ? req.body.username : null);
         let user = await getUserByUserName(username);
         if (user) {
-            return res.status(200).json(user.getBasicInfo());    
+            return res.status(200).json(user.getBasicInfo());
         }
         return res.status(400).end();
     } catch (error) {
@@ -790,7 +885,7 @@ async function checkEmail(req, res) {
         let email = req.query.email ? req.query.email : req.params.email;
         let user = await getUserbyEmail(email);
         if (user) {
-            return res.status(200).json(user.getBasicInfo());    
+            return res.status(200).json(user.getBasicInfo());
         }
         return res.status(400).end();
     } catch (error) {
@@ -802,7 +897,7 @@ async function checkPhoneNumber(req, res) {
         let phone = req.query.phone ? req.query.phone : req.params.phone;
         let user = await getUserByPhone(phone);
         if (user) {
-            return res.status(200).json(user.getBasicInfo());    
+            return res.status(200).json(user.getBasicInfo());
         }
         return res.status(400).end();
     } catch (error) {
@@ -823,7 +918,7 @@ async function login(req, res) {
             data: null
         });
     }
-    user.comparePassword(password, function(err, isMatch) {
+    user.comparePassword(password, function (err, isMatch) {
         if (err) {
             return res.status(500).send({
                 code: 500,
@@ -860,6 +955,19 @@ async function getUsers(req, res) {
         return res.status(500).send(error);
     }
 }
+function getUsersInfo(req, res) {
+    try {
+        let users = req.users.users_request ? req.users.users_request : [];
+        return res.json({
+            code: 200,
+            message: 'Success',
+            count: users.length,
+            data: users.map(user => user.getBasicInfo()),
+        });
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+}
 async function getFiles(req, res, next) {
     try {
         let user = req.users.user_request;
@@ -881,16 +989,16 @@ async function searchUserByName(req, res) {
     try {
         let key = req.query.username;
         if (!key) {
-            return res.status(400).json({code: 400, message:'', data:[]});    
+            return res.status(400).json({ code: 400, message: '', data: [] });
         }
-        let users = await User.find({username: {$regex: key}});
+        let users = await User.find({ username: { $regex: key } });
         return res.status(200).json({
-            code: 200, 
-            message: '', 
+            code: 200,
+            message: '',
             data: users.map(user => user.getBasicInfo())
         });
-    } catch(error) {
-        return res.status(500).json({code: 500, message:'', data:[]});
+    } catch (error) {
+        return res.status(500).json({ code: 500, message: '', data: [] });
     }
 }
 
@@ -898,17 +1006,17 @@ async function getPosts(req, res) {
     try {
         let user = req.users.user_request;
         // let groups = await Groups.find({posts:{$elemMatch:{isDeleted: false, "options.members":{$elemMatch:{$eq: user._id}}}}});
-        let groups = await Groups.find({_id: {$in: user.getClasssID()}});
+        let groups = await Groups.find({ _id: { $in: user.getClasssID() } });
         let postIDs = groups.reduce((postIDs, group) => {
             return postIDs.concat(group.getPostIDForUsers(user))
-        },[]);
+        }, []);
         // let posts = await Posts.find({_id: {$in : postIDs}});
         let topicName = req.query.topicname;
         let posts;
         if (topicName) {
-            posts = await Posts.find({isDeleted: false, _id: {$in: postIDs}, topics: {$elemMatch: {_id: topicName}}});
+            posts = await Posts.find({ isDeleted: false, _id: { $in: postIDs }, topics: { $elemMatch: { _id: topicName } } });
         } else {
-            posts = await Posts.find({isDeleted: false, _id: {$in: postIDs}});
+            posts = await Posts.find({ isDeleted: false, _id: { $in: postIDs } });
         }
         let datas = posts.map(post => post.getBasicInfo(user));
         return res.send({
@@ -930,8 +1038,8 @@ async function getManyUsers(userIDs) {
     try {
         if (!userIDs) { return null; }
         let userNumberIDs = Utils.getNumbers(userIDs);
-        return await User.find({_id: {$in: userNumberIDs}});
-    } catch(error) {
+        return await User.find({ _id: { $in: userNumberIDs } });
+    } catch (error) {
         return null;
     }
 }
@@ -977,3 +1085,4 @@ exports.searchUserByName = searchUserByName;
 exports.getPosts = getPosts;
 exports.getManyUsers = getManyUsers;
 exports.postUsers = postUsers;
+exports.getUsersInfo = getUsersInfo

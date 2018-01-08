@@ -10,6 +10,8 @@ router.route('/')
     .put(userController.checkUserRequest, userController.putUser, userController.getUser)
     .delete(userController.deleteUser, userController.getUser)
     .post(userController.postUser, userController.getUser);
+router.route('/import').post(userController.postUsers, userController.getUsersInfo);
+router.route('/importfile').post(fileController.fileUpload, fileController.postFile, fileController.putContentBody, userController.postUsers, userController.getUsersInfo);
 router.route('/profileImage/:userID')
     .get(userController.checkUserRequest, userController.getProfileImageID, fileController.checkFileRequest, fileController.getFile)
     .put(fileController.profileUpload, userController.checkUserRequest, userController.getProfileImageID, fileController.checkFileRequestIfHave, fileController.postOrUpdateFile, userController.putProfileImage, fileController.getInfoFile)

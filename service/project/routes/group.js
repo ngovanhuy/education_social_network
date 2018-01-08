@@ -7,6 +7,9 @@ let postController = require('../controllers/post');
 
 /*-------------------GROUP_API-----------------------*/
 router.route('/all').get(groupController.getGroups);
+router.route('/import/:userID').post(userController.checkUserRequest, groupController.postGroups, groupController.getGroupsInfo);
+router.route('/importfile/:userID').post(fileController.fileUpload, fileController.postFile, fileController.putContentBody, userController.checkUserRequest, groupController.postGroups, groupController.getGroupsInfo);
+
 router.route('/create/:userID').post(userController.checkUserRequest, groupController.postGroup, groupController.getGroup);
 router.route('/info/:groupID').get(groupController.checkGroupRequest, groupController.getGroup);
 router.route('/profileImage/:groupID')

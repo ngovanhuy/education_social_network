@@ -18,4 +18,9 @@ router.route('/bodys').post(function (req, res) {
     return res.send(Utils.getStringArray(req.body.members));
 });
 
+router.route('/bodydata').post(fileController.fileUpload, fileController.postFile, fileController.putContentBody, function(req, res) {
+    return res.send(req.body);
+});
+router.route('/upload').post(fileController.fileUpload, fileController.postFile, fileController.getInfoFile);
+
 module.exports = router;

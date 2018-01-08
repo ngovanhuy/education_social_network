@@ -458,6 +458,34 @@ async function getFiles(req, res, next) {
         return next(error);
     }
 }
+
+function putContentBody(req, res, next) {
+    let file = req.fileitems.file_saved;
+    let localPath = getLocalFilePath(file);
+    //TODO: check type, size.
+    fs.readFile(localPath, "utf8", function(error, data) {
+        if (error) {
+            console.log(error);
+            return res.status(400).send({
+                code: 400,
+                message: 'Error.',
+                data: null,
+                error: error
+            });
+        } else {
+            try {
+                let bodys = JSON.parse(data); 
+                for (let key in bodys) {
+                    req.body[key] = bodys[key];
+                }
+                // req.body = bodys;
+            } catch(error) {
+            }
+            next();
+        }
+    });
+}
+
 async function cleanUploadFolder() {
     let files = await FileItem.find({isDeleted : true});
     let filesExisted = await checkFilesExisted(files);
@@ -509,3 +537,5 @@ exports.checkFileRequest = checkFileRequest;
 exports.checkFileRequestIfHave = checkFileRequestIfHave;
 exports.updateFile = updateFile;
 exports.postOrUpdateFile = postOrUpdateFile;
+exports.getLocalFilePath = getLocalFilePath;
+exports.putContentBody = putContentBody;

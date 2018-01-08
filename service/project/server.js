@@ -48,7 +48,7 @@ app.use(function (req, res, next) {
         req.events = req.events ? req.events : {};
         req.comments = req.comments ? req.comments : {};
         req.announcements = req.announcements ? req.announcements : {};
-        console.log("Request:" + req.path + "[" + req.method + "]");
+        // console.log("Request:" + req.path + "[" + req.method + "]");
         next();
 });
 app.use(bodyParser.urlencoded({
