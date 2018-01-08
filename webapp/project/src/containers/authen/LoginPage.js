@@ -188,38 +188,38 @@ class LoginPage extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-button-colors">
-                                        {
-                                            !this.state.initDataAdmin &&
-                                            <button className="btn btn-default" onClick={this.handleInitDataAdmin}>
-                                                Init User Admin
-                                            </button>
-                                        }
-                                        {
-                                            (this.state.initDataAdmin && !this.state.initDataClass) &&
-                                            <button className="btn btn-default" onClick={this.handleInitDataClass}>
-                                                Init Class
-                                            </button>
-                                        }
-                                        {
-                                            (this.state.initDataAdmin && !this.state.initDataTeacher) &&
-                                            <button className="btn btn-default" onClick={this.handleInitDataTeacher}>
-                                                Init Teacher
-                                            </button>
-                                        }
-                                        {
-                                            (this.state.initDataAdmin && !this.state.initDataStudent) &&
-                                            <button className="btn btn-default" onClick={this.handleInitDataStudent}>
-                                                Init Student
-                                            </button>
-                                        }
-                                        {
-                                            (this.state.initDataAdmin && this.state.initDataStudent &&
-                                                this.state.initDataTeacher && !this.state.initDataLoadStudentEnterClass) &&
-                                            <button className="btn btn-default"
-                                                    onClick={this.handleInitDataUserEnterClass}>
-                                                Load Student Enter Class
-                                            </button>
-                                        }
+                                        {/*{*/}
+                                            {/*!this.state.initDataAdmin &&*/}
+                                            {/*<button className="btn btn-default" onClick={this.handleInitDataAdmin}>*/}
+                                                {/*Init User Admin*/}
+                                            {/*</button>*/}
+                                        {/*}*/}
+                                        {/*{*/}
+                                            {/*(this.state.initDataAdmin && !this.state.initDataClass) &&*/}
+                                            {/*<button className="btn btn-default" onClick={this.handleInitDataClass}>*/}
+                                                {/*Init Class*/}
+                                            {/*</button>*/}
+                                        {/*}*/}
+                                        {/*{*/}
+                                            {/*(this.state.initDataAdmin && !this.state.initDataTeacher) &&*/}
+                                            {/*<button className="btn btn-default" onClick={this.handleInitDataTeacher}>*/}
+                                                {/*Init Teacher*/}
+                                            {/*</button>*/}
+                                        {/*}*/}
+                                        {/*{*/}
+                                            {/*(this.state.initDataAdmin && !this.state.initDataStudent) &&*/}
+                                            {/*<button className="btn btn-default" onClick={this.handleInitDataStudent}>*/}
+                                                {/*Init Student*/}
+                                            {/*</button>*/}
+                                        {/*}*/}
+                                        {/*{*/}
+                                            {/*(this.state.initDataAdmin && this.state.initDataStudent &&*/}
+                                                {/*this.state.initDataTeacher && !this.state.initDataLoadStudentEnterClass) &&*/}
+                                            {/*<button className="btn btn-default"*/}
+                                                    {/*onClick={this.handleInitDataUserEnterClass}>*/}
+                                                {/*Load Student Enter Class*/}
+                                            {/*</button>*/}
+                                        {/*}*/}
                                         {
                                             (this.state.initDataAdmin && this.state.initDataStudent &&
                                                 this.state.initDataTeacher && this.state.initDataLoadStudentEnterClass) &&
