@@ -1,0 +1,14 @@
+name: Build and Publish Docker image
+on:
+  push:
+    branches: 
+      - develop
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Create Docker images 
+        run: docker-compose build
