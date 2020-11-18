@@ -1,5 +1,5 @@
 # base image
-FROM node:9.8.0
+FROM node:9.8.0 AS builder
 
 # set working directory
 RUN mkdir /usr/src/app
