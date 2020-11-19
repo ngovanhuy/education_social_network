@@ -14,8 +14,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Build webserver 
         uses: borales/actions-yarn@v2.0.0
-        run: |
-          yarn -v && cd service/project && yarn
+        with:
+          cmd: install
+          dir: service/project
       - name: Create Docker images 
         run: docker-compose build webserver
       - name: Login to DockerHub
