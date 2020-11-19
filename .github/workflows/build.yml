@@ -19,9 +19,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Tag images
         run: |
-          docker tag education_social_network_webserver ${{ secrets.DOCKER_USER }}/education_social_network_webserver:latest
-          docker tag education_social_network_webapp ${{ secrets.DOCKER_USER }}/education_social_network_webapp:latest
+          docker tag education_social_network_webserver ${{ secrets.DOCKERHUB_USERNAME }}/education_social_network_webserver:latest
+          docker tag education_social_network_webapp ${{ secrets.DOCKERHUB_USERNAME }}/education_social_network_webapp:latest
       - name: Push images to DockerHub
         run: |
-          docker push ${{ secrets.DOCKER_USER }}/education_social_network_webserver:latest
-          docker push ${{ secrets.DOCKER_USER }}/education_social_network_webapp:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/education_social_network_webserver:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/education_social_network_webapp:latest
