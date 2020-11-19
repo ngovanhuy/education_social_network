@@ -12,13 +12,17 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
       - name: Build webserver 
         uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
           dir: service/project
       - name: Create Docker images 
-        run: docker-compose build webserver
+        run: java -version && docker-compose build webserver
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:

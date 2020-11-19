@@ -8,5 +8,5 @@
 - Install `nodejs`, `npm`.
 - Open cmd/terminal, cd into this folder.
 - Run install package: `npm install`.
-- Change `MONGODB_CONNECT_STRING` in `.env` file with mongodb using.
+- Change `MONGODB_CONNECT_STRING` in `.env` file with mongodb using Mlab.
 - Start service with command: `npm run start`.
