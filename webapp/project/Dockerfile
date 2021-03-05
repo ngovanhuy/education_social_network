@@ -27,4 +27,3 @@ COPY --from=builder /usr/src/app/build .
 # Containers run nginx with global directives and daemon off
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
-
