@@ -1,0 +1,10 @@
+version: "3"
+services:
+  webserver:
+    build: service/project
+    ports:
+      - "9998:9998"
+  webapp:
+    build: webapp/project
+    ports:
+      - "9997:80"
