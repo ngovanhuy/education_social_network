@@ -585,4 +585,9 @@ div.content {
   .rbc-calendar .rbc-toolbar .rbc-btn-group:last-of-type {
     display: none; } }
 
+.col-button-colors .btn {
+  min-width: 100px;
+  margin-right: 5px;
+  margin-bottom: 10px; }
+
 /*# sourceMappingURL=common.css.map */

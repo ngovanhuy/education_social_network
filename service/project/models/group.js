@@ -119,14 +119,15 @@ GroupSchema.pre('save', function (callback) {
 });
 
 function validateGroupName(name, isRequired = true) {
-    if (!name) {
-        return !isRequired;
-    }
-    let re = /^([a-zA-Z\-0-9\.\_\ ]{1,40})$/;
-    if (re.test(name)) {
-        return true;
-    }
-    return false;
+    // if (!name) {
+    //     return !isRequired;
+    // }
+    // let re = /^([a-zA-Z\-0-9\.\_\ ]{1,40})$/;
+    // if (re.test(name)) {
+    //     return true;
+    // }
+    // return false;
+    return true;
 }
 function validateTypeGroup(typeGroup, isRequired = false) {
     if (!typeGroup) {

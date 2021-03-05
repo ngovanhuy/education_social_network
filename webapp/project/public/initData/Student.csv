@@ -1,0 +1,1001 @@
+username,password,email,firstName,lastName,birthday,about
+﻿20130001,20130001,20130001@student.hust.edu.vn,Ca Diệu,Uyên,1995-03-06,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130002,20130002,20130002@student.hust.edu.vn,Tăng Hinh,Đàm,1994-01-05,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130003,20130003,20130003@student.hust.edu.vn,Bồ Đan,Phượng,1994-11-05,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130004,20130004,20130004@student.hust.edu.vn,Phùng Nhi,Tống,1995-06-01,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130005,20130005,20130005@student.hust.edu.vn,Quản Từ,Thương,1994-02-25,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130006,20130006,20130006@student.hust.edu.vn,Bàng Mai,Biên,1994-01-29,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130007,20130007,20130007@student.hust.edu.vn,Uông Ba,Quốc,1995-11-05,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130008,20130008,20130008@student.hust.edu.vn,Khu Điện,Nội,1995-01-12,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130009,20130009,20130009@student.hust.edu.vn,Triệu Minh,Khoa,1993-04-24,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130010,20130010,20130010@student.hust.edu.vn,Phương Tắc,Đồng,1993-09-05,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130011,20130011,20130011@student.hust.edu.vn,Mạc Bùi,Lương,1995-03-24,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130012,20130012,20130012@student.hust.edu.vn,Giáp Điện,Tuyết,1993-03-04,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130013,20130013,20130013@student.hust.edu.vn,Nhâm Huyên,Tuyền,1995-07-24,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130014,20130014,20130014@student.hust.edu.vn,Lưu Luân,Nhân,1994-03-17,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130015,20130015,20130015@student.hust.edu.vn,Dã Chi,Thúy,1993-06-17,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130016,20130016,20130016@student.hust.edu.vn,Chương Trung,Giang,1994-01-07,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130017,20130017,20130017@student.hust.edu.vn,Cao Kỳ,Biên,1994-12-28,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130018,20130018,20130018@student.hust.edu.vn,Thân Hạ,Nhân,1993-03-13,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130019,20130019,20130019@student.hust.edu.vn,Khâu Thiện,Đàm,1993-07-05,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130020,20130020,20130020@student.hust.edu.vn,Lô Truyền,Hứa,1994-02-06,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130021,20130021,20130021@student.hust.edu.vn,Đồng Phúc,Vạn,1995-04-27,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130022,20130022,20130022@student.hust.edu.vn,Cát Hàn,Giáp,1995-05-01,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130023,20130023,20130023@student.hust.edu.vn,Mai Sư,Điềm,1994-11-15,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130024,20130024,20130024@student.hust.edu.vn,Tiêu Lê,Duyên,1994-02-15,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130025,20130025,20130025@student.hust.edu.vn,Tăng Thức,Truyền,1993-10-15,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130026,20130026,20130026@student.hust.edu.vn,Đan Hàn,Trị,1995-10-25,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130027,20130027,20130027@student.hust.edu.vn,Giang Doanh,Mộng,1993-01-24,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130028,20130028,20130028@student.hust.edu.vn,Dã Thị,Chính,1993-09-04,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130029,20130029,20130029@student.hust.edu.vn,Cát Điệp,Hạnh,1995-08-30,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130030,20130030,20130030@student.hust.edu.vn,Bế Điềm,Biên,1993-11-22,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130031,20130031,20130031@student.hust.edu.vn,Khưu Dũng,Chỉnh,1994-01-23,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130032,20130032,20130032@student.hust.edu.vn,Hình Hoàn,Ly,1993-06-18,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130033,20130033,20130033@student.hust.edu.vn,Vương Gia,Trà,1993-03-19,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130034,20130034,20130034@student.hust.edu.vn,Điền Dương,Sơn,1994-08-18,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130035,20130035,20130035@student.hust.edu.vn,Thân Bằng,Tú,1995-03-24,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130036,20130036,20130036@student.hust.edu.vn,Đơn Tôn,Sẩm,1994-08-30,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130037,20130037,20130037@student.hust.edu.vn,Lô Hiền,Nhân,1995-09-13,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130038,20130038,20130038@student.hust.edu.vn,Kim Thích,Tín,1994-06-25,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130039,20130039,20130039@student.hust.edu.vn,Cù Kỳ,Thủy,1995-05-14,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130040,20130040,20130040@student.hust.edu.vn,Mã Chân,Đích,1995-12-04,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130041,20130041,20130041@student.hust.edu.vn,Khúc Sâm,Thừa,1994-01-14,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130042,20130042,20130042@student.hust.edu.vn,Hình Thành,San,1993-09-14,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130043,20130043,20130043@student.hust.edu.vn,Nhiệm Liên,Hân,1994-05-23,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130044,20130044,20130044@student.hust.edu.vn,Phương La,Phan,1995-07-26,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130045,20130045,20130045@student.hust.edu.vn,Lữ Thu,Luân,1993-04-25,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130046,20130046,20130046@student.hust.edu.vn,Nghiêm Đô,Nhạn,1993-06-06,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130047,20130047,20130047@student.hust.edu.vn,Thái Sẩm,Dũng,1994-06-15,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130048,20130048,20130048@student.hust.edu.vn,Cầm Điệp,Bùi,1995-03-22,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130049,20130049,20130049@student.hust.edu.vn,Trình Hoan,Quảng,1994-02-04,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130050,20130050,20130050@student.hust.edu.vn,Ngụy Chành,Sương,1994-08-01,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130051,20130051,20130051@student.hust.edu.vn,Cái Tử,Loan,1994-08-19,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130052,20130052,20130052@student.hust.edu.vn,Cự Lưu,Hóa,1995-11-14,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130053,20130053,20130053@student.hust.edu.vn,Dã Tùng,Hương,1994-02-14,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130054,20130054,20130054@student.hust.edu.vn,Lại Hiếu,Dư,1994-12-08,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130055,20130055,20130055@student.hust.edu.vn,Chung Hiền,Châu,1994-09-22,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130056,20130056,20130056@student.hust.edu.vn,Nhậm Tịnh,Tai,1995-11-05,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130057,20130057,20130057@student.hust.edu.vn,Bảo Nhiếp,Trung,1995-02-21,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130058,20130058,20130058@student.hust.edu.vn,Đào Sẩm,Mẫn,1993-09-21,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130059,20130059,20130059@student.hust.edu.vn,Đơn Tá,Tượng,1994-08-18,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130060,20130060,20130060@student.hust.edu.vn,Giả Phụng,Tuyên,1994-05-04,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130061,20130061,20130061@student.hust.edu.vn,Ông Kha,Mạch,1994-01-06,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130062,20130062,20130062@student.hust.edu.vn,Phi Đồng,Như,1995-03-03,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130063,20130063,20130063@student.hust.edu.vn,Cung Văn,Huynh,1995-05-16,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130064,20130064,20130064@student.hust.edu.vn,Tạ Hoàng,Hứa,1995-06-02,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130065,20130065,20130065@student.hust.edu.vn,Quản Nga,Doãn,1995-08-14,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130066,20130066,20130066@student.hust.edu.vn,Ca Tân,Vạn,1994-10-06,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130067,20130067,20130067@student.hust.edu.vn,Khuất Trường,Trường,1995-12-17,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130068,20130068,20130068@student.hust.edu.vn,Cung Đích,Đằng,1993-12-06,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130069,20130069,20130069@student.hust.edu.vn,Thi Lân,Quy,1994-12-25,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130070,20130070,20130070@student.hust.edu.vn,Dã Đinh,Danh,1994-10-19,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130071,20130071,20130071@student.hust.edu.vn,Chử Quyên,Quách,1994-04-26,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130072,20130072,20130072@student.hust.edu.vn,Nông Phan,Đăng,1993-07-06,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130073,20130073,20130073@student.hust.edu.vn,Lục Thủy,Tân,1993-10-30,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130074,20130074,20130074@student.hust.edu.vn,Tôn Tá,Tuyền,1993-08-01,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130075,20130075,20130075@student.hust.edu.vn,Khâu Hạnh,Mạch,1993-01-23,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130076,20130076,20130076@student.hust.edu.vn,Trương Tuất,Hiếu,1994-08-14,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130077,20130077,20130077@student.hust.edu.vn,Cù Thi,Trường,1993-12-09,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130078,20130078,20130078@student.hust.edu.vn,Vương Hiển,Nhiếp,1995-04-23,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130079,20130079,20130079@student.hust.edu.vn,Cự Nguyện,Phụng,1993-10-23,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130080,20130080,20130080@student.hust.edu.vn,Bàng Nữ,Khiểm,1993-05-12,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130081,20130081,20130081@student.hust.edu.vn,Kim Năm,Thiền,1994-05-12,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130082,20130082,20130082@student.hust.edu.vn,Cam Tượng,Long,1993-11-04,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130083,20130083,20130083@student.hust.edu.vn,Hạ Long,Khuyên,1995-08-01,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130084,20130084,20130084@student.hust.edu.vn,Lữ Duyên,Mơ,1994-01-29,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130085,20130085,20130085@student.hust.edu.vn,Nhiệm Hiên,Nhiếp,1995-04-05,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130086,20130086,20130086@student.hust.edu.vn,Quách Phí,Thích,1994-03-12,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130087,20130087,20130087@student.hust.edu.vn,Cấn La,Dũng,1995-05-04,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130088,20130088,20130088@student.hust.edu.vn,Giả Trinh,Thất,1994-04-11,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130089,20130089,20130089@student.hust.edu.vn,Cấn Tịnh,Phát,1995-11-27,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130090,20130090,20130090@student.hust.edu.vn,Quản Đan,Dự,1995-05-19,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130091,20130091,20130091@student.hust.edu.vn,Từ Hóa,Tăng,1995-07-10,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130092,20130092,20130092@student.hust.edu.vn,Phí Nhiên,Bích,1994-12-24,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130093,20130093,20130093@student.hust.edu.vn,Kim Chanh,Trịnh,1995-11-07,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130094,20130094,20130094@student.hust.edu.vn,Thân Thành,Tử,1994-01-11,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130095,20130095,20130095@student.hust.edu.vn,Từ Quỳnh,Quy,1994-11-28,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130096,20130096,20130096@student.hust.edu.vn,Tống Loan,Hạnh,1994-11-13,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130097,20130097,20130097@student.hust.edu.vn,Châu Thánh,Huy,1994-05-02,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130098,20130098,20130098@student.hust.edu.vn,Chử Duyên,Tư,1994-12-22,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130099,20130099,20130099@student.hust.edu.vn,Bửu Thu,Luyện,1995-12-12,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130100,20130100,20130100@student.hust.edu.vn,Đồng Chung,Luyến,1994-07-20,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130101,20130101,20130101@student.hust.edu.vn,Cù Quan,Nga,1993-06-20,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130102,20130102,20130102@student.hust.edu.vn,Lâm Mai,Trịnh,1993-07-11,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130103,20130103,20130103@student.hust.edu.vn,Giả Thạch,Kha,1993-03-29,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130104,20130104,20130104@student.hust.edu.vn,Lữ Cương,Nam,1995-04-18,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130105,20130105,20130105@student.hust.edu.vn,Giang Khải,Bích,1993-04-08,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130106,20130106,20130106@student.hust.edu.vn,Hồng Hinh,Hiển,1994-02-14,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130107,20130107,20130107@student.hust.edu.vn,Quản Quảng,Nhàn,1995-01-15,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130108,20130108,20130108@student.hust.edu.vn,Hạ Đào,Khang,1993-07-16,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130109,20130109,20130109@student.hust.edu.vn,Ân Bảo,Pháp,1994-11-15,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130110,20130110,20130110@student.hust.edu.vn,Cung Khang,Thể,1993-02-09,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130111,20130111,20130111@student.hust.edu.vn,Trà Chi,Thành,1994-11-27,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130112,20130112,20130112@student.hust.edu.vn,Biện Hiệp,Khải,1995-10-31,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130113,20130113,20130113@student.hust.edu.vn,Ánh Chính,Thy,1995-11-29,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130114,20130114,20130114@student.hust.edu.vn,Văn Chung,Mạc,1994-04-09,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130115,20130115,20130115@student.hust.edu.vn,Từ Cương,Chuẩn,1995-12-23,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130116,20130116,20130116@student.hust.edu.vn,Kim Linh,Bằng,1993-03-05,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130117,20130117,20130117@student.hust.edu.vn,Danh Thanh,Đại,1995-08-02,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130118,20130118,20130118@student.hust.edu.vn,Phó Thức,Thoại,1994-04-17,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130119,20130119,20130119@student.hust.edu.vn,Thạch Bé,Thắng,1993-02-28,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130120,20130120,20130120@student.hust.edu.vn,Lô Trị,Hùng,1994-06-05,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130121,20130121,20130121@student.hust.edu.vn,Bạch Hoạch,Thương,1995-06-04,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130122,20130122,20130122@student.hust.edu.vn,Bá Bá,Địch,1994-09-07,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130123,20130123,20130123@student.hust.edu.vn,Bàng Hoàng,Năm,1994-01-09,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130124,20130124,20130124@student.hust.edu.vn,Ấu Hiên,Mịch,1995-08-08,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130125,20130125,20130125@student.hust.edu.vn,Giả Tuấn,Kiều,1995-04-12,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130126,20130126,20130126@student.hust.edu.vn,Lương Công,Nữ,1995-05-04,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130127,20130127,20130127@student.hust.edu.vn,Biện Nhạn,Đường,1993-08-29,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130128,20130128,20130128@student.hust.edu.vn,Thân Cảnh,Thoại,1995-10-19,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130129,20130129,20130129@student.hust.edu.vn,Xa Bắc,Hiếu,1994-09-04,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130130,20130130,20130130@student.hust.edu.vn,Nghiêm Thể,Hà,1994-03-12,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130131,20130131,20130131@student.hust.edu.vn,Thạch Doãn,Trinh,1993-04-14,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130132,20130132,20130132@student.hust.edu.vn,Uông Phí,Bình,1994-12-19,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130133,20130133,20130133@student.hust.edu.vn,Bửu Lãnh,Chi,1995-05-12,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130134,20130134,20130134@student.hust.edu.vn,Trình Mạch,Đảm,1995-04-05,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130135,20130135,20130135@student.hust.edu.vn,Trình Kiên,Thơ,1995-11-22,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130136,20130136,20130136@student.hust.edu.vn,Lã Bằng,Thường,1993-11-02,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130137,20130137,20130137@student.hust.edu.vn,Tiêu Duyên,Chính,1993-08-08,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130138,20130138,20130138@student.hust.edu.vn,Trà Hương,Toàn,1993-04-15,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130139,20130139,20130139@student.hust.edu.vn,Chung Thành,Luyến,1993-10-24,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130140,20130140,20130140@student.hust.edu.vn,Lại Ưng,Hiển,1994-02-19,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130141,20130141,20130141@student.hust.edu.vn,Nhậm Trương,Đôn,1995-02-25,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130142,20130142,20130142@student.hust.edu.vn,Tăng Hạnh,2 Thanh,1994-10-19,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130143,20130143,20130143@student.hust.edu.vn,Đậu Tư,Dung,1995-05-27,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130144,20130144,20130144@student.hust.edu.vn,Trịnh Lợi,Thường,1995-10-19,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130145,20130145,20130145@student.hust.edu.vn,Trương Chí,Khải,1993-06-22,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130146,20130146,20130146@student.hust.edu.vn,Thi Ân,Huynh,1995-09-09,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130147,20130147,20130147@student.hust.edu.vn,Mai Lộc,Đích,1995-01-26,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130148,20130148,20130148@student.hust.edu.vn,Nhâm Truyền,Lan,1994-08-01,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130149,20130149,20130149@student.hust.edu.vn,Trưng Phong,Thuận,1994-01-20,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130150,20130150,20130150@student.hust.edu.vn,Đổng Đỗ,Phí,1994-09-26,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130151,20130151,20130151@student.hust.edu.vn,Lưu Sương,Chung,1995-04-14,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130152,20130152,20130152@student.hust.edu.vn,Khu Tượng,Minh,1993-01-15,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130153,20130153,20130153@student.hust.edu.vn,Kiều Chúng,Doãn,1994-10-24,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130154,20130154,20130154@student.hust.edu.vn,Nhiệm Tuấn,Dự,1994-07-10,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130155,20130155,20130155@student.hust.edu.vn,Đàm Thị,Phi,1995-02-15,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130156,20130156,20130156@student.hust.edu.vn,Cấn Đỗ,Khải,1994-10-13,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130157,20130157,20130157@student.hust.edu.vn,Hoa Đằng,Khâu,1995-07-02,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130158,20130158,20130158@student.hust.edu.vn,Đào Luận,Thường,1993-08-21,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130159,20130159,20130159@student.hust.edu.vn,Cầm Điệp,Đảm,1993-01-07,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130160,20130160,20130160@student.hust.edu.vn,Tôn Hậu,Kỳ,1993-12-06,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130161,20130161,20130161@student.hust.edu.vn,Điền Tài,Bình,1993-06-19,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130162,20130162,20130162@student.hust.edu.vn,Viên Ngô,Tế,1995-03-30,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130163,20130163,20130163@student.hust.edu.vn,Khu Diệu,Chinh,1994-11-12,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130164,20130164,20130164@student.hust.edu.vn,Hàn Giao,Khanh,1993-09-06,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130165,20130165,20130165@student.hust.edu.vn,La Hà,Thùy,1995-10-28,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130166,20130166,20130166@student.hust.edu.vn,Văn Lại,Sâm,1995-12-09,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130167,20130167,20130167@student.hust.edu.vn,Cấn Thư,Học,1993-06-22,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130168,20130168,20130168@student.hust.edu.vn,Chung Như,Quyên,1993-08-26,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130169,20130169,20130169@student.hust.edu.vn,Khưu Tạ,Quỳnh,1994-05-19,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130170,20130170,20130170@student.hust.edu.vn,Viên Chấn,Giáp,1995-02-20,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130171,20130171,20130171@student.hust.edu.vn,Phương Hoạn,Tri,1995-07-28,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130172,20130172,20130172@student.hust.edu.vn,Hồng Khải,Hiện,1995-04-19,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130173,20130173,20130173@student.hust.edu.vn,Khúc Chiểu,Hoàng,1993-06-25,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130174,20130174,20130174@student.hust.edu.vn,Cung Bính,Luyện,1995-01-09,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130175,20130175,20130175@student.hust.edu.vn,Vương Tuyền,Cương,1995-04-11,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130176,20130176,20130176@student.hust.edu.vn,Đàm Bỉ,Chỉnh,1993-08-17,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130177,20130177,20130177@student.hust.edu.vn,Phương Công,Bính,1995-04-14,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130178,20130178,20130178@student.hust.edu.vn,Chương Thư,San,1994-03-24,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130179,20130179,20130179@student.hust.edu.vn,Biện Địch,Dục,1995-02-16,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130180,20130180,20130180@student.hust.edu.vn,Lư Tống,Ẩn,1995-08-03,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130181,20130181,20130181@student.hust.edu.vn,Uông Phan,La,1993-04-09,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130182,20130182,20130182@student.hust.edu.vn,Khuất Ngân,Thích,1995-01-28,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130183,20130183,20130183@student.hust.edu.vn,Trà Khuất,Vành,1994-09-30,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130184,20130184,20130184@student.hust.edu.vn,Lục Thiệu,Phú,1995-12-10,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130185,20130185,20130185@student.hust.edu.vn,Bạc Cao,Dự,1994-11-29,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130186,20130186,20130186@student.hust.edu.vn,Doãn Đoan,Khuê,1993-03-31,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130187,20130187,20130187@student.hust.edu.vn,Hình Mộng,Tướng,1993-02-25,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130188,20130188,20130188@student.hust.edu.vn,Lô Năm,Trâm,1993-11-02,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130189,20130189,20130189@student.hust.edu.vn,Ma Sương,Mộc,1993-02-19,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130190,20130190,20130190@student.hust.edu.vn,Phương Duyên,Kỳ,1994-02-09,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130191,20130191,20130191@student.hust.edu.vn,Lạc Thừa,Lâm,1994-05-03,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130192,20130192,20130192@student.hust.edu.vn,Khuất Phùng,Giang,1995-12-19,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130193,20130193,20130193@student.hust.edu.vn,Mạc Duy,San,1993-04-09,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130194,20130194,20130194@student.hust.edu.vn,Đổng Lộc,Cảnh,1995-11-18,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130195,20130195,20130195@student.hust.edu.vn,Châu Quan,Đường,1993-09-03,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130196,20130196,20130196@student.hust.edu.vn,Âu Hữu,Lộc,1995-11-29,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130197,20130197,20130197@student.hust.edu.vn,Dư Doãn,Phùng,1995-12-08,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130198,20130198,20130198@student.hust.edu.vn,Vi Quảng,Thành,1994-09-21,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130199,20130199,20130199@student.hust.edu.vn,Đổng Đồng,Âu,1995-12-22,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130200,20130200,20130200@student.hust.edu.vn,Khưu Phỉ,Quyên,1993-07-15,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130201,20130201,20130201@student.hust.edu.vn,Mai Đàm,Bích,1995-03-20,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130202,20130202,20130202@student.hust.edu.vn,Khuất Tuấn,Mạc,1994-06-02,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130203,20130203,20130203@student.hust.edu.vn,Lưu Gia,Tế,1993-03-16,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130204,20130204,20130204@student.hust.edu.vn,Đơn Nhi,Nhiếp,1994-11-30,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130205,20130205,20130205@student.hust.edu.vn,Ông Tuyền,San,1995-03-01,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130206,20130206,20130206@student.hust.edu.vn,Bồ Hợp,Thoại,1995-12-26,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130207,20130207,20130207@student.hust.edu.vn,Yên Thục,Định,1995-07-23,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130208,20130208,20130208@student.hust.edu.vn,Chế Bỉ,Phí,1995-10-16,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130209,20130209,20130209@student.hust.edu.vn,Ánh Tướng,Bằng,1995-04-01,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130210,20130210,20130210@student.hust.edu.vn,Đơn Tăng,Mỹ – Mĩ,1994-07-02,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130211,20130211,20130211@student.hust.edu.vn,Hà Cửu,Hợi,1995-07-02,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130212,20130212,20130212@student.hust.edu.vn,Cát Huyên,San,1994-04-11,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130213,20130213,20130213@student.hust.edu.vn,Chu Hiển,Song,1994-07-06,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130214,20130214,20130214@student.hust.edu.vn,Nhâm Hợi,Dự,1993-06-06,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130215,20130215,20130215@student.hust.edu.vn,Trưng Phong,Vạn,1993-08-30,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130216,20130216,20130216@student.hust.edu.vn,Tông Dũng,Hàn,1994-05-22,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130217,20130217,20130217@student.hust.edu.vn,Âu Đăng,Thành,1993-06-30,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130218,20130218,20130218@student.hust.edu.vn,Từ Hoàn,Lan,1994-12-04,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130219,20130219,20130219@student.hust.edu.vn,Đậu Đậu,Đức,1994-10-08,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130220,20130220,20130220@student.hust.edu.vn,Chương Bảo,Khuất,1995-07-31,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130221,20130221,20130221@student.hust.edu.vn,Khúc Tuyết,Thi,1995-10-14,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130222,20130222,20130222@student.hust.edu.vn,Cái Hiếu,Kiều,1995-08-20,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130223,20130223,20130223@student.hust.edu.vn,Liễu Tiến,Dư,1993-07-08,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130224,20130224,20130224@student.hust.edu.vn,Đào Như,Hào,1993-04-09,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130225,20130225,20130225@student.hust.edu.vn,Đường Đồng,Thiêm,1993-10-21,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130226,20130226,20130226@student.hust.edu.vn,Cung Phương,San,1995-08-10,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130227,20130227,20130227@student.hust.edu.vn,Thôi Giao,Nga,1995-01-11,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130228,20130228,20130228@student.hust.edu.vn,Bành Nguyên,Hải,1993-08-07,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130229,20130229,20130229@student.hust.edu.vn,Bồ Thiền,Hải,1994-05-09,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130230,20130230,20130230@student.hust.edu.vn,Trịnh Nguyên,Pháp,1995-05-13,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130231,20130231,20130231@student.hust.edu.vn,Ân Tường,Lạc,1993-09-10,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130232,20130232,20130232@student.hust.edu.vn,Thạch Lai,Hòa,1993-07-24,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130233,20130233,20130233@student.hust.edu.vn,Trà Nguyễn,Quyền,1994-04-02,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130234,20130234,20130234@student.hust.edu.vn,Cấn Năm,Lê,1994-08-05,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130235,20130235,20130235@student.hust.edu.vn,Văn Sinh,Trường,1993-05-16,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130236,20130236,20130236@student.hust.edu.vn,Khâu Tai,Tư,1994-11-07,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130237,20130237,20130237@student.hust.edu.vn,Trịnh Huỳnh,Bến,1994-11-15,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130238,20130238,20130238@student.hust.edu.vn,Từ Thư,Khóa,1995-10-31,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130239,20130239,20130239@student.hust.edu.vn,Trà Tuyết,Trịnh,1993-10-11,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130240,20130240,20130240@student.hust.edu.vn,Vi Tai,Huấn,1994-12-04,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130241,20130241,20130241@student.hust.edu.vn,Đàm Khái,Điện,1993-09-08,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130242,20130242,20130242@student.hust.edu.vn,Cam Luyến,Hân,1993-05-13,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130243,20130243,20130243@student.hust.edu.vn,Vi Phan,Tuân,1994-08-04,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130244,20130244,20130244@student.hust.edu.vn,Ngụy Ty,Vành,1994-08-20,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130245,20130245,20130245@student.hust.edu.vn,Đậu Bách,Chinh,1994-08-11,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130246,20130246,20130246@student.hust.edu.vn,Đoàn Lực,Thái,1993-01-23,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130247,20130247,20130247@student.hust.edu.vn,Dư Kiên,Minh,1994-06-16,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130248,20130248,20130248@student.hust.edu.vn,Nhậm Thoa,Nam,1995-11-03,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130249,20130249,20130249@student.hust.edu.vn,Kiều Thủy,Chánh,1995-03-22,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130250,20130250,20130250@student.hust.edu.vn,Doãn Công,Tuyền,1995-04-14,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130251,20130251,20130251@student.hust.edu.vn,Đơn Đạt,Sư,1995-06-01,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130252,20130252,20130252@student.hust.edu.vn,Đồng Thoại,Đoàn,1994-01-05,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130253,20130253,20130253@student.hust.edu.vn,Nhâm Lục,Miên,1995-12-14,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130254,20130254,20130254@student.hust.edu.vn,Cấn Đinh,Nghiêm,1993-05-25,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130255,20130255,20130255@student.hust.edu.vn,Khu Tăng,Tuân,1993-10-01,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130256,20130256,20130256@student.hust.edu.vn,La Tổ,Quách,1995-08-01,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130257,20130257,20130257@student.hust.edu.vn,Từ Bằng,Hương,1993-11-25,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130258,20130258,20130258@student.hust.edu.vn,Doãn Phương,Luân,1995-12-08,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130259,20130259,20130259@student.hust.edu.vn,Nhâm Hùng,Thắng,1994-02-10,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130260,20130260,20130260@student.hust.edu.vn,Hồng Quan,An,1995-07-23,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130261,20130261,20130261@student.hust.edu.vn,Đinh Chí,Đôn,1993-12-16,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130262,20130262,20130262@student.hust.edu.vn,Trưng Điệp,Trinh,1994-12-16,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130263,20130263,20130263@student.hust.edu.vn,Bạch Giang,Khanh,1994-06-10,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130264,20130264,20130264@student.hust.edu.vn,Cấn Hoài,Khiêm,1995-11-19,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130265,20130265,20130265@student.hust.edu.vn,Văn Thùy,Cung,1993-10-23,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130266,20130266,20130266@student.hust.edu.vn,Phi Quyên,Bắc,1994-12-09,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130267,20130267,20130267@student.hust.edu.vn,Đậu Tài,Âu,1993-01-09,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130268,20130268,20130268@student.hust.edu.vn,Nhiệm Tào,Hàn,1995-12-01,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130269,20130269,20130269@student.hust.edu.vn,Phí Nữ,Đạt,1993-01-22,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130270,20130270,20130270@student.hust.edu.vn,Hồng Tư,Chân,1994-10-23,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130271,20130271,20130271@student.hust.edu.vn,Nhiệm Thi,Điện,1995-07-08,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130272,20130272,20130272@student.hust.edu.vn,Chung Hùng,Huy,1993-08-31,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130273,20130273,20130273@student.hust.edu.vn,An Khuyên,Luyến,1994-02-23,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130274,20130274,20130274@student.hust.edu.vn,Đường Lân,Tuấn,1995-11-05,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130275,20130275,20130275@student.hust.edu.vn,Uông Phát,Đình,1994-11-23,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130276,20130276,20130276@student.hust.edu.vn,Danh Khoa,Mạch,1995-06-04,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130277,20130277,20130277@student.hust.edu.vn,Chiêm Phùng,Lợi,1994-01-17,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130278,20130278,20130278@student.hust.edu.vn,Vi Tôn,Đà,1994-11-19,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130279,20130279,20130279@student.hust.edu.vn,Nhậm Nha,Đảm,1994-08-29,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130280,20130280,20130280@student.hust.edu.vn,Ấu Tắc,Bến,1993-09-28,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130281,20130281,20130281@student.hust.edu.vn,Vương Hiện,Đam,1994-02-25,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130282,20130282,20130282@student.hust.edu.vn,Thân Lạc,Bằng,1995-03-11,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130283,20130283,20130283@student.hust.edu.vn,Nhâm Thăng,Đăng,1994-05-19,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130284,20130284,20130284@student.hust.edu.vn,Thi Quỷ,Hiền,1995-01-26,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130285,20130285,20130285@student.hust.edu.vn,Văn Lã,Tượng,1995-12-13,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130286,20130286,20130286@student.hust.edu.vn,Phùng Chỉnh,Điện,1995-09-05,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130287,20130287,20130287@student.hust.edu.vn,Châu Trị,Thất,1993-08-11,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130288,20130288,20130288@student.hust.edu.vn,Tạ Khóa,Chí,1993-11-09,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130289,20130289,20130289@student.hust.edu.vn,Ông Thiệu,Nhạn,1993-11-05,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130290,20130290,20130290@student.hust.edu.vn,Hạ Thùy,Hoa,1993-10-16,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130291,20130291,20130291@student.hust.edu.vn,Lạc Quỷ,Nha,1993-12-14,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130292,20130292,20130292@student.hust.edu.vn,Lâm Quý,Nhạn,1994-12-08,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130293,20130293,20130293@student.hust.edu.vn,Đàm Lưu,Phan,1994-09-21,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130294,20130294,20130294@student.hust.edu.vn,Hoa Phú,Trinh,1994-03-22,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130295,20130295,20130295@student.hust.edu.vn,Mạc Phong,Công,1993-12-20,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130296,20130296,20130296@student.hust.edu.vn,Hình Đạm,Hào,1994-09-23,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130297,20130297,20130297@student.hust.edu.vn,Cái Quan,Tùng,1994-12-04,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130298,20130298,20130298@student.hust.edu.vn,Thạch Hoán,Luyến,1994-09-15,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130299,20130299,20130299@student.hust.edu.vn,Phương Duy,Tổ,1993-10-28,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130300,20130300,20130300@student.hust.edu.vn,Mai Huy,Bính,1995-09-03,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130301,20130301,20130301@student.hust.edu.vn,Nhiệm Thánh,Tài,1993-01-14,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130302,20130302,20130302@student.hust.edu.vn,Cự Phạm,Hạo,1994-07-16,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130303,20130303,20130303@student.hust.edu.vn,Đoàn Đằng,Kim,1995-10-13,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130304,20130304,20130304@student.hust.edu.vn,Bạch Tưởng,Văn,1993-05-31,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130305,20130305,20130305@student.hust.edu.vn,Đào Hoàn,Thành,1995-10-07,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130306,20130306,20130306@student.hust.edu.vn,Tiêu Thùy,Kiên,1994-10-01,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130307,20130307,20130307@student.hust.edu.vn,Đan Khải,Tạ,1995-11-12,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130308,20130308,20130308@student.hust.edu.vn,Chế Bé,Phan,1993-02-09,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130309,20130309,20130309@student.hust.edu.vn,Ca Nhạn,Khánh,1994-07-03,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130310,20130310,20130310@student.hust.edu.vn,Cù Hợi,Kha,1994-04-29,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130311,20130311,20130311@student.hust.edu.vn,Cự Điệp,Đằng,1994-07-16,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130312,20130312,20130312@student.hust.edu.vn,Nhiệm Dương,Định,1995-01-07,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130313,20130313,20130313@student.hust.edu.vn,Đàm Chúng,Hoạch,1994-04-11,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130314,20130314,20130314@student.hust.edu.vn,Ma Nguyễn,Tào,1993-05-15,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130315,20130315,20130315@student.hust.edu.vn,Khuất Trúc,Thúy,1994-05-29,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130316,20130316,20130316@student.hust.edu.vn,Lâm Phú,Đằng,1994-10-08,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130317,20130317,20130317@student.hust.edu.vn,Chử Lại,Thành,1993-07-31,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130318,20130318,20130318@student.hust.edu.vn,Đàm Na,Chung,1995-05-16,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130319,20130319,20130319@student.hust.edu.vn,Cung Tôn,Luận,1995-12-07,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130320,20130320,20130320@student.hust.edu.vn,Chiêm Tào,Tuất,1994-02-17,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130321,20130321,20130321@student.hust.edu.vn,Khu Tài,Hàn,1994-05-01,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130322,20130322,20130322@student.hust.edu.vn,Lư Hoàn,Trang,1995-03-03,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130323,20130323,20130323@student.hust.edu.vn,Điền Trâm,Quỷ,1995-01-26,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130324,20130324,20130324@student.hust.edu.vn,Chương Thị,Tôn,1995-04-08,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130325,20130325,20130325@student.hust.edu.vn,Trưng Đoàn,Mến,1993-11-10,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130326,20130326,20130326@student.hust.edu.vn,Hoa Chinh,Phù,1993-07-31,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130327,20130327,20130327@student.hust.edu.vn,Trương Thu,Sơn,1994-12-11,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130328,20130328,20130328@student.hust.edu.vn,Mạc Thao,Mỹ – Mĩ,1995-12-05,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130329,20130329,20130329@student.hust.edu.vn,Thập Thiên,Thể,1994-11-16,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130330,20130330,20130330@student.hust.edu.vn,Hứa Lệ,Trân,1993-03-02,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130331,20130331,20130331@student.hust.edu.vn,Chu Đại,Nông,1993-07-02,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130332,20130332,20130332@student.hust.edu.vn,Hồng Hùng,Vang,1995-05-04,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130333,20130333,20130333@student.hust.edu.vn,Chử Tào,Hậu,1994-01-22,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130334,20130334,20130334@student.hust.edu.vn,Đồng Điểm,Cửu,1994-12-27,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130335,20130335,20130335@student.hust.edu.vn,An Trung,Học,1993-09-15,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130336,20130336,20130336@student.hust.edu.vn,Nhữ Phú,Tuất,1995-08-12,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130337,20130337,20130337@student.hust.edu.vn,Hình Giao,Phượng,1995-05-29,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130338,20130338,20130338@student.hust.edu.vn,La Tín,Đằng,1993-12-19,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130339,20130339,20130339@student.hust.edu.vn,Hứa Kiến,Mến,1995-04-21,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130340,20130340,20130340@student.hust.edu.vn,Bá Nghi,My,1994-03-15,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130341,20130341,20130341@student.hust.edu.vn,Hạ Sáng,Luân,1995-10-25,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130342,20130342,20130342@student.hust.edu.vn,Văn Tuyến,Duyên,1993-07-02,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130343,20130343,20130343@student.hust.edu.vn,Lục Thường,Quyết,1995-05-10,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130344,20130344,20130344@student.hust.edu.vn,La Liêm,Đạt,1995-07-09,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130345,20130345,20130345@student.hust.edu.vn,Chung Nguyệt,Chương,1995-04-03,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130346,20130346,20130346@student.hust.edu.vn,Lục My,Huyền,1994-12-07,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130347,20130347,20130347@student.hust.edu.vn,Cự Ngân,Hà,1993-08-29,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130348,20130348,20130348@student.hust.edu.vn,Quản Từ,Tuân,1994-05-09,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130349,20130349,20130349@student.hust.edu.vn,Vi Quyến,Cường,1995-10-25,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130350,20130350,20130350@student.hust.edu.vn,Ấu Văn,Tướng,1995-03-14,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130351,20130351,20130351@student.hust.edu.vn,Chung Tào,Ly,1994-02-23,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130352,20130352,20130352@student.hust.edu.vn,Thôi Sang,Thi,1995-07-22,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130353,20130353,20130353@student.hust.edu.vn,Lại Lai,Anh,1994-10-10,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130354,20130354,20130354@student.hust.edu.vn,Kiều Khiếm,Uyên,1995-09-11,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130355,20130355,20130355@student.hust.edu.vn,Chu Nguyễn,Thịnh,1994-05-05,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130356,20130356,20130356@student.hust.edu.vn,Hứa Lan,Thiệu,1993-11-14,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130357,20130357,20130357@student.hust.edu.vn,Vương Sang,Nhi,1995-06-21,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130358,20130358,20130358@student.hust.edu.vn,Bạch Khắc,Lục,1993-07-07,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130359,20130359,20130359@student.hust.edu.vn,Chu Quỳnh,Liêm,1995-07-22,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130360,20130360,20130360@student.hust.edu.vn,Văn Đôn,Chương,1995-03-09,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130361,20130361,20130361@student.hust.edu.vn,Xa Vạn,Phương,1995-10-22,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130362,20130362,20130362@student.hust.edu.vn,Phi Nông,Đắc,1995-12-08,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130363,20130363,20130363@student.hust.edu.vn,Khâu Giang,Thư,1994-03-26,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130364,20130364,20130364@student.hust.edu.vn,Thân Chuẩn,Lễ,1994-05-03,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130365,20130365,20130365@student.hust.edu.vn,Lã Đảm,Thành,1993-10-29,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130366,20130366,20130366@student.hust.edu.vn,Thế Tính,Đinh,1995-03-15,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130367,20130367,20130367@student.hust.edu.vn,Tạ Khôi,Trà,1993-12-17,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130368,20130368,20130368@student.hust.edu.vn,Yên Tuân,Đặng,1995-04-16,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130369,20130369,20130369@student.hust.edu.vn,Liễu Phong,Lã,1995-08-31,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130370,20130370,20130370@student.hust.edu.vn,Thi Hoạch,Trâm,1994-10-17,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130371,20130371,20130371@student.hust.edu.vn,Biện Khiếm,Miên,1995-05-12,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130372,20130372,20130372@student.hust.edu.vn,Tào Nhi,Nhẫn,1995-08-13,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130373,20130373,20130373@student.hust.edu.vn,Tiêu Đàm,Nhung,1993-01-25,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130374,20130374,20130374@student.hust.edu.vn,Chu Hiền,Trị,1994-09-25,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130375,20130375,20130375@student.hust.edu.vn,Tông Bảo,Khóa,1994-04-26,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130376,20130376,20130376@student.hust.edu.vn,Ma Thủy,Cung,1993-10-31,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130377,20130377,20130377@student.hust.edu.vn,Ánh Liên,Gấm,1995-10-24,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130378,20130378,20130378@student.hust.edu.vn,Tống Lệ,Mạnh,1995-07-20,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130379,20130379,20130379@student.hust.edu.vn,Bảo Đảm,Thảo,1993-01-06,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130380,20130380,20130380@student.hust.edu.vn,Đoàn Quốc,Đảm,1994-12-04,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130381,20130381,20130381@student.hust.edu.vn,Cam Lực,Khiêm,1995-12-02,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130382,20130382,20130382@student.hust.edu.vn,Cam Trịnh,Thuận,1993-08-04,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130383,20130383,20130383@student.hust.edu.vn,Phương Chi,La,1993-02-11,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130384,20130384,20130384@student.hust.edu.vn,Thạch Thiện,Tín,1995-09-05,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130385,20130385,20130385@student.hust.edu.vn,Cung Sỹ,Lạc,1995-01-07,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130386,20130386,20130386@student.hust.edu.vn,Giang Lễ,Thúy,1993-12-11,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130387,20130387,20130387@student.hust.edu.vn,Vương Tuyền,Ưng,1993-07-25,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130388,20130388,20130388@student.hust.edu.vn,Thạch Hợp,Hinh,1994-05-14,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130389,20130389,20130389@student.hust.edu.vn,Cầm Nghiêm,Hoạn,1993-08-24,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130390,20130390,20130390@student.hust.edu.vn,Lưu Miên,Lực,1995-11-01,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130391,20130391,20130391@student.hust.edu.vn,Tạ Trịnh,Hồ,1993-02-22,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130392,20130392,20130392@student.hust.edu.vn,Đinh Thừa,Đạm,1994-11-23,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130393,20130393,20130393@student.hust.edu.vn,Đậu Đạm,Sơn,1994-05-31,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130394,20130394,20130394@student.hust.edu.vn,Lư Duyên,Khôi,1993-02-12,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130395,20130395,20130395@student.hust.edu.vn,Cái Ngô,Tống,1994-05-24,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130396,20130396,20130396@student.hust.edu.vn,Quách Chi,Hòa,1995-11-17,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130397,20130397,20130397@student.hust.edu.vn,Khổng Phụng,Hóa,1995-04-08,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130398,20130398,20130398@student.hust.edu.vn,Thân Thanh,Đức,1994-01-07,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130399,20130399,20130399@student.hust.edu.vn,Kiều Hoa,Khuất,1994-09-11,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130400,20130400,20130400@student.hust.edu.vn,Đồng Tấn,Tuyến,1993-01-19,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130401,20130401,20130401@student.hust.edu.vn,Thi Diễm,Khuyên,1993-12-22,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130402,20130402,20130402@student.hust.edu.vn,Dã San,Bùi,1994-05-16,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130403,20130403,20130403@student.hust.edu.vn,Cao Giang,Lệ,1994-09-09,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130404,20130404,20130404@student.hust.edu.vn,Bành Kiều,Đắc,1994-01-08,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130405,20130405,20130405@student.hust.edu.vn,Trương Ngạn,Khái,1995-11-03,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130406,20130406,20130406@student.hust.edu.vn,Hứa Đan,Trâm,1994-07-14,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130407,20130407,20130407@student.hust.edu.vn,Bửu Mổ,Điểm,1995-06-27,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130408,20130408,20130408@student.hust.edu.vn,Đinh Dự,Bối,1993-01-15,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130409,20130409,20130409@student.hust.edu.vn,Phí Kiến,Nhẫn,1994-05-19,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130410,20130410,20130410@student.hust.edu.vn,Lâm Thắng,Quyền,1993-07-06,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130411,20130411,20130411@student.hust.edu.vn,Giáp Trường,Nhân,1994-01-22,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130412,20130412,20130412@student.hust.edu.vn,Bồ Gia,Bình,1995-12-02,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130413,20130413,20130413@student.hust.edu.vn,Khưu Đỗ,Sơn,1993-07-02,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130414,20130414,20130414@student.hust.edu.vn,Tông Ân,Hòa,1993-08-18,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130415,20130415,20130415@student.hust.edu.vn,Tào Tạ,Sáng,1995-04-07,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130416,20130416,20130416@student.hust.edu.vn,Tạ Bé,Thùy,1995-03-20,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130417,20130417,20130417@student.hust.edu.vn,Lô Mơ,Thanh,1995-10-28,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130418,20130418,20130418@student.hust.edu.vn,Ông Lan,Ty,1994-07-22,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130419,20130419,20130419@student.hust.edu.vn,Khu Kiến,Bá,1995-04-27,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130420,20130420,20130420@student.hust.edu.vn,Mai Song,Trang,1995-11-18,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130421,20130421,20130421@student.hust.edu.vn,Triệu Trung,Điện,1994-08-21,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130422,20130422,20130422@student.hust.edu.vn,Nhiệm Chí,Phan,1995-08-06,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130423,20130423,20130423@student.hust.edu.vn,Thái Hinh,Tính,1994-08-23,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130424,20130424,20130424@student.hust.edu.vn,Lô Danh,Trâm,1995-10-30,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130425,20130425,20130425@student.hust.edu.vn,Bàng Hưng,Ngộ,1994-08-26,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130426,20130426,20130426@student.hust.edu.vn,Tòng Nhạn,Huyên,1993-06-20,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130427,20130427,20130427@student.hust.edu.vn,Giả Khắc,Thy,1994-03-15,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130428,20130428,20130428@student.hust.edu.vn,Danh Ba,Đào,1995-12-13,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130429,20130429,20130429@student.hust.edu.vn,Âu Quy,Bùi,1993-05-04,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130430,20130430,20130430@student.hust.edu.vn,Bảo Trinh,Cung,1994-06-09,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130431,20130431,20130431@student.hust.edu.vn,Bành Đan,Thọ,1994-07-25,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130432,20130432,20130432@student.hust.edu.vn,Chử Sơn,Á,1994-10-17,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130433,20130433,20130433@student.hust.edu.vn,Đào Đại,Chung,1993-11-09,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130434,20130434,20130434@student.hust.edu.vn,Thạch La,Tín,1995-12-18,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130435,20130435,20130435@student.hust.edu.vn,Lại Năm,Tế,1993-12-14,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130436,20130436,20130436@student.hust.edu.vn,Trương Thiên,Huệ,1994-07-20,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130437,20130437,20130437@student.hust.edu.vn,Nhậm Sâm,Hương,1994-11-26,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130438,20130438,20130438@student.hust.edu.vn,Lữ Sâm,Giao,1995-02-04,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130439,20130439,20130439@student.hust.edu.vn,Tông Điền,Liêm,1995-11-02,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130440,20130440,20130440@student.hust.edu.vn,Tiêu Nhanh,Lưu,1993-06-26,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130441,20130441,20130441@student.hust.edu.vn,Giáp Tử,Nông,1994-06-17,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130442,20130442,20130442@student.hust.edu.vn,Mai Thanh,Trà,1993-07-11,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130443,20130443,20130443@student.hust.edu.vn,Ấu Triệu,Tá,1995-12-27,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130444,20130444,20130444@student.hust.edu.vn,Ngụy Thơ,Phạm,1993-02-19,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130445,20130445,20130445@student.hust.edu.vn,Chu Nha,Trâm,1994-10-11,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130446,20130446,20130446@student.hust.edu.vn,Nghiêm Sẩm,Hạo,1993-03-23,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130447,20130447,20130447@student.hust.edu.vn,Đoàn Nội,Lệ,1994-05-24,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130448,20130448,20130448@student.hust.edu.vn,Khâu Đại,Khôi,1993-10-14,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130449,20130449,20130449@student.hust.edu.vn,Tống Khuất,Sinh,1993-11-08,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130450,20130450,20130450@student.hust.edu.vn,Đường Nhạn,Biên,1995-03-07,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130451,20130451,20130451@student.hust.edu.vn,Phương Mỹ,– Mĩ Na,1993-01-21,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130452,20130452,20130452@student.hust.edu.vn,Thân Đoàn,Hoàng,1993-09-18,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130453,20130453,20130453@student.hust.edu.vn,Đàm Kiệt,Điểm,1994-09-13,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130454,20130454,20130454@student.hust.edu.vn,Tống Như,Lục,1994-10-24,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130455,20130455,20130455@student.hust.edu.vn,Khâu Thăng,Quỳnh,1994-06-01,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130456,20130456,20130456@student.hust.edu.vn,Thái Bé,Thích,1994-05-19,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130457,20130457,20130457@student.hust.edu.vn,La Khiểm,Đăng,1995-09-24,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130458,20130458,20130458@student.hust.edu.vn,Cấn Dạ,Minh,1994-11-10,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130459,20130459,20130459@student.hust.edu.vn,Ân Âu,Nhiếp,1995-05-16,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130460,20130460,20130460@student.hust.edu.vn,Bành Bách,Bỉ,1995-05-16,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130461,20130461,20130461@student.hust.edu.vn,Bàng Thạch,Chấn,1993-05-02,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130462,20130462,20130462@student.hust.edu.vn,Phùng Mã,Bỉ,1995-07-15,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130463,20130463,20130463@student.hust.edu.vn,Đàm Liên,Vân,1995-09-13,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130464,20130464,20130464@student.hust.edu.vn,Lư Kỳ,Lệ,1995-12-10,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130465,20130465,20130465@student.hust.edu.vn,Khâu Nguyện,Tô,1994-12-13,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130466,20130466,20130466@student.hust.edu.vn,Cái Hạ,Nhàn,1995-04-07,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130467,20130467,20130467@student.hust.edu.vn,Thái Châu,Trình,1995-01-24,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130468,20130468,20130468@student.hust.edu.vn,Dã Thiêm,Thương,1993-07-15,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130469,20130469,20130469@student.hust.edu.vn,Đinh Lệ,Năm,1995-09-04,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130470,20130470,20130470@student.hust.edu.vn,Tiêu Trang,Hương,1993-09-19,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130471,20130471,20130471@student.hust.edu.vn,Tào Hợi,Liêm,1993-04-24,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130472,20130472,20130472@student.hust.edu.vn,Hàn Thúy,Mạc,1993-09-24,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130473,20130473,20130473@student.hust.edu.vn,Trịnh Đôn,Lý,1994-09-19,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130474,20130474,20130474@student.hust.edu.vn,Phí Thời,Miên,1994-11-01,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130475,20130475,20130475@student.hust.edu.vn,Cung Thị,Học,1994-06-04,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130476,20130476,20130476@student.hust.edu.vn,Cầm Điểm,Hiển,1994-02-10,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130477,20130477,20130477@student.hust.edu.vn,Đơn Diệp,Tuyến,1995-08-11,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130478,20130478,20130478@student.hust.edu.vn,Cao Long,Gấm,1994-07-04,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130479,20130479,20130479@student.hust.edu.vn,Tông Nhân,An,1994-01-20,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130480,20130480,20130480@student.hust.edu.vn,Khổng Phong,Hợi,1994-06-05,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130481,20130481,20130481@student.hust.edu.vn,Hình Trí,Từ,1995-01-27,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130482,20130482,20130482@student.hust.edu.vn,Từ Đường,Lại,1993-06-02,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130483,20130483,20130483@student.hust.edu.vn,Hứa Ngộ,Len,1995-02-05,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130484,20130484,20130484@student.hust.edu.vn,Nhữ Cửu,Ánh,1994-02-28,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130485,20130485,20130485@student.hust.edu.vn,Đồng Khiểm,Nhật,1994-05-20,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130486,20130486,20130486@student.hust.edu.vn,Đan Trí,Luân,1993-11-06,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130487,20130487,20130487@student.hust.edu.vn,Bửu Huân,Thịnh,1993-02-04,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130488,20130488,20130488@student.hust.edu.vn,Khúc Nhiếp,Nguyễn,1995-01-17,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130489,20130489,20130489@student.hust.edu.vn,Dã Phú,Đạm,1994-07-20,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130490,20130490,20130490@student.hust.edu.vn,Thái Mã,Triệu,1995-07-29,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130491,20130491,20130491@student.hust.edu.vn,Giáp Khánh,Dương,1994-10-26,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130492,20130492,20130492@student.hust.edu.vn,Trương Ninh,Thùy,1993-01-16,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130493,20130493,20130493@student.hust.edu.vn,La Quyết,Quang,1995-09-21,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130494,20130494,20130494@student.hust.edu.vn,Phương Đắc,Kỳ,1993-06-19,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130495,20130495,20130495@student.hust.edu.vn,Thạch Thi,Khuyên,1993-02-25,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130496,20130496,20130496@student.hust.edu.vn,Phi Khôi,Nhiên,1994-12-03,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130497,20130497,20130497@student.hust.edu.vn,Đoàn Hiền,Trà,1993-10-29,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130498,20130498,20130498@student.hust.edu.vn,Kiều Mổ,Hào,1993-01-17,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130499,20130499,20130499@student.hust.edu.vn,Châu Đình,Thành,1994-03-10,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130500,20130500,20130500@student.hust.edu.vn,Khưu Hoa,Kim,1995-07-07,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130501,20130501,20130501@student.hust.edu.vn,Tông Phan,Hoán,1994-02-27,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130502,20130502,20130502@student.hust.edu.vn,Bành Thuận,Nguyên,1993-11-10,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130503,20130503,20130503@student.hust.edu.vn,Cao San,Tiếu,1994-02-10,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130504,20130504,20130504@student.hust.edu.vn,Nhiệm Lục,Huyên,1993-02-19,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130505,20130505,20130505@student.hust.edu.vn,Nhữ Đôn,Nhung,1994-11-14,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130506,20130506,20130506@student.hust.edu.vn,Đan Sinh,Bắc,1995-04-30,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130507,20130507,20130507@student.hust.edu.vn,Vi Vang,Thời,1994-12-30,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130508,20130508,20130508@student.hust.edu.vn,Nghiêm Nhạn,Quyền,1995-11-13,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130509,20130509,20130509@student.hust.edu.vn,Lư Thích,Đậu,1993-05-22,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130510,20130510,20130510@student.hust.edu.vn,Chế Nhân,Khiêm,1993-04-21,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130511,20130511,20130511@student.hust.edu.vn,Tiêu Tượng,Tú,1994-10-08,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130512,20130512,20130512@student.hust.edu.vn,Điền Trà,Trinh,1994-03-23,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130513,20130513,20130513@student.hust.edu.vn,Danh Nha,Minh,1993-10-22,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130514,20130514,20130514@student.hust.edu.vn,Lâm Hữu,Giang,1993-12-11,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130515,20130515,20130515@student.hust.edu.vn,Phí Chí,Dưỡng,1993-04-20,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130516,20130516,20130516@student.hust.edu.vn,Châu Mộc,Phát,1995-12-01,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130517,20130517,20130517@student.hust.edu.vn,Dã Tuyên,Ngân,1993-06-10,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130518,20130518,20130518@student.hust.edu.vn,Nhâm Huỳnh,Vành,1994-07-17,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130519,20130519,20130519@student.hust.edu.vn,Cù Ẩn,Tuân,1994-07-24,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130520,20130520,20130520@student.hust.edu.vn,Biện Quảng,Khải,1994-02-06,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130521,20130521,20130521@student.hust.edu.vn,Ca Tư,Thánh,1995-03-04,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130522,20130522,20130522@student.hust.edu.vn,Đàm Lưu,Huệ,1993-01-08,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130523,20130523,20130523@student.hust.edu.vn,An Duy,Quân,1994-12-27,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130524,20130524,20130524@student.hust.edu.vn,Lữ Trịnh,Nghĩa,1993-02-06,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130525,20130525,20130525@student.hust.edu.vn,Hồng Mộc,Điểm,1994-11-24,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130526,20130526,20130526@student.hust.edu.vn,Tiêu Tây,Phi,1993-04-08,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130527,20130527,20130527@student.hust.edu.vn,Trình Dũng,Thu,1994-01-03,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130528,20130528,20130528@student.hust.edu.vn,Biện Bỉ,Châu,1994-04-03,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130529,20130529,20130529@student.hust.edu.vn,Từ Bảo,Chung,1994-09-06,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130530,20130530,20130530@student.hust.edu.vn,Mã Kiến,Tắc,1995-07-03,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130531,20130531,20130531@student.hust.edu.vn,Trưng Trà,Hưng,1993-04-15,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130532,20130532,20130532@student.hust.edu.vn,Hồng Nghĩa,Phi,1995-07-25,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130533,20130533,20130533@student.hust.edu.vn,Yên Hằng,Lợi,1993-04-27,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130534,20130534,20130534@student.hust.edu.vn,Thôi Hảo,Phan,1994-07-16,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130535,20130535,20130535@student.hust.edu.vn,Mã Ấn,Âu,1993-04-08,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130536,20130536,20130536@student.hust.edu.vn,Đồng Cửu,Hậu,1994-03-20,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130537,20130537,20130537@student.hust.edu.vn,Quản Mộc,Nhiên,1995-04-22,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130538,20130538,20130538@student.hust.edu.vn,Khuất Cường,Chúng,1994-12-17,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130539,20130539,20130539@student.hust.edu.vn,Đơn Tùng,La,1995-04-17,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130540,20130540,20130540@student.hust.edu.vn,Bạc Quỳnh,Minh,1995-01-20,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130541,20130541,20130541@student.hust.edu.vn,Hà Trịnh,Phượng,1994-11-08,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130542,20130542,20130542@student.hust.edu.vn,Doãn Thất,Cương,1993-03-24,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130543,20130543,20130543@student.hust.edu.vn,Từ Thể,Lã,1994-08-28,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130544,20130544,20130544@student.hust.edu.vn,An Chí,Thao,1994-03-31,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130545,20130545,20130545@student.hust.edu.vn,Vi Nghĩa,Chành,1993-10-21,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130546,20130546,20130546@student.hust.edu.vn,Ánh Lĩnh,Định,1993-08-06,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130547,20130547,20130547@student.hust.edu.vn,Lưu Bạch,Hóa,1995-03-28,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130548,20130548,20130548@student.hust.edu.vn,Nhiệm Hoàn,Kỳ,1994-10-12,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130549,20130549,20130549@student.hust.edu.vn,Ấu Chuẩn,Hảo,1993-03-02,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130550,20130550,20130550@student.hust.edu.vn,Lương Hà,Thể,1993-03-28,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130551,20130551,20130551@student.hust.edu.vn,Đường Mạc,Uyên,1994-06-26,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130552,20130552,20130552@student.hust.edu.vn,Phùng Trâm,Trân,1995-04-14,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130553,20130553,20130553@student.hust.edu.vn,Doãn Mạc,Kiên,1994-06-27,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130554,20130554,20130554@student.hust.edu.vn,Âu Mổ,Hường,1993-02-01,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130555,20130555,20130555@student.hust.edu.vn,Tôn Kiệt,Ngô,1993-05-06,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130556,20130556,20130556@student.hust.edu.vn,Lục Diệu,Ty,1994-02-20,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130557,20130557,20130557@student.hust.edu.vn,Âu Quy,Trầm,1994-11-14,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130558,20130558,20130558@student.hust.edu.vn,Lưu Tế,Hảo,1994-01-04,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130559,20130559,20130559@student.hust.edu.vn,Lại Trình,Dung,1994-03-29,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130560,20130560,20130560@student.hust.edu.vn,Trà Lợi,Trần,1994-08-08,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130561,20130561,20130561@student.hust.edu.vn,Hà Nhẫn,Đích,1994-04-27,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130562,20130562,20130562@student.hust.edu.vn,Thái Trị,Tào,1993-09-29,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130563,20130563,20130563@student.hust.edu.vn,Phương Mịch,Như,1994-03-09,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130564,20130564,20130564@student.hust.edu.vn,Lô Khuất,Lân,1993-11-20,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130565,20130565,20130565@student.hust.edu.vn,Đồng Phí,Bé,1993-01-07,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130566,20130566,20130566@student.hust.edu.vn,Đoàn Hoạn,Giáp,1995-03-17,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130567,20130567,20130567@student.hust.edu.vn,Giáp Phù,Lĩnh,1993-11-26,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130568,20130568,20130568@student.hust.edu.vn,Khúc Hiền,Tuất,1995-04-08,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130569,20130569,20130569@student.hust.edu.vn,Văn Huyên,Đỗ,1993-09-04,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130570,20130570,20130570@student.hust.edu.vn,Đàm Trung,Tổ,1995-01-31,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130571,20130571,20130571@student.hust.edu.vn,Hà Vân,Cao,1993-08-11,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130572,20130572,20130572@student.hust.edu.vn,Tòng Thi,Lục,1994-06-24,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130573,20130573,20130573@student.hust.edu.vn,Phi Lệ,Nhã,1995-04-02,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130574,20130574,20130574@student.hust.edu.vn,Cái Hồ,Hường,1995-07-04,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130575,20130575,20130575@student.hust.edu.vn,Phó Sư,Tá,1995-04-01,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130576,20130576,20130576@student.hust.edu.vn,Trình Dũng,Phú,1994-12-11,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130577,20130577,20130577@student.hust.edu.vn,Đường Song,Tường,1994-05-13,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130578,20130578,20130578@student.hust.edu.vn,Đơn Bối,Tuyên,1993-09-29,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130579,20130579,20130579@student.hust.edu.vn,Mai Hứa,Miên,1995-04-18,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130580,20130580,20130580@student.hust.edu.vn,Giả Chanh,Á,1994-04-20,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130581,20130581,20130581@student.hust.edu.vn,Cung Sơn,Huân,1994-01-12,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130582,20130582,20130582@student.hust.edu.vn,Từ Thời,Khôi,1995-03-25,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130583,20130583,20130583@student.hust.edu.vn,Bành Trinh,Thoa,1994-02-01,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130584,20130584,20130584@student.hust.edu.vn,Đoàn Thăng,Hoán,1994-06-12,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130585,20130585,20130585@student.hust.edu.vn,Cát Tiểu,Tế,1994-01-08,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130586,20130586,20130586@student.hust.edu.vn,Cát Vạn,Kỳ,1994-01-01,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130587,20130587,20130587@student.hust.edu.vn,Chung Chí,Hào,1994-01-29,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130588,20130588,20130588@student.hust.edu.vn,Viên Tân,Cửu,1993-03-27,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130589,20130589,20130589@student.hust.edu.vn,Nhiệm Tùng,Bách,1994-03-13,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130590,20130590,20130590@student.hust.edu.vn,Bạc Tú,Bằng,1995-02-17,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130591,20130591,20130591@student.hust.edu.vn,Danh Lại,Huy,1995-05-06,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130592,20130592,20130592@student.hust.edu.vn,Châu Thể,Học,1994-04-19,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130593,20130593,20130593@student.hust.edu.vn,Vi Đào,Trung,1993-09-21,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130594,20130594,20130594@student.hust.edu.vn,Cấn Khoa,Lục,1993-09-09,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130595,20130595,20130595@student.hust.edu.vn,Nghiêm Danh,Huân,1993-09-25,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130596,20130596,20130596@student.hust.edu.vn,Nhữ Á,Trà,1994-02-09,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130597,20130597,20130597@student.hust.edu.vn,Mã Quan,Minh,1995-01-16,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130598,20130598,20130598@student.hust.edu.vn,Trương Hữu,Uyên,1993-10-09,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130599,20130599,20130599@student.hust.edu.vn,Nghiêm Lành,Tắc,1994-03-25,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130600,20130600,20130600@student.hust.edu.vn,Ma Hằng,Thổ,1994-08-07,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130601,20130601,20130601@student.hust.edu.vn,Nhữ Thoa,Tài,1995-09-10,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130602,20130602,20130602@student.hust.edu.vn,Bồ Tăng,Khiểm,1995-12-20,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130603,20130603,20130603@student.hust.edu.vn,Bá Tuyền,Đinh,1994-02-07,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130604,20130604,20130604@student.hust.edu.vn,Thân Doanh,Khải,1994-01-30,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130605,20130605,20130605@student.hust.edu.vn,Cam Hạ,Sỹ,1995-08-18,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130606,20130606,20130606@student.hust.edu.vn,Lữ Sỹ,Luyện,1993-01-02,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130607,20130607,20130607@student.hust.edu.vn,Âu Liên,Kiều,1993-01-13,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130608,20130608,20130608@student.hust.edu.vn,Cù Đắc,Á,1994-12-24,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130609,20130609,20130609@student.hust.edu.vn,Đinh Thoại,Phát,1993-11-02,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130610,20130610,20130610@student.hust.edu.vn,Vi Gấm,Trịnh,1994-05-26,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130611,20130611,20130611@student.hust.edu.vn,Châu Khuất,Cảnh,1995-10-10,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130612,20130612,20130612@student.hust.edu.vn,Âu Nông,Bạch,1994-02-16,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130613,20130613,20130613@student.hust.edu.vn,Lô Khải,Tăng,1994-09-18,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130614,20130614,20130614@student.hust.edu.vn,Châu Tú,Doanh,1995-12-09,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130615,20130615,20130615@student.hust.edu.vn,Nhâm Thánh,Ngô,1993-07-28,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130616,20130616,20130616@student.hust.edu.vn,Lại Thái,Thăng,1995-02-03,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130617,20130617,20130617@student.hust.edu.vn,Phó Vân,Tử,1995-08-28,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130618,20130618,20130618@student.hust.edu.vn,Giang Tế,Hào,1995-09-28,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130619,20130619,20130619@student.hust.edu.vn,Thi Nhanh,San,1995-11-13,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130620,20130620,20130620@student.hust.edu.vn,Chung Phong,Nội,1995-01-06,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130621,20130621,20130621@student.hust.edu.vn,Ca Đường,Uyên,1994-02-17,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130622,20130622,20130622@student.hust.edu.vn,Hình Tượng,Huyền,1993-09-02,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130623,20130623,20130623@student.hust.edu.vn,Khổng Khái,Tịnh,1994-01-27,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130624,20130624,20130624@student.hust.edu.vn,Trịnh Lệ,Đăng,1994-07-19,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130625,20130625,20130625@student.hust.edu.vn,Nhiệm Mịch,Mộc,1995-09-27,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130626,20130626,20130626@student.hust.edu.vn,Dã Điện,Thanh,1995-04-24,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130627,20130627,20130627@student.hust.edu.vn,Văn Nữ,Miên,1993-10-04,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130628,20130628,20130628@student.hust.edu.vn,Kiều Biên,Chanh,1994-07-24,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130629,20130629,20130629@student.hust.edu.vn,Khổng Điềm,Bạch,1994-10-10,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130630,20130630,20130630@student.hust.edu.vn,Bá Song,Thịnh,1994-02-20,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130631,20130631,20130631@student.hust.edu.vn,Doãn Tuân,Dạ,1995-11-26,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130632,20130632,20130632@student.hust.edu.vn,Hứa Huy,Trà,1993-08-05,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130633,20130633,20130633@student.hust.edu.vn,Đồng Nguyệt,Đảm,1995-07-07,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130634,20130634,20130634@student.hust.edu.vn,Khưu Chi,Sang,1993-09-12,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130635,20130635,20130635@student.hust.edu.vn,Thạch Hạ,Hảo,1994-08-10,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130636,20130636,20130636@student.hust.edu.vn,Bế Trương,Trang,1994-01-23,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130637,20130637,20130637@student.hust.edu.vn,Trịnh Thừa,Điện,1994-02-15,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130638,20130638,20130638@student.hust.edu.vn,Đan Thoại,Khuyên,1993-01-02,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130639,20130639,20130639@student.hust.edu.vn,Cái Mến,Ngân,1994-10-26,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130640,20130640,20130640@student.hust.edu.vn,Ma Dục,Hạ,1994-01-06,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130641,20130641,20130641@student.hust.edu.vn,Biện Miên,Bỉ,1993-12-20,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130642,20130642,20130642@student.hust.edu.vn,Nhậm Tuyết,Hàn,1995-02-05,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130643,20130643,20130643@student.hust.edu.vn,Nhâm Trà,Lộc,1995-05-25,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130644,20130644,20130644@student.hust.edu.vn,Bảo Phù,Chấn,1995-10-19,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130645,20130645,20130645@student.hust.edu.vn,Trưng Liên,Trường,1995-05-10,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130646,20130646,20130646@student.hust.edu.vn,Chương Thời,Hoan,1994-03-21,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130647,20130647,20130647@student.hust.edu.vn,Cao Khái,Nhàn,1995-08-02,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130648,20130648,20130648@student.hust.edu.vn,Tào Hân,Thúy,1993-10-13,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130649,20130649,20130649@student.hust.edu.vn,Lâm Phỉ,Tú,1993-02-13,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130650,20130650,20130650@student.hust.edu.vn,Cái Kim,Nhanh,1994-08-23,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130651,20130651,20130651@student.hust.edu.vn,Lô Á,Anh,1994-06-15,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130652,20130652,20130652@student.hust.edu.vn,Ca Lực,Hạnh,1995-04-21,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130653,20130653,20130653@student.hust.edu.vn,Bạc Thoa,Hiền,1993-11-26,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130654,20130654,20130654@student.hust.edu.vn,Khu Thiêm,Cung,1995-03-20,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130655,20130655,20130655@student.hust.edu.vn,Hàn Bằng,Thu,1993-06-21,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130656,20130656,20130656@student.hust.edu.vn,Cam Tuất,Khang,1995-01-09,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130657,20130657,20130657@student.hust.edu.vn,Nhâm Huỳnh,Mộc,1994-11-24,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130658,20130658,20130658@student.hust.edu.vn,Chung Mạch,Ân,1995-07-23,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130659,20130659,20130659@student.hust.edu.vn,Tào Ngộ,Thy,1994-05-06,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130660,20130660,20130660@student.hust.edu.vn,Vương Bằng,Truyền,1993-04-26,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130661,20130661,20130661@student.hust.edu.vn,Phó Chuẩn,Trương,1995-03-31,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130662,20130662,20130662@student.hust.edu.vn,Lại Khuất,Hoạch,1994-06-23,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130663,20130663,20130663@student.hust.edu.vn,Phí Ty,Ty,1993-03-17,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130664,20130664,20130664@student.hust.edu.vn,Chương Chung,Thu,1995-09-13,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130665,20130665,20130665@student.hust.edu.vn,Nhữ Huy,Thục,1994-07-01,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130666,20130666,20130666@student.hust.edu.vn,Quản Chành,Dung,1995-03-07,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130667,20130667,20130667@student.hust.edu.vn,Quách Anh,Tiên,1994-08-12,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130668,20130668,20130668@student.hust.edu.vn,Xa Học,Bé,1994-01-06,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130669,20130669,20130669@student.hust.edu.vn,Hàn Phan,Tiếu,1994-05-01,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130670,20130670,20130670@student.hust.edu.vn,Khu Thích,Quân,1995-07-05,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130671,20130671,20130671@student.hust.edu.vn,Phí Tuyền,Nhàn,1993-12-19,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130672,20130672,20130672@student.hust.edu.vn,Đồng Đăng,Ly,1995-08-26,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130673,20130673,20130673@student.hust.edu.vn,Chế Đỗ,Quách,1993-12-03,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130674,20130674,20130674@student.hust.edu.vn,Chế Khuất,Lành,1994-11-07,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130675,20130675,20130675@student.hust.edu.vn,An Danh,Nhi,1994-01-17,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130676,20130676,20130676@student.hust.edu.vn,Châu Huân,Sương,1995-01-12,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130677,20130677,20130677@student.hust.edu.vn,Tông Vành,Tịnh,1994-04-10,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130678,20130678,20130678@student.hust.edu.vn,Giáp Tân,Thích,1994-04-10,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130679,20130679,20130679@student.hust.edu.vn,Nhiệm Vang,Điện,1995-03-11,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130680,20130680,20130680@student.hust.edu.vn,Thái Sâm,Đoan,1994-07-10,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130681,20130681,20130681@student.hust.edu.vn,Bảo Thời,Đặng,1995-09-23,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130682,20130682,20130682@student.hust.edu.vn,Cấn Huyên,Quỳnh,1995-12-23,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130683,20130683,20130683@student.hust.edu.vn,Lô Khiểm,Đắc,1994-06-10,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130684,20130684,20130684@student.hust.edu.vn,Đồng Thùy,Liêm,1993-02-17,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130685,20130685,20130685@student.hust.edu.vn,Bành Sâm,Thiêm,1995-09-08,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130686,20130686,20130686@student.hust.edu.vn,Bạc Khái,Tiểu,1993-08-07,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130687,20130687,20130687@student.hust.edu.vn,Hà Mộc,Phí,1995-09-10,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130688,20130688,20130688@student.hust.edu.vn,Tống Thổ,Cao,1993-04-20,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130689,20130689,20130689@student.hust.edu.vn,Mã Bỉ,Tiểu,1993-03-25,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130690,20130690,20130690@student.hust.edu.vn,Lâm Hứa,Tống,1995-08-02,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130691,20130691,20130691@student.hust.edu.vn,Khâu Nội,Khái,1995-03-02,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130692,20130692,20130692@student.hust.edu.vn,Nông Hợp,Đình,1994-07-27,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130693,20130693,20130693@student.hust.edu.vn,Lâm Điểm,Nhân,1994-08-30,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130694,20130694,20130694@student.hust.edu.vn,Cầm Luân,Oanh,1994-07-02,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130695,20130695,20130695@student.hust.edu.vn,Vi Bằng,Hiện,1994-10-08,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130696,20130696,20130696@student.hust.edu.vn,Nhâm Chương,Tào,1995-06-30,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130697,20130697,20130697@student.hust.edu.vn,Đàm Từ,Hiền,1994-11-22,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130698,20130698,20130698@student.hust.edu.vn,Đoàn Thuận,Phi,1995-09-12,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130699,20130699,20130699@student.hust.edu.vn,Khâu Học,Quan,1994-04-20,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130700,20130700,20130700@student.hust.edu.vn,Cù Khâu,Thùy,1993-03-06,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130701,20130701,20130701@student.hust.edu.vn,Kiều Thoại,Lễ,1995-08-09,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130702,20130702,20130702@student.hust.edu.vn,Chung Chí,Mẫn,1994-07-27,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130703,20130703,20130703@student.hust.edu.vn,Điền Phong,Truyền,1995-06-14,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130704,20130704,20130704@student.hust.edu.vn,Bạch Thường,Điểm,1993-08-12,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130705,20130705,20130705@student.hust.edu.vn,Khổng Li,Vang,1993-09-04,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130706,20130706,20130706@student.hust.edu.vn,Ma Thổ,Lực,1994-10-20,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130707,20130707,20130707@student.hust.edu.vn,Xa Hằng,Nga,1994-05-19,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130708,20130708,20130708@student.hust.edu.vn,Triệu Khánh,Thụy,1995-01-20,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130709,20130709,20130709@student.hust.edu.vn,Khu Quách,Mơ,1994-03-03,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130710,20130710,20130710@student.hust.edu.vn,Chử Sang,Cửu,1994-06-09,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130711,20130711,20130711@student.hust.edu.vn,Đậu Tường,Mạnh,1993-10-02,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130712,20130712,20130712@student.hust.edu.vn,Chương Nguyễn,Tấn,1993-08-16,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130713,20130713,20130713@student.hust.edu.vn,Ca Mến,Thiên,1993-05-14,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130714,20130714,20130714@student.hust.edu.vn,Lã Tuất,Phát,1995-10-28,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130715,20130715,20130715@student.hust.edu.vn,Tiêu Đoan,Thảo,1993-08-03,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130716,20130716,20130716@student.hust.edu.vn,Lại Thái,Hân,1995-04-09,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130717,20130717,20130717@student.hust.edu.vn,Lư Ảnh,Diễm,1993-01-13,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130718,20130718,20130718@student.hust.edu.vn,Đoàn Dũng,Ly,1993-01-28,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130719,20130719,20130719@student.hust.edu.vn,Chu Khái,Bến,1993-01-06,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130720,20130720,20130720@student.hust.edu.vn,Lục Trịnh,Trung,1993-11-24,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130721,20130721,20130721@student.hust.edu.vn,Doãn Mộng,Lương,1995-06-28,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130722,20130722,20130722@student.hust.edu.vn,Trương Đắc,Thiêm,1994-04-25,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130723,20130723,20130723@student.hust.edu.vn,Đổng Hạnh,Đạt,1993-10-15,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130724,20130724,20130724@student.hust.edu.vn,Trà Hạo,Uyên,1994-09-30,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130725,20130725,20130725@student.hust.edu.vn,Nhiệm Đạm,Hiên,1993-05-05,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130726,20130726,20130726@student.hust.edu.vn,Nhiệm Nhiên,Hương,1995-05-25,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130727,20130727,20130727@student.hust.edu.vn,Thế Tuyền,Trầm,1993-12-28,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130728,20130728,20130728@student.hust.edu.vn,Ánh Tấn,Bích,1995-06-03,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130729,20130729,20130729@student.hust.edu.vn,Dã Kiệt,Đà,1993-01-30,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130730,20130730,20130730@student.hust.edu.vn,Hàn Âu,Thùy,1994-07-21,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130731,20130731,20130731@student.hust.edu.vn,Trình Khôi,Lại,1993-02-20,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130732,20130732,20130732@student.hust.edu.vn,Kim Đào,Đồng,1994-07-30,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130733,20130733,20130733@student.hust.edu.vn,Bửu Lã,My,1995-12-22,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130734,20130734,20130734@student.hust.edu.vn,Thế Ngạn,Kiệt,1995-01-06,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130735,20130735,20130735@student.hust.edu.vn,Doãn Tùng,Thành,1994-12-01,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130736,20130736,20130736@student.hust.edu.vn,Trương Tài,Quách,1994-02-28,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130737,20130737,20130737@student.hust.edu.vn,Thái Sang,Tá,1993-07-11,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130738,20130738,20130738@student.hust.edu.vn,Vi Nha,Trường,1993-10-30,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130739,20130739,20130739@student.hust.edu.vn,Văn Kiến,Lộc,1995-06-16,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130740,20130740,20130740@student.hust.edu.vn,Khuất Tú,Hinh,1993-11-19,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130741,20130741,20130741@student.hust.edu.vn,Bảo Danh,Hân,1995-03-22,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130742,20130742,20130742@student.hust.edu.vn,Kim Dục,Thiền,1993-08-22,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130743,20130743,20130743@student.hust.edu.vn,Giang Duyên,Mến,1995-02-18,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130744,20130744,20130744@student.hust.edu.vn,Điền Hùng,Tấn,1994-10-16,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130745,20130745,20130745@student.hust.edu.vn,Cam Lân,Hữu,1994-10-31,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130746,20130746,20130746@student.hust.edu.vn,Chử Á,Phú,1994-07-18,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130747,20130747,20130747@student.hust.edu.vn,Khu Thọ,Khâu,1994-03-16,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130748,20130748,20130748@student.hust.edu.vn,Lương Hoạch,Trâm,1994-11-03,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130749,20130749,20130749@student.hust.edu.vn,Đổng Hạnh,2 Thường,1993-11-30,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130750,20130750,20130750@student.hust.edu.vn,Đường Hiện,Ánh,1995-07-02,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130751,20130751,20130751@student.hust.edu.vn,Bạch Chính,Nguyện,1995-06-18,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130752,20130752,20130752@student.hust.edu.vn,Đơn Thắng,Thăng,1994-10-26,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130753,20130753,20130753@student.hust.edu.vn,Cát Lã,Nghĩa,1995-09-07,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130754,20130754,20130754@student.hust.edu.vn,Trình Huynh,Hiện,1993-05-28,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130755,20130755,20130755@student.hust.edu.vn,Trịnh Tiếu,Huấn,1993-09-08,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130756,20130756,20130756@student.hust.edu.vn,Mai Phạm,Phụng,1994-04-16,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130757,20130757,20130757@student.hust.edu.vn,Tôn Thổ,Huệ,1993-10-13,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130758,20130758,20130758@student.hust.edu.vn,Kim Kiến,Ưng,1993-09-15,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130759,20130759,20130759@student.hust.edu.vn,Âu Quốc,Trang,1993-04-09,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130760,20130760,20130760@student.hust.edu.vn,Hồng Tú,Phan,1994-04-12,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130761,20130761,20130761@student.hust.edu.vn,Tôn Thừa,Nhàn,1993-10-23,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130762,20130762,20130762@student.hust.edu.vn,Vương Minh,Mơ,1994-12-16,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130763,20130763,20130763@student.hust.edu.vn,Lương Ấn,Quốc,1994-12-21,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130764,20130764,20130764@student.hust.edu.vn,Bàng Phúc,Sáng,1995-08-14,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130765,20130765,20130765@student.hust.edu.vn,Giang Hiển,Quy,1994-04-20,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130766,20130766,20130766@student.hust.edu.vn,Tông Tăng,Hiện,1995-03-06,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130767,20130767,20130767@student.hust.edu.vn,Đan Đậu,Đinh,1993-08-26,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130768,20130768,20130768@student.hust.edu.vn,Giang Trâm,Khuyên,1994-05-09,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130769,20130769,20130769@student.hust.edu.vn,Quách Ánh,Toàn,1993-11-27,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130770,20130770,20130770@student.hust.edu.vn,Từ Luân,Chung,1995-06-06,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130771,20130771,20130771@student.hust.edu.vn,Thái Biên,Năm,1994-09-29,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130772,20130772,20130772@student.hust.edu.vn,Mạc Lễ,Dự,1995-03-16,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130773,20130773,20130773@student.hust.edu.vn,Hạ Thạnh,Ba,1993-08-15,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130774,20130774,20130774@student.hust.edu.vn,Nông Lý,Tế,1995-02-17,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130775,20130775,20130775@student.hust.edu.vn,Hình Thúy,Quyết,1994-09-05,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130776,20130776,20130776@student.hust.edu.vn,Thôi Khắc,Quyết,1994-11-07,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130777,20130777,20130777@student.hust.edu.vn,Khu Bằng,Hạo,1995-03-08,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130778,20130778,20130778@student.hust.edu.vn,Nhiệm Tướng,Lai,1994-12-30,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130779,20130779,20130779@student.hust.edu.vn,Nghiêm Thuận,Nguyện,1995-11-30,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130780,20130780,20130780@student.hust.edu.vn,Thập Đam,Phan,1994-10-19,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130781,20130781,20130781@student.hust.edu.vn,Lạc Thánh,Trúc,1994-03-12,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130782,20130782,20130782@student.hust.edu.vn,Chử Phượng,Anh,1995-02-25,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130783,20130783,20130783@student.hust.edu.vn,Nghiêm Lộc,Đích,1994-07-05,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130784,20130784,20130784@student.hust.edu.vn,Uông Chinh,Dự,1993-08-01,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130785,20130785,20130785@student.hust.edu.vn,Đào Tướng,Đô,1995-02-03,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130786,20130786,20130786@student.hust.edu.vn,Trình Pháp,Phúc,1994-04-28,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130787,20130787,20130787@student.hust.edu.vn,Đậu Tắc,Pháp,1994-11-22,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130788,20130788,20130788@student.hust.edu.vn,Âu Chân,Hải,1995-07-28,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130789,20130789,20130789@student.hust.edu.vn,Xa Tá,Bé,1994-04-30,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130790,20130790,20130790@student.hust.edu.vn,Nghiêm Hàn,Chỉnh,1993-08-17,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130791,20130791,20130791@student.hust.edu.vn,Bàng Tưởng,Hợp,1993-05-19,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130792,20130792,20130792@student.hust.edu.vn,Chử Hồng,Tân,1995-10-27,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130793,20130793,20130793@student.hust.edu.vn,Tống Tô,Bến,1993-07-23,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130794,20130794,20130794@student.hust.edu.vn,Hình Luận,Thương,1994-03-06,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130795,20130795,20130795@student.hust.edu.vn,Phi Bé,Tắc,1993-01-28,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130796,20130796,20130796@student.hust.edu.vn,Chung Ngạn,Tài,1993-04-06,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130797,20130797,20130797@student.hust.edu.vn,Bửu Danh,Diễm,1994-09-01,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130798,20130798,20130798@student.hust.edu.vn,Đào Luận,Thời,1995-07-07,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130799,20130799,20130799@student.hust.edu.vn,Lô Bính,Bùi,1993-06-29,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130800,20130800,20130800@student.hust.edu.vn,Đường Sang,Châu,1995-08-28,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130801,20130801,20130801@student.hust.edu.vn,Từ Thục,Lâm,1993-11-22,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130802,20130802,20130802@student.hust.edu.vn,Bạch Tổ,Ung,1995-11-08,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130803,20130803,20130803@student.hust.edu.vn,Tôn Hóa,Bính,1993-12-07,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130804,20130804,20130804@student.hust.edu.vn,Hình Thăng,Thái,1994-06-27,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130805,20130805,20130805@student.hust.edu.vn,Nhâm Đường,Lê,1993-10-03,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130806,20130806,20130806@student.hust.edu.vn,Hình Phát,Lệ,1993-04-04,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130807,20130807,20130807@student.hust.edu.vn,Lạc Ân,Thanh,1994-03-14,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130808,20130808,20130808@student.hust.edu.vn,La Trà,Thừa,1993-07-22,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130809,20130809,20130809@student.hust.edu.vn,Hạ Miên,Nghi,1994-09-23,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130810,20130810,20130810@student.hust.edu.vn,Bạch Lĩnh,Phong,1994-11-02,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130811,20130811,20130811@student.hust.edu.vn,Bồ Nghi,Khải,1995-02-09,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130812,20130812,20130812@student.hust.edu.vn,Thôi Tuyên,Tuyến,1994-10-15,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130813,20130813,20130813@student.hust.edu.vn,Tống Nam,Kiên,1993-10-16,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130814,20130814,20130814@student.hust.edu.vn,Doãn Mã,Hòa,1994-06-22,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130815,20130815,20130815@student.hust.edu.vn,Viên Dạ,Quang,1993-02-01,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130816,20130816,20130816@student.hust.edu.vn,Mạc Đậu,Nhạn,1994-08-29,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130817,20130817,20130817@student.hust.edu.vn,Danh Biên,Hùng,1993-06-14,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130818,20130818,20130818@student.hust.edu.vn,Ông Tử,Miên,1994-05-23,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130819,20130819,20130819@student.hust.edu.vn,Tào Tào,Lợi,1993-07-12,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130820,20130820,20130820@student.hust.edu.vn,Khuất Phú,Ẩn,1995-12-23,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130821,20130821,20130821@student.hust.edu.vn,Khu Âu,Phú,1993-04-14,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130822,20130822,20130822@student.hust.edu.vn,Danh Chúng,Trí,1994-01-30,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130823,20130823,20130823@student.hust.edu.vn,Hứa Điềm,Kha,1993-01-09,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130824,20130824,20130824@student.hust.edu.vn,Âu Tây,Thất,1993-04-12,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130825,20130825,20130825@student.hust.edu.vn,Tông Nhi,Thạch,1995-01-18,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130826,20130826,20130826@student.hust.edu.vn,Kim Sỹ,Thoa,1994-12-04,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130827,20130827,20130827@student.hust.edu.vn,Tào Như,Chương,1994-08-25,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130828,20130828,20130828@student.hust.edu.vn,Nhiệm Hậu,Đảm,1995-06-11,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130829,20130829,20130829@student.hust.edu.vn,Nhậm Linh,Ấn,1995-01-21,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130830,20130830,20130830@student.hust.edu.vn,Dư Giang,Trình,1994-06-01,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130831,20130831,20130831@student.hust.edu.vn,Tiêu Hân,Nhàn,1993-03-08,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130832,20130832,20130832@student.hust.edu.vn,Cam Nam,Len,1995-09-01,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130833,20130833,20130833@student.hust.edu.vn,Ân Tiểu,Kiến,1994-07-03,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130834,20130834,20130834@student.hust.edu.vn,Chử Danh,Mộc,1993-04-05,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130835,20130835,20130835@student.hust.edu.vn,Trà Hùng,Đạt,1993-11-27,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130836,20130836,20130836@student.hust.edu.vn,Hoa Tú,Uyên,1994-05-05,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130837,20130837,20130837@student.hust.edu.vn,Giang Hường,Trinh,1994-03-21,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130838,20130838,20130838@student.hust.edu.vn,Chung San,Lan,1993-01-09,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130839,20130839,20130839@student.hust.edu.vn,Đào Tiên,Quý,1995-10-29,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130840,20130840,20130840@student.hust.edu.vn,Trà Hiền,Thành,1994-11-01,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130841,20130841,20130841@student.hust.edu.vn,Đổng Nông,Tuyến,1993-02-15,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130842,20130842,20130842@student.hust.edu.vn,Tôn Thiền,Thi,1994-05-04,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130843,20130843,20130843@student.hust.edu.vn,Mạc Năm,Phúc,1993-11-04,Class: Kỹ thuật nhiệt \nInstitute: Viện Khoa học và Công nghệ Nhiệt Lạnh
+20130844,20130844,20130844@student.hust.edu.vn,Tống Hàn,Khái,1995-06-29,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130845,20130845,20130845@student.hust.edu.vn,Lâm Phùng,Sáng,1994-07-09,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130846,20130846,20130846@student.hust.edu.vn,Cung Ánh,Kỳ,1994-08-05,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130847,20130847,20130847@student.hust.edu.vn,Đổng Thăng,Hữu,1995-01-12,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130848,20130848,20130848@student.hust.edu.vn,Lương Hữu,Tấn,1995-02-01,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130849,20130849,20130849@student.hust.edu.vn,Lại Hường,Đắc,1994-02-03,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130850,20130850,20130850@student.hust.edu.vn,Ánh Tiến,Đàm,1994-06-01,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130851,20130851,20130851@student.hust.edu.vn,Triệu Mơ,Khải,1995-10-24,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130852,20130852,20130852@student.hust.edu.vn,Đàm Đích,Ngọc,1993-04-12,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130853,20130853,20130853@student.hust.edu.vn,Liễu Tế,Huấn,1994-12-27,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130854,20130854,20130854@student.hust.edu.vn,Lại Khiêm,Bằng,1993-07-08,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130855,20130855,20130855@student.hust.edu.vn,Trịnh Quyến,Kỳ,1995-05-16,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130856,20130856,20130856@student.hust.edu.vn,Ngụy Sương,Mã,1995-10-24,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130857,20130857,20130857@student.hust.edu.vn,Ma Quảng,Nghi,1995-10-31,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130858,20130858,20130858@student.hust.edu.vn,Thi Nha,Hậu,1993-08-28,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130859,20130859,20130859@student.hust.edu.vn,Nhâm Điềm,Uyên,1995-06-09,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130860,20130860,20130860@student.hust.edu.vn,Bàng Mạc,Phỉ,1994-10-31,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130861,20130861,20130861@student.hust.edu.vn,Phi Bính,Huynh,1994-08-10,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130862,20130862,20130862@student.hust.edu.vn,Lục Tai,Như,1994-10-03,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130863,20130863,20130863@student.hust.edu.vn,Khuất Lệ,Thục,1994-07-01,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130864,20130864,20130864@student.hust.edu.vn,Cao Hiên,Phỉ,1993-04-24,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130865,20130865,20130865@student.hust.edu.vn,Chiêm Đằng,Chi,1994-08-27,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130866,20130866,20130866@student.hust.edu.vn,Từ Bích,Trần,1995-06-11,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130867,20130867,20130867@student.hust.edu.vn,Thế Bé,Minh,1993-04-14,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130868,20130868,20130868@student.hust.edu.vn,Lữ La,Thùy,1993-07-14,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130869,20130869,20130869@student.hust.edu.vn,Khâu Đan,Dạ,1993-07-26,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130870,20130870,20130870@student.hust.edu.vn,Khuất Đường,Quyền,1994-09-30,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130871,20130871,20130871@student.hust.edu.vn,Cát Thơ,Nguyễn,1993-06-10,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130872,20130872,20130872@student.hust.edu.vn,Bạch Huyền,Tuyên,1993-06-05,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130873,20130873,20130873@student.hust.edu.vn,Đinh Chanh,Thúy,1994-07-25,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130874,20130874,20130874@student.hust.edu.vn,Trịnh Len,Sư,1994-09-10,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130875,20130875,20130875@student.hust.edu.vn,Bàng Bạch,Cường,1995-11-08,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130876,20130876,20130876@student.hust.edu.vn,Ông Điểm,Tiểu,1994-12-12,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130877,20130877,20130877@student.hust.edu.vn,Nghiêm Năm,Hiền,1993-03-28,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130878,20130878,20130878@student.hust.edu.vn,Lữ Trinh,Ưng,1993-07-13,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130879,20130879,20130879@student.hust.edu.vn,Lạc Chiến,Chành,1994-10-05,Class: Truyền thông và mạng máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130880,20130880,20130880@student.hust.edu.vn,Lục Nhàn,Hùng,1993-06-16,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130881,20130881,20130881@student.hust.edu.vn,Bồ Trí,Lành,1995-11-22,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130882,20130882,20130882@student.hust.edu.vn,Cam Điện,Hương,1995-07-25,Class: Kỹ thuật in \nInstitute: Viện Kỹ thuật Hoá học
+20130883,20130883,20130883@student.hust.edu.vn,Hồng Tượng,Vành,1994-05-09,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130884,20130884,20130884@student.hust.edu.vn,Bửu Ngô,Thức,1993-08-22,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130885,20130885,20130885@student.hust.edu.vn,Hình Sáng,Nhạn,1994-08-09,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130886,20130886,20130886@student.hust.edu.vn,Lâm Chi,Trúc,1995-11-26,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130887,20130887,20130887@student.hust.edu.vn,Mạc Thiên,Cương,1993-09-05,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130888,20130888,20130888@student.hust.edu.vn,Lạc Lễ,Hợi,1993-12-26,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130889,20130889,20130889@student.hust.edu.vn,Giáp Lạc,Công,1993-11-20,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130890,20130890,20130890@student.hust.edu.vn,Cù Nông,Quang,1994-02-03,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130891,20130891,20130891@student.hust.edu.vn,Thôi Điện,Khanh,1994-07-05,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130892,20130892,20130892@student.hust.edu.vn,Mã Thọ,Quảng,1993-07-25,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130893,20130893,20130893@student.hust.edu.vn,Lương Luyện,Lễ,1993-08-03,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130894,20130894,20130894@student.hust.edu.vn,Cát Huy,Biên,1993-12-29,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130895,20130895,20130895@student.hust.edu.vn,Cát Đôn,Khiếm,1993-03-24,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130896,20130896,20130896@student.hust.edu.vn,Tôn Từ,Hoàn,1994-05-15,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130897,20130897,20130897@student.hust.edu.vn,Đường Hùng,Trúc,1995-11-03,Class: Hệ thống thông tin quản lý \nInstitute: Viện Toán ứng dụng và Tin học
+20130898,20130898,20130898@student.hust.edu.vn,Khu Hảo,Âu,1993-07-14,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130899,20130899,20130899@student.hust.edu.vn,Nghiêm Chanh,Hoài,1993-11-02,Class: CN-Công nghệ kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130900,20130900,20130900@student.hust.edu.vn,Mạc Nguyện,Thạnh,1995-01-28,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130901,20130901,20130901@student.hust.edu.vn,Khu Truyền,Tuấn,1994-04-23,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130902,20130902,20130902@student.hust.edu.vn,Thạch Huyền,Mổ,1994-07-02,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130903,20130903,20130903@student.hust.edu.vn,Cái Đình,Nông,1994-07-09,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130904,20130904,20130904@student.hust.edu.vn,Bạc Diệp,Lương,1995-05-06,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130905,20130905,20130905@student.hust.edu.vn,Tống Bến,Nhã,1993-12-23,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130906,20130906,20130906@student.hust.edu.vn,Thân Đăng,Lục,1995-05-21,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130907,20130907,20130907@student.hust.edu.vn,Vương Diệp,Thạch,1994-09-18,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130908,20130908,20130908@student.hust.edu.vn,Phương Hinh,Nội,1993-04-19,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130909,20130909,20130909@student.hust.edu.vn,Hạ Kiến,Từ,1993-08-30,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130910,20130910,20130910@student.hust.edu.vn,Cát Long,Nhật,1993-06-05,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130911,20130911,20130911@student.hust.edu.vn,Ánh Đàm,Đỗ,1995-07-30,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130912,20130912,20130912@student.hust.edu.vn,Lã Sỹ,Nguyễn,1995-04-20,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130913,20130913,20130913@student.hust.edu.vn,Chử Lĩnh,Điềm,1994-11-23,Class: Kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130914,20130914,20130914@student.hust.edu.vn,Ân Phỉ,Phi,1994-12-24,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130915,20130915,20130915@student.hust.edu.vn,Vương Nhân,Đình,1994-12-09,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130916,20130916,20130916@student.hust.edu.vn,Kiều Thu,Vang,1995-01-17,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130917,20130917,20130917@student.hust.edu.vn,Bàng Thời,Ngân,1993-05-27,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130918,20130918,20130918@student.hust.edu.vn,Khúc Tiên,Ung,1993-11-10,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130919,20130919,20130919@student.hust.edu.vn,Phí Nhiếp,Chi,1994-09-16,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130920,20130920,20130920@student.hust.edu.vn,Phương Chương,Cửu,1994-10-02,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130921,20130921,20130921@student.hust.edu.vn,Cự Quan,Thục,1994-10-06,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130922,20130922,20130922@student.hust.edu.vn,Danh Như,Đích,1995-04-19,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130923,20130923,20130923@student.hust.edu.vn,Cát Vạn,Tạ,1995-08-24,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130924,20130924,20130924@student.hust.edu.vn,Cung Mỹ,– Mĩ Len,1995-06-22,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130925,20130925,20130925@student.hust.edu.vn,Ngụy Ba,Hòa,1993-03-28,Class: CN-Công nghệ thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130926,20130926,20130926@student.hust.edu.vn,Lương Á,Tri,1995-11-16,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130927,20130927,20130927@student.hust.edu.vn,Lại Thy,Lành,1995-11-03,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130928,20130928,20130928@student.hust.edu.vn,Bành Sỹ,Thăng,1993-07-28,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130929,20130929,20130929@student.hust.edu.vn,Ông Đỗ,Hoài,1994-06-19,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130930,20130930,20130930@student.hust.edu.vn,Danh Dũng,Thiêm,1994-06-26,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130931,20130931,20130931@student.hust.edu.vn,Đậu Tín,Tuyết,1995-02-08,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130932,20130932,20130932@student.hust.edu.vn,Chung Hiên,Hào,1995-09-14,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130933,20130933,20130933@student.hust.edu.vn,Yên Tổ,Quân,1995-09-11,Class: Kỹ thuật điện \nInstitute: Viện Điện
+20130934,20130934,20130934@student.hust.edu.vn,Trương Loan,Hỏa,1995-09-07,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130935,20130935,20130935@student.hust.edu.vn,Bảo Nghĩa,Lân,1995-02-24,Class: Kỹ thuật dệt \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130936,20130936,20130936@student.hust.edu.vn,Đinh Nghĩa,Tưởng,1994-05-24,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130937,20130937,20130937@student.hust.edu.vn,Bạch Ảnh,Tấn,1994-01-16,Class: Toán-Tin \nInstitute: Viện Toán ứng dụng và Tin học
+20130938,20130938,20130938@student.hust.edu.vn,Giáp Thể,Luyện,1995-01-04,Class: Kỹ thuật điện tử - viễn thông \nInstitute: Viện Điện tử - Viễn thông
+20130939,20130939,20130939@student.hust.edu.vn,Cái Nhã,Hiển,1995-08-30,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130940,20130940,20130940@student.hust.edu.vn,Ngụy Mai,Chành,1995-03-21,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130941,20130941,20130941@student.hust.edu.vn,Lương Triển,Đặng,1994-03-10,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130942,20130942,20130942@student.hust.edu.vn,Vi Ly,Lương,1993-05-19,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130943,20130943,20130943@student.hust.edu.vn,Bảo Chí,Khoa,1993-04-28,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130944,20130944,20130944@student.hust.edu.vn,Cầm Triển,Mỹ – Mĩ,1993-06-17,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130945,20130945,20130945@student.hust.edu.vn,Chung Lâm,Lành,1994-07-08,Class: CN-Công nghệ chế tạo máy \nInstitute: Viện cơ khí
+20130946,20130946,20130946@student.hust.edu.vn,Tông Lục,Thảo,1995-03-18,Class: CN-Công nghệ kỹ thuật điện \nInstitute: Viện Điện
+20130947,20130947,20130947@student.hust.edu.vn,Điền Hùng,Li,1994-09-01,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130948,20130948,20130948@student.hust.edu.vn,Lục Thương,Thời,1994-08-10,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130949,20130949,20130949@student.hust.edu.vn,Dư Thăng,Thương,1995-01-21,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130950,20130950,20130950@student.hust.edu.vn,Ông Khang,Khuất,1994-03-08,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130951,20130951,20130951@student.hust.edu.vn,Thân Chành,Tắc,1993-12-19,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130952,20130952,20130952@student.hust.edu.vn,Trà Luận,Uyên,1994-12-25,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130953,20130953,20130953@student.hust.edu.vn,Thái Quỳnh,Trâm,1994-10-28,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130954,20130954,20130954@student.hust.edu.vn,Xa Trọng,Đặng,1995-02-01,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130955,20130955,20130955@student.hust.edu.vn,Đậu Hường,Trần,1993-04-25,Class: Kỹ thuật tàu thủy \nInstitute: Viện Cơ khí Động lực
+20130956,20130956,20130956@student.hust.edu.vn,Chiêm Khanh,San,1995-01-04,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130957,20130957,20130957@student.hust.edu.vn,Lương Huynh,Thiền,1994-11-08,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130958,20130958,20130958@student.hust.edu.vn,Trà Phúc,Đam,1995-01-17,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130959,20130959,20130959@student.hust.edu.vn,Giáp Chương,Địch,1995-02-09,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130960,20130960,20130960@student.hust.edu.vn,Chương Bằng,Nội,1994-02-07,Class: Kỹ thuật máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130961,20130961,20130961@student.hust.edu.vn,Cự Hợp,Bỉ,1995-07-18,Class: Kỹ thuật môi trường \nInstitute: Viện Khoa học và Công nghệ Môi trường
+20130962,20130962,20130962@student.hust.edu.vn,Trịnh Khiêm,Vang,1994-02-22,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130963,20130963,20130963@student.hust.edu.vn,Khưu Chanh,Hỏa,1994-11-01,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130964,20130964,20130964@student.hust.edu.vn,Châu Đồng,Diệp,1995-03-07,Class: Vật lý kỹ thuật \nInstitute: Viện Vật lý kỹ thuật
+20130965,20130965,20130965@student.hust.edu.vn,Trà Nguyễn,Phụng,1994-04-28,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130966,20130966,20130966@student.hust.edu.vn,Trình Từ,Triệu,1995-11-15,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130967,20130967,20130967@student.hust.edu.vn,Ấu Thừa,Trầm,1995-08-10,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130968,20130968,20130968@student.hust.edu.vn,Đổng Vang,Tuyết,1995-03-19,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130969,20130969,20130969@student.hust.edu.vn,Yên Bích,Đằng,1995-10-31,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130970,20130970,20130970@student.hust.edu.vn,Mai Trường,Hiệp,1993-07-18,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130971,20130971,20130971@student.hust.edu.vn,Hồng Thủy,Giáp,1994-01-01,Class: Kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130972,20130972,20130972@student.hust.edu.vn,Nông Bắc,Chuẩn,1994-05-24,Class: Tiếng Anh chuyên nghiệp quốc tế \nInstitute: Viện Ngoại ngữ
+20130973,20130973,20130973@student.hust.edu.vn,Đinh Hoa,Quỳnh,1994-03-13,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130974,20130974,20130974@student.hust.edu.vn,Bá Cao,Ân,1995-06-28,Class: Kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130975,20130975,20130975@student.hust.edu.vn,Bế Dự,Tử,1993-07-25,Class: CN-Công nghệ kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130976,20130976,20130976@student.hust.edu.vn,Đồng Tăng,Hồng,1994-05-21,Class: Quản trị kinh doanh \nInstitute: Viện Kinh tế & Quản lý
+20130977,20130977,20130977@student.hust.edu.vn,Châu Lực,Thế,1994-12-23,Class: CN-Công nghệ kỹ thuật điều khiển và tự động hóa \nInstitute: Viện Điện
+20130978,20130978,20130978@student.hust.edu.vn,Nhậm Bằng,Đăng,1995-03-10,Class: Hệ thống thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130979,20130979,20130979@student.hust.edu.vn,Bành Chính,Ánh,1993-12-16,Class: Kỹ thuật sinh học / Công nghệ sinh học \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130980,20130980,20130980@student.hust.edu.vn,Tôn Mổ,Mịch,1994-01-11,Class: CN-Công nghệ kỹ thuật ô tô \nInstitute: Viện Cơ khí Động lực
+20130981,20130981,20130981@student.hust.edu.vn,Cát Phùng,Lộc,1994-03-17,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130982,20130982,20130982@student.hust.edu.vn,Vương Á,Nữ,1994-03-27,Class: Kỹ thuật thực phẩm \nInstitute: Viện Công nghệ Sinh học và công nghệ Thực phẩm
+20130983,20130983,20130983@student.hust.edu.vn,Tông Trí,Trang,1994-07-07,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130984,20130984,20130984@student.hust.edu.vn,Đơn Thu,Tuấn,1993-04-13,Class: CN-Công nghệ kỹ thuật cơ điện tử \nInstitute: Viện cơ khí
+20130985,20130985,20130985@student.hust.edu.vn,Lạc Chành,Cảnh,1993-07-08,Class: Kế toán \nInstitute: Viện Kinh tế & Quản lý
+20130986,20130986,20130986@student.hust.edu.vn,Hồng Kiệt,Tướng,1993-02-15,Class: Tiếng Anh KHKT và công nghệ \nInstitute: Viện Ngoại ngữ
+20130987,20130987,20130987@student.hust.edu.vn,Đường Ngạn,Hợi,1993-11-18,Class: CN-Công nghệ thông tin \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130988,20130988,20130988@student.hust.edu.vn,Ân Tư,Luân,1993-08-10,Class: Quản lý công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130989,20130989,20130989@student.hust.edu.vn,Lưu Công,Hường,1995-05-16,Class: Kỹ thuật phần mềm \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130990,20130990,20130990@student.hust.edu.vn,Trưng Điền,Tế,1993-02-20,Class: Kỹ thuật cơ khí \nInstitute: Viện cơ khí
+20130991,20130991,20130991@student.hust.edu.vn,Thập Gia,Công,1995-07-17,Class: Kinh tế công nghiệp \nInstitute: Viện Kinh tế & Quản lý
+20130992,20130992,20130992@student.hust.edu.vn,Ca Huỳnh,Nhi,1994-12-31,Class: Kỹ thuật hạt nhân \nInstitute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường
+20130993,20130993,20130993@student.hust.edu.vn,An Quốc,Hoa,1995-11-25,Class: Tài chính-Ngân hàng \nInstitute: Viện Kinh tế & Quản lý
+20130994,20130994,20130994@student.hust.edu.vn,Trịnh Mẫn,Quảng,1994-07-24,Class: Sư phạm kỹ thuật công nghiệp \nInstitute: Viện Sư phạm Kỹ thuật
+20130995,20130995,20130995@student.hust.edu.vn,Hà Đắc,Ba,1995-09-04,Class: Khoa học máy tính \nInstitute: Viện Công nghệ Thông tin và Truyền thông
+20130996,20130996,20130996@student.hust.edu.vn,Tạ Năm,Đình,1993-01-17,Class: Kỹ thuật vật liệu \nInstitute: Viện Khoa học và Kỹ thuật Vật liệu
+20130997,20130997,20130997@student.hust.edu.vn,Vương Lai,Đằng,1994-07-19,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20130998,20130998,20130998@student.hust.edu.vn,Bửu Thường,Hiền,1994-02-22,Class: Công nghệ may \nInstitute: Viện Dệt may - Da giầy và Thời trang
+20130999,20130999,20130999@student.hust.edu.vn,Đinh Huy,Tổ,1995-02-20,Class: Kỹ thuật hóa học \nInstitute: Viện Kỹ thuật Hoá học
+20131000,20131000,20131000@student.hust.edu.vn,Dã Nhạn,Luận,1994-08-23,Class: Hóa học \nInstitute: Viện Kỹ thuật Hoá học

@@ -1,0 +1,178 @@
+[
+  {
+    "name": "Kỹ thuật cơ điện tử",
+    "about": "Institute: Viện cơ khí"
+  },
+  {
+    "name": "CN-Công nghệ kỹ thuật cơ điện tử",
+    "about": "Institute: Viện cơ khí"
+  },
+  {
+    "name": "Kỹ thuật cơ khí",
+    "about": "Institute: Viện cơ khí"
+  },
+  {
+    "name": "Kỹ thuật ô tô",
+    "about": "Institute: Viện Cơ khí Động lực"
+  },
+  {
+    "name": "Kỹ thuật hàng không",
+    "about": "Institute: Viện Cơ khí Động lực"
+  },
+  {
+    "name": "Kỹ thuật tàu thủy",
+    "about": "Institute: Viện Cơ khí Động lực"
+  },
+  {
+    "name": "CN-Công nghệ chế tạo máy",
+    "about": "Institute: Viện cơ khí"
+  },
+  {
+    "name": "CN-Công nghệ kỹ thuật ô tô",
+    "about": "Institute: Viện Cơ khí Động lực"
+  },
+  {
+    "name": "Kỹ thuật nhiệt",
+    "about": "Institute: Viện Khoa học và Công nghệ Nhiệt Lạnh"
+  },
+  {
+    "name": "Kỹ thuật vật liệu",
+    "about": "Institute: Viện Khoa học và Kỹ thuật Vật liệu"
+  },
+  {
+    "name": "Kỹ thuật điện tử - viễn thông",
+    "about": "Institute: Viện Điện tử - Viễn thông"
+  },
+  {
+    "name": "CN-Công nghệ kỹ thuật điện tử - viễn thông",
+    "about": "Institute: Viện Điện tử - Viễn thông"
+  },
+  {
+    "name": "Khoa học máy tính",
+    "about": "Institute: Viện Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "name": "Kỹ thuật máy tính",
+    "about": "Institute: Viện Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "name": "Hệ thống thông tin",
+    "about": "Institute: Viện Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "name": "Kỹ thuật phần mềm",
+    "about": "Institute: Viện Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "name": "Truyền thông và mạng máy tính",
+    "about": "Institute: Viện Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "name": "CN-Công nghệ thông tin",
+    "about": "Institute: Viện Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "name": "Toán-Tin",
+    "about": "Institute: Viện Toán ứng dụng và Tin học"
+  },
+  {
+    "name": "Hệ thống thông tin quản lý",
+    "about": "Institute: Viện Công nghệ Thông tin và Truyền thông"
+  },
+  {
+    "name": "Kỹ thuật điện",
+    "about": "Institute: Viện Điện"
+  },
+  {
+    "name": "Kỹ thuật điều khiển và tự động hóa",
+    "about": "Institute: Viện Điện"
+  },
+  {
+    "name": "CN-Công nghệ kỹ thuật điện",
+    "about": "Institute: Viện Điện"
+  },
+  {
+    "name": "CN-Công nghệ kỹ thuật điều khiển và tự động hóa",
+    "about": "Institute: Viện Điện"
+  },
+  {
+    "name": "Kỹ thuật sinh học / Công nghệ sinh học",
+    "about": "Institute: Viện Công nghệ Sinh học và công nghệ Thực phẩm"
+  },
+  {
+    "name": "Kỹ thuật hóa học",
+    "about": "Institute: Viện Kỹ thuật Hoá học"
+  },
+  {
+    "name": "Kỹ thuật thực phẩm",
+    "about": "Institute: Viện Công nghệ Sinh học và công nghệ Thực phẩm"
+  },
+  {
+    "name": "Kỹ thuật môi trường",
+    "about": "Institute: Viện Khoa học và Công nghệ Môi trường"
+  },
+  {
+    "name": "Hóa học",
+    "about": "Institute: Viện Kỹ thuật Hoá học"
+  },
+  {
+    "name": "CN-Công nghệ kỹ thuật hóa học",
+    "about": "Institute: Viện Kỹ thuật Hoá học"
+  },
+  {
+    "name": "CN-Công nghệ thực phẩm",
+    "about": "Institute: Viện Công nghệ Sinh học và công nghệ Thực phẩm"
+  },
+  {
+    "name": "Kỹ thuật in",
+    "about": "Institute: Viện Kỹ thuật Hoá học"
+  },
+  {
+    "name": "Kỹ thuật dệt",
+    "about": "Institute: Viện Dệt may - Da giầy và Thời trang"
+  },
+  {
+    "name": "\"Công nghệ may \"",
+    "about": "Institute: Viện Dệt may - Da giầy và Thời trang"
+  },
+  {
+    "name": "Sư phạm kỹ thuật công nghiệp",
+    "about": "Institute: Viện Sư phạm Kỹ thuật"
+  },
+  {
+    "name": "Vật lý kỹ thuật",
+    "about": "Institute: Viện Vật lý kỹ thuật"
+  },
+  {
+    "name": "Kỹ thuật hạt nhân",
+    "about": "Institute: Viện Kỹ thuật Hạt nhân và Vật lý Môi trường"
+  },
+  {
+    "name": "Kinh tế công nghiệp",
+    "about": "Institute: Viện Kinh tế & Quản lý"
+  },
+  {
+    "name": "Quản lý công nghiệp",
+    "about": "Institute: Viện Kinh tế & Quản lý"
+  },
+  {
+    "name": "Quản trị kinh doanh",
+    "about": "Institute: Viện Kinh tế & Quản lý"
+  },
+  {
+    "name": "Kế toán",
+    "about": "Institute: Viện Kinh tế & Quản lý"
+  },
+  {
+    "name": "Tài chính-Ngân hàng",
+    "about": "Institute: Viện Kinh tế & Quản lý"
+  },
+  {
+    "name": "Tiếng Anh KHKT và công nghệ",
+    "about": "Institute: Viện Ngoại ngữ"
+  },
+  {
+    "name": "Tiếng Anh chuyên nghiệp quốc tế",
+    "about": "Institute: Viện Ngoại ngữ"
+  }
+]

@@ -357,12 +357,12 @@ function validateInputInfo(inputInfo, checkRequired = false) {
     if (!(validateUserName(inputInfo.username, checkRequired))) {
         message.push("UserName Invalid Format");
     }
-    if (!Utils.validateStringLength(inputInfo.firstName, 2, 20, checkRequired)) {
-        message.push("FirstName Invalid Format");
-    }
-    if (!Utils.validateStringLength(inputInfo.lastName, 2, 20, checkRequired)) {
-        message.push("LastName Invalid Format");
-    }
+    // if (!Utils.validateStringLength(inputInfo.firstName, 2, 20, checkRequired)) {
+    //     message.push("FirstName Invalid Format");
+    // }
+    // if (!Utils.validateStringLength(inputInfo.lastName, 2, 20, checkRequired)) {
+    //     message.push("LastName Invalid Format");
+    // }
     if (!Utils.validateStringLength(inputInfo.password, 5, 20, checkRequired)) {
         message.push("Password Invalid Format");
     }
